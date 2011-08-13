@@ -1,0 +1,394 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
+		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
+		7E7D876113F71AC300AD9F7F /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874F13F71AC300AD9F7F /* Button.cpp */; };
+		7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875013F71AC300AD9F7F /* Camera.cpp */; };
+		7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */; };
+		7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */; };
+		7E7D876513F71AC300AD9F7F /* FontDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */; };
+		7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */; };
+		7E7D876713F71AC300AD9F7F /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875513F71AC300AD9F7F /* InputManager.cpp */; };
+		7E7D876813F71AC300AD9F7F /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875613F71AC300AD9F7F /* Label.cpp */; };
+		7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875713F71AC300AD9F7F /* Material.cpp */; };
+		7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875813F71AC300AD9F7F /* Mesh.cpp */; };
+		7E7D876B13F71AC300AD9F7F /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */; };
+		7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */; };
+		7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875B13F71AC300AD9F7F /* Sprite.cpp */; };
+		7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875C13F71AC300AD9F7F /* Texture.cpp */; };
+		7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */; };
+		7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875E13F71AC300AD9F7F /* Viewport.cpp */; };
+		7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875F13F71AC300AD9F7F /* Widget.cpp */; };
+		7E7D878C13F71AD900AD9F7F /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877313F71AD900AD9F7F /* Application.h */; };
+		7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877413F71AD900AD9F7F /* Box2.h */; };
+		7E7D878E13F71AD900AD9F7F /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877513F71AD900AD9F7F /* Button.h */; };
+		7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877613F71AD900AD9F7F /* Camera.h */; };
+		7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877713F71AD900AD9F7F /* CatmullRom.h */; };
+		7E7D879113F71AD900AD9F7F /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877813F71AD900AD9F7F /* Color.h */; };
+		7E7D879213F71AD900AD9F7F /* CubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877913F71AD900AD9F7F /* CubeMesh.h */; };
+		7E7D879313F71AD900AD9F7F /* FontDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */; };
+		7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */; };
+		7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877C13F71AD900AD9F7F /* InputManager.h */; };
+		7E7D879613F71AD900AD9F7F /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877D13F71AD900AD9F7F /* Label.h */; };
+		7E7D879713F71AD900AD9F7F /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877E13F71AD900AD9F7F /* Material.h */; };
+		7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877F13F71AD900AD9F7F /* MathDef.h */; };
+		7E7D879913F71AD900AD9F7F /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878013F71AD900AD9F7F /* Matrix4.h */; };
+		7E7D879A13F71AD900AD9F7F /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878113F71AD900AD9F7F /* Mesh.h */; };
+		7E7D879B13F71AD900AD9F7F /* Quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878213F71AD900AD9F7F /* Quaternion.h */; };
+		7E7D879C13F71AD900AD9F7F /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878313F71AD900AD9F7F /* ResourceManager.h */; };
+		7E7D879D13F71AD900AD9F7F /* SceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878413F71AD900AD9F7F /* SceneNode.h */; };
+		7E7D879E13F71AD900AD9F7F /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878513F71AD900AD9F7F /* Sprite.h */; };
+		7E7D879F13F71AD900AD9F7F /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878613F71AD900AD9F7F /* Texture.h */; };
+		7E7D87A013F71AD900AD9F7F /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878713F71AD900AD9F7F /* Vector2.h */; };
+		7E7D87A113F71AD900AD9F7F /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878813F71AD900AD9F7F /* Vector3.h */; };
+		7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878913F71AD900AD9F7F /* VertexBuffer.h */; };
+		7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878A13F71AD900AD9F7F /* Viewport.h */; };
+		7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878B13F71AD900AD9F7F /* Widget.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = "<group>"; };
+		7E7D874E13F71AC300AD9F7F /* Box2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2.cpp; path = ../../src/Box2.cpp; sourceTree = "<group>"; };
+		7E7D874F13F71AC300AD9F7F /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Button.cpp; path = ../../src/Button.cpp; sourceTree = "<group>"; };
+		7E7D875013F71AC300AD9F7F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../../src/Camera.cpp; sourceTree = "<group>"; };
+		7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CatmullRom.cpp; path = ../../src/CatmullRom.cpp; sourceTree = "<group>"; };
+		7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubeMesh.cpp; path = ../../src/CubeMesh.cpp; sourceTree = "<group>"; };
+		7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FontDescriptor.cpp; path = ../../src/FontDescriptor.cpp; sourceTree = "<group>"; };
+		7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GraphicDevice.cpp; path = ../../src/GraphicDevice.cpp; sourceTree = "<group>"; };
+		7E7D875513F71AC300AD9F7F /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputManager.cpp; path = ../../src/InputManager.cpp; sourceTree = "<group>"; };
+		7E7D875613F71AC300AD9F7F /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = ../../src/Label.cpp; sourceTree = "<group>"; };
+		7E7D875713F71AC300AD9F7F /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Material.cpp; path = ../../src/Material.cpp; sourceTree = "<group>"; };
+		7E7D875813F71AC300AD9F7F /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mesh.cpp; path = ../../src/Mesh.cpp; sourceTree = "<group>"; };
+		7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceManager.cpp; path = ../../src/ResourceManager.cpp; sourceTree = "<group>"; };
+		7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneNode.cpp; path = ../../src/SceneNode.cpp; sourceTree = "<group>"; };
+		7E7D875B13F71AC300AD9F7F /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../src/Sprite.cpp; sourceTree = "<group>"; };
+		7E7D875C13F71AC300AD9F7F /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = ../../src/Texture.cpp; sourceTree = "<group>"; };
+		7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../../src/VertexBuffer.cpp; sourceTree = "<group>"; };
+		7E7D875E13F71AC300AD9F7F /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Viewport.cpp; path = ../../src/Viewport.cpp; sourceTree = "<group>"; };
+		7E7D875F13F71AC300AD9F7F /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../../src/Widget.cpp; sourceTree = "<group>"; };
+		7E7D877313F71AD900AD9F7F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../include/athena/Application.h; sourceTree = "<group>"; };
+		7E7D877413F71AD900AD9F7F /* Box2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2.h; path = ../../include/athena/Box2.h; sourceTree = "<group>"; };
+		7E7D877513F71AD900AD9F7F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Button.h; path = ../../include/athena/Button.h; sourceTree = "<group>"; };
+		7E7D877613F71AD900AD9F7F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../../include/athena/Camera.h; sourceTree = "<group>"; };
+		7E7D877713F71AD900AD9F7F /* CatmullRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatmullRom.h; path = ../../include/athena/CatmullRom.h; sourceTree = "<group>"; };
+		7E7D877813F71AD900AD9F7F /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../../include/athena/Color.h; sourceTree = "<group>"; };
+		7E7D877913F71AD900AD9F7F /* CubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeMesh.h; path = ../../include/athena/CubeMesh.h; sourceTree = "<group>"; };
+		7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDescriptor.h; path = ../../include/athena/FontDescriptor.h; sourceTree = "<group>"; };
+		7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphicDevice.h; path = ../../include/athena/GraphicDevice.h; sourceTree = "<group>"; };
+		7E7D877C13F71AD900AD9F7F /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../../include/athena/InputManager.h; sourceTree = "<group>"; };
+		7E7D877D13F71AD900AD9F7F /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../../include/athena/Label.h; sourceTree = "<group>"; };
+		7E7D877E13F71AD900AD9F7F /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../../include/athena/Material.h; sourceTree = "<group>"; };
+		7E7D877F13F71AD900AD9F7F /* MathDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathDef.h; path = ../../include/athena/MathDef.h; sourceTree = "<group>"; };
+		7E7D878013F71AD900AD9F7F /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = ../../include/athena/Matrix4.h; sourceTree = "<group>"; };
+		7E7D878113F71AD900AD9F7F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = ../../include/athena/Mesh.h; sourceTree = "<group>"; };
+		7E7D878213F71AD900AD9F7F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../../include/athena/Quaternion.h; sourceTree = "<group>"; };
+		7E7D878313F71AD900AD9F7F /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../../include/athena/ResourceManager.h; sourceTree = "<group>"; };
+		7E7D878413F71AD900AD9F7F /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../../include/athena/SceneNode.h; sourceTree = "<group>"; };
+		7E7D878513F71AD900AD9F7F /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../include/athena/Sprite.h; sourceTree = "<group>"; };
+		7E7D878613F71AD900AD9F7F /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../../include/athena/Texture.h; sourceTree = "<group>"; };
+		7E7D878713F71AD900AD9F7F /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../../include/athena/Vector2.h; sourceTree = "<group>"; };
+		7E7D878813F71AD900AD9F7F /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../../include/athena/Vector3.h; sourceTree = "<group>"; };
+		7E7D878913F71AD900AD9F7F /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../../include/athena/VertexBuffer.h; sourceTree = "<group>"; };
+		7E7D878A13F71AD900AD9F7F /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../../include/athena/Viewport.h; sourceTree = "<group>"; };
+		7E7D878B13F71AD900AD9F7F /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../../include/athena/Widget.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7E7D873813F719E500AD9F7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7E7D873013F719E400AD9F7F = {
+			isa = PBXGroup;
+			children = (
+				7E7D874013F719E500AD9F7F /* Athena */,
+				7E7D873D13F719E500AD9F7F /* Frameworks */,
+				7E7D873C13F719E500AD9F7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7E7D873C13F719E500AD9F7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D873B13F719E500AD9F7F /* libAthena.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7E7D873D13F719E500AD9F7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D873E13F719E500AD9F7F /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E7D874013F719E500AD9F7F /* Athena */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D874113F719E600AD9F7F /* Supporting Files */,
+				7E7D877313F71AD900AD9F7F /* Application.h */,
+				7E7D874E13F71AC300AD9F7F /* Box2.cpp */,
+				7E7D877413F71AD900AD9F7F /* Box2.h */,
+				7E7D874F13F71AC300AD9F7F /* Button.cpp */,
+				7E7D877513F71AD900AD9F7F /* Button.h */,
+				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
+				7E7D877613F71AD900AD9F7F /* Camera.h */,
+				7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */,
+				7E7D877713F71AD900AD9F7F /* CatmullRom.h */,
+				7E7D877813F71AD900AD9F7F /* Color.h */,
+				7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */,
+				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
+				7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */,
+				7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */,
+				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
+				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
+				7E7D875513F71AC300AD9F7F /* InputManager.cpp */,
+				7E7D877C13F71AD900AD9F7F /* InputManager.h */,
+				7E7D875613F71AC300AD9F7F /* Label.cpp */,
+				7E7D877D13F71AD900AD9F7F /* Label.h */,
+				7E7D875713F71AC300AD9F7F /* Material.cpp */,
+				7E7D877E13F71AD900AD9F7F /* Material.h */,
+				7E7D877F13F71AD900AD9F7F /* MathDef.h */,
+				7E7D878013F71AD900AD9F7F /* Matrix4.h */,
+				7E7D875813F71AC300AD9F7F /* Mesh.cpp */,
+				7E7D878113F71AD900AD9F7F /* Mesh.h */,
+				7E7D878213F71AD900AD9F7F /* Quaternion.h */,
+				7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */,
+				7E7D878313F71AD900AD9F7F /* ResourceManager.h */,
+				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
+				7E7D878413F71AD900AD9F7F /* SceneNode.h */,
+				7E7D875B13F71AC300AD9F7F /* Sprite.cpp */,
+				7E7D878513F71AD900AD9F7F /* Sprite.h */,
+				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
+				7E7D878613F71AD900AD9F7F /* Texture.h */,
+				7E7D878713F71AD900AD9F7F /* Vector2.h */,
+				7E7D878813F71AD900AD9F7F /* Vector3.h */,
+				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
+				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
+				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
+				7E7D878A13F71AD900AD9F7F /* Viewport.h */,
+				7E7D875F13F71AC300AD9F7F /* Widget.cpp */,
+				7E7D878B13F71AD900AD9F7F /* Widget.h */,
+			);
+			path = Athena;
+			sourceTree = "<group>";
+		};
+		7E7D874113F719E600AD9F7F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7E7D873913F719E500AD9F7F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E7D878C13F71AD900AD9F7F /* Application.h in Headers */,
+				7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */,
+				7E7D878E13F71AD900AD9F7F /* Button.h in Headers */,
+				7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */,
+				7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */,
+				7E7D879113F71AD900AD9F7F /* Color.h in Headers */,
+				7E7D879213F71AD900AD9F7F /* CubeMesh.h in Headers */,
+				7E7D879313F71AD900AD9F7F /* FontDescriptor.h in Headers */,
+				7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */,
+				7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */,
+				7E7D879613F71AD900AD9F7F /* Label.h in Headers */,
+				7E7D879713F71AD900AD9F7F /* Material.h in Headers */,
+				7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */,
+				7E7D879913F71AD900AD9F7F /* Matrix4.h in Headers */,
+				7E7D879A13F71AD900AD9F7F /* Mesh.h in Headers */,
+				7E7D879B13F71AD900AD9F7F /* Quaternion.h in Headers */,
+				7E7D879C13F71AD900AD9F7F /* ResourceManager.h in Headers */,
+				7E7D879D13F71AD900AD9F7F /* SceneNode.h in Headers */,
+				7E7D879E13F71AD900AD9F7F /* Sprite.h in Headers */,
+				7E7D879F13F71AD900AD9F7F /* Texture.h in Headers */,
+				7E7D87A013F71AD900AD9F7F /* Vector2.h in Headers */,
+				7E7D87A113F71AD900AD9F7F /* Vector3.h in Headers */,
+				7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */,
+				7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */,
+				7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7E7D873A13F719E500AD9F7F /* Athena */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Athena" */;
+			buildPhases = (
+				7E7D873713F719E500AD9F7F /* Sources */,
+				7E7D873813F719E500AD9F7F /* Frameworks */,
+				7E7D873913F719E500AD9F7F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Athena;
+			productName = Athena;
+			productReference = 7E7D873B13F719E500AD9F7F /* libAthena.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7E7D873213F719E400AD9F7F /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Athena" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7E7D873013F719E400AD9F7F;
+			productRefGroup = 7E7D873C13F719E500AD9F7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7E7D873A13F719E500AD9F7F /* Athena */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7E7D873713F719E500AD9F7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */,
+				7E7D876113F71AC300AD9F7F /* Button.cpp in Sources */,
+				7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */,
+				7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */,
+				7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */,
+				7E7D876513F71AC300AD9F7F /* FontDescriptor.cpp in Sources */,
+				7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */,
+				7E7D876713F71AC300AD9F7F /* InputManager.cpp in Sources */,
+				7E7D876813F71AC300AD9F7F /* Label.cpp in Sources */,
+				7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */,
+				7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */,
+				7E7D876B13F71AC300AD9F7F /* ResourceManager.cpp in Sources */,
+				7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */,
+				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
+				7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */,
+				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
+				7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */,
+				7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7E7D874313F719E600AD9F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		7E7D874413F719E600AD9F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		7E7D874613F719E600AD9F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/Athena.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"~/Projects/Framework/include",
+					"~/Libraries/boost_1_46_1/boost/tr1/tr1",
+					"~/Libraries/boost_1_46_1/",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7E7D874713F719E600AD9F7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/Athena.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"~/Projects/Framework/include",
+					"~/Libraries/boost_1_46_1/boost/tr1/tr1",
+					"~/Libraries/boost_1_46_1/",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Athena" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E7D874313F719E600AD9F7F /* Debug */,
+				7E7D874413F719E600AD9F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Athena" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E7D874613F719E600AD9F7F /* Debug */,
+				7E7D874713F719E600AD9F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7E7D873213F719E400AD9F7F /* Project object */;
+}

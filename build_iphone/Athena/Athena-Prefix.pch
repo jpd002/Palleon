@@ -1,0 +1,19 @@
+//
+// Prefix header for all source files of the 'Athena' target in the 'Athena' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
+
+#include <string>
+#include <map>
+#include <unordered_map>
+#include <vector>
+#include <list>
+
+#include <memory>
+#include <functional>
+#include <algorithm>
+
+#include <boost/signals2.hpp>

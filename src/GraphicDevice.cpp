@@ -50,7 +50,7 @@ void CGraphicDevice::AddViewport(CViewport* viewport)
 
 void CGraphicDevice::RemoveViewport(CViewport* viewport)
 {
-	ViewportList::const_iterator viewportIterator = std::find(m_viewports.begin(), m_viewports.end(), viewport);
+	ViewportList::iterator viewportIterator = std::find(m_viewports.begin(), m_viewports.end(), viewport);
 	assert(viewportIterator != m_viewports.end());
 	m_viewports.erase(viewportIterator);
 }
