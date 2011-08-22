@@ -155,14 +155,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\Box2.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Box2.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\Button.cpp"
 				>
 			</File>
@@ -243,15 +235,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\athena\Matrix4.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\Mesh.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\include\athena\Mesh.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\athena\MeshProvider.h"
 				>
 			</File>
 			<File
@@ -288,14 +280,6 @@
 			</File>
 			<File
 				RelativePath="..\include\athena\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Vector2.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Vector3.h"
 				>
 			</File>
 			<File
@@ -363,6 +347,42 @@
 				</File>
 				<File
 					RelativePath="..\include\athena\win32\Win32ResourceManager.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="math"
+				>
+				<File
+					RelativePath="..\src\Box2.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Box2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Frustum.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Frustum.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Matrix4.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Plane.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Vector2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Vector3.h"
 					>
 				</File>
 			</Filter>

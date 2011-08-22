@@ -4,6 +4,7 @@
 #include <d3d9.h>
 #include <unordered_map>
 #include "../GraphicDevice.h"
+#include "../Mesh.h"
 
 namespace Athena
 {
@@ -25,6 +26,7 @@ namespace Athena
 		void							SetFrameRate(float);
 
 	protected:
+		typedef std::vector<CMesh*> RenderQueue;
 		typedef std::tr1::unordered_map<uint64, IDirect3DVertexDeclaration9*> VertexDeclarationMap;
 
 										CDx9GraphicDevice(IDirect3DDevice9*, const CVector2&);
@@ -32,10 +34,12 @@ namespace Athena
 
 		IDirect3DVertexDeclaration9*	CreateVertexDeclaration(const VERTEX_BUFFER_DESCRIPTOR&);
 
-		bool							DrawNode(CSceneNode*);
+		bool							FillRenderQueue(CSceneNode*, CCamera*);
+		void							DrawMesh(CMesh*);
 
 		IDirect3DDevice9*				m_device;
 		VertexDeclarationMap			m_vertexDeclarations;
+		RenderQueue						m_renderQueue;
 	};
 }
 

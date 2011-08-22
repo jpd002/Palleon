@@ -119,7 +119,7 @@ void CDx9ApplicationWindow::UpdateApplication()
 	Athena::CDx9GraphicDevice::GetInstance().Draw();
 
 	m_currentFrameCount++;
-	if(m_frameCounterTime > 1)
+	if(m_frameCounterTime >= 1)
 	{
 		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
 		m_frameCounterTime = 0;

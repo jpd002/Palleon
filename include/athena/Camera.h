@@ -4,6 +4,7 @@
 #include <memory>
 #include "Matrix4.h"
 #include "Vector3.h"
+#include "Frustum.h"
 
 namespace Athena
 {
@@ -27,6 +28,8 @@ namespace Athena
 
 		const CMatrix4&		GetProjectionMatrix() const;
 		const CMatrix4&		GetViewMatrix() const;
+
+		CFrustum			GetFrustum() const;
 
 	protected:
 							CCamera();

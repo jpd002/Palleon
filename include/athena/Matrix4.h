@@ -3,26 +3,30 @@
 
 #include <memory.h>
 #include <math.h>
+#include <assert.h>
 
 class CMatrix4
 {
 public:
 	CMatrix4()
 	{
-		memset(coeff, 0, sizeof(coeff));
-		(*this)(0, 0) = 1;
-		(*this)(1, 1) = 1;
-		(*this)(2, 2) = 1;
-		(*this)(3, 3) = 1;
+
 	}
 	
+	void Clear()
+	{
+		memset(coeff, 0, sizeof(coeff));
+	}
+
 	float operator()(int row, int col) const
 	{
+		assert((row < 4) && (col < 4));
 		return coeff[(row * 4) + col];
 	}
 
 	float& operator()(int row, int col)
 	{
+		assert((row < 4) && (col < 4));
 		return coeff[(row * 4) + col];
 	}
 	
@@ -39,29 +43,53 @@ public:
 		return result;
 	}
 
+	static CMatrix4 MakeIdentity()
+	{
+		CMatrix4 result;
+		result.Clear();
+		result(0, 0) = 1;
+		result(1, 1) = 1;
+		result(2, 2) = 1;
+		result(3, 3) = 1;
+		return result;
+	}
+
 	static CMatrix4 MakeAxisXRotation(float angle)
 	{
 		CMatrix4 result;
+		result.Clear();
+		result(0, 0) = 1;
 		result(1, 1) = cos(angle);
 		result(1, 2) = -sin(angle);
 		result(2, 1) = sin(angle);
 		result(2, 2) = cos(angle);
+		result(3, 3) = 1;
 		return result;
 	}
 
 	static CMatrix4 MakeAxisYRotation(float angle)
 	{
 		CMatrix4 result;
+		result.Clear();
 		result(0, 0) = cos(angle);
 		result(0, 2) = sin(angle);
+		result(1, 1) = 1;
 		result(2, 0) = -sin(angle);
 		result(2, 2) = cos(angle);
+		result(3, 3) = 1;
 		return result;
 	}
 
 	static CMatrix4 MakeTranslation(float x, float y, float z)
 	{
 		CMatrix4 result;
+		result.Clear();
+
+		result(0, 0) = 1;
+		result(1, 1) = 1;
+		result(2, 2) = 1;
+		result(3, 3) = 1;
+
 		result(3, 0) = x;
 		result(3, 1) = y;
 		result(3, 2) = z;

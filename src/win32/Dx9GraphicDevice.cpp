@@ -4,12 +4,14 @@
 #include "athena/win32/Dx9VertexBuffer.h"
 #include "athena/win32/Dx9Texture.h"
 #include "athena/Mesh.h"
+#include "athena/MeshProvider.h"
 
 using namespace Athena;
 
 CDx9GraphicDevice::CDx9GraphicDevice(IDirect3DDevice9* device, const CVector2& screenSize)
 : m_device(device)
 {
+	m_renderQueue.reserve(0x1000);
 	m_screenSize = screenSize;
 }
 
@@ -193,8 +195,17 @@ void CDx9GraphicDevice::Draw()
 		m_device->SetTransform(D3DTS_PROJECTION, &projMatrix);
 		m_device->SetTransform(D3DTS_VIEW, &viewMatrix);
 
+		m_renderQueue.clear();
+
 		const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-		sceneRoot->TraverseNodes(std::tr1::bind(&CDx9GraphicDevice::DrawNode, this, std::tr1::placeholders::_1));
+		sceneRoot->TraverseNodes(std::tr1::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::tr1::placeholders::_1, camera.get()));
+
+		for(RenderQueue::const_iterator meshIterator(m_renderQueue.begin());
+			meshIterator != m_renderQueue.end(); meshIterator++)
+		{
+			CMesh* mesh = (*meshIterator);
+			DrawMesh(mesh);
+		}
 	}
 
 	result = m_device->EndScene();
@@ -204,162 +215,171 @@ void CDx9GraphicDevice::Draw()
 	assert(SUCCEEDED(result));
 }
 
-bool CDx9GraphicDevice::DrawNode(CSceneNode* node)
+bool CDx9GraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
 	if(CMesh* mesh = dynamic_cast<CMesh*>(node))
 	{
-		if(mesh->GetPrimitiveCount() == 0) return true;
+		m_renderQueue.push_back(mesh);
+	}
+	else if(CMeshProvider* meshProvider = dynamic_cast<CMeshProvider*>(node))
+	{
+		meshProvider->GetMeshes(m_renderQueue, camera);
+	}
+	return true;
+}
 
-		CDx9VertexBuffer* vertexBufferGen = static_cast<CDx9VertexBuffer*>(mesh->GetVertexBuffer().get());
-		assert(vertexBufferGen != NULL);
+void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
+{
+	if(mesh->GetPrimitiveCount() == 0) return;
 
-		const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
-		IDirect3DVertexBuffer9* vertexBuffer = vertexBufferGen->GetVertexBuffer();
-		IDirect3DIndexBuffer9* indexBuffer = vertexBufferGen->GetIndexBuffer();
-		IDirect3DVertexDeclaration9* vertexDeclaration = vertexBufferGen->GetVertexDeclaration();
+	CDx9VertexBuffer* vertexBufferGen = static_cast<CDx9VertexBuffer*>(mesh->GetVertexBuffer().get());
+	assert(vertexBufferGen != NULL);
 
-		CVector2 worldPosition = node->GetWorldPosition();
-		CVector2 worldScale = node->GetWorldScale();
+	const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
+	IDirect3DVertexBuffer9* vertexBuffer = vertexBufferGen->GetVertexBuffer();
+	IDirect3DIndexBuffer9* indexBuffer = vertexBufferGen->GetIndexBuffer();
+	IDirect3DVertexDeclaration9* vertexDeclaration = vertexBufferGen->GetVertexDeclaration();
 
-		D3DXMATRIX worldMatrix;
-		D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, 0);
-		worldMatrix.m[0][0] = worldScale.x;
-		worldMatrix.m[1][1] = worldScale.y;
+	CVector2 worldPosition = mesh->GetWorldPosition();
+	CVector2 worldScale = mesh->GetWorldScale();
 
-		m_device->SetTransform(D3DTS_WORLD, &worldMatrix);
+	D3DXMATRIX worldMatrix;
+	D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, 0);
+	worldMatrix.m[0][0] = worldScale.x;
+	worldMatrix.m[1][1] = worldScale.y;
 
-		//Setup material
+	m_device->SetTransform(D3DTS_WORLD, &worldMatrix);
+
+	//Setup material
+	{
+		CColor color = mesh->GetColor();
+		MaterialPtr material = mesh->GetMaterial();
+		assert(material != NULL);
+		RENDER_TYPE renderType = material->GetRenderType();
+
+		m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
+
+		m_device->SetTexture(0, NULL);
+		m_device->SetTexture(1, NULL);
+
+		unsigned int currentStage = 0;
+	
+		if(renderType == RENDER_DIFFUSE)
 		{
-			CColor color = mesh->GetColor();
-			MaterialPtr material = mesh->GetMaterial();
-			assert(material != NULL);
-			RENDER_TYPE renderType = material->GetRenderType();
+			TexturePtr texture = material->GetTexture(0);
 
-			m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
-
-			m_device->SetTexture(0, NULL);
-			m_device->SetTexture(1, NULL);
-
-			unsigned int currentStage = 0;
-		
-			if(renderType == RENDER_DIFFUSE)
+			if(texture)
 			{
-				TexturePtr texture = material->GetTexture(0);
+				CDx9Texture* textureGen = static_cast<CDx9Texture*>(texture.get());
 
-				if(texture)
-				{
-					CDx9Texture* textureGen = static_cast<CDx9Texture*>(texture.get());
-
-					m_device->SetTexture(currentStage, textureGen->GetTexture());
-			
-					m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-					m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-					m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-			
-					m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-					m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-					m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-			
-					currentStage++;
-				}
-
-				m_device->SetTexture(1, NULL);
-			}
-			else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
-			{
-				TexturePtr diffuseTexture = material->GetTexture(0);
-				TexturePtr lightMapTexture = material->GetTexture(1);
-
-				if(diffuseTexture)
-				{
-					CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
-					m_device->SetTexture(0, textureGen->GetTexture());
-				}
-				else
-				{
-					m_device->SetTexture(0, NULL);
-				}			
-
-				m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+				m_device->SetTexture(currentStage, textureGen->GetTexture());
 		
-				m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-
-				if(lightMapTexture)
-				{
-					CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
-					m_device->SetTexture(1, textureGen->GetTexture());
-				}
-				else
-				{
-					m_device->SetTexture(1, NULL);
-				}
-
-				m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-		
-				m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-
-				currentStage = 2;
-			}
-
-			//Global coloring stage
-			{
 				m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
+				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
 				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
 		
 				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
+				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
 				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
 		
 				currentStage++;
 			}
 
-			if(material->GetIsTransparent())
+			m_device->SetTexture(1, NULL);
+		}
+		else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
+		{
+			TexturePtr diffuseTexture = material->GetTexture(0);
+			TexturePtr lightMapTexture = material->GetTexture(1);
+
+			if(diffuseTexture)
 			{
-				m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-				m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-				m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-				m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+				CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
+				m_device->SetTexture(0, textureGen->GetTexture());
 			}
 			else
 			{
-				m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+				m_device->SetTexture(0, NULL);
+			}			
+
+			m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
+			m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+	
+			m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
+			m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+
+			if(lightMapTexture)
+			{
+				CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
+				m_device->SetTexture(1, textureGen->GetTexture());
 			}
+			else
+			{
+				m_device->SetTexture(1, NULL);
+			}
+
+			m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
+			m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+	
+			m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
+			m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+
+			currentStage = 2;
 		}
 
-		D3DPRIMITIVETYPE primitiveType = D3DPT_TRIANGLELIST;
-		UINT primCount = mesh->GetPrimitiveCount();
-		switch(mesh->GetPrimitiveType())
+		//Global coloring stage
 		{
-		case PRIMITIVE_TRIANGLE_STRIP:
-			primitiveType = D3DPT_TRIANGLESTRIP;
-			break;
-		case PRIMITIVE_TRIANGLE_LIST:
-			primitiveType = D3DPT_TRIANGLELIST;
-			break;
-		default:
-			assert(0);
-			break;
+			m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
+			m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+	
+			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
+			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+	
+			currentStage++;
 		}
 
-		m_device->SetVertexDeclaration(vertexDeclaration);
-		m_device->SetStreamSource(0, vertexBuffer, 0, descriptor.GetVertexSize());
-		m_device->SetIndices(indexBuffer);
-
-		HRESULT result = m_device->DrawIndexedPrimitive(primitiveType, 0, 0, descriptor.vertexCount, 0, primCount);
-		assert(SUCCEEDED(result));
-
-		m_drawCallCount++;
+		if(material->GetIsTransparent())
+		{
+			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+			m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		}
+		else
+		{
+			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
 	}
-	return true;
+
+	D3DPRIMITIVETYPE primitiveType = D3DPT_TRIANGLELIST;
+	UINT primCount = mesh->GetPrimitiveCount();
+	switch(mesh->GetPrimitiveType())
+	{
+	case PRIMITIVE_TRIANGLE_STRIP:
+		primitiveType = D3DPT_TRIANGLESTRIP;
+		break;
+	case PRIMITIVE_TRIANGLE_LIST:
+		primitiveType = D3DPT_TRIANGLELIST;
+		break;
+	default:
+		assert(0);
+		break;
+	}
+
+	m_device->SetVertexDeclaration(vertexDeclaration);
+	m_device->SetStreamSource(0, vertexBuffer, 0, descriptor.GetVertexSize());
+	m_device->SetIndices(indexBuffer);
+
+	HRESULT result = m_device->DrawIndexedPrimitive(primitiveType, 0, 0, descriptor.vertexCount, 0, primCount);
+	assert(SUCCEEDED(result));
+
+	m_drawCallCount++;
 }
 
 uint32 CGraphicDevice::ConvertColorToUInt32(const CColor& color)

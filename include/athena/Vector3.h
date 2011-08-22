@@ -9,7 +9,6 @@ class CVector3
 {
 public:
 	CVector3()
-	: x(0), y(0), z(0)
 	{
 		
 	}

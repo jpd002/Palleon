@@ -30,6 +30,8 @@ void CCamera::SetupOrthoCamera(float width, float height)
 void CCamera::SetOrthoProjection(float width, float height, float near, float far)
 {
 	CMatrix4 proj;
+	proj.Clear();
+
 	proj(0, 0) =  2.0f / width;
 	proj(1, 1) =  2.0f / height;
 	proj(2, 2) =  1.0f / (far - near);
@@ -46,6 +48,8 @@ void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near
 	float xScale = yScale / aspectRatio;
 
 	CMatrix4 proj;
+	proj.Clear();
+
 	proj(0, 0) = xScale;
 	proj(1, 1) = yScale;
 	proj(2, 2) = far / (far - near);
@@ -64,6 +68,7 @@ void CCamera::LookAt(const CVector3& eye, const CVector3& target, const CVector3
 	//yaxis = cross(zaxis, xaxis)
 
 	CMatrix4 view;
+	view.Clear();
 
 	CVector3 axisZ = (target - eye).Normalize();
 	CVector3 axisX = (up.Cross(axisZ)).Normalize();
@@ -102,4 +107,53 @@ const CMatrix4& CCamera::GetProjectionMatrix() const
 const CMatrix4& CCamera::GetViewMatrix() const
 {
 	return m_viewMatrix;
+}
+
+CFrustum CCamera::GetFrustum() const
+{
+	CMatrix4 viewProjection = m_viewMatrix * m_projMatrix;
+	CFrustum result;
+
+	// Left plane
+	result.planes[0].a = viewProjection(0, 3) + viewProjection(0, 0);
+	result.planes[0].b = viewProjection(1, 3) + viewProjection(1, 0);
+	result.planes[0].c = viewProjection(2, 3) + viewProjection(2, 0);
+	result.planes[0].d = viewProjection(3, 3) + viewProjection(3, 0);
+
+	// Right plane
+	result.planes[1].a = viewProjection(0, 3) - viewProjection(0, 0);
+	result.planes[1].b = viewProjection(1, 3) - viewProjection(1, 0);
+	result.planes[1].c = viewProjection(2, 3) - viewProjection(2, 0);
+	result.planes[1].d = viewProjection(3, 3) - viewProjection(3, 0);
+
+	// Top plane
+	result.planes[2].a = viewProjection(0, 3) - viewProjection(0, 1);
+	result.planes[2].b = viewProjection(1, 3) - viewProjection(1, 1);
+	result.planes[2].c = viewProjection(2, 3) - viewProjection(2, 1);
+	result.planes[2].d = viewProjection(3, 3) - viewProjection(3, 1);
+
+	// Bottom plane
+	result.planes[3].a = viewProjection(0, 3) + viewProjection(0, 1);
+	result.planes[3].b = viewProjection(1, 3) + viewProjection(1, 1);
+	result.planes[3].c = viewProjection(2, 3) + viewProjection(2, 1);
+	result.planes[3].d = viewProjection(3, 3) + viewProjection(3, 1);
+
+	// Near plane
+	result.planes[4].a = viewProjection(0, 2);
+	result.planes[4].b = viewProjection(1, 2);
+	result.planes[4].c = viewProjection(2, 2);
+	result.planes[4].d = viewProjection(3, 2);
+
+	// Far plane
+	result.planes[5].a = viewProjection(0, 3) - viewProjection(0, 2);
+	result.planes[5].b = viewProjection(1, 3) - viewProjection(1, 2);
+	result.planes[5].c = viewProjection(2, 3) - viewProjection(2, 2);
+	result.planes[5].d = viewProjection(3, 3) - viewProjection(3, 2);
+
+	for(unsigned int i = 0; i < 6; i++)
+	{
+		result.planes[i] = result.planes[i].Normalize();
+	}
+
+	return result;
 }
