@@ -1,7 +1,9 @@
 #ifndef _IPHONEGRAPHICDEVICE_H_
 #define _IPHONEGRAPHICDEVICE_H_
 
+#include <vector>
 #include "athena/GraphicDevice.h"
+#include "athena/Mesh.h"
 
 namespace Athena
 {
@@ -22,11 +24,15 @@ namespace Athena
         void                                SetFrameRate(float);
         
 	protected:
+        typedef std::vector<CMesh*> RenderQueue;
+        
                                             CIphoneGraphicDevice(bool, const CVector2&);
 		virtual								~CIphoneGraphicDevice();
         
-        bool                                DrawNode(CSceneNode*);
+        bool                                FillRenderQueue(CSceneNode*, CCamera*);
+        void                                DrawMesh(CMesh*);
         
+        RenderQueue                         m_renderQueue;
         bool                                m_hasRetinaDisplay;
 	};
 }

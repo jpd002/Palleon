@@ -2,6 +2,7 @@
 #include "athena/iphone/IphoneVertexBuffer.h"
 #include "athena/iphone/IphoneTexture.h"
 #include "athena/Mesh.h"
+#include "athena/MeshProvider.h"
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/ES2/gl.h>
@@ -13,6 +14,7 @@ CIphoneGraphicDevice::CIphoneGraphicDevice(bool hasRetinaDisplay, const CVector2
 : m_hasRetinaDisplay(hasRetinaDisplay)
 {
 	m_screenSize = screenSize;
+    m_renderQueue.reserve(0x10000);
 }
 
 CIphoneGraphicDevice::~CIphoneGraphicDevice()
@@ -75,8 +77,17 @@ void CIphoneGraphicDevice::Draw()
         glLoadMatrixf(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
         assert(glGetError() == GL_NO_ERROR);
         
+        m_renderQueue.clear();
+        
         const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-        sceneRoot->TraverseNodes(std::tr1::bind(&CIphoneGraphicDevice::DrawNode, this, std::tr1::placeholders::_1));
+        sceneRoot->TraverseNodes(std::tr1::bind(&CIphoneGraphicDevice::FillRenderQueue, this, std::tr1::placeholders::_1, camera.get()));
+        
+        for(RenderQueue::const_iterator meshIterator(m_renderQueue.begin());
+            meshIterator != m_renderQueue.end(); meshIterator++)
+        {
+            CMesh* mesh = (*meshIterator);
+            DrawMesh(mesh);
+        }
 	}
 }
 
@@ -100,182 +111,191 @@ TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void*, TEXTURE_F
     return TexturePtr();
 }
 
-bool CIphoneGraphicDevice::DrawNode(CSceneNode* node)
+bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
 	if(CMesh* mesh = dynamic_cast<CMesh*>(node))
 	{
-		if(mesh->GetPrimitiveCount() == 0) return true;
-        
-		CIphoneVertexBuffer* vertexBufferGen = static_cast<CIphoneVertexBuffer*>(mesh->GetVertexBuffer().get());
-		assert(vertexBufferGen != NULL);
-        
-		const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
-        GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
-        uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
-        
-		CVector2 worldPosition = node->GetWorldPosition();
-		CVector2 worldScale = node->GetWorldScale();
-        
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glTranslatef(worldPosition.x, worldPosition.y, 0);
-        glScalef(worldScale.x, worldScale.y, 1);
-        
-		//Setup material
-		{
-			CColor color = mesh->GetColor();
-			MaterialPtr material = mesh->GetMaterial();
-			assert(material != NULL);
-			RENDER_TYPE renderType = material->GetRenderType();
-            
-//			m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
-            
-//			m_device->SetTexture(0, NULL);
-//			m_device->SetTexture(1, NULL);
-            
-			unsigned int currentStage = 0;
-            
-			if(renderType == RENDER_DIFFUSE || renderType == RENDER_LIGHTMAPPED)
-			{
-				TexturePtr texture = material->GetTexture(0);
-                
-				if(texture)
-				{
-                    CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(texture.get());
-                    
-                    glEnable(GL_TEXTURE_2D);
-                    glBindTexture(GL_TEXTURE_2D, textureGen->GetTexture());
-                    
-					currentStage++;
-				}
-                
-				//m_device->SetTexture(1, NULL);
-			}
-//			else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
-//			{
-//				TexturePtr diffuseTexture = material->GetTexture(0);
-//				TexturePtr lightMapTexture = material->GetTexture(1);
-//                
-//				if(diffuseTexture)
-//				{
-//					CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
-//					m_device->SetTexture(0, textureGen->GetTexture());
-//				}
-//				else
-//				{
-//					m_device->SetTexture(0, NULL);
-//				}			
-                
-//				m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-//				m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-                
-//				m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-//				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-                
-//				if(lightMapTexture)
-//				{
-//					CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
-//					m_device->SetTexture(1, textureGen->GetTexture());
-//				}
-//				else
-//				{
-//					m_device->SetTexture(1, NULL);
-//				}
-                
-//				m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-//				m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-                
-//				m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-//				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-                
-//				currentStage = 2;
-//			}
-            
-			//Global coloring stage
-			{
-//				m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
-//				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-                
-//				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-//				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
-//				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-                
-				currentStage++;
-			}
-            
-			if(material->GetIsTransparent())
-			{
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			}
-			else
-			{
-                glDisable(GL_BLEND);
-			}
-		}
-
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        assert(glGetError() == GL_NO_ERROR);
-        
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        uint32 vertexSize = descriptor.GetVertexSize();
-        
-        if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS)
-        {
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(3, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
-        }
-        else
-        {
-            glDisableClientState(GL_VERTEX_ARRAY);
-        }
-        assert(glGetError() == GL_NO_ERROR);
-        
-        if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
-        {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));
-        }
-        else
-        {
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-        assert(glGetError() == GL_NO_ERROR);
-        
-        GLenum primitiveType = GL_TRIANGLES;
-        GLsizei primitiveCount = mesh->GetPrimitiveCount();
-        GLsizei vertexCount = primitiveCount * 3;
-        switch(mesh->GetPrimitiveType())
-        {
-            case PRIMITIVE_TRIANGLE_STRIP:
-                primitiveType = GL_TRIANGLE_STRIP;
-                vertexCount = (primitiveCount + 2);
-                break;
-            case PRIMITIVE_TRIANGLE_LIST:
-                primitiveType = GL_TRIANGLES;
-                vertexCount = (primitiveCount * 3);
-                break;
-        }
-        
-        glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, indexBuffer);
-        assert(glGetError() == GL_NO_ERROR);
-        
-        glBindBuffer(GL_ARRAY_BUFFER, NULL);
-        assert(glGetError() == GL_NO_ERROR);
-        
-        glBindTexture(GL_TEXTURE_2D, 0);
-        
-        glMatrixMode(GL_MODELVIEW);
-        glPopMatrix();
-        
-		m_drawCallCount++;
+        m_renderQueue.push_back(mesh);
 	}
+    else if(CMeshProvider* meshProvider = dynamic_cast<CMeshProvider*>(node))
+    {
+        meshProvider->GetMeshes(m_renderQueue, camera);
+    }
 	return true;
+}
+
+void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
+{
+    if(mesh->GetPrimitiveCount() == 0) return;
+    
+    CIphoneVertexBuffer* vertexBufferGen = static_cast<CIphoneVertexBuffer*>(mesh->GetVertexBuffer().get());
+    assert(vertexBufferGen != NULL);
+    
+    const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
+    GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
+    uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
+    
+    CVector2 worldPosition = mesh->GetWorldPosition();
+    CVector2 worldScale = mesh->GetWorldScale();
+    
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(worldPosition.x, worldPosition.y, 0);
+    glScalef(worldScale.x, worldScale.y, 1);
+    
+    //Setup material
+    {
+        CColor color = mesh->GetColor();
+        MaterialPtr material = mesh->GetMaterial();
+        assert(material != NULL);
+        RENDER_TYPE renderType = material->GetRenderType();
+        
+        //			m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
+        
+        //			m_device->SetTexture(0, NULL);
+        //			m_device->SetTexture(1, NULL);
+        
+        unsigned int currentStage = 0;
+        
+        if(renderType == RENDER_DIFFUSE || renderType == RENDER_LIGHTMAPPED)
+        {
+            TexturePtr texture = material->GetTexture(0);
+            
+            if(texture)
+            {
+                CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(texture.get());
+                
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, textureGen->GetTexture());
+                
+                currentStage++;
+            }
+            
+            //m_device->SetTexture(1, NULL);
+        }
+        //			else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
+        //			{
+        //				TexturePtr diffuseTexture = material->GetTexture(0);
+        //				TexturePtr lightMapTexture = material->GetTexture(1);
+        //                
+        //				if(diffuseTexture)
+        //				{
+        //					CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
+        //					m_device->SetTexture(0, textureGen->GetTexture());
+        //				}
+        //				else
+        //				{
+        //					m_device->SetTexture(0, NULL);
+        //				}			
+        
+        //				m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+        //				m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
+        //				m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+        
+        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
+        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+        
+        //				if(lightMapTexture)
+        //				{
+        //					CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
+        //					m_device->SetTexture(1, textureGen->GetTexture());
+        //				}
+        //				else
+        //				{
+        //					m_device->SetTexture(1, NULL);
+        //				}
+        
+        //				m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+        //				m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
+        //				m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+        
+        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
+        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+        
+        //				currentStage = 2;
+        //			}
+        
+        //Global coloring stage
+        {
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+            
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
+            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+            
+            currentStage++;
+        }
+        
+        if(material->GetIsTransparent())
+        {
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+        else
+        {
+            glDisable(GL_BLEND);
+        }
+    }
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    assert(glGetError() == GL_NO_ERROR);
+    
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    uint32 vertexSize = descriptor.GetVertexSize();
+    
+    if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS)
+    {
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
+    }
+    else
+    {
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
+    assert(glGetError() == GL_NO_ERROR);
+    
+    if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
+    {
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glTexCoordPointer(2, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));
+    }
+    else
+    {
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    assert(glGetError() == GL_NO_ERROR);
+    
+    GLenum primitiveType = GL_TRIANGLES;
+    GLsizei primitiveCount = mesh->GetPrimitiveCount();
+    GLsizei vertexCount = primitiveCount * 3;
+    switch(mesh->GetPrimitiveType())
+    {
+        case PRIMITIVE_TRIANGLE_STRIP:
+            primitiveType = GL_TRIANGLE_STRIP;
+            vertexCount = (primitiveCount + 2);
+            break;
+        case PRIMITIVE_TRIANGLE_LIST:
+            primitiveType = GL_TRIANGLES;
+            vertexCount = (primitiveCount * 3);
+            break;
+    }
+    
+    glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, indexBuffer);
+    assert(glGetError() == GL_NO_ERROR);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, NULL);
+    assert(glGetError() == GL_NO_ERROR);
+    
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    
+    m_drawCallCount++;
 }
 
 void CIphoneGraphicDevice::SetFrameRate(float frameRate)

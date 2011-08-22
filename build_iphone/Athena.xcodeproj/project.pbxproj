@@ -13,6 +13,11 @@
 		7E2885D013F8AB4100F606EB /* IphoneVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2885CF13F8AB4100F606EB /* IphoneVertexBuffer.cpp */; };
 		7E2885D213FA156100F606EB /* IphoneTexture.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E2885D113FA156000F606EB /* IphoneTexture.mm */; };
 		7E2885D413FA157500F606EB /* IphoneTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885D313FA157500F606EB /* IphoneTexture.h */; };
+		7E407F851401F8AD00431963 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F831401F8AD00431963 /* Frustum.h */; };
+		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
+		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
+		7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F891401F8F300431963 /* MeshProvider.h */; };
+		7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F8B1401F90500431963 /* AthenaEngine.h */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
 		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
 		7E7D876113F71AC300AD9F7F /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874F13F71AC300AD9F7F /* Button.cpp */; };
@@ -74,6 +79,11 @@
 		7E2885CF13F8AB4100F606EB /* IphoneVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneVertexBuffer.cpp; path = ../../src/iphone/IphoneVertexBuffer.cpp; sourceTree = "<group>"; };
 		7E2885D113FA156000F606EB /* IphoneTexture.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IphoneTexture.mm; path = ../../src/iphone/IphoneTexture.mm; sourceTree = "<group>"; };
 		7E2885D313FA157500F606EB /* IphoneTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneTexture.h; path = ../../include/athena/iphone/IphoneTexture.h; sourceTree = "<group>"; };
+		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../../include/athena/Frustum.h; sourceTree = "<group>"; };
+		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../../include/athena/Plane.h; sourceTree = "<group>"; };
+		7E407F871401F8C000431963 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Frustum.cpp; path = ../../src/Frustum.cpp; sourceTree = "<group>"; };
+		7E407F891401F8F300431963 /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../../include/athena/MeshProvider.h; sourceTree = "<group>"; };
+		7E407F8B1401F90500431963 /* AthenaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AthenaEngine.h; path = ../../include/AthenaEngine.h; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = "<group>"; };
@@ -163,6 +173,21 @@
 			name = iphone;
 			sourceTree = "<group>";
 		};
+		7E407F811401F88700431963 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D874E13F71AC300AD9F7F /* Box2.cpp */,
+				7E7D877413F71AD900AD9F7F /* Box2.h */,
+				7E407F871401F8C000431963 /* Frustum.cpp */,
+				7E407F831401F8AD00431963 /* Frustum.h */,
+				7E7D878013F71AD900AD9F7F /* Matrix4.h */,
+				7E407F841401F8AD00431963 /* Plane.h */,
+				7E7D878713F71AD900AD9F7F /* Vector2.h */,
+				7E7D878813F71AD900AD9F7F /* Vector3.h */,
+			);
+			name = math;
+			sourceTree = "<group>";
+		};
 		7E7D873013F719E400AD9F7F = {
 			isa = PBXGroup;
 			children = (
@@ -191,11 +216,11 @@
 		7E7D874013F719E500AD9F7F /* Athena */ = {
 			isa = PBXGroup;
 			children = (
+				7E407F811401F88700431963 /* math */,
 				7E2885B813F862F800F606EB /* iphone */,
 				7E7D874113F719E600AD9F7F /* Supporting Files */,
+				7E407F8B1401F90500431963 /* AthenaEngine.h */,
 				7E7D877313F71AD900AD9F7F /* Application.h */,
-				7E7D874E13F71AC300AD9F7F /* Box2.cpp */,
-				7E7D877413F71AD900AD9F7F /* Box2.h */,
 				7E7D874F13F71AC300AD9F7F /* Button.cpp */,
 				7E7D877513F71AD900AD9F7F /* Button.h */,
 				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
@@ -216,9 +241,9 @@
 				7E7D875713F71AC300AD9F7F /* Material.cpp */,
 				7E7D877E13F71AD900AD9F7F /* Material.h */,
 				7E7D877F13F71AD900AD9F7F /* MathDef.h */,
-				7E7D878013F71AD900AD9F7F /* Matrix4.h */,
 				7E7D875813F71AC300AD9F7F /* Mesh.cpp */,
 				7E7D878113F71AD900AD9F7F /* Mesh.h */,
+				7E407F891401F8F300431963 /* MeshProvider.h */,
 				7E7D878213F71AD900AD9F7F /* Quaternion.h */,
 				7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */,
 				7E7D878313F71AD900AD9F7F /* ResourceManager.h */,
@@ -228,8 +253,6 @@
 				7E7D878513F71AD900AD9F7F /* Sprite.h */,
 				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
 				7E7D878613F71AD900AD9F7F /* Texture.h */,
-				7E7D878713F71AD900AD9F7F /* Vector2.h */,
-				7E7D878813F71AD900AD9F7F /* Vector3.h */,
 				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
 				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
 				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
@@ -287,6 +310,10 @@
 				7EC5E5E413FE1557004B7994 /* IphoneAppDelegate.h in Headers */,
 				7EC5E5E513FE1557004B7994 /* IphoneGraphicDevice.h in Headers */,
 				7EC5E5E613FE1557004B7994 /* IphoneViewController.h in Headers */,
+				7E407F851401F8AD00431963 /* Frustum.h in Headers */,
+				7E407F861401F8AD00431963 /* Plane.h in Headers */,
+				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
+				7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +389,7 @@
 				7EC5E5DB13FE153C004B7994 /* IphoneAppDelegate.mm in Sources */,
 				7EC5E5DC13FE153C004B7994 /* IphoneGraphicDevice.cpp in Sources */,
 				7EC5E5DD13FE153C004B7994 /* IphoneViewController.mm in Sources */,
+				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
