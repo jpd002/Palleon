@@ -45,7 +45,7 @@ namespace Athena
 		const VERTEX_BUFFER_DESCRIPTOR&		GetDescriptor() const;
 
 		virtual void*						LockVertices() = 0;
-		virtual void						UnlockVertices() = 0;
+		virtual void						UnlockVertices(uint32 = 0) = 0;
 
 		virtual uint16*						LockIndices() = 0;
 		virtual void						UnlockIndices() = 0;

@@ -39,16 +39,21 @@ void* CIphoneVertexBuffer::LockVertices()
     return m_shadowVertexBuffer;
 }
 
-void CIphoneVertexBuffer::UnlockVertices()
+void CIphoneVertexBuffer::UnlockVertices(uint32 sizeHint)
 {
     const VERTEX_BUFFER_DESCRIPTOR& descriptor(GetDescriptor());
     
-    uint32 vertexBufferSize = descriptor.GetVertexSize() * descriptor.vertexCount;
+    if(sizeHint == 0)
+    {
+        sizeHint = descriptor.vertexCount;
+    }
+    
+    uint32 vertexBufferSize = descriptor.GetVertexSize() * sizeHint;
     
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
     assert(glGetError() == GL_NO_ERROR);
     
-    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, m_shadowVertexBuffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, m_shadowVertexBuffer, GL_DYNAMIC_DRAW);
     assert(glGetError() == GL_NO_ERROR);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);

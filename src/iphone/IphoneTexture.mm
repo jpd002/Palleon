@@ -49,6 +49,17 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
     CGContextTranslateCTM( context, 0, height - height );
     CGContextDrawImage( context, CGRectMake( 0, 0, width, height ), image.CGImage );
     
+    for(unsigned int i = 0; i < height * width; i++)
+    {
+        uint32 srcPixel = reinterpret_cast<uint32*>(imageData)[i];
+        uint16 a = static_cast<uint8>(srcPixel >>  0);
+        uint16 b = static_cast<uint8>(srcPixel >>  8);
+        uint16 g = static_cast<uint8>(srcPixel >> 16);
+        uint16 r = static_cast<uint8>(srcPixel >> 24);
+        uint16 dstPixel = (r >> 4) | ((g >> 4) << 4) | ((b >> 4) << 8) | ((a >> 4) << 12);
+        reinterpret_cast<uint16*>(imageData)[i] = dstPixel;
+    }
+    
     glGenTextures(1, &m_texture);
     assert(glGetError() == GL_NO_ERROR);
 
@@ -59,7 +70,7 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
 //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, imageData);
     assert(glGetError() == GL_NO_ERROR);
     
     glBindTexture(GL_TEXTURE_2D, 0);
