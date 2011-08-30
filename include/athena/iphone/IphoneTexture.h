@@ -13,12 +13,14 @@ namespace Athena
     public:
                                                 CIphoneTexture(const char*);
                                                 CIphoneTexture(const void*, uint32);
+                                                CIphoneTexture(const void*, TEXTURE_FORMAT, uint32, uint32);
 		virtual									~CIphoneTexture();
         
         GLuint                                  GetTexture() const;
         
     protected:
         void                                    LoadFromData(void*);
+        bool                                    TryLoadTGA(void*);
         
         GLuint                                  m_texture;
     };

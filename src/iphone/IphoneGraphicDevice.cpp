@@ -106,9 +106,9 @@ TexturePtr CIphoneGraphicDevice::CreateTextureFromMemory(const void* data, uint3
     return TexturePtr(new CIphoneTexture(data, size));
 }
 
-TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32)
+TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-    return TexturePtr();
+    return TexturePtr(new CIphoneTexture(data, textureFormat, width, height));
 }
 
 bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
@@ -152,82 +152,45 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
         
         //			m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
         
-        //			m_device->SetTexture(0, NULL);
-        //			m_device->SetTexture(1, NULL);
-        
-        unsigned int currentStage = 0;
-        
-        if(renderType == RENDER_DIFFUSE || renderType == RENDER_LIGHTMAPPED)
+        if(renderType == RENDER_DIFFUSE)
         {
-            TexturePtr texture = material->GetTexture(0);
+            TexturePtr diffuseTexture = material->GetTexture(0);
             
-            if(texture)
+            if(diffuseTexture)
             {
-                CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(texture.get());
+                CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(diffuseTexture.get());
                 
+                glActiveTexture(GL_TEXTURE0);
                 glEnable(GL_TEXTURE_2D);
                 glBindTexture(GL_TEXTURE_2D, textureGen->GetTexture());
-                
-                currentStage++;
             }
             
-            //m_device->SetTexture(1, NULL);
+            glActiveTexture(GL_TEXTURE1);
+            glDisable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, NULL);
         }
-        //			else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
-        //			{
-        //				TexturePtr diffuseTexture = material->GetTexture(0);
-        //				TexturePtr lightMapTexture = material->GetTexture(1);
-        //                
-        //				if(diffuseTexture)
-        //				{
-        //					CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
-        //					m_device->SetTexture(0, textureGen->GetTexture());
-        //				}
-        //				else
-        //				{
-        //					m_device->SetTexture(0, NULL);
-        //				}			
-        
-        //				m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-        //				m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-        //				m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-        
-        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-        //				m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-        
-        //				if(lightMapTexture)
-        //				{
-        //					CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
-        //					m_device->SetTexture(1, textureGen->GetTexture());
-        //				}
-        //				else
-        //				{
-        //					m_device->SetTexture(1, NULL);
-        //				}
-        
-        //				m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-        //				m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-        //				m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-        
-        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-        //				m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-        
-        //				currentStage = 2;
-        //			}
-        
-        //Global coloring stage
+        else if(renderType == RENDER_LIGHTMAPPED)
         {
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
+            TexturePtr diffuseTexture = material->GetTexture(0);
+            TexturePtr lightMapTexture = material->GetTexture(1);
             
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
-            //				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
+            if(diffuseTexture)
+            {
+                CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(diffuseTexture.get());
+                
+                glActiveTexture(GL_TEXTURE0);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, textureGen->GetTexture());
+            }
             
-            currentStage++;
+            if(lightMapTexture)
+            {
+                CIphoneTexture* textureGen = static_cast<CIphoneTexture*>(lightMapTexture.get());
+
+                glActiveTexture(GL_TEXTURE1);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, textureGen->GetTexture());
+            }
         }
         
         if(material->GetIsTransparent())
@@ -258,10 +221,23 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     }
     assert(glGetError() == GL_NO_ERROR);
     
+    glClientActiveTexture(GL_TEXTURE0);
     if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
     {
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));
+    }
+    else
+    {
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    assert(glGetError() == GL_NO_ERROR);
+
+    glClientActiveTexture(GL_TEXTURE1);
+    if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV1)
+    {
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glTexCoordPointer(2, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
     }
     else
     {
