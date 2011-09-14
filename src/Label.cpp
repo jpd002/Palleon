@@ -165,7 +165,7 @@ CVector2 CLabel::GetTextPosition() const
 {
 	float posX = 0;
 	float posY = 0;
-	CVector2 extents;
+	CVector2 extents(GetTextExtents());
 
     switch(m_horizontalAlignment)
     {
