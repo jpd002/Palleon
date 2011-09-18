@@ -183,6 +183,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\ConfigManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\athena\ConfigManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\CubeMesh.cpp"
 				>
 			</File>

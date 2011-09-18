@@ -2,10 +2,14 @@
 #include "athena/win32/Win32ResourceManager.h"
 #include "athena/win32/Dx9GraphicDevice.h"
 #include "athena/win32/Dx9ApplicationWindow.h"
+#include "athena/ConfigManager.h"
 #include "win32/Rect.h"
 
 #define CLSNAME			_T("MainWindow")
 #define WNDSTYLE		(WS_CLIPCHILDREN | WS_DLGFRAME | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
+
+#define PREFERENCE_SCREEN_WIDTH		("screen.width")
+#define PREFERENCE_SCREEN_HEIGHT	("screen.height")
 
 using namespace Athena;
 
@@ -31,8 +35,12 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 		RegisterClassEx(&w);
 	}
 
-	m_screenWidth = 1024;
-	m_screenHeight = 768;
+	CConfigManager::CreateInstance();
+	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_WIDTH, 640);
+	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_HEIGHT, 480);
+
+	m_screenWidth = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_WIDTH);
+	m_screenHeight = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_HEIGHT);
 
 	QueryPerformanceFrequency(&m_counterFreq);
 	QueryPerformanceCounter(&m_previousTime);
