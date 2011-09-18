@@ -13,7 +13,7 @@ namespace Athena
 		virtual									~CDx9VertexBuffer();
 
 		virtual void*							LockVertices();
-		virtual void							UnlockVertices();
+		virtual void							UnlockVertices(uint32);
 
 		virtual uint16*							LockIndices();
 		virtual void							UnlockIndices();

@@ -43,7 +43,7 @@ void* CDx9VertexBuffer::LockVertices()
 	return buffer;
 }
 
-void CDx9VertexBuffer::UnlockVertices()
+void CDx9VertexBuffer::UnlockVertices(uint32)
 {
 	HRESULT result = m_vertexBuffer->Unlock();
 	assert(SUCCEEDED(result));
