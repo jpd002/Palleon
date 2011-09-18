@@ -20,6 +20,18 @@ MaterialPtr CMaterial::Create()
 	return MaterialPtr(new CMaterial());
 }
 
+bool CMaterial::operator <(const CMaterial& rhs) const
+{
+	if(m_renderType == rhs.m_renderType)
+	{
+		return m_textures[0].get() < rhs.m_textures[0].get();
+	}
+	else
+	{
+		return m_renderType < rhs.m_renderType;
+	}
+}
+
 bool CMaterial::GetIsTransparent() const
 {
 	return m_isTransparent;

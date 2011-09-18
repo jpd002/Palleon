@@ -23,6 +23,8 @@ namespace Athena
 
 		static MaterialPtr		Create();
 
+		bool					operator <(const CMaterial&) const;
+
 		bool					GetIsTransparent() const;
 		void					SetIsTransparent(bool);
 
