@@ -19,11 +19,13 @@ namespace Athena
 
 		virtual std::string			MakeResourcePath(const char*) const = 0;
 		
-		virtual void				LoadTexture(const char*) = 0;
-		virtual void				LoadFontDescriptor(const char*) = 0;
-		
 		TexturePtr					GetTexture(const char*) const;
+		virtual void				LoadTexture(const char*) = 0;
+		void						ReleaseTexture(const char*);
+
 		const CFontDescriptor*		GetFontDescriptor(const char*) const;
+		virtual void				LoadFontDescriptor(const char*) = 0;
+		void						ReleaseFontDescriptor(const char*);
 		
 	protected:
 		typedef std::tr1::unordered_map<unsigned int, TexturePtr> TextureMap;

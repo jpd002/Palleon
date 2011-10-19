@@ -5,13 +5,14 @@
 #include "Mesh.h"
 #include "FontDescriptor.h"
 #include "ResourceManager.h"
+#include "ILayoutable.h"
 
 namespace Athena
 {
 	class CLabel;
 	typedef std::tr1::shared_ptr<CLabel> LabelPtr;
 
-	class CLabel : public CMesh
+	class CLabel : public CMesh, public ILayoutable
 	{
 	public:
 		enum HORIZONTAL_ALIGNMENT
@@ -41,6 +42,8 @@ namespace Athena
 		VERTICAL_ALIGNMENT      GetVerticalAlignment() const;
 		void                    SetVerticalAlignment(VERTICAL_ALIGNMENT);
 	    
+		void					SetPosition(const CVector2&);
+
 		void                    SetSize(const CVector2&);
 	    
 		void					Update(float);

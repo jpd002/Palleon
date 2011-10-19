@@ -10,6 +10,8 @@ bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPositi
 {
     if(node->GetNodeType() == SCENE_NODE_WIDGET)
     {
+		if(!node->GetWorldVisibility()) return false;
+
         CWidget* widget = static_cast<CWidget*>(node);
         CVector2 position = widget->GetWorldPosition();
         CVector2 scale = widget->GetWorldScale();

@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "ResourceManager.h"
+#include "athena/Color.h"
 
 namespace Athena
 {
@@ -34,6 +35,9 @@ namespace Athena
 		TexturePtr				GetTexture(unsigned int) const;
 		void					SetTexture(unsigned int, const TexturePtr&);
 
+		CColor					GetColor() const;
+		void					SetColor(const CColor&);
+
 	protected:
 		enum
 		{
@@ -45,6 +49,8 @@ namespace Athena
 		RENDER_TYPE				m_renderType;
 
 		TexturePtr				m_textures[MAX_TEXTURE_SLOTS];
+
+		CColor					m_color;
 	};
 };
 

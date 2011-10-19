@@ -1,5 +1,5 @@
-#ifndef _BUTTON_H_
-#define _BUTTON_H_
+#ifndef _ATHENA_BUTTON_H_
+#define _ATHENA_BUTTON_H_
 
 #include "Widget.h"
 #include "Sprite.h"
@@ -14,7 +14,7 @@ namespace Athena
 	class CButton : public CWidget
 	{
 	public:
-		typedef boost::signals2::signal<void ()> PressedEventType;
+		typedef boost::signals2::signal<void ()> PressEventType;
 	    
 		virtual             ~CButton();
 
@@ -32,7 +32,7 @@ namespace Athena
 		virtual void        OnTouchPressed(bool);
 		virtual void        OnTouchReleased(bool);
 	    
-		PressedEventType    OnPressed;
+		PressEventType		Press;
 	    
 	protected:
 		enum BUTTON_STATE

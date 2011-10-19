@@ -155,22 +155,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\Button.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Button.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Camera.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\CatmullRom.cpp"
 				>
 			</File>
@@ -179,23 +163,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\athena\Color.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\ConfigManager.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\include\athena\ConfigManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\CubeMesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\CubeMesh.h"
 				>
 			</File>
 			<File
@@ -215,103 +187,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\InputManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\InputManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Label.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Label.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Material.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Material.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\MathDef.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Mesh.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Mesh.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\MeshProvider.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Quaternion.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\ResourceManager.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\include\athena\ResourceManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\SceneNode.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\SceneNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Sprite.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Sprite.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Texture.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\VertexBuffer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\VertexBuffer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Viewport.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Viewport.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\Widget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\Widget.h"
 				>
 			</File>
 			<Filter
@@ -370,11 +250,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\include\athena\Color.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Frustum.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\include\athena\Frustum.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\MathDef.h"
 					>
 				</File>
 				<File
@@ -386,11 +274,135 @@
 					>
 				</File>
 				<File
+					RelativePath="..\include\athena\Quaternion.h"
+					>
+				</File>
+				<File
 					RelativePath="..\include\athena\Vector2.h"
 					>
 				</File>
 				<File
 					RelativePath="..\include\athena\Vector3.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="graphics"
+				>
+				<File
+					RelativePath="..\src\Camera.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Camera.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\CubeMesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\CubeMesh.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\ILayoutable.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Label.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Label.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Material.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Mesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Mesh.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\MeshProvider.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\SceneNode.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\SceneNode.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Sprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Sprite.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Texture.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\VertexBuffer.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\VertexBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Viewport.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Viewport.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="widget"
+				>
+				<File
+					RelativePath="..\src\Button.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Button.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\InputManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\InputManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Widget.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Widget.h"
 					>
 				</File>
 			</Filter>

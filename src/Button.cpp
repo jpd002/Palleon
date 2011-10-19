@@ -89,7 +89,7 @@ void CButton::OnTouchReleased(bool inside)
 {
     if(inside && m_state == STATE_PRESSED)
     {
-        OnPressed();
+        Press();
     }
     m_state = STATE_RELEASED;
     UpdateButtonState();    

@@ -152,3 +152,8 @@ CVector2 CSceneNode::GetWorldScale() const
 {
     return m_worldScale;
 }
+
+bool CSceneNode::GetWorldVisibility() const
+{
+	return m_worldVisibility;
+}

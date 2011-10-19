@@ -34,6 +34,14 @@ TexturePtr CResourceManager::GetTexture(const char* fileName) const
 	return textureIterator->second;
 }
 
+void CResourceManager::ReleaseTexture(const char* fileName)
+{
+	unsigned int resId = MakeCrc(fileName);
+	TextureMap::const_iterator textureIterator(m_textures.find(resId));
+	assert(textureIterator != m_textures.end());
+	m_textures.erase(textureIterator);
+}
+
 const CFontDescriptor* CResourceManager::GetFontDescriptor(const char* fileName) const
 {
 	unsigned int resId = MakeCrc(fileName);
@@ -44,6 +52,14 @@ const CFontDescriptor* CResourceManager::GetFontDescriptor(const char* fileName)
 		return NULL;
 	}
 	return fontDescriptorIterator->second;	
+}
+
+void CResourceManager::ReleaseFontDescriptor(const char* fileName)
+{
+	unsigned int resId = MakeCrc(fileName);
+	FontDescriptorMap::const_iterator fontDescriptorIterator(m_fontDescriptors.find(resId));
+	assert(fontDescriptorIterator != m_fontDescriptors.end());
+	m_fontDescriptors.erase(fontDescriptorIterator);
 }
 
 uint32 CResourceManager::MakeCrc(const char* inputString)

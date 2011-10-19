@@ -18,6 +18,11 @@ SCENE_NODE_TYPE CWidget::GetNodeType() const
     return SCENE_NODE_WIDGET;
 }
 
+void CWidget::SetPosition(const CVector2& position)
+{
+	CSceneNode::SetPosition(position);
+}
+
 CVector2 CWidget::GetSize() const
 {
     return m_size;

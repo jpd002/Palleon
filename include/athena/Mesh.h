@@ -4,7 +4,6 @@
 #include "SceneNode.h"
 #include "VertexBuffer.h"
 #include "Material.h"
-#include "Color.h"
 
 namespace Athena
 {
@@ -27,13 +26,8 @@ namespace Athena
 		PRIMITIVE_TYPE		GetPrimitiveType() const;
 		uint32				GetPrimitiveCount() const;
 
-		CColor              GetColor() const;
-		void                SetColor(const CColor&);
-
 	protected:
 							CMesh();
-
-		CColor				m_color;
 
 		VertexBufferPtr		m_vertexBuffer;
 		MaterialPtr			m_material;

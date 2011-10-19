@@ -11,7 +11,7 @@ namespace Athena
 	class CDx9GraphicDevice : public CGraphicDevice
 	{
 	public:
-		static void						CreateInstance(IDirect3DDevice9*, const CVector2&);
+		static void						CreateInstance(HWND, const CVector2&);
 		static void						DestroyInstance();
 
 		virtual void					Draw();
@@ -22,6 +22,7 @@ namespace Athena
 		virtual TexturePtr				CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32);
 
 		IDirect3DDevice9*				GetDevice() const;
+		HWND							GetParentWindow() const;
 
 		void							SetFrameRate(float);
 
@@ -29,14 +30,17 @@ namespace Athena
 		typedef std::vector<CMesh*> RenderQueue;
 		typedef std::tr1::unordered_map<uint64, IDirect3DVertexDeclaration9*> VertexDeclarationMap;
 
-										CDx9GraphicDevice(IDirect3DDevice9*, const CVector2&);
+										CDx9GraphicDevice(HWND, const CVector2&);
 		virtual							~CDx9GraphicDevice();
 
+		void							CreateDevice();
 		IDirect3DVertexDeclaration9*	CreateVertexDeclaration(const VERTEX_BUFFER_DESCRIPTOR&);
 
 		bool							FillRenderQueue(CSceneNode*, CCamera*);
 		void							DrawMesh(CMesh*);
 
+		HWND							m_parentWnd;
+		IDirect3D9*						m_d3d;
 		IDirect3DDevice9*				m_device;
 		VertexDeclarationMap			m_vertexDeclarations;
 		RenderQueue						m_renderQueue;

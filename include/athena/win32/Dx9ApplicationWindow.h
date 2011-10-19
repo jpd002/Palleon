@@ -4,8 +4,6 @@
 #include "Types.h"
 #include "win32/Window.h"
 #include "../Application.h"
-#include <d3d9.h>
-#include <d3dx9.h>
 
 namespace Athena
 {
@@ -25,9 +23,6 @@ namespace Athena
 	private:
 		void						UpdateApplication();
 		void						CreateDevice();
-
-		IDirect3D9*					m_d3d;
-		IDirect3DDevice9*			m_device;
 
 		uint32						m_screenWidth;
 		uint32						m_screenHeight;

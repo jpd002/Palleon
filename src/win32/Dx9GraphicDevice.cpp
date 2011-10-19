@@ -8,11 +8,17 @@
 
 using namespace Athena;
 
-CDx9GraphicDevice::CDx9GraphicDevice(IDirect3DDevice9* device, const CVector2& screenSize)
-: m_device(device)
+CDx9GraphicDevice::CDx9GraphicDevice(HWND parentWnd, const CVector2& screenSize)
+: m_d3d(NULL)
+, m_device(NULL)
+, m_parentWnd(parentWnd)
 {
-	m_renderQueue.reserve(0x1000);
 	m_screenSize = screenSize;
+	m_renderQueue.reserve(0x1000);
+
+	m_d3d = Direct3DCreate9(D3D_SDK_VERSION);
+	assert(m_d3d != NULL);
+	CreateDevice();
 }
 
 CDx9GraphicDevice::~CDx9GraphicDevice()
@@ -24,13 +30,33 @@ CDx9GraphicDevice::~CDx9GraphicDevice()
 		declaration->Release();
 	}
 	m_vertexDeclarations.clear();
+
+	m_device->Release();
+	m_d3d->Release();
 }
 
-void CDx9GraphicDevice::CreateInstance(IDirect3DDevice9* device, const CVector2& screenSize)
+void CDx9GraphicDevice::CreateDevice()
+{
+	D3DPRESENT_PARAMETERS d3dpp;
+	memset(&d3dpp, 0, sizeof(D3DPRESENT_PARAMETERS));
+	d3dpp.Windowed					= TRUE;
+	d3dpp.SwapEffect				= D3DSWAPEFFECT_DISCARD;
+	d3dpp.hDeviceWindow				= m_parentWnd;
+	d3dpp.BackBufferFormat			= D3DFMT_X8R8G8B8;
+	d3dpp.BackBufferWidth			= static_cast<UINT>(m_screenSize.x);
+	d3dpp.BackBufferHeight			= static_cast<UINT>(m_screenSize.y);
+	d3dpp.EnableAutoDepthStencil	= TRUE;
+	d3dpp.AutoDepthStencilFormat	= D3DFMT_D24S8;
+
+	HRESULT result = m_d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_parentWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_device);
+	assert(SUCCEEDED(result));
+}
+
+void CDx9GraphicDevice::CreateInstance(HWND parentWnd, const CVector2& screenSize)
 {
 	assert(m_instance == NULL);
 	if(m_instance != NULL) return;
-	m_instance = new CDx9GraphicDevice(device, screenSize);
+	m_instance = new CDx9GraphicDevice(parentWnd, screenSize);
 }
 
 void CDx9GraphicDevice::DestroyInstance()
@@ -43,6 +69,11 @@ void CDx9GraphicDevice::DestroyInstance()
 IDirect3DDevice9* CDx9GraphicDevice::GetDevice() const
 {
 	return m_device;
+}
+
+HWND CDx9GraphicDevice::GetParentWindow() const
+{
+	return m_parentWnd;
 }
 
 void CDx9GraphicDevice::SetFrameRate(float frameRate)
@@ -217,6 +248,8 @@ void CDx9GraphicDevice::Draw()
 
 bool CDx9GraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
+	if(!node->GetVisible()) return false;
+
 	if(CMesh* mesh = dynamic_cast<CMesh*>(node))
 	{
 		m_renderQueue.push_back(mesh);
@@ -252,15 +285,19 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 
 	//Setup material
 	{
-		CColor color = mesh->GetColor();
 		MaterialPtr material = mesh->GetMaterial();
 		assert(material != NULL);
 		RENDER_TYPE renderType = material->GetRenderType();
+		CColor color = material->GetColor();
 
 		m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
 
 		m_device->SetTexture(0, NULL);
 		m_device->SetTexture(1, NULL);
+		m_device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		m_device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+		m_device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		m_device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
 		unsigned int currentStage = 0;
 	

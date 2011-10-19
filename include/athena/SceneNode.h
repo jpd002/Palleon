@@ -50,6 +50,7 @@ namespace Athena
 	    
 		CVector2                    GetWorldPosition() const;
 		CVector2                    GetWorldScale() const;
+		bool						GetWorldVisibility() const;
 	    
 	protected:    
 									CSceneNode();

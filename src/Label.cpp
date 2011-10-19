@@ -63,6 +63,11 @@ void CLabel::SetVerticalAlignment(VERTICAL_ALIGNMENT align)
     m_verticalAlignment = align;
 }
 
+void CLabel::SetPosition(const CVector2& position)
+{
+	CMesh::SetPosition(position);
+}
+
 void CLabel::SetSize(const CVector2& size)
 {
     m_size = size;
@@ -81,6 +86,10 @@ void CLabel::BuildVertexBuffer()
 {
 	uint32 currentCharCount = m_text.length();
 
+	m_primitiveCount = currentCharCount * 2;
+
+	if(m_primitiveCount == 0) return;
+
 	//We need to update the vertex buffer
 	if(!m_vertexBuffer || (currentCharCount > m_charCount))
 	{
@@ -92,8 +101,6 @@ void CLabel::BuildVertexBuffer()
 		m_primitiveType = PRIMITIVE_TRIANGLE_LIST;
 		m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 	}
-
-	m_primitiveCount = currentCharCount * 2;
 
 	CVector2 textPosition(GetTextPosition());
 	float textureWidth = static_cast<float>(m_font->GetTextureWidth());

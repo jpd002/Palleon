@@ -4,12 +4,14 @@
 #include "athena/win32/Dx9ApplicationWindow.h"
 #include "athena/ConfigManager.h"
 #include "win32/Rect.h"
+#include "string_cast.h"
 
 #define CLSNAME			_T("MainWindow")
 #define WNDSTYLE		(WS_CLIPCHILDREN | WS_DLGFRAME | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
 
 #define PREFERENCE_SCREEN_WIDTH		("screen.width")
 #define PREFERENCE_SCREEN_HEIGHT	("screen.height")
+#define PREFERENCE_WINDOW_TITLE		("window.title")
 
 using namespace Athena;
 
@@ -36,9 +38,12 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	}
 
 	CConfigManager::CreateInstance();
+	CConfigManager::GetInstance().GetConfig().RegisterPreferenceString(PREFERENCE_WINDOW_TITLE, "Athena Engine");
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_WIDTH, 640);
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_HEIGHT, 480);
 
+	const char* windowTitle = CConfigManager::GetInstance().GetConfig().GetPreferenceString(PREFERENCE_WINDOW_TITLE);
+	std::tstring windowTitleString = string_cast<std::tstring>(windowTitle);
 	m_screenWidth = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_WIDTH);
 	m_screenHeight = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_HEIGHT);
 
@@ -49,15 +54,11 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	SetRect(&windowRect, 0, 0, m_screenWidth, m_screenHeight);
 	AdjustWindowRectEx(&windowRect, WNDSTYLE, FALSE, NULL);
 
-	Create(NULL, CLSNAME, _T("Athena Engine"), WNDSTYLE, &windowRect, NULL, NULL);
+	Create(NULL, CLSNAME, windowTitleString.c_str(), WNDSTYLE, &windowRect, NULL, NULL);
 	SetClassPtr();
 
-	m_d3d = Direct3DCreate9(D3D_SDK_VERSION);
-	assert(m_d3d != NULL);
-
-	CreateDevice();
-	CDx9GraphicDevice::CreateInstance(m_device, CVector2(m_screenWidth, m_screenHeight));
-	CWin32ResourceManager::CreateInstance(m_device);
+	CDx9GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
+	CWin32ResourceManager::CreateInstance(static_cast<CDx9GraphicDevice&>(CDx9GraphicDevice::GetInstance()).GetDevice());
 
 	m_application = CreateApplication();
 }
@@ -71,27 +72,7 @@ CDx9ApplicationWindow::~CDx9ApplicationWindow()
 	}
 
 	CWin32ResourceManager::DestroyInstance();
-	m_device->Release();
-	m_d3d->Release();
-}
-
-void CDx9ApplicationWindow::CreateDevice()
-{
-	HRESULT result;
-
-	D3DPRESENT_PARAMETERS d3dpp;
-	memset(&d3dpp, 0, sizeof(D3DPRESENT_PARAMETERS));
-	d3dpp.Windowed					= TRUE;
-	d3dpp.SwapEffect				= D3DSWAPEFFECT_DISCARD;
-	d3dpp.hDeviceWindow				= m_hWnd;
-	d3dpp.BackBufferFormat			= D3DFMT_X8R8G8B8;
-	d3dpp.BackBufferWidth			= m_screenWidth;
-	d3dpp.BackBufferHeight			= m_screenHeight;
-	d3dpp.EnableAutoDepthStencil	= TRUE;
-	d3dpp.AutoDepthStencilFormat	= D3DFMT_D24S8;
-
-	result = m_d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_device);
-	assert(SUCCEEDED(result));
+	CDx9GraphicDevice::DestroyInstance();
 }
 
 void CDx9ApplicationWindow::UpdateApplication()

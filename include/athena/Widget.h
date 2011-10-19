@@ -2,10 +2,11 @@
 #define _WIDGET_H_
 
 #include "SceneNode.h"
+#include "ILayoutable.h"
 
 namespace Athena
 {
-	class CWidget : public CSceneNode
+	class CWidget : public CSceneNode, public ILayoutable
 	{
 	public:
 									CWidget();
@@ -13,6 +14,8 @@ namespace Athena
 	    
 		virtual SCENE_NODE_TYPE     GetNodeType() const;
 	    
+		virtual void				SetPosition(const CVector2&);
+
 		CVector2                    GetSize() const;
 		virtual void                SetSize(const CVector2&);
 	    
@@ -22,6 +25,8 @@ namespace Athena
 	protected:
 		CVector2                    m_size;
 	};
+
+	typedef std::tr1::shared_ptr<CWidget> WidgetPtr;
 }
 
 #endif

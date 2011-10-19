@@ -6,6 +6,7 @@ using namespace Athena;
 CMaterial::CMaterial()
 : m_renderType(RENDER_DIFFUSE)
 , m_isTransparent(false)
+, m_color(1.0f, 1.0f, 1.0f, 1.0f)
 {
 
 }
@@ -62,4 +63,14 @@ void CMaterial::SetTexture(unsigned int slot, const TexturePtr& texture)
 {
 	assert(slot < MAX_TEXTURE_SLOTS);
 	m_textures[slot] = texture;
+}
+
+CColor CMaterial::GetColor() const
+{
+	return m_color;
+}
+
+void CMaterial::SetColor(const CColor& color)
+{
+	m_color = color;
 }
