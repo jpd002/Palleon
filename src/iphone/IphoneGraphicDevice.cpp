@@ -89,6 +89,14 @@ void CIphoneGraphicDevice::Draw()
             DrawMesh(mesh);
         }
 	}
+    
+    glActiveTexture(GL_TEXTURE0);
+    glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, NULL);
+
+    glActiveTexture(GL_TEXTURE1);
+    glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 VertexBufferPtr CIphoneGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
@@ -113,6 +121,8 @@ TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXT
 
 bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
+    if(!node->GetVisible()) return false;
+    
 	if(CMesh* mesh = dynamic_cast<CMesh*>(node))
 	{
         m_renderQueue.push_back(mesh);
@@ -145,16 +155,25 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     
     //Setup material
     {
-        CColor color = mesh->GetColor();
         MaterialPtr material = mesh->GetMaterial();
         assert(material != NULL);
+        CColor color = material->GetColor();
         RENDER_TYPE renderType = material->GetRenderType();
         
-        //			m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
+        glColor4f(color.r, color.g, color.b, color.a);
         
-        if(renderType == RENDER_DIFFUSE)
+        if(renderType == RENDER_ONLYCOLOR)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glDisable(GL_TEXTURE_2D);
+            
+            glActiveTexture(GL_TEXTURE1);
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if(renderType == RENDER_DIFFUSE)
         {
             TexturePtr diffuseTexture = material->GetTexture(0);
+            assert(diffuseTexture);
             
             if(diffuseTexture)
             {
@@ -167,7 +186,6 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
             
             glActiveTexture(GL_TEXTURE1);
             glDisable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, NULL);
         }
         else if(renderType == RENDER_LIGHTMAPPED)
         {
@@ -207,7 +225,6 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     assert(glGetError() == GL_NO_ERROR);
     
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     uint32 vertexSize = descriptor.GetVertexSize();
     
     if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS)
@@ -221,6 +238,17 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     }
     assert(glGetError() == GL_NO_ERROR);
     
+    if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
+    {
+        glEnableClientState(GL_COLOR_ARRAY);
+        glColorPointer(4, GL_UNSIGNED_BYTE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
+    }
+    else
+    {
+        glDisableClientState(GL_COLOR_ARRAY);
+    }
+    assert(glGetError() == GL_NO_ERROR);
+
     glClientActiveTexture(GL_TEXTURE0);
     if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
     {
@@ -265,8 +293,6 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     
     glBindBuffer(GL_ARRAY_BUFFER, NULL);
     assert(glGetError() == GL_NO_ERROR);
-    
-    glBindTexture(GL_TEXTURE_2D, 0);
     
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();

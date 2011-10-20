@@ -5,6 +5,16 @@
 
 using namespace Athena;
 
+uint32 GetNextPowerOfTwo(uint32 number)
+{
+    uint32 currentNumber = 1;
+    while(currentNumber < number)
+    {
+        currentNumber <<= 1;
+    }
+    return currentNumber;
+}
+
 CIphoneTexture::CIphoneTexture(const char* path)
 : m_texture(0)
 {
@@ -77,18 +87,22 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
         return;
     }
     
-    GLuint width = CGImageGetWidth(image.CGImage);
-    GLuint height = CGImageGetHeight(image.CGImage);
+    GLuint srcWidth = CGImageGetWidth(image.CGImage);
+    GLuint srcHeight = CGImageGetHeight(image.CGImage);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    void* imageData = malloc( height * width * 4 );
-    
-    CGContextRef context = CGBitmapContextCreate( imageData, width, height, 8, 4 * width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big );
+
+    GLuint dstWidth = GetNextPowerOfTwo(srcWidth);
+    GLuint dstHeight = GetNextPowerOfTwo(srcHeight);
+
+    void* imageData = malloc( dstHeight * dstWidth * 4 );
+        
+    CGContextRef context = CGBitmapContextCreate( imageData, dstWidth, dstHeight, 8, 4 * dstWidth, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big );
     CGColorSpaceRelease( colorSpace );
-    CGContextClearRect( context, CGRectMake( 0, 0, width, height ) );
-    CGContextTranslateCTM( context, 0, height - height );
-    CGContextDrawImage( context, CGRectMake( 0, 0, width, height ), image.CGImage );
+    CGContextClearRect( context, CGRectMake( 0, 0, dstWidth, dstHeight ) );
+    CGContextTranslateCTM( context, 0, dstHeight - dstHeight );
+    CGContextDrawImage( context, CGRectMake( 0, 0, dstWidth, dstHeight ), image.CGImage );
     
-    for(unsigned int i = 0; i < height * width; i++)
+    for(unsigned int i = 0; i < dstWidth * dstHeight; i++)
     {
         uint32 srcPixel = reinterpret_cast<uint32*>(imageData)[i];
         uint16 a = static_cast<uint8>(srcPixel >>  0);
@@ -109,7 +123,7 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
 //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dstWidth, dstHeight, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, imageData);
     assert(glGetError() == GL_NO_ERROR);
     
     glBindTexture(GL_TEXTURE_2D, 0);
