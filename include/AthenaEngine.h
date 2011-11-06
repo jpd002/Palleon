@@ -8,6 +8,7 @@
 #include "athena/MeshProvider.h"
 #include "athena/Label.h"
 #include "athena/Sprite.h"
+#include "athena/AnimatedSprite.h"
 #include "athena/Application.h"
 #include "athena/Button.h"
 #include "athena/InputManager.h"

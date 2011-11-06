@@ -290,6 +290,14 @@
 				Name="graphics"
 				>
 				<File
+					RelativePath="..\src\AnimatedSprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\AnimatedSprite.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Camera.cpp"
 					>
 				</File>
