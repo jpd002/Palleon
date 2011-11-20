@@ -68,6 +68,7 @@ void CSprite::SetTextureExtends(float s, float t)
 
 void CSprite::Update(float dt)
 {
+	CSceneNode::Update(dt);
 	if(m_status & STATUS_VERTEXBUFFER_DIRTY)
 	{
 		UpdateVertices();
