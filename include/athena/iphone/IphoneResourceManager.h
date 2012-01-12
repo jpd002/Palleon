@@ -12,11 +12,6 @@ namespace Athena
         static void                 DestroyInstance();
         
         std::string                 MakeResourcePath(const char*) const;
-
-        void						ReleaseAllResources();
-        
-        void						LoadTexture(const char*);
-        void						LoadFontDescriptor(const char*);
         
     protected:
                                     CIphoneResourceManager();
