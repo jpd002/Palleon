@@ -12,5 +12,6 @@
 #include "athena/Application.h"
 #include "athena/Button.h"
 #include "athena/InputManager.h"
+#include "athena/Package.h"
 
 #endif

@@ -31,8 +31,6 @@ CSprite::CSprite()
 	m_primitiveCount = 2;
 	m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 
-	SetTextureExtends(1, 1);
-
 	UpdateIndices();
 	m_status |= STATUS_VERTEXBUFFER_DIRTY;
 }
@@ -56,14 +54,6 @@ void CSprite::SetSize(const CVector2& size)
 void CSprite::SetHotspot(const CVector2& hotspot)
 {
 	m_hotspot = hotspot;
-}
-
-void CSprite::SetTextureExtends(float s, float t)
-{
-	//m_texCoords[0] = 0.0f;	m_texCoords[1] = 0.0f;
-	//m_texCoords[2] = s;		m_texCoords[3] = 0.0f;
-	//m_texCoords[4] = 0.0f;	m_texCoords[5] = t;
-	//m_texCoords[6] = s;		m_texCoords[7] = t;
 }
 
 void CSprite::Update(float dt)

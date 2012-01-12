@@ -58,7 +58,7 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	SetClassPtr();
 
 	CDx9GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
-	CWin32ResourceManager::CreateInstance(static_cast<CDx9GraphicDevice&>(CDx9GraphicDevice::GetInstance()).GetDevice());
+	CWin32ResourceManager::CreateInstance();
 
 	m_application = CreateApplication();
 }

@@ -13,18 +13,16 @@ namespace Athena
 	public:
 		virtual						~CResourceManager();
 		
-		virtual void				ReleaseAllResources() = 0;
-		
 		static CResourceManager&	GetInstance();
 
 		virtual std::string			MakeResourcePath(const char*) const = 0;
 		
 		TexturePtr					GetTexture(const char*) const;
-		virtual void				LoadTexture(const char*) = 0;
+		void						LoadTexture(const char*, const char* = NULL);
 		void						ReleaseTexture(const char*);
 
 		const CFontDescriptor*		GetFontDescriptor(const char*) const;
-		virtual void				LoadFontDescriptor(const char*) = 0;
+		void						LoadFontDescriptor(const char*, const char* = NULL);
 		void						ReleaseFontDescriptor(const char*);
 		
 	protected:

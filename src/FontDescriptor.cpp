@@ -6,6 +6,8 @@
 #include "xml/Utils.h"
 #include "StdStream.h"
 
+using namespace Athena;
+
 CFontDescriptor::CFontDescriptor()
 : m_textureWidth(0)
 , m_textureHeight(0)

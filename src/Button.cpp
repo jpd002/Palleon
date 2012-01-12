@@ -48,11 +48,6 @@ void CButton::SetPressedTexture(const TexturePtr& texture)
     UpdateButtonState();
 }
 
-void CButton::SetTextureExtends(float x, float y)
-{
-    m_background->SetTextureExtends(x, y);
-}
-
 void CButton::SetSize(const CVector2& size)
 {
     CWidget::SetSize(size);

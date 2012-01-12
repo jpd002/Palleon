@@ -25,7 +25,6 @@ namespace Athena
 	    
 		void                SetReleasedTexture(const TexturePtr&);
 		void                SetPressedTexture(const TexturePtr&);
-		void                SetTextureExtends(float, float);
 	    
 		virtual void        SetSize(const CVector2&);
 	    

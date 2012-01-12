@@ -155,14 +155,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\CatmullRom.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\CatmullRom.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\ConfigManager.cpp"
 				>
 			</File>
@@ -171,27 +163,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\FontDescriptor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\FontDescriptor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\GraphicDevice.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\include\athena\GraphicDevice.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\ResourceManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\include\athena\ResourceManager.h"
 				>
 			</File>
 			<Filter
@@ -247,6 +223,14 @@
 				</File>
 				<File
 					RelativePath="..\include\athena\Box2.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\CatmullRom.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\CatmullRom.h"
 					>
 				</File>
 				<File
@@ -411,6 +395,34 @@
 				</File>
 				<File
 					RelativePath="..\include\athena\Widget.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="resources"
+				>
+				<File
+					RelativePath="..\src\FontDescriptor.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\FontDescriptor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\Package.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\Package.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\ResourceManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\ResourceManager.h"
 					>
 				</File>
 			</Filter>

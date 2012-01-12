@@ -21,8 +21,6 @@ namespace Athena
 		
 		void                SetHotspot(const CVector2&);
 		
-		void                SetTextureExtends(float, float);
-		
 	protected:
 							CSprite();
 	    
