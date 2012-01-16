@@ -56,6 +56,10 @@ void CPackage::LoadDefinition()
 		{
 			newItem.type = ITEM_FONTDESCRIPTOR;
 		}
+		else if(!strcmp(itemType, "NinePatchDescriptor"))
+		{
+			newItem.type = ITEM_NINEPATCHDESCRIPTOR;
+		}
 		else
 		{
 			assert(0);
@@ -81,6 +85,9 @@ void CPackage::LoadItems()
 		case ITEM_FONTDESCRIPTOR:
 			CResourceManager::GetInstance().LoadFontDescriptor(item.name.c_str(), itemPath.c_str());
 			break;
+		case ITEM_NINEPATCHDESCRIPTOR:
+			CResourceManager::GetInstance().LoadNinePatchDescriptor(item.name.c_str(), itemPath.c_str());
+			break;
 		}
 	}
 }
@@ -98,6 +105,9 @@ void CPackage::ReleaseItems()
 			break;
 		case ITEM_FONTDESCRIPTOR:
 			CResourceManager::GetInstance().ReleaseFontDescriptor(item.name.c_str());
+			break;
+		case ITEM_NINEPATCHDESCRIPTOR:
+			CResourceManager::GetInstance().ReleaseNinePatchDescriptor(item.name.c_str());
 			break;
 		}
 	}

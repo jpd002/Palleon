@@ -1,5 +1,5 @@
-#ifndef _SPRITE_H_
-#define _SPRITE_H_
+#ifndef _ATHENA_SPRITE_H_
+#define _ATHENA_SPRITE_H_
 
 #include "Mesh.h"
 
@@ -15,11 +15,9 @@ namespace Athena
 
 		static SpritePtr    Create();
 	    
-		virtual void        Update(float dt);
+		virtual void		Update(float dt);
 		
 		void                SetSize(const CVector2&);
-		
-		void                SetHotspot(const CVector2&);
 		
 	protected:
 							CSprite();
@@ -33,7 +31,6 @@ namespace Athena
 		};
 
 		CVector2            m_size;
-		CVector2            m_hotspot;
 		
 		uint32				m_status;
 	};

@@ -20,8 +20,7 @@ static const float s_texCoords[4 * 2] =
 };
 
 CSprite::CSprite()
-: m_hotspot(0, 0)
-, m_size(1, 1)
+: m_size(1, 1)
 , m_status(0)
 {
 	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(4, 4, 
@@ -51,14 +50,9 @@ void CSprite::SetSize(const CVector2& size)
 	m_status |= STATUS_VERTEXBUFFER_DIRTY;
 }
 
-void CSprite::SetHotspot(const CVector2& hotspot)
-{
-	m_hotspot = hotspot;
-}
-
 void CSprite::Update(float dt)
 {
-	CSceneNode::Update(dt);
+	CMesh::Update(dt);
 	if(m_status & STATUS_VERTEXBUFFER_DIRTY)
 	{
 		UpdateVertices();

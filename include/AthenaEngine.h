@@ -8,9 +8,11 @@
 #include "athena/MeshProvider.h"
 #include "athena/Label.h"
 #include "athena/Sprite.h"
+#include "athena/NinePatch.h"
 #include "athena/AnimatedSprite.h"
 #include "athena/Application.h"
-#include "athena/Button.h"
+#include "athena/SpriteButton.h"
+#include "athena/NinePatchButton.h"
 #include "athena/InputManager.h"
 #include "athena/Package.h"
 

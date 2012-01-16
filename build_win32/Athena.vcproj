@@ -330,6 +330,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\NinePatch.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\NinePatch.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\SceneNode.cpp"
 					>
 				</File>
@@ -374,11 +382,11 @@
 				Name="widget"
 				>
 				<File
-					RelativePath="..\src\Button.cpp"
+					RelativePath="..\src\ButtonBase.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\include\athena\Button.h"
+					RelativePath="..\include\athena\ButtonBase.h"
 					>
 				</File>
 				<File
@@ -387,6 +395,22 @@
 				</File>
 				<File
 					RelativePath="..\include\athena\InputManager.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\NinePatchButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\NinePatchButton.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\SpriteButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\SpriteButton.h"
 					>
 				</File>
 				<File
@@ -407,6 +431,14 @@
 				</File>
 				<File
 					RelativePath="..\include\athena\FontDescriptor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\NinePatchDescriptor.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\NinePatchDescriptor.h"
 					>
 				</File>
 				<File

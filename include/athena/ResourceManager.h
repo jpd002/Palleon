@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include "athena/FontDescriptor.h"
+#include "athena/NinePatchDescriptor.h"
 #include "athena/Texture.h"
 #include "Types.h"
 
@@ -25,9 +26,14 @@ namespace Athena
 		void						LoadFontDescriptor(const char*, const char* = NULL);
 		void						ReleaseFontDescriptor(const char*);
 		
+		const CNinePatchDescriptor*	GetNinePatchDescriptor(const char*) const;
+		void						LoadNinePatchDescriptor(const char*, const char* = NULL);
+		void						ReleaseNinePatchDescriptor(const char*);
+
 	protected:
 		typedef std::tr1::unordered_map<unsigned int, TexturePtr> TextureMap;
 		typedef std::tr1::unordered_map<unsigned int, CFontDescriptor*> FontDescriptorMap;
+		typedef std::tr1::unordered_map<unsigned int, CNinePatchDescriptor*> NinePatchDescriptorMap;
 
 									CResourceManager();
 
@@ -37,6 +43,7 @@ namespace Athena
 
 		TextureMap					m_textures;
 		FontDescriptorMap			m_fontDescriptors;
+		NinePatchDescriptorMap		m_ninePatchDescriptors;
 	};
 }
 

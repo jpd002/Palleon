@@ -30,6 +30,7 @@ namespace Athena
 		virtual SCENE_NODE_TYPE     GetNodeType() const;
 
 		void                        AppendChild(const SceneNodePtr&);
+		void						PrependChild(const SceneNodePtr&);
 		void						AppendChildAfter(const SceneNodePtr&, const SceneNodePtr&);
 		void                        RemoveChild(const SceneNodePtr&);
 

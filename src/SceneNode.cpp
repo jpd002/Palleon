@@ -40,6 +40,14 @@ void CSceneNode::AppendChild(const SceneNodePtr& node)
     node->m_parent = this;
 }
 
+void CSceneNode::PrependChild(const SceneNodePtr& node)
+{
+	assert(node->m_parent == NULL);
+	assert(std::find(m_children.begin(), m_children.end(), node) == m_children.end());
+	m_children.insert(m_children.begin(), node);
+	node->m_parent = this;
+}
+
 void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNodePtr& child)
 {
 	assert(reference->m_parent == this);

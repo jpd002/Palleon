@@ -22,6 +22,7 @@ namespace Athena
 			ITEM_INVALID = 0,
 			ITEM_TEXTURE = 1,
 			ITEM_FONTDESCRIPTOR = 2,
+			ITEM_NINEPATCHDESCRIPTOR = 3,
 		};
 
 		struct ITEM
