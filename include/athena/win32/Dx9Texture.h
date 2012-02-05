@@ -10,15 +10,20 @@ namespace Athena
 	class CDx9Texture : public CTexture
 	{
 	public:
-								CDx9Texture(IDirect3DDevice9*, const char*);
-								CDx9Texture(IDirect3DDevice9*, const void*, uint32);
-								CDx9Texture(IDirect3DDevice9*, const void*, TEXTURE_FORMAT, uint32, uint32);
-		virtual					~CDx9Texture();
+		virtual						~CDx9Texture();
 
-		IDirect3DTexture9*		GetTexture() const;
+		static TexturePtr			CreateFromFile(IDirect3DDevice9*, const char*);
+		static TexturePtr			CreateFromMemory(IDirect3DDevice9*, const void*, uint32);
+		static TexturePtr			CreateFromRawData(IDirect3DDevice9*, const void*, TEXTURE_FORMAT, uint32, uint32);
+		
+		static TexturePtr			CreateCubeFromFile(IDirect3DDevice9*, const char*);
 
-	private:
-		IDirect3DTexture9*		m_texture;
+		IDirect3DBaseTexture9*		GetTexture() const;
+
+	protected:
+									CDx9Texture(IDirect3DBaseTexture9*);
+
+		IDirect3DBaseTexture9*		m_texture;
 	};
 }
 

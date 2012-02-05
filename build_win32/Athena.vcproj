@@ -182,6 +182,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\win32\Dx9EffectGenerator.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\win32\Dx9EffectGenerator.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\win32\Dx9GraphicDevice.cpp"
 					>
 				</File>

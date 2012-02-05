@@ -30,6 +30,8 @@ namespace Athena
 		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) = 0;
 		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) = 0;
 
+		virtual TexturePtr					CreateCubeTextureFromFile(const char*) = 0;
+
 		void								AddViewport(CViewport*);
 		void								RemoveViewport(CViewport*);
 

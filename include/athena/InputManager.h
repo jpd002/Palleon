@@ -1,6 +1,7 @@
 #ifndef _INPUTMANAGER_H_
 #define _INPUTMANAGER_H_
 
+#include "Vector2.h"
 #include "SceneNode.h"
 
 namespace Athena
@@ -15,7 +16,7 @@ namespace Athena
 	class CInputManager
 	{
 	public:
-		static bool     SendInputEvent(CSceneNode*, const CVector2&, INPUT_EVENT);
+		static bool		SendInputEvent(CSceneNode*, const CVector2&, INPUT_EVENT);
 	};
 }
 

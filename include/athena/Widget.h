@@ -10,20 +10,20 @@ namespace Athena
 	{
 	public:
 									CWidget();
-		virtual                     ~CWidget();
-	    
-		virtual SCENE_NODE_TYPE     GetNodeType() const;
-	    
-		virtual void				SetPosition(const CVector2&);
+		virtual						~CWidget();
 
-		CVector2                    GetSize() const;
-		virtual void                SetSize(const CVector2&);
-	    
-		virtual void                OnTouchPressed(bool);
-		virtual void                OnTouchReleased(bool);
-	    
+		virtual SCENE_NODE_TYPE		GetNodeType() const;
+
+		void						SetPosition(const CVector3&);
+
+		CVector2					GetSize() const;
+		virtual void				SetSize(const CVector2&);
+
+		virtual void				OnTouchPressed(bool);
+		virtual void				OnTouchReleased(bool);
+
 	protected:
-		CVector2                    m_size;
+		CVector2					m_size;
 	};
 
 	typedef std::tr1::shared_ptr<CWidget> WidgetPtr;

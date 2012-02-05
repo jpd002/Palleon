@@ -27,7 +27,7 @@ CLabel::CLabel()
 , m_dirty(false)
 , m_charCount(0)
 {
-    
+
 }
 
 CLabel::~CLabel()
@@ -48,29 +48,29 @@ void CLabel::SetText(const char* text)
 
 void CLabel::SetFont(const CFontDescriptor* font)
 {
-    m_font = font;
+	m_font = font;
 	m_material->SetTexture(0, CResourceManager::GetInstance().GetTexture(font->GetTextureName()));
 	m_material->SetIsTransparent(true);
 }
 
 void CLabel::SetHorizontalAlignment(HORIZONTAL_ALIGNMENT align)
 {
-    m_horizontalAlignment = align;
+	m_horizontalAlignment = align;
 }
 
 void CLabel::SetVerticalAlignment(VERTICAL_ALIGNMENT align)
 {
-    m_verticalAlignment = align;
+	m_verticalAlignment = align;
 }
 
-void CLabel::SetPosition(const CVector2& position)
+void CLabel::SetPosition(const CVector3& position)
 {
 	CMesh::SetPosition(position);
 }
 
 void CLabel::SetSize(const CVector2& size)
 {
-    m_size = size;
+	m_size = size;
 }
 
 void CLabel::Update(float dt)
@@ -154,18 +154,18 @@ void CLabel::BuildVertexBuffer()
 
 CVector2 CLabel::GetTextExtents() const
 {
-    CVector2 result;
-    result.x = 0;
-    result.y = static_cast<float>(m_font->GetLineHeight());
-    
+	CVector2 result;
+	result.x = 0;
+	result.y = static_cast<float>(m_font->GetLineHeight());
+
 	unsigned int charCount = m_text.length();
 	for(unsigned int i = 0; i < charCount; i++)
 	{
 		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(m_text[i]);
-        result.x += glyphInfo.xadvance;
+		result.x += glyphInfo.xadvance;
 	}
-    
-    return result;
+
+	return result;
 }
 
 CVector2 CLabel::GetTextPosition() const
@@ -174,31 +174,31 @@ CVector2 CLabel::GetTextPosition() const
 	float posY = 0;
 	CVector2 extents(GetTextExtents());
 
-    switch(m_horizontalAlignment)
-    {
-        case HORIZONTAL_ALIGNMENT_LEFT:
-            posX = 0;
-            break;
-        case HORIZONTAL_ALIGNMENT_RIGHT:
-            posX = m_size.x - extents.x;
-            break;
-        case HORIZONTAL_ALIGNMENT_CENTER:
-            posX = (m_size.x - extents.x) / 2;
-            break;
-    }
-    
-    switch(m_verticalAlignment)
-    {
-        case VERTICAL_ALIGNMENT_TOP:
-            posY = 0;
-            break;
-        case VERTICAL_ALIGNMENT_BOTTOM:
-            posY = m_size.y - extents.y;
-            break;
-        case VERTICAL_ALIGNMENT_CENTER:
-            posY = (m_size.y - extents.y) / 2;
-            break;
-    }
+	switch(m_horizontalAlignment)
+	{
+		case HORIZONTAL_ALIGNMENT_LEFT:
+			posX = 0;
+			break;
+		case HORIZONTAL_ALIGNMENT_RIGHT:
+			posX = m_size.x - extents.x;
+			break;
+		case HORIZONTAL_ALIGNMENT_CENTER:
+			posX = (m_size.x - extents.x) / 2;
+			break;
+	}
+
+	switch(m_verticalAlignment)
+	{
+		case VERTICAL_ALIGNMENT_TOP:
+			posY = 0;
+			break;
+		case VERTICAL_ALIGNMENT_BOTTOM:
+			posY = m_size.y - extents.y;
+			break;
+		case VERTICAL_ALIGNMENT_CENTER:
+			posY = (m_size.y - extents.y) / 2;
+			break;
+	}
 
 	return CVector2(posX, posY);
 }

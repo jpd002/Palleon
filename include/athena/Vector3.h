@@ -4,6 +4,7 @@
 #include <math.h>
 #include <algorithm>
 #include "Matrix4.h"
+#include "Vector2.h"
 
 class CVector3
 {
@@ -13,6 +14,12 @@ public:
 		
 	}
 	
+	CVector3(const CVector2& xy, float z)
+	: x(xy.x), y(xy.y), z(z)
+	{
+
+	}
+
 	CVector3(float x, float y, float z)
 	: x(x), y(y), z(z)
 	{
@@ -120,6 +127,11 @@ public:
 			std::max<float>(y, rhs.y),
 			std::max<float>(z, rhs.z)
 			);
+	}
+
+	CVector2 xy() const
+	{
+		return CVector2(x, y);
 	}
 
 	float		x;

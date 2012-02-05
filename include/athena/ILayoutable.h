@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "athena/Vector2.h"
+#include "athena/Vector3.h"
 
 namespace Athena
 {
@@ -11,7 +12,7 @@ namespace Athena
 	public:
 		virtual				~ILayoutable() {}
 
-		virtual void		SetPosition(const CVector2&) = 0;
+		virtual void		SetPosition(const CVector3&) = 0;
 		virtual void		SetSize(const CVector2&) = 0;
 	};
 

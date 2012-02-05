@@ -3,10 +3,18 @@
 #include "athena/win32/Dx9GraphicDevice.h"
 #include "athena/win32/Dx9VertexBuffer.h"
 #include "athena/win32/Dx9Texture.h"
+#include "athena/win32/Dx9EffectGenerator.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
 
 using namespace Athena;
+
+static const D3DCULL g_cullingModes[CULLING_MODE_MAX] =
+{
+	D3DCULL_NONE,
+	D3DCULL_CCW,
+	D3DCULL_CW
+};
 
 CDx9GraphicDevice::CDx9GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_d3d(NULL)
@@ -102,17 +110,22 @@ VertexBufferPtr CDx9GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRI
 
 TexturePtr CDx9GraphicDevice::CreateTextureFromFile(const char* path)
 {
-	return TexturePtr(new CDx9Texture(m_device, path));
+	return CDx9Texture::CreateFromFile(m_device, path);
 }
 
 TexturePtr CDx9GraphicDevice::CreateTextureFromMemory(const void* data, uint32 dataSize)
 {
-	return TexturePtr(new CDx9Texture(m_device, data, dataSize));
+	return CDx9Texture::CreateFromMemory(m_device, data, dataSize);
 }
 
 TexturePtr CDx9GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return TexturePtr(new CDx9Texture(m_device, data, textureFormat, width, height));
+	return CDx9Texture::CreateFromRawData(m_device, data, textureFormat, width, height);
+}
+
+TexturePtr CDx9GraphicDevice::CreateCubeTextureFromFile(const char* path)
+{
+	return CDx9Texture::CreateCubeFromFile(m_device, path);
 }
 
 IDirect3DVertexDeclaration9* CDx9GraphicDevice::CreateVertexDeclaration(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
@@ -188,6 +201,27 @@ IDirect3DVertexDeclaration9* CDx9GraphicDevice::CreateVertexDeclaration(const VE
 	return vertexDeclaration;
 }
 
+ID3DXEffect* CDx9GraphicDevice::CompileEffect(const char* text)
+{
+	ID3DXEffect* effect(NULL);
+	ID3DXBuffer* errors(NULL);
+	HRESULT result = D3DXCreateEffect(m_device, text, strlen(text), NULL, NULL, D3DXSHADER_OPTIMIZATION_LEVEL3, NULL, &effect, &errors);
+	if(FAILED(result))
+	{
+		std::string errorText(reinterpret_cast<const char*>(errors->GetBufferPointer()), errors->GetBufferSize());
+		OutputDebugStringA("FAILED TO COMPILE EFFECT\r\n");
+		OutputDebugStringA("-----------------------------------\r\n");
+		OutputDebugStringA(errorText.c_str());
+		OutputDebugStringA("-----------------------------------\r\n");
+		DebugBreak();
+	}
+	if(errors != NULL)
+	{
+		errors->Release();
+	}
+	return effect;
+}
+
 void CDx9GraphicDevice::Draw()
 {
 	HRESULT result;
@@ -200,12 +234,17 @@ void CDx9GraphicDevice::Draw()
 
 	m_device->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 	m_device->SetRenderState(D3DRS_LIGHTING, FALSE);
-	m_device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); 
 //	m_device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	m_device->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_device->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+
+	for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+	{
+		m_device->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+		m_device->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+		m_device->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	}
+
+//	m_device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+//	m_device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
 	result = m_device->BeginScene();
 	assert(SUCCEEDED(result));
@@ -223,8 +262,7 @@ void CDx9GraphicDevice::Draw()
 		D3DXMATRIX projMatrix(reinterpret_cast<const float*>(&camera->GetProjectionMatrix()));
 		D3DXMATRIX viewMatrix(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
 
-		m_device->SetTransform(D3DTS_PROJECTION, &projMatrix);
-		m_device->SetTransform(D3DTS_VIEW, &viewMatrix);
+		m_viewProjMatrix = viewMatrix * projMatrix;
 
 		m_renderQueue.clear();
 
@@ -273,113 +311,97 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 	IDirect3DIndexBuffer9* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	IDirect3DVertexDeclaration9* vertexDeclaration = vertexBufferGen->GetVertexDeclaration();
 
-	CVector2 worldPosition = mesh->GetWorldPosition();
-	CVector2 worldScale = mesh->GetWorldScale();
+	CVector3 worldPosition = mesh->GetWorldPosition();
+	CVector3 worldScale = mesh->GetWorldScale();
 
 	D3DXMATRIX worldMatrix;
-	D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, 0);
+	D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, worldPosition.z);
 	worldMatrix.m[0][0] = worldScale.x;
 	worldMatrix.m[1][1] = worldScale.y;
+	worldMatrix.m[2][2] = worldScale.z;
 
-	m_device->SetTransform(D3DTS_WORLD, &worldMatrix);
+	const EFFECTINFO* currentEffect(NULL);
 
 	//Setup material
 	{
 		MaterialPtr material = mesh->GetMaterial();
 		assert(material != NULL);
-		RENDER_TYPE renderType = material->GetRenderType();
-		CColor color = material->GetColor();
+		CColor meshColor = material->GetColor();
 
-		m_device->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_COLORVALUE(color.r, color.g, color.b, color.a));
+		CDx9EffectGenerator::EFFECTCAPS effectCaps;
+		memset(&effectCaps, 0, sizeof(effectCaps));
 
-		m_device->SetTexture(0, NULL);
-		m_device->SetTexture(1, NULL);
-		m_device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		m_device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-		m_device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		m_device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-
-		unsigned int currentStage = 0;
-	
-		if(renderType == RENDER_DIFFUSE)
+		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
 		{
-			TexturePtr texture = material->GetTexture(0);
-
-			if(texture)
-			{
-				CDx9Texture* textureGen = static_cast<CDx9Texture*>(texture.get());
-
-				m_device->SetTexture(currentStage, textureGen->GetTexture());
-		
-				m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-		
-				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-				m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-		
-				currentStage++;
-			}
-
-			m_device->SetTexture(1, NULL);
-		}
-		else if(material->GetRenderType() == RENDER_LIGHTMAPPED)
-		{
-			TexturePtr diffuseTexture = material->GetTexture(0);
-			TexturePtr lightMapTexture = material->GetTexture(1);
-
-			if(diffuseTexture)
-			{
-				CDx9Texture* textureGen = static_cast<CDx9Texture*>(diffuseTexture.get());
-				m_device->SetTexture(0, textureGen->GetTexture());
-			}
-			else
-			{
-				m_device->SetTexture(0, NULL);
-			}			
-
-			m_device->SetTextureStageState(0, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(0, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-			m_device->SetTextureStageState(0, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-	
-			m_device->SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-			m_device->SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-
-			if(lightMapTexture)
-			{
-				CDx9Texture* textureGen = static_cast<CDx9Texture*>(lightMapTexture.get());
-				m_device->SetTexture(1, textureGen->GetTexture());
-			}
-			else
-			{
-				m_device->SetTexture(1, NULL);
-			}
-
-			m_device->SetTextureStageState(1, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(1, D3DTSS_COLORARG1,	D3DTA_TEXTURE);
-			m_device->SetTextureStageState(1, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-	
-			m_device->SetTextureStageState(1, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(1, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
-			m_device->SetTextureStageState(1, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-
-			currentStage = 2;
+			effectCaps.hasVertexColor = true;
 		}
 
-		//Global coloring stage
+		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
 		{
-			m_device->SetTextureStageState(currentStage, D3DTSS_COLOROP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG1,	D3DTA_TFACTOR);
-			m_device->SetTextureStageState(currentStage, D3DTSS_COLORARG2,	D3DTA_CURRENT);
-	
-			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
-			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG1,	D3DTA_TFACTOR);
-			m_device->SetTextureStageState(currentStage, D3DTSS_ALPHAARG2,	D3DTA_CURRENT);
-	
-			currentStage++;
+			if(material->GetTexture(i))
+			{
+				effectCaps.setHasDiffuseMap(i, true);
+				effectCaps.setDiffuseMapCoordSrc(i, material->GetTextureCoordSource(i));
+				if(i != 0)
+				{
+					unsigned int combineMode = (material->GetTextureCombineMode(i) == TEXTURE_COMBINE_MODULATE) ? DIFFUSE_MAP_COMBINE_MODULATE : DIFFUSE_MAP_COMBINE_LERP;
+					effectCaps.setDiffuseMapCombineMode(i, combineMode);
+				}
+			}
 		}
+
+		//Find the proper effect
+		uint32 effectKey = *reinterpret_cast<uint32*>(&effectCaps);
+		EffectMap::const_iterator effectIterator = m_effects.find(effectKey);
+		if(effectIterator == m_effects.end())
+		{
+			EFFECTINFO newEffect;
+			std::string effectText = CDx9EffectGenerator::GenerateEffect(effectCaps);
+			newEffect.effect = CompileEffect(effectText.c_str());
+			
+			newEffect.viewProjMatrixHandle		= newEffect.effect->GetParameterByName(NULL, "c_viewProjMatrix");
+			newEffect.worldMatrixHandle			= newEffect.effect->GetParameterByName(NULL, "c_worldMatrix");
+			newEffect.meshColorHandle			= newEffect.effect->GetParameterByName(NULL, "c_meshColor");
+
+			newEffect.diffuseTexture[0]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse0Texture");
+			newEffect.diffuseTextureMatrix[0]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse0TextureMatrix");
+
+			newEffect.diffuseTexture[1]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse1Texture");
+			newEffect.diffuseTextureMatrix[1]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse1TextureMatrix");
+
+			newEffect.diffuseTexture[2]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse2Texture");
+			newEffect.diffuseTextureMatrix[2]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse2TextureMatrix");
+
+			newEffect.diffuseTexture[3]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse3Texture");
+			newEffect.diffuseTextureMatrix[3]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse3TextureMatrix");
+
+			newEffect.diffuseTexture[4]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse4Texture");
+			newEffect.diffuseTextureMatrix[4]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse4TextureMatrix");
+
+			m_effects[effectKey] = newEffect;
+
+			effectIterator = m_effects.find(effectKey);
+		}
+
+		currentEffect = &effectIterator->second;
+
+		currentEffect->effect->SetMatrix(currentEffect->viewProjMatrixHandle, &m_viewProjMatrix);
+		currentEffect->effect->SetMatrix(currentEffect->worldMatrixHandle, &worldMatrix);
+		currentEffect->effect->SetVector(currentEffect->meshColorHandle, reinterpret_cast<D3DXVECTOR4*>(&meshColor));
+
+		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+		{
+			if(currentEffect->diffuseTexture[i])
+			{
+				CDx9Texture* texture = static_cast<CDx9Texture*>(material->GetTexture(i).get());
+				const CMatrix4& textureMatrix = material->GetTextureMatrix(i);
+				currentEffect->effect->SetTexture(currentEffect->diffuseTexture[i], texture->GetTexture());
+				currentEffect->effect->SetMatrix(currentEffect->diffuseTextureMatrix[i], reinterpret_cast<const D3DXMATRIX*>(&textureMatrix));
+			}
+		}
+
+		CULLING_MODE cullingMode = material->GetCullingMode();
+		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);
 
 		if(material->GetIsTransparent())
 		{
@@ -413,8 +435,19 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 	m_device->SetStreamSource(0, vertexBuffer, 0, descriptor.GetVertexSize());
 	m_device->SetIndices(indexBuffer);
 
-	HRESULT result = m_device->DrawIndexedPrimitive(primitiveType, 0, 0, descriptor.vertexCount, 0, primCount);
-	assert(SUCCEEDED(result));
+	UINT numPasses = 0;
+	currentEffect->effect->Begin(&numPasses, D3DXFX_DONOTSAVESTATE);
+	for(UINT i = 0; i < numPasses; i++)
+	{
+		currentEffect->effect->BeginPass(i);
+		{
+			HRESULT result = m_device->DrawIndexedPrimitive(primitiveType, 0, 0, descriptor.vertexCount, 0, primCount);
+			assert(SUCCEEDED(result));
+		}
+		currentEffect->effect->EndPass();
+	}
+
+	currentEffect->effect->End();
 
 	m_drawCallCount++;
 }

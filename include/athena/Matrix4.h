@@ -80,6 +80,32 @@ public:
 		return result;
 	}
 
+	static CMatrix4 MakeAxisZRotation(float angle)
+	{
+		CMatrix4 result;
+		result.Clear();
+		result(0, 0) = cos(angle);
+		result(0, 1) = -sin(angle);
+		result(1, 0) = sin(angle);
+		result(1, 1) = cos(angle);
+		result(2, 2) = 1;
+		result(3, 3) = 1;
+		return result;
+	}
+
+	static CMatrix4 MakeScale(float x, float y, float z)
+	{
+		CMatrix4 result;
+		result.Clear();
+
+		result(0, 0) = x;
+		result(1, 1) = y;
+		result(2, 2) = z;
+		result(3, 3) = 1;
+
+		return result;
+	}
+
 	static CMatrix4 MakeTranslation(float x, float y, float z)
 	{
 		CMatrix4 result;

@@ -5,39 +5,38 @@
 using namespace Athena;
 
 CSceneNode::CSceneNode()
-: m_position(0, 0)
-, m_scale(1, 1)
-, m_rotation(0)
+: m_position(0, 0, 0)
+, m_scale(1, 1, 1)
 , m_visible(true)
 , m_parent(NULL)
-, m_worldPosition(0, 0)
-, m_worldScale(1, 1)
+, m_worldPosition(0, 0, 0)
+, m_worldScale(1, 1, 1)
 , m_worldVisibility(true)
 {
-    m_children.reserve(5);
+	m_children.reserve(5);
 }
 
 CSceneNode::~CSceneNode()
 {
-    
+
 }
 
 SceneNodePtr CSceneNode::Create()
 {
-    return SceneNodePtr(new CSceneNode());
+	return SceneNodePtr(new CSceneNode());
 }
 
 SCENE_NODE_TYPE CSceneNode::GetNodeType() const
 {
-    return SCENE_NODE_PLAIN;
+	return SCENE_NODE_PLAIN;
 }
 
 void CSceneNode::AppendChild(const SceneNodePtr& node)
 {
-    assert(node->m_parent == NULL);
-    assert(std::find(m_children.begin(), m_children.end(), node) == m_children.end());
-    m_children.push_back(node);
-    node->m_parent = this;
+	assert(node->m_parent == NULL);
+	assert(std::find(m_children.begin(), m_children.end(), node) == m_children.end());
+	m_children.push_back(node);
+	node->m_parent = this;
 }
 
 void CSceneNode::PrependChild(const SceneNodePtr& node)
@@ -64,101 +63,103 @@ void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNode
 
 void CSceneNode::RemoveChild(const SceneNodePtr& node)
 {
-    SceneNodeArray::iterator nodeIterator(std::find(m_children.begin(), m_children.end(), node));
-    assert(nodeIterator != m_children.end());
-    assert(node->m_parent == this);
-    m_children.erase(nodeIterator);
-    node->m_parent = NULL;
+	SceneNodeArray::iterator nodeIterator(std::find(m_children.begin(), m_children.end(), node));
+	assert(nodeIterator != m_children.end());
+	assert(node->m_parent == this);
+	m_children.erase(nodeIterator);
+	node->m_parent = NULL;
 }
 
-CVector2 CSceneNode::GetPosition() const
+CVector3 CSceneNode::GetPosition() const
 {
-    return m_position;
+	return m_position;
 }
 
-void CSceneNode::SetPosition(const CVector2& position)
+void CSceneNode::SetPosition(const CVector3& position)
 {
-    m_position = position;
+	m_position = position;
 }
 
-CVector2 CSceneNode::GetScale() const
+CVector3 CSceneNode::GetScale() const
 {
-    return m_scale;
+	return m_scale;
 }
 
-void CSceneNode::SetScale(const CVector2& scale)
+void CSceneNode::SetScale(const CVector3& scale)
 {
-    m_scale = scale;
+	m_scale = scale;
 }
 
 bool CSceneNode::GetVisible() const
 {
-    return m_visible;
+	return m_visible;
 }
 
 void CSceneNode::SetVisible(bool visible)
 {
-    m_visible = visible;
+	m_visible = visible;
 }
 
 void CSceneNode::Update(float dt)
 {
-    for(SceneNodeArray::iterator nodeIterator(m_children.begin());
-        nodeIterator != m_children.end(); nodeIterator++)
-    {
-        (*nodeIterator)->Update(dt);
-    }
+	for(SceneNodeArray::iterator nodeIterator(m_children.begin());
+		nodeIterator != m_children.end(); nodeIterator++)
+	{
+		(*nodeIterator)->Update(dt);
+	}
 }
 
 void CSceneNode::TraverseNodes(const TraversalFunction& traversalFunc)
 {
-    if(!traversalFunc(this))
-    {
-        return;
-    }
-    
-    for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
-        nodeIterator != m_children.end(); nodeIterator++)
-    {
-        (*nodeIterator)->TraverseNodes(traversalFunc);
-    }
+	if(!traversalFunc(this))
+	{
+		return;
+	}
+
+	for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
+		nodeIterator != m_children.end(); nodeIterator++)
+	{
+		(*nodeIterator)->TraverseNodes(traversalFunc);
+	}
 }
 
 void CSceneNode::UpdateTransformations()
 {
-    if(m_parent == NULL)
-    {
-        m_worldPosition     = m_position;
-        m_worldScale        = m_scale;
-        m_worldVisibility   = m_visible;
-    }
-    else
-    {
-        m_worldPosition    = m_parent->m_worldPosition;
-        m_worldPosition.x += m_position.x * m_parent->m_worldScale.x;
-        m_worldPosition.y += m_position.y * m_parent->m_worldScale.y;
-        
-        m_worldScale.x     = m_scale.x * m_parent->m_worldScale.x;
-        m_worldScale.y     = m_scale.y * m_parent->m_worldScale.y;
-        
-        m_worldVisibility  = m_visible && m_parent->m_worldVisibility;
-    }
-    
-    for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
-        nodeIterator != m_children.end(); nodeIterator++)
-    {
-        (*nodeIterator)->UpdateTransformations();
-    }    
+	if(m_parent == NULL)
+	{
+		m_worldPosition		= m_position;
+		m_worldScale		= m_scale;
+		m_worldVisibility	= m_visible;
+	}
+	else
+	{
+		m_worldPosition	 = m_parent->m_worldPosition;
+		m_worldPosition.x += m_position.x * m_parent->m_worldScale.x;
+		m_worldPosition.y += m_position.y * m_parent->m_worldScale.y;
+		m_worldPosition.z += m_position.z * m_parent->m_worldScale.z;
+
+		m_worldScale.x = m_scale.x * m_parent->m_worldScale.x;
+		m_worldScale.y = m_scale.y * m_parent->m_worldScale.y;
+		m_worldScale.z = m_scale.z * m_parent->m_worldScale.z;
+
+		m_worldVisibility = m_visible && m_parent->m_worldVisibility;
+	}
+
+	for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
+		nodeIterator != m_children.end(); nodeIterator++)
+	{
+		(*nodeIterator)->UpdateTransformations();
+	}
 }
 
-CVector2 CSceneNode::GetWorldPosition() const
+CVector3 CSceneNode::GetWorldPosition() const
 {
-    return m_worldPosition;
+	return m_worldPosition;
 }
 
-CVector2 CSceneNode::GetWorldScale() const
+CVector3 CSceneNode::GetWorldScale() const
 {
-    return m_worldScale;
+	return m_worldScale;
 }
 
 bool CSceneNode::GetWorldVisibility() const
