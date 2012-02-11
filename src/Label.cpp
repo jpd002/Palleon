@@ -102,19 +102,30 @@ void CLabel::BuildVertexBuffer()
 		m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 	}
 
-	CVector2 textPosition(GetTextPosition());
+	TEXTPOSINFO textPosInfo = GetTextPosition();
 	float textureWidth = static_cast<float>(m_font->GetTextureWidth());
 	float textureHeight = static_cast<float>(m_font->GetTextureHeight());
 
-	float posX = textPosition.x;
-	float posY = textPosition.y;
+	unsigned int currentLine = 0;
+	float posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
+	float posY = textPosInfo.posY;
 
 	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc = m_vertexBuffer->GetDescriptor(); 
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
 	for(unsigned int i = 0; i < currentCharCount; i++)
 	{
-		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(m_text[i]);
+		uint8 character = static_cast<uint8>(m_text[i]);
+
+		if(character == '\n')
+		{
+			currentLine++;
+			posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
+			posY += static_cast<float>(m_font->GetLineHeight());
+			continue;
+		}
+
+		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
 
 		for(unsigned int j = 0; j < 4; j++)
 		{
@@ -152,53 +163,110 @@ void CLabel::BuildVertexBuffer()
 	m_vertexBuffer->UnlockIndices();
 }
 
-CVector2 CLabel::GetTextExtents() const
+unsigned int CLabel::GetLineCount() const
 {
-	CVector2 result;
-	result.x = 0;
-	result.y = static_cast<float>(m_font->GetLineHeight());
-
 	unsigned int charCount = m_text.length();
+	if(charCount == 0) return 0;
+	unsigned int result = 1;
 	for(unsigned int i = 0; i < charCount; i++)
 	{
-		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(m_text[i]);
-		result.x += glyphInfo.xadvance;
+		char character = m_text[i];
+		if(character == '\n') result++;
 	}
+	return result;
+}
+
+CLabel::FloatArray CLabel::GetLineWidths() const
+{
+	CLabel::FloatArray widths;
+
+	unsigned int lineCount = GetLineCount();
+	if(lineCount == 0) return widths;
+
+	widths.reserve(lineCount);
+
+	unsigned int charCount = m_text.length();
+	float currentWidth = 0;
+	for(unsigned int i = 0; i < charCount; i++)
+	{
+		uint8 character = static_cast<uint8>(m_text[i]);
+		if(character == '\n')
+		{
+			widths.push_back(currentWidth);
+			currentWidth = 0;
+			continue;
+		}
+		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
+		currentWidth += glyphInfo.xadvance;
+	}
+
+	widths.push_back(currentWidth);
+	assert(widths.size() == lineCount);
+
+	return widths;
+}
+
+float CLabel::GetTextHeight() const
+{
+	unsigned int lineCount = GetLineCount();
+	return static_cast<float>(lineCount * m_font->GetLineHeight());
+}
+
+CVector2 CLabel::GetTextExtents() const
+{
+	FloatArray lineWidths = GetLineWidths();
+
+	CVector2 result;
+	result.x = 0;
+	for(unsigned int i = 0; i < lineWidths.size(); i++)
+	{
+		result.x = std::max<float>(lineWidths[i], result.x);
+	}
+	result.y = GetTextHeight();
 
 	return result;
 }
 
-CVector2 CLabel::GetTextPosition() const
+CLabel::TEXTPOSINFO CLabel::GetTextPosition() const
 {
-	float posX = 0;
-	float posY = 0;
-	CVector2 extents(GetTextExtents());
+	TEXTPOSINFO result;
 
-	switch(m_horizontalAlignment)
+	FloatArray lineWidths = GetLineWidths();
+	result.linePosX.reserve(lineWidths.size());
+	for(unsigned int i = 0; i < lineWidths.size(); i++)
 	{
-		case HORIZONTAL_ALIGNMENT_LEFT:
-			posX = 0;
-			break;
-		case HORIZONTAL_ALIGNMENT_RIGHT:
-			posX = m_size.x - extents.x;
-			break;
-		case HORIZONTAL_ALIGNMENT_CENTER:
-			posX = (m_size.x - extents.x) / 2;
-			break;
+		float posX = 0;
+		float lineWidth = lineWidths[i];
+		switch(m_horizontalAlignment)
+		{
+			case HORIZONTAL_ALIGNMENT_LEFT:
+				posX = 0;
+				break;
+			case HORIZONTAL_ALIGNMENT_RIGHT:
+				posX = m_size.x - lineWidth;
+				break;
+			case HORIZONTAL_ALIGNMENT_CENTER:
+				posX = static_cast<float>(static_cast<int>(m_size.x - lineWidth) / 2);
+				break;
+		}
+		result.linePosX.push_back(posX);
 	}
 
+	float textHeight = GetTextHeight();
+	float posY = 0;
 	switch(m_verticalAlignment)
 	{
 		case VERTICAL_ALIGNMENT_TOP:
 			posY = 0;
 			break;
 		case VERTICAL_ALIGNMENT_BOTTOM:
-			posY = m_size.y - extents.y;
+			posY = m_size.y - textHeight;
 			break;
 		case VERTICAL_ALIGNMENT_CENTER:
-			posY = (m_size.y - extents.y) / 2;
+			posY = static_cast<float>(static_cast<int>(m_size.y - textHeight) / 2);
 			break;
 	}
+	result.posY = posY;
 
-	return CVector2(posX, posY);
+	return result;
 }

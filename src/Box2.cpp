@@ -21,6 +21,11 @@ CBox2::CBox2(float x, float y, float sx, float sy)
 	
 }
 
+CVector2 CBox2::GetEndPosition() const
+{
+	return position + size;
+}
+
 bool CBox2::IsPointInBox(const CVector2& point) const
 {
 	if(point.x < position.x) return false;

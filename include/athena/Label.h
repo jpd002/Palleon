@@ -49,10 +49,21 @@ namespace Athena
 		void					Update(float);
 		
 	protected:
+		typedef std::vector<float> FloatArray;
+
+		struct TEXTPOSINFO
+		{
+			FloatArray			linePosX;
+			float				posY;
+		};
+
 								CLabel();
 
+		unsigned int			GetLineCount() const;
+		FloatArray				GetLineWidths() const;
+		float					GetTextHeight() const;
 		CVector2				GetTextExtents() const;
-		CVector2				GetTextPosition() const;
+		TEXTPOSINFO				GetTextPosition() const;
 
 		void					BuildVertexBuffer();
 		
