@@ -354,6 +354,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\SphereMesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\athena\SphereMesh.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\Sprite.cpp"
 					>
 				</File>
