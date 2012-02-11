@@ -10,6 +10,8 @@ public:
 				CBox2(const CVector2&, const CVector2&);
 				CBox2(float, float, float, float);
 	
+	CVector2	GetEndPosition() const;
+
 	bool		IsPointInBox(const CVector2&) const;
 	bool		Intersects(const CBox2&) const;
 

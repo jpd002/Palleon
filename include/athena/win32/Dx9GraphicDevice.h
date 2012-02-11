@@ -42,6 +42,7 @@ namespace Athena
 			D3DXHANDLE		viewProjMatrixHandle;
 			D3DXHANDLE		worldMatrixHandle;
 			D3DXHANDLE		meshColorHandle;
+			D3DXHANDLE		cameraPosHandle;
 
 			D3DXHANDLE		diffuseTexture[MAX_DIFFUSE_SLOTS];
 			D3DXHANDLE		diffuseTextureMatrix[MAX_DIFFUSE_SLOTS];
@@ -69,6 +70,7 @@ namespace Athena
 		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
 
+		D3DXVECTOR4						m_cameraPos;
 		D3DXMATRIX						m_viewProjMatrix;
 	};
 }

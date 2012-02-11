@@ -35,6 +35,12 @@ VERTEX_BUFFER_DESCRIPTOR Athena::GenerateVertexBufferDescriptor(uint32 vertexCou
 		currentOffset += sizeof(CVector3);
 	}
 
+	if(vertexFlags & VERTEX_BUFFER_HAS_NRM)
+	{
+		result.nrmOffset = currentOffset;
+		currentOffset += sizeof(CVector3);
+	}
+
 	if(vertexFlags & VERTEX_BUFFER_HAS_UV0)
 	{
 		result.uv0Offset = currentOffset;

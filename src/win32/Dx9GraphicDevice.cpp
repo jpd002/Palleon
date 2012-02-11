@@ -150,7 +150,14 @@ IDirect3DVertexDeclaration9* CDx9GraphicDevice::CreateVertexDeclaration(const VE
 
 	if(vertexFlags & VERTEX_BUFFER_HAS_NRM)
 	{
-		assert(0);
+		D3DVERTEXELEMENT9 vertexElement;
+		vertexElement.Stream		= 0;
+		vertexElement.Offset		= static_cast<WORD>(descriptor.nrmOffset);
+		vertexElement.Type			= D3DDECLTYPE_FLOAT3;
+		vertexElement.Method		= D3DDECLMETHOD_DEFAULT;
+		vertexElement.Usage			= D3DDECLUSAGE_NORMAL;
+		vertexElement.UsageIndex	= 0;
+		vertexElements.push_back(vertexElement);
 	}
 
 	if(vertexFlags & VERTEX_BUFFER_HAS_UV0)
@@ -262,6 +269,11 @@ void CDx9GraphicDevice::Draw()
 		D3DXMATRIX projMatrix(reinterpret_cast<const float*>(&camera->GetProjectionMatrix()));
 		D3DXMATRIX viewMatrix(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
 
+		D3DXMATRIX invViewMatrix;
+		D3DXMatrixInverse(&invViewMatrix, NULL, &viewMatrix);
+
+		m_cameraPos = D3DXVECTOR4(invViewMatrix(3, 0), invViewMatrix(3, 1), invViewMatrix(3, 2), 0);
+
 		m_viewProjMatrix = viewMatrix * projMatrix;
 
 		m_renderQueue.clear();
@@ -362,6 +374,7 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 			newEffect.viewProjMatrixHandle		= newEffect.effect->GetParameterByName(NULL, "c_viewProjMatrix");
 			newEffect.worldMatrixHandle			= newEffect.effect->GetParameterByName(NULL, "c_worldMatrix");
 			newEffect.meshColorHandle			= newEffect.effect->GetParameterByName(NULL, "c_meshColor");
+			newEffect.cameraPosHandle			= newEffect.effect->GetParameterByName(NULL, "c_cameraPos");
 
 			newEffect.diffuseTexture[0]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse0Texture");
 			newEffect.diffuseTextureMatrix[0]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse0TextureMatrix");
@@ -388,6 +401,11 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 		currentEffect->effect->SetMatrix(currentEffect->viewProjMatrixHandle, &m_viewProjMatrix);
 		currentEffect->effect->SetMatrix(currentEffect->worldMatrixHandle, &worldMatrix);
 		currentEffect->effect->SetVector(currentEffect->meshColorHandle, reinterpret_cast<D3DXVECTOR4*>(&meshColor));
+
+		if(currentEffect->cameraPosHandle)
+		{
+			currentEffect->effect->SetVector(currentEffect->cameraPosHandle, reinterpret_cast<D3DXVECTOR4*>(&m_cameraPos));
+		}
 
 		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
 		{

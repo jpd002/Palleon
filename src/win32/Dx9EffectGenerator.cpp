@@ -15,6 +15,12 @@ std::string PrintLine(const char* format, ...)
 
 std::string CDx9EffectGenerator::GenerateEffect(const EFFECTCAPS& caps)
 {
+	bool needsTexCoord0 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV0);
+	bool needsTexCoord1 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV1);
+
+	bool needsNormal = HasCoordSrc(caps, DIFFUSE_MAP_COORD_CUBE_REFLECT);
+	bool needsViewDir = HasCoordSrc(caps, DIFFUSE_MAP_COORD_CUBE_REFLECT);
+
 	std::string result;
 
 	//Uniform definitions
@@ -23,14 +29,16 @@ std::string CDx9EffectGenerator::GenerateEffect(const EFFECTCAPS& caps)
 	result += PrintLine("float4x4 c_worldMatrix;");
 	result += PrintLine("float4 c_meshColor;");
 
+	if(needsViewDir)
+	{
+		result += PrintLine("float3 c_cameraPos;");
+	}
+
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampler(0);
 	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampler(1);
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampler(2);
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampler(3);
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampler(4);
-
-	bool needsTexCoord0 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV0);
-	bool needsTexCoord1 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV1);
 
 	//Structure definitions
 	//-----------------------------
@@ -40,6 +48,10 @@ std::string CDx9EffectGenerator::GenerateEffect(const EFFECTCAPS& caps)
 	if(caps.hasVertexColor)
 	{
 		result += PrintLine("float4		color : COLOR;");
+	}
+	if(needsNormal)
+	{
+		result += PrintLine("float3		normal : NORMAL;");
 	}
 	if(needsTexCoord0)
 	{
@@ -67,6 +79,14 @@ std::string CDx9EffectGenerator::GenerateEffect(const EFFECTCAPS& caps)
 	result += PrintLine("OUTPUT VShader(INPUT input)");
 	result += PrintLine("{");
 	result += PrintLine("	float4 worldPos = mul(float4(input.position, 1), c_worldMatrix);");
+	if(needsNormal)
+	{
+		result += PrintLine("	float3 worldNrm = normalize(mul(input.normal, c_worldMatrix));");
+	}
+	if(needsViewDir)
+	{
+		result += PrintLine("	float3 viewDir = normalize(worldPos - c_cameraPos);");
+	}
 	result += PrintLine("	OUTPUT output;");
 	result += PrintLine("	output.position = mul(worldPos, c_viewProjMatrix);");
 	if(caps.hasVertexColor)
@@ -132,6 +152,7 @@ std::string CDx9EffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int inde
 		result += PrintLine("float2		diffuseCoord%d : TEXCOORD%d;", index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
+	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
 		result += PrintLine("float3		diffuseCoord%d : TEXCOORD%d;", index, index);
 		break;
 	}
@@ -151,7 +172,10 @@ std::string CDx9EffectGenerator::GenerateDiffuseMapCoordComputation(unsigned int
 		result += PrintLine("	output.diffuseCoord%d = mul(float4(input.texCoord1, 0, 1), c_diffuse%dTextureMatrix);", index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
-		result += PrintLine("	output.diffuseCoord%d = normalize(worldPos).xyz;", index, index);
+		result += PrintLine("	output.diffuseCoord%d = normalize(worldPos).xyz;", index);
+		break;
+	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
+		result += PrintLine("	output.diffuseCoord%d = reflect(viewDir, worldNrm);", index);
 		break;
 	}
 
@@ -185,6 +209,7 @@ std::string CDx9EffectGenerator::GenerateDiffuseMapSampling(unsigned int index, 
 		result += PrintLine("	float4 diffuseColor%d = tex2D(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
+	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
 		result += PrintLine("	float4 diffuseColor%d = texCUBE(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index);
 		break;
 	}
