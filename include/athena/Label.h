@@ -46,6 +46,8 @@ namespace Athena
 
 		void					SetSize(const CVector2&);
 
+		void					SetTextScale(const CVector2&);
+
 		void					Update(float);
 		
 	protected:
@@ -69,6 +71,7 @@ namespace Athena
 		
 		const CFontDescriptor*	m_font;
 		std::string				m_text;
+		CVector2				m_textScale;
 
 		HORIZONTAL_ALIGNMENT	m_horizontalAlignment;
 		VERTICAL_ALIGNMENT		m_verticalAlignment;

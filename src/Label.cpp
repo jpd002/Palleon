@@ -26,6 +26,7 @@ CLabel::CLabel()
 , m_verticalAlignment(VERTICAL_ALIGNMENT_TOP)
 , m_dirty(false)
 , m_charCount(0)
+, m_textScale(1, 1)
 {
 
 }
@@ -71,6 +72,13 @@ void CLabel::SetPosition(const CVector3& position)
 void CLabel::SetSize(const CVector2& size)
 {
 	m_size = size;
+	m_dirty = true;
+}
+
+void CLabel::SetTextScale(const CVector2& textScale)
+{
+	m_textScale = textScale;
+	m_dirty = true;
 }
 
 void CLabel::Update(float dt)
@@ -121,7 +129,7 @@ void CLabel::BuildVertexBuffer()
 		{
 			currentLine++;
 			posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
-			posY += static_cast<float>(m_font->GetLineHeight());
+			posY += static_cast<float>(m_font->GetLineHeight()) * m_textScale.y;
 			continue;
 		}
 
@@ -130,10 +138,10 @@ void CLabel::BuildVertexBuffer()
 		for(unsigned int j = 0; j < 4; j++)
 		{
 			CVector3 position(&s_positions[j * 3]);
-			position.x *= glyphInfo.dx;
-			position.y *= glyphInfo.dy;
-			position.x += posX + glyphInfo.xoffset;
-			position.y += posY + glyphInfo.yoffset;
+			position.x *= glyphInfo.dx * m_textScale.x;
+			position.y *= glyphInfo.dy * m_textScale.y;
+			position.x += posX + glyphInfo.xoffset * m_textScale.x;
+			position.y += posY + glyphInfo.yoffset * m_textScale.y;
 
 			CVector2 texCoord(&s_texCoords[j * 2]);
 			texCoord.x *= glyphInfo.dx / textureWidth;
@@ -146,7 +154,7 @@ void CLabel::BuildVertexBuffer()
 			vertices += bufferDesc.GetVertexSize();
 		}
 
-		posX += glyphInfo.xadvance;
+		posX += glyphInfo.xadvance * m_textScale.x;
 	}
 	m_vertexBuffer->UnlockVertices();
 
@@ -197,7 +205,7 @@ CLabel::FloatArray CLabel::GetLineWidths() const
 			continue;
 		}
 		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
-		currentWidth += glyphInfo.xadvance;
+		currentWidth += glyphInfo.xadvance * m_textScale.x;
 	}
 
 	widths.push_back(currentWidth);
@@ -209,7 +217,7 @@ CLabel::FloatArray CLabel::GetLineWidths() const
 float CLabel::GetTextHeight() const
 {
 	unsigned int lineCount = GetLineCount();
-	return static_cast<float>(lineCount * m_font->GetLineHeight());
+	return static_cast<float>(lineCount * m_font->GetLineHeight()) * m_textScale.y;
 }
 
 CVector2 CLabel::GetTextExtents() const
