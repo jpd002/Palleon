@@ -270,6 +270,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\include\athena\Tween.h"
+					>
+				</File>
+				<File
 					RelativePath="..\include\athena\Vector2.h"
 					>
 				</File>
