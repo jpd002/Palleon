@@ -3,8 +3,12 @@
 
 //Maths
 #include "athena/MathDef.h"
+#include "athena/Vector2.h"
+#include "athena/Vector3.h"
+#include "athena/Matrix4.h"
 #include "athena/Quaternion.h"
 #include "athena/Box2.h"
+#include "athena/Tween.h"
 
 //Graphics
 #include "athena/GraphicDevice.h"

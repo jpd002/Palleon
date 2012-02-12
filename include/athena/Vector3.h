@@ -91,6 +91,11 @@ public:
 		return (*this);
 	}
 	
+	CVector3 operator -() const
+	{
+		return CVector3(-x, -y, -z);
+	}
+
 	float Dot(const CVector3& rhs) const
 	{
 		return (x * rhs.x) + (y * rhs.y) + (z * rhs.z);
