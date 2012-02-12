@@ -13,7 +13,7 @@ namespace Athena
 		{
 			std::string file;
 		};
-	    
+
 		struct GLYPHINFO
 		{
 			float x;
@@ -32,7 +32,7 @@ namespace Athena
 		const char*		GetTextureName() const;
 		int				GetTextureWidth() const;
 		int				GetTextureHeight() const;
-		int             GetLineHeight() const;
+		int				GetLineHeight() const;
 
 		GLYPHINFO		GetGlyphInfo(unsigned int) const;
 			
@@ -44,8 +44,8 @@ namespace Athena
 		
 		int				m_textureWidth;
 		int				m_textureHeight;
-		int             m_lineHeight;
-		PageInfoMap     m_pageInfos;
+		int				m_lineHeight;
+		PageInfoMap		m_pageInfos;
 		GlyphInfoMap	m_glyphInfos;
 		std::string		m_textureName;
 	};
