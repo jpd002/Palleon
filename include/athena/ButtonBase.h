@@ -8,38 +8,38 @@
 namespace Athena
 {
 	class CButtonBase;
-	typedef std::tr1::shared_ptr<CButtonBase> ButtonBasePtr;
+	typedef std::shared_ptr<CButtonBase> ButtonBasePtr;
 
 	class CButtonBase : public CWidget
 	{
 	public:
 		typedef boost::signals2::signal<void ()> PressEventType;
-	    
-		virtual             ~CButtonBase();
 
-		void                SetText(const char*);
-		void                SetFont(const CFontDescriptor*);
-	    
-		virtual void        SetSize(const CVector2&);
-	    
-		virtual void        OnTouchPressed(bool);
-		virtual void        OnTouchReleased(bool);
-	    
+							CButtonBase();
+		virtual				~CButtonBase();
+
+		void				SetText(const char*);
+		void				SetFont(const CFontDescriptor*);
+
+		virtual void		SetSize(const CVector2&);
+
+		virtual void		OnTouchPressed(bool);
+		virtual void		OnTouchReleased(bool);
+
 		PressEventType		Press;
-	    
+
 	protected:
 		enum BUTTON_STATE
 		{
 			STATE_PRESSED,
 			STATE_RELEASED,
 		};
-	    
-							CButtonBase();
-		virtual void        UpdateButtonState() = 0;
-	    
-		LabelPtr            m_label;
-	    
-		BUTTON_STATE        m_state;
+
+		virtual void		UpdateButtonState() = 0;
+
+		LabelPtr			m_label;
+
+		BUTTON_STATE		m_state;
 	};
 }
 

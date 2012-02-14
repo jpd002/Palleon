@@ -7,13 +7,14 @@
 namespace Athena
 {
 	class CAnimatedSprite;
-	typedef std::tr1::shared_ptr<CAnimatedSprite> AnimatedSpritePtr;
+	typedef std::shared_ptr<CAnimatedSprite> AnimatedSpritePtr;
 
 	class CAnimatedSprite : public CSprite
 	{
 	public:
 		typedef boost::signals2::signal<void ()> AnimationOverEventType;
 
+									CAnimatedSprite();
 		virtual						~CAnimatedSprite();
 
 		static AnimatedSpritePtr	Create();
@@ -25,9 +26,6 @@ namespace Athena
 		void						PlayLoop();
 
 		AnimationOverEventType		AnimationOver;
-
-	protected:
-									CAnimatedSprite();
 
 	private:
 		enum STATE

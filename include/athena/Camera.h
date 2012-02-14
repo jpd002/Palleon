@@ -9,11 +9,12 @@
 namespace Athena
 {
 	class CCamera;
-	typedef std::tr1::shared_ptr<CCamera> CameraPtr;
+	typedef std::shared_ptr<CCamera> CameraPtr;
 
 	class CCamera
 	{
 	public:
+							CCamera();
 		virtual				~CCamera();
 
 		static CameraPtr	Create();
@@ -32,8 +33,6 @@ namespace Athena
 		CFrustum			GetFrustum() const;
 
 	protected:
-							CCamera();
-
 		CMatrix4			m_viewMatrix;
 		CMatrix4			m_projMatrix;
 	};

@@ -39,8 +39,8 @@ namespace Athena
 		void			Load(const char*);
 		
 	private:
-		typedef std::tr1::unordered_map<unsigned int, PAGEINFO> PageInfoMap;
-		typedef std::tr1::unordered_map<unsigned int, GLYPHINFO> GlyphInfoMap;
+		typedef std::unordered_map<unsigned int, PAGEINFO> PageInfoMap;
+		typedef std::unordered_map<unsigned int, GLYPHINFO> GlyphInfoMap;
 		
 		int				m_textureWidth;
 		int				m_textureHeight;

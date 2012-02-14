@@ -1,7 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Athena", "Athena.vcproj", "{610F845D-BC9B-461A-A87F-5084FBA57A07}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Athena", "Athena.vcxproj", "{F800A366-7ACB-417C-A565-801FC00ADEA1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D} = {553CE050-A97E-4E6E-AE84-057A1F0FA45D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "..\..\Framework\build_msvc100\Framework.vcxproj", "{553CE050-A97E-4E6E-AE84-057A1F0FA45D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +14,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{610F845D-BC9B-461A-A87F-5084FBA57A07}.Debug|Win32.ActiveCfg = Debug|Win32
-		{610F845D-BC9B-461A-A87F-5084FBA57A07}.Debug|Win32.Build.0 = Debug|Win32
-		{610F845D-BC9B-461A-A87F-5084FBA57A07}.Release|Win32.ActiveCfg = Release|Win32
-		{610F845D-BC9B-461A-A87F-5084FBA57A07}.Release|Win32.Build.0 = Release|Win32
+		{F800A366-7ACB-417C-A565-801FC00ADEA1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F800A366-7ACB-417C-A565-801FC00ADEA1}.Debug|Win32.Build.0 = Debug|Win32
+		{F800A366-7ACB-417C-A565-801FC00ADEA1}.Release|Win32.ActiveCfg = Release|Win32
+		{F800A366-7ACB-417C-A565-801FC00ADEA1}.Release|Win32.Build.0 = Release|Win32
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Debug|Win32.Build.0 = Debug|Win32
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Release|Win32.ActiveCfg = Release|Win32
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

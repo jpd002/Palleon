@@ -15,14 +15,15 @@ namespace Athena
 	};
 
 	class CSceneNode;
-	typedef std::tr1::shared_ptr<CSceneNode> SceneNodePtr;
+	typedef std::shared_ptr<CSceneNode> SceneNodePtr;
 
 	class CSceneNode
 	{
 	public:
 		typedef std::vector<SceneNodePtr> SceneNodeArray;
-		typedef std::tr1::function<bool (CSceneNode*)> TraversalFunction;
+		typedef std::function<bool (CSceneNode*)> TraversalFunction;
 
+									CSceneNode();
 		virtual						~CSceneNode();
 
 		static SceneNodePtr			Create();
@@ -54,8 +55,6 @@ namespace Athena
 		bool						GetWorldVisibility() const;
 
 	protected:
-									CSceneNode();
-
 		CSceneNode*					m_parent;
 
 		CVector3					m_position;

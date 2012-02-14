@@ -17,7 +17,7 @@ CAnimatedSprite::~CAnimatedSprite()
 
 AnimatedSpritePtr CAnimatedSprite::Create()
 {
-	return AnimatedSpritePtr(new CAnimatedSprite());
+	return std::make_shared<CAnimatedSprite>();
 }
 
 void CAnimatedSprite::Update(float dt)

@@ -8,28 +8,28 @@
 namespace Athena
 {
 	class CSpriteButton;
-	typedef std::tr1::shared_ptr<CSpriteButton> SpriteButtonPtr;
+	typedef std::shared_ptr<CSpriteButton> SpriteButtonPtr;
 
 	class CSpriteButton : public CButtonBase
 	{
 	public:
 		typedef boost::signals2::signal<void ()> PressEventType;
-	    
+
+								CSpriteButton();
 		virtual					~CSpriteButton();
 
 		static SpriteButtonPtr	Create();
-	    
+
 		void					SetReleasedTexture(const TexturePtr&);
 		void					SetPressedTexture(const TexturePtr&);
-	    
+
 		virtual void			SetSize(const CVector2&);
-	    
+
 	protected:
-								CSpriteButton();
 		void					UpdateButtonState();
-	    
+
 		SpritePtr				m_background;
-	    
+
 		TexturePtr				m_releasedTexture;
 		TexturePtr				m_pressedTexture;
 	};

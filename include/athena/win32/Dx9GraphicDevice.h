@@ -49,8 +49,8 @@ namespace Athena
 		};
 
 		typedef std::vector<CMesh*> RenderQueue;
-		typedef std::tr1::unordered_map<uint32, EFFECTINFO> EffectMap;
-		typedef std::tr1::unordered_map<uint64, IDirect3DVertexDeclaration9*> VertexDeclarationMap;
+		typedef std::unordered_map<uint32, EFFECTINFO> EffectMap;
+		typedef std::unordered_map<uint64, IDirect3DVertexDeclaration9*> VertexDeclarationMap;
 
 										CDx9GraphicDevice(HWND, const CVector2&);
 		virtual							~CDx9GraphicDevice();

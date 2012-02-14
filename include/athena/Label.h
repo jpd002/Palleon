@@ -10,7 +10,7 @@
 namespace Athena
 {
 	class CLabel;
-	typedef std::tr1::shared_ptr<CLabel> LabelPtr;
+	typedef std::shared_ptr<CLabel> LabelPtr;
 
 	class CLabel : public CMesh, public ILayoutable
 	{
@@ -29,6 +29,7 @@ namespace Athena
 			VERTICAL_ALIGNMENT_BOTTOM,
 		};
 
+								CLabel();
 		virtual					~CLabel();
 		
 		static LabelPtr			Create();
@@ -58,8 +59,6 @@ namespace Athena
 			FloatArray			linePosX;
 			float				posY;
 		};
-
-								CLabel();
 
 		unsigned int			GetLineCount() const;
 		FloatArray				GetLineWidths() const;

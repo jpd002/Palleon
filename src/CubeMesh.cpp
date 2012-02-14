@@ -109,5 +109,5 @@ CCubeMesh::~CCubeMesh()
 
 MeshPtr CCubeMesh::Create()
 {
-	return MeshPtr(new CCubeMesh());
+	return std::make_shared<CCubeMesh>();
 }

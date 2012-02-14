@@ -8,11 +8,12 @@
 namespace Athena
 {
 	class CViewport;
-	typedef std::tr1::shared_ptr<CViewport> ViewportPtr;
+	typedef std::shared_ptr<CViewport> ViewportPtr;
 
 	class CViewport
 	{
 	public:
+								CViewport();
 		virtual					~CViewport();
 
 		static ViewportPtr		Create();
@@ -23,8 +24,6 @@ namespace Athena
 		SceneNodePtr			GetSceneRoot() const;
 
 	protected:
-								CViewport();
-
 		SceneNodePtr			m_sceneRoot;
 
 		CameraPtr				m_camera;

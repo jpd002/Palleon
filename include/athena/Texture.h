@@ -17,7 +17,7 @@ namespace Athena
 		virtual				~CTexture();
 	};
 
-	typedef std::tr1::shared_ptr<CTexture> TexturePtr;
+	typedef std::shared_ptr<CTexture> TexturePtr;
 }
 
 #endif

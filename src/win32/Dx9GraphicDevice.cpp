@@ -31,8 +31,7 @@ CDx9GraphicDevice::CDx9GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 
 CDx9GraphicDevice::~CDx9GraphicDevice()
 {
-	for(VertexDeclarationMap::const_iterator declarationIterator(m_vertexDeclarations.begin());
-		declarationIterator != m_vertexDeclarations.end(); declarationIterator++)
+	for(auto declarationIterator(std::begin(m_vertexDeclarations)); declarationIterator != std::end(m_vertexDeclarations); declarationIterator++)
 	{
 		IDirect3DVertexDeclaration9* declaration = declarationIterator->second;
 		declaration->Release();
@@ -94,8 +93,8 @@ VertexBufferPtr CDx9GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRI
 	IDirect3DVertexDeclaration9* vertexDeclaration(NULL);
 	uint64 descriptorKey = bufferDesc.MakeKey();
 	{
-		VertexDeclarationMap::const_iterator declarationIterator(m_vertexDeclarations.find(descriptorKey));
-		if(declarationIterator == m_vertexDeclarations.end())
+		auto declarationIterator(m_vertexDeclarations.find(descriptorKey));
+		if(declarationIterator == std::end(m_vertexDeclarations))
 		{
 			vertexDeclaration = CreateVertexDeclaration(bufferDesc);
 			m_vertexDeclarations[descriptorKey] = vertexDeclaration;
@@ -105,7 +104,7 @@ VertexBufferPtr CDx9GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRI
 			vertexDeclaration = declarationIterator->second;
 		}
 	}
-	return VertexBufferPtr(new CDx9VertexBuffer(m_device, bufferDesc, vertexDeclaration));
+	return std::make_shared<CDx9VertexBuffer>(m_device, bufferDesc, vertexDeclaration);
 }
 
 TexturePtr CDx9GraphicDevice::CreateTextureFromFile(const char* path)
@@ -257,8 +256,7 @@ void CDx9GraphicDevice::Draw()
 	assert(SUCCEEDED(result));
 
 	//Draw all viewports
-	for(ViewportList::iterator viewportIterator(m_viewports.begin());
-		viewportIterator != m_viewports.end(); viewportIterator++)
+	for(auto viewportIterator(std::begin(m_viewports)); viewportIterator != std::end(m_viewports); viewportIterator++)
 	{
 		result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 		assert(SUCCEEDED(result));
@@ -279,10 +277,9 @@ void CDx9GraphicDevice::Draw()
 		m_renderQueue.clear();
 
 		const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-		sceneRoot->TraverseNodes(std::tr1::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::tr1::placeholders::_1, camera.get()));
+		sceneRoot->TraverseNodes(std::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 
-		for(RenderQueue::const_iterator meshIterator(m_renderQueue.begin());
-			meshIterator != m_renderQueue.end(); meshIterator++)
+		for(auto meshIterator(std::begin(m_renderQueue)); meshIterator != std::end(m_renderQueue); meshIterator++)
 		{
 			CMesh* mesh = (*meshIterator);
 			DrawMesh(mesh);
@@ -364,8 +361,8 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 
 		//Find the proper effect
 		uint32 effectKey = *reinterpret_cast<uint32*>(&effectCaps);
-		EffectMap::const_iterator effectIterator = m_effects.find(effectKey);
-		if(effectIterator == m_effects.end())
+		auto effectIterator = m_effects.find(effectKey);
+		if(effectIterator == std::end(m_effects))
 		{
 			EFFECTINFO newEffect;
 			std::string effectText = CDx9EffectGenerator::GenerateEffect(effectCaps);

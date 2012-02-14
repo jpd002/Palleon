@@ -43,8 +43,8 @@ int CFontDescriptor::GetLineHeight() const
 
 CFontDescriptor::GLYPHINFO CFontDescriptor::GetGlyphInfo(unsigned int charId) const
 {
-	GlyphInfoMap::const_iterator glyphIterator(m_glyphInfos.find(charId));
-	assert(glyphIterator != m_glyphInfos.end());
+	auto glyphIterator(m_glyphInfos.find(charId));
+	assert(glyphIterator != std::end(m_glyphInfos));
 	return glyphIterator->second;
 }
 

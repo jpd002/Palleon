@@ -31,9 +31,9 @@ namespace Athena
 		void						ReleaseNinePatchDescriptor(const char*);
 
 	protected:
-		typedef std::tr1::unordered_map<unsigned int, TexturePtr> TextureMap;
-		typedef std::tr1::unordered_map<unsigned int, CFontDescriptor*> FontDescriptorMap;
-		typedef std::tr1::unordered_map<unsigned int, CNinePatchDescriptor*> NinePatchDescriptorMap;
+		typedef std::unordered_map<unsigned int, TexturePtr> TextureMap;
+		typedef std::unordered_map<unsigned int, CFontDescriptor*> FontDescriptorMap;
+		typedef std::unordered_map<unsigned int, CNinePatchDescriptor*> NinePatchDescriptorMap;
 
 									CResourceManager();
 

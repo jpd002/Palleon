@@ -10,7 +10,7 @@
 namespace Athena
 {
 	class CMaterial;
-	typedef std::tr1::shared_ptr<CMaterial> MaterialPtr;
+	typedef std::shared_ptr<CMaterial> MaterialPtr;
 
 	enum CULLING_MODE
 	{
@@ -51,6 +51,7 @@ namespace Athena
 			MAX_TEXTURE_SLOTS = 8,
 		};
 
+								CMaterial();
 		virtual					~CMaterial();
 
 		static MaterialPtr		Create();
@@ -79,8 +80,6 @@ namespace Athena
 		void					SetColor(const CColor&);
 
 	protected:
-								CMaterial();
-
 		bool					m_isTransparent;
 		CULLING_MODE			m_cullingMode;
 

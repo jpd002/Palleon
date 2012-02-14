@@ -35,7 +35,7 @@ namespace Athena
 		uint32				m_primitiveCount;
 	};
 
-	typedef std::tr1::shared_ptr<CMesh> MeshPtr;
+	typedef std::shared_ptr<CMesh> MeshPtr;
 }
 
 #endif

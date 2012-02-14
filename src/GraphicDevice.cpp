@@ -44,13 +44,13 @@ float CGraphicDevice::GetFrameRate() const
 
 void CGraphicDevice::AddViewport(CViewport* viewport)
 {
-	assert(std::find(m_viewports.begin(), m_viewports.end(), viewport) == m_viewports.end());
+	assert(std::find(std::begin(m_viewports), std::end(m_viewports), viewport) == std::end(m_viewports));
 	m_viewports.push_back(viewport);
 }
 
 void CGraphicDevice::RemoveViewport(CViewport* viewport)
 {
-	ViewportList::iterator viewportIterator = std::find(m_viewports.begin(), m_viewports.end(), viewport);
-	assert(viewportIterator != m_viewports.end());
+	auto viewportIterator = std::find(std::begin(m_viewports), std::end(m_viewports), viewport);
+	assert(viewportIterator != std::end(m_viewports));
 	m_viewports.erase(viewportIterator);
 }

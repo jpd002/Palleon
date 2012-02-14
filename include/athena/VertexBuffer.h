@@ -54,7 +54,7 @@ namespace Athena
 		VERTEX_BUFFER_DESCRIPTOR			m_descriptor;
 	};
 
-	typedef std::tr1::shared_ptr<CVertexBuffer> VertexBufferPtr;
+	typedef std::shared_ptr<CVertexBuffer> VertexBufferPtr;
 }
 
 #endif

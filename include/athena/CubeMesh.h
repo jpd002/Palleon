@@ -8,12 +8,10 @@ namespace Athena
 	class CCubeMesh : public CMesh
 	{
 	public:
+							CCubeMesh();
 		virtual				~CCubeMesh();
 
 		static MeshPtr		Create();
-
-	protected:
-							CCubeMesh();
 	};
 }
 

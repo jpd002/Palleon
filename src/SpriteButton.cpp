@@ -16,7 +16,7 @@ CSpriteButton::~CSpriteButton()
 
 SpriteButtonPtr CSpriteButton::Create()
 {
-	return SpriteButtonPtr(new CSpriteButton());
+	return std::make_shared<CSpriteButton>();
 }
 
 void CSpriteButton::SetReleasedTexture(const TexturePtr& texture)
@@ -34,7 +34,7 @@ void CSpriteButton::SetPressedTexture(const TexturePtr& texture)
 void CSpriteButton::SetSize(const CVector2& size)
 {
 	CButtonBase::SetSize(size);
-    m_background->SetSize(size);
+	m_background->SetSize(size);
 }
 
 void CSpriteButton::UpdateButtonState()

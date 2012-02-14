@@ -14,7 +14,7 @@ CCamera::~CCamera()
 
 CameraPtr CCamera::Create()
 {
-	return CameraPtr(new CCamera());
+	return std::make_shared<CCamera>();
 }
 
 void CCamera::SetupOrthoCamera(float width, float height)

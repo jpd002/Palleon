@@ -7,11 +7,12 @@
 namespace Athena
 {
 	class CPackage;
-	typedef std::tr1::shared_ptr<CPackage> PackagePtr;
+	typedef std::shared_ptr<CPackage> PackagePtr;
 
 	class CPackage
 	{
 	public:
+								CPackage(const char*);
 		virtual					~CPackage();
 
 		static PackagePtr		Create(const char* name);
@@ -32,8 +33,6 @@ namespace Athena
 		};
 
 		typedef std::vector<ITEM> ItemArray;
-
-								CPackage(const char*);
 
 		void					LoadDefinition();
 

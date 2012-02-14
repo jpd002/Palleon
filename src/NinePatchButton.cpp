@@ -18,7 +18,7 @@ CNinePatchButton::~CNinePatchButton()
 
 NinePatchButtonPtr CNinePatchButton::Create()
 {
-	return NinePatchButtonPtr(new CNinePatchButton());
+	return std::make_shared<CNinePatchButton>();
 }
 
 void CNinePatchButton::SetReleasedDescriptor(const CNinePatchDescriptor* descriptor)
@@ -36,7 +36,7 @@ void CNinePatchButton::SetPressedDescriptor(const CNinePatchDescriptor* descript
 void CNinePatchButton::SetSize(const CVector2& size)
 {
 	CButtonBase::SetSize(size);
-    m_background->SetSize(size);
+	m_background->SetSize(size);
 }
 
 void CNinePatchButton::UpdateButtonState()

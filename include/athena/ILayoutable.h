@@ -16,7 +16,7 @@ namespace Athena
 		virtual void		SetSize(const CVector2&) = 0;
 	};
 
-	typedef std::tr1::shared_ptr<ILayoutable> LayoutablePtr;
+	typedef std::shared_ptr<ILayoutable> LayoutablePtr;
 }
 
 #endif

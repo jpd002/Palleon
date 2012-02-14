@@ -29,9 +29,9 @@ CResourceManager& CResourceManager::GetInstance()
 TexturePtr CResourceManager::GetTexture(const char* fileName) const
 {
 	unsigned int resId = MakeCrc(fileName);
-	TextureMap::const_iterator textureIterator(m_textures.find(resId));
-	assert(textureIterator != m_textures.end());
-	if(textureIterator == m_textures.end())
+	auto textureIterator(m_textures.find(resId));
+	assert(textureIterator != std::end(m_textures));
+	if(textureIterator == std::end(m_textures))
 	{
 		return TexturePtr();
 	}
@@ -44,7 +44,7 @@ void CResourceManager::LoadTexture(const char* name, const char* localPath)
 	unsigned int resId = MakeCrc(name);
 	std::string path = MakeResourcePath(localPath);
 
-	assert(m_textures.find(resId) == m_textures.end());
+	assert(m_textures.find(resId) == std::end(m_textures));
 	TexturePtr result = CGraphicDevice::GetInstance().CreateTextureFromFile(path.c_str());
 	m_textures[resId] = result;
 }
@@ -52,8 +52,8 @@ void CResourceManager::LoadTexture(const char* name, const char* localPath)
 void CResourceManager::ReleaseTexture(const char* fileName)
 {
 	unsigned int resId = MakeCrc(fileName);
-	TextureMap::const_iterator textureIterator(m_textures.find(resId));
-	assert(textureIterator != m_textures.end());
+	auto textureIterator(m_textures.find(resId));
+	assert(textureIterator != std::end(m_textures));
 	m_textures.erase(textureIterator);
 }
 
@@ -63,13 +63,13 @@ void CResourceManager::ReleaseTexture(const char* fileName)
 const CFontDescriptor* CResourceManager::GetFontDescriptor(const char* fileName) const
 {
 	unsigned int resId = MakeCrc(fileName);
-	FontDescriptorMap::const_iterator fontDescriptorIterator(m_fontDescriptors.find(resId));
-	assert(fontDescriptorIterator != m_fontDescriptors.end());
-	if(fontDescriptorIterator == m_fontDescriptors.end())
+	auto fontDescriptorIterator(m_fontDescriptors.find(resId));
+	assert(fontDescriptorIterator != std::end(m_fontDescriptors));
+	if(fontDescriptorIterator == std::end(m_fontDescriptors))
 	{
 		return NULL;
 	}
-	return fontDescriptorIterator->second;	
+	return fontDescriptorIterator->second;
 }
 
 void CResourceManager::LoadFontDescriptor(const char* name, const char* localPath)
@@ -78,7 +78,7 @@ void CResourceManager::LoadFontDescriptor(const char* name, const char* localPat
 	unsigned int resId = MakeCrc(name);
 	std::string path = MakeResourcePath(localPath);
 
-	assert(m_fontDescriptors.find(resId) == m_fontDescriptors.end());
+	assert(m_fontDescriptors.find(resId) == std::end(m_fontDescriptors));
 	CFontDescriptor* descriptor = new CFontDescriptor();
 	descriptor->Load(path.c_str());
 	m_fontDescriptors[resId] = descriptor;
@@ -87,8 +87,8 @@ void CResourceManager::LoadFontDescriptor(const char* name, const char* localPat
 void CResourceManager::ReleaseFontDescriptor(const char* fileName)
 {
 	unsigned int resId = MakeCrc(fileName);
-	FontDescriptorMap::const_iterator fontDescriptorIterator(m_fontDescriptors.find(resId));
-	assert(fontDescriptorIterator != m_fontDescriptors.end());
+	auto fontDescriptorIterator(m_fontDescriptors.find(resId));
+	assert(fontDescriptorIterator != std::end(m_fontDescriptors));
 	m_fontDescriptors.erase(fontDescriptorIterator);
 }
 
@@ -98,13 +98,13 @@ void CResourceManager::ReleaseFontDescriptor(const char* fileName)
 const CNinePatchDescriptor* CResourceManager::GetNinePatchDescriptor(const char* fileName) const
 {
 	unsigned int resId = MakeCrc(fileName);
-	NinePatchDescriptorMap::const_iterator ninePatchDescriptorIterator(m_ninePatchDescriptors.find(resId));
-	assert(ninePatchDescriptorIterator != m_ninePatchDescriptors.end());
-	if(ninePatchDescriptorIterator == m_ninePatchDescriptors.end())
+	auto ninePatchDescriptorIterator(m_ninePatchDescriptors.find(resId));
+	assert(ninePatchDescriptorIterator != std::end(m_ninePatchDescriptors));
+	if(ninePatchDescriptorIterator == std::end(m_ninePatchDescriptors))
 	{
 		return NULL;
 	}
-	return ninePatchDescriptorIterator->second;	
+	return ninePatchDescriptorIterator->second;
 }
 
 void CResourceManager::LoadNinePatchDescriptor(const char* name, const char* localPath)
@@ -113,7 +113,7 @@ void CResourceManager::LoadNinePatchDescriptor(const char* name, const char* loc
 	unsigned int resId = MakeCrc(name);
 	std::string path = MakeResourcePath(localPath);
 
-	assert(m_ninePatchDescriptors.find(resId) == m_ninePatchDescriptors.end());
+	assert(m_ninePatchDescriptors.find(resId) == std::end(m_ninePatchDescriptors));
 	CNinePatchDescriptor* descriptor = new CNinePatchDescriptor();
 	descriptor->Load(path.c_str());
 	m_ninePatchDescriptors[resId] = descriptor;
@@ -122,8 +122,8 @@ void CResourceManager::LoadNinePatchDescriptor(const char* name, const char* loc
 void CResourceManager::ReleaseNinePatchDescriptor(const char* fileName)
 {
 	unsigned int resId = MakeCrc(fileName);
-	NinePatchDescriptorMap::const_iterator ninePatchDescriptorIterator(m_ninePatchDescriptors.find(resId));
-	assert(ninePatchDescriptorIterator != m_ninePatchDescriptors.end());
+	auto ninePatchDescriptorIterator(m_ninePatchDescriptors.find(resId));
+	assert(ninePatchDescriptorIterator != std::end(m_ninePatchDescriptors));
 	m_ninePatchDescriptors.erase(ninePatchDescriptorIterator);
 }
 

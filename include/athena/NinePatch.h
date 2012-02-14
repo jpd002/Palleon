@@ -7,11 +7,12 @@
 namespace Athena
 {
 	class CNinePatch;
-	typedef std::tr1::shared_ptr<CNinePatch> NinePatchPtr;
+	typedef std::shared_ptr<CNinePatch> NinePatchPtr;
 
 	class CNinePatch : public CMesh
 	{
 	public:
+									CNinePatch();
 		virtual						~CNinePatch();
 
 		static NinePatchPtr			Create();
@@ -23,8 +24,6 @@ namespace Athena
 		void						SetDescriptor(const CNinePatchDescriptor*);
 
 	protected:
-									CNinePatch();
-					
 		void						UpdateVertices();
 		void						UpdateIndices();
 

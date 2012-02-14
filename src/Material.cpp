@@ -23,7 +23,7 @@ CMaterial::~CMaterial()
 
 MaterialPtr CMaterial::Create()
 {
-	return MaterialPtr(new CMaterial());
+	return std::make_shared<CMaterial>();
 }
 
 bool CMaterial::operator <(const CMaterial& rhs) const

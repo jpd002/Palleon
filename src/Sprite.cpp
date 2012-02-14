@@ -41,7 +41,7 @@ CSprite::~CSprite()
 
 SpritePtr CSprite::Create()
 {
-	return SpritePtr(new CSprite());
+	return std::make_shared<CSprite>();
 }
 
 void CSprite::SetSize(const CVector2& size)

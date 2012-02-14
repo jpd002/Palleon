@@ -6,22 +6,21 @@
 namespace Athena
 {
 	class CSprite;
-	typedef std::tr1::shared_ptr<CSprite> SpritePtr;
+	typedef std::shared_ptr<CSprite> SpritePtr;
 
 	class CSprite : public CMesh
 	{
 	public:
-		virtual             ~CSprite();
+							CSprite();
+		virtual				~CSprite();
 
-		static SpritePtr    Create();
-	    
+		static SpritePtr	Create();
+
 		virtual void		Update(float dt);
 		
-		void                SetSize(const CVector2&);
+		void				SetSize(const CVector2&);
 		
 	protected:
-							CSprite();
-	    
 		void				UpdateVertices();
 		void				UpdateIndices();
 
@@ -30,8 +29,7 @@ namespace Athena
 			STATUS_VERTEXBUFFER_DIRTY = 0x01,
 		};
 
-		CVector2            m_size;
-		
+		CVector2			m_size;
 		uint32				m_status;
 	};
 }

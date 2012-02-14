@@ -14,7 +14,7 @@ CButtonBase::CButtonBase()
 
 CButtonBase::~CButtonBase()
 {
-    
+
 }
 
 void CButtonBase::SetText(const char* caption)

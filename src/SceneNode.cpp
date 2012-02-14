@@ -23,7 +23,7 @@ CSceneNode::~CSceneNode()
 
 SceneNodePtr CSceneNode::Create()
 {
-	return SceneNodePtr(new CSceneNode());
+	return std::make_shared<CSceneNode>();
 }
 
 SCENE_NODE_TYPE CSceneNode::GetNodeType() const
@@ -34,7 +34,7 @@ SCENE_NODE_TYPE CSceneNode::GetNodeType() const
 void CSceneNode::AppendChild(const SceneNodePtr& node)
 {
 	assert(node->m_parent == NULL);
-	assert(std::find(m_children.begin(), m_children.end(), node) == m_children.end());
+	assert(std::find(std::begin(m_children), std::end(m_children), node) == m_children.end());
 	m_children.push_back(node);
 	node->m_parent = this;
 }
@@ -42,7 +42,7 @@ void CSceneNode::AppendChild(const SceneNodePtr& node)
 void CSceneNode::PrependChild(const SceneNodePtr& node)
 {
 	assert(node->m_parent == NULL);
-	assert(std::find(m_children.begin(), m_children.end(), node) == m_children.end());
+	assert(std::find(std::begin(m_children), std::end(m_children), node) == m_children.end());
 	m_children.insert(m_children.begin(), node);
 	node->m_parent = this;
 }
@@ -53,7 +53,7 @@ void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNode
 	assert(child->m_parent == NULL);
 	assert(child.get() != this);
 
-	SceneNodeArray::iterator nodeIterator(std::find(m_children.begin(), m_children.end(), reference));
+	auto nodeIterator(std::find(std::begin(m_children), std::end(m_children), reference));
 	assert(nodeIterator != m_children.end());
 
 	if(nodeIterator == m_children.end()) return;
@@ -63,7 +63,7 @@ void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNode
 
 void CSceneNode::RemoveChild(const SceneNodePtr& node)
 {
-	SceneNodeArray::iterator nodeIterator(std::find(m_children.begin(), m_children.end(), node));
+	auto nodeIterator(std::find(std::begin(m_children), std::end(m_children), node));
 	assert(nodeIterator != m_children.end());
 	assert(node->m_parent == this);
 	m_children.erase(nodeIterator);
@@ -102,8 +102,7 @@ void CSceneNode::SetVisible(bool visible)
 
 void CSceneNode::Update(float dt)
 {
-	for(SceneNodeArray::iterator nodeIterator(m_children.begin());
-		nodeIterator != m_children.end(); nodeIterator++)
+	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
 	{
 		(*nodeIterator)->Update(dt);
 	}
@@ -116,8 +115,7 @@ void CSceneNode::TraverseNodes(const TraversalFunction& traversalFunc)
 		return;
 	}
 
-	for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
-		nodeIterator != m_children.end(); nodeIterator++)
+	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
 	{
 		(*nodeIterator)->TraverseNodes(traversalFunc);
 	}
@@ -145,8 +143,7 @@ void CSceneNode::UpdateTransformations()
 		m_worldVisibility = m_visible && m_parent->m_worldVisibility;
 	}
 
-	for(SceneNodeArray::const_iterator nodeIterator(m_children.begin());
-		nodeIterator != m_children.end(); nodeIterator++)
+	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
 	{
 		(*nodeIterator)->UpdateTransformations();
 	}

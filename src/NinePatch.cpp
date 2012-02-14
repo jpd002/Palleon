@@ -76,7 +76,7 @@ CNinePatch::~CNinePatch()
 
 NinePatchPtr CNinePatch::Create()
 {
-	return NinePatchPtr(new CNinePatch());
+	return std::make_shared<CNinePatch>();
 }
 
 void CNinePatch::SetSize(const CVector2& size)

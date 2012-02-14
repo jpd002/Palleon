@@ -26,7 +26,7 @@ namespace Athena
 		CVector2					m_size;
 	};
 
-	typedef std::tr1::shared_ptr<CWidget> WidgetPtr;
+	typedef std::shared_ptr<CWidget> WidgetPtr;
 }
 
 #endif
