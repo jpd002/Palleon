@@ -36,7 +36,7 @@ void CPackage::LoadDefinition()
 	Framework::Xml::CNode* packageNode = document->Select("Package");
 	assert(packageNode != NULL);
 
-	for(Framework::Xml::CNode::NodeIterator nodeIterator(packageNode->GetChildrenBegin());
+	for(auto nodeIterator(packageNode->GetChildrenBegin()); 
 		nodeIterator != packageNode->GetChildrenEnd(); nodeIterator++)
 	{
 		Framework::Xml::CNode* itemNode = (*nodeIterator);

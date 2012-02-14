@@ -65,9 +65,8 @@ void CFontDescriptor::Load(const char* path)
 
 	//Get page info
 	{
-		Framework::Xml::CNode::NodeList pageNodes = document->SelectNodes("font/pages/page");
-		for(Framework::Xml::CNode::NodeIterator pageNodeIterator(pageNodes.begin());
-			pageNodeIterator != pageNodes.end(); pageNodeIterator++)
+		auto pageNodes = document->SelectNodes("font/pages/page");
+		for(auto pageNodeIterator(std::begin(pageNodes)); pageNodeIterator != std::end(pageNodes); pageNodeIterator++)
 		{
 			Framework::Xml::CNode* pageNode(*pageNodeIterator);
 
@@ -86,9 +85,8 @@ void CFontDescriptor::Load(const char* path)
 
 	//Get char info
 	{
-		Framework::Xml::CNode::NodeList charNodes = document->SelectNodes("font/chars/char");
-		for(Framework::Xml::CNode::NodeIterator charNodeIterator(charNodes.begin());
-			charNodeIterator != charNodes.end(); charNodeIterator++)
+		auto charNodes = document->SelectNodes("font/chars/char");
+		for(auto charNodeIterator(std::begin(charNodes)); charNodeIterator != std::end(charNodes); charNodeIterator++)
 		{
 			Framework::Xml::CNode* charNode(*charNodeIterator);
 			int charId = 0;
