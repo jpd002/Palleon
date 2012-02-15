@@ -16,6 +16,12 @@ static const D3DCULL g_cullingModes[CULLING_MODE_MAX] =
 	D3DCULL_CW
 };
 
+static const D3DTEXTUREADDRESS g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
+{
+	D3DTADDRESS_CLAMP,
+	D3DTADDRESS_WRAP,
+};
+
 CDx9GraphicDevice::CDx9GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_d3d(NULL)
 , m_device(NULL)
@@ -249,9 +255,6 @@ void CDx9GraphicDevice::Draw()
 		m_device->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	}
 
-//	m_device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-//	m_device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-
 	result = m_device->BeginScene();
 	assert(SUCCEEDED(result));
 
@@ -373,20 +376,32 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 			newEffect.meshColorHandle			= newEffect.effect->GetParameterByName(NULL, "c_meshColor");
 			newEffect.cameraPosHandle			= newEffect.effect->GetParameterByName(NULL, "c_cameraPos");
 
-			newEffect.diffuseTexture[0]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse0Texture");
-			newEffect.diffuseTextureMatrix[0]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse0TextureMatrix");
+			for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+			{
+				{
+					char paramName[256];
+					sprintf(paramName, "c_diffuse%dTexture", i);
+					newEffect.diffuseTexture[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+				}
 
-			newEffect.diffuseTexture[1]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse1Texture");
-			newEffect.diffuseTextureMatrix[1]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse1TextureMatrix");
+				{
+					char paramName[256];
+					sprintf(paramName, "c_diffuse%dTextureMatrix", i);
+					newEffect.diffuseTextureMatrix[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+				}
 
-			newEffect.diffuseTexture[2]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse2Texture");
-			newEffect.diffuseTextureMatrix[2]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse2TextureMatrix");
+				{
+					char paramName[256];
+					sprintf(paramName, "c_diffuse%dTextureAddressModeU", i);
+					newEffect.diffuseTextureAddressModeU[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+				}
 
-			newEffect.diffuseTexture[3]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse3Texture");
-			newEffect.diffuseTextureMatrix[3]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse3TextureMatrix");
-
-			newEffect.diffuseTexture[4]			= newEffect.effect->GetParameterByName(NULL, "c_diffuse4Texture");
-			newEffect.diffuseTextureMatrix[4]	= newEffect.effect->GetParameterByName(NULL, "c_diffuse4TextureMatrix");
+				{
+					char paramName[256];
+					sprintf(paramName, "c_diffuse%dTextureAddressModeV", i);
+					newEffect.diffuseTextureAddressModeV[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+				}
+			}
 
 			m_effects[effectKey] = newEffect;
 
@@ -412,6 +427,8 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 				const CMatrix4& textureMatrix = material->GetTextureMatrix(i);
 				currentEffect->effect->SetTexture(currentEffect->diffuseTexture[i], texture->GetTexture());
 				currentEffect->effect->SetMatrix(currentEffect->diffuseTextureMatrix[i], reinterpret_cast<const D3DXMATRIX*>(&textureMatrix));
+				currentEffect->effect->SetInt(currentEffect->diffuseTextureAddressModeU[i], g_textureAddressModes[material->GetTextureAddressModeU(i)]);
+				currentEffect->effect->SetInt(currentEffect->diffuseTextureAddressModeV[i], g_textureAddressModes[material->GetTextureAddressModeV(i)]);
 			}
 		}
 

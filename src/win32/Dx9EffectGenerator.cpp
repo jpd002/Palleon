@@ -187,10 +187,14 @@ std::string CDx9EffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
 	std::string result;
 
 	result += PrintLine("texture2D c_diffuse%dTexture;", index);
+	result += PrintLine("int c_diffuse%dTextureAddressModeU = 0;", index);
+	result += PrintLine("int c_diffuse%dTextureAddressModeV = 0;", index);
 
 	result += PrintLine("sampler c_diffuse%dSampler = sampler_state", index);
 	result += PrintLine("{");
-	result += PrintLine("	texture = <c_diffuse%dTexture>;", index);
+	result += PrintLine("	Texture = <c_diffuse%dTexture>;", index);
+	result += PrintLine("	AddressU = <c_diffuse%dTextureAddressModeU>;", index);
+	result += PrintLine("	AddressV = <c_diffuse%dTextureAddressModeV>;", index);
 	result += PrintLine("};");
 
 	result += PrintLine("float4x4 c_diffuse%dTextureMatrix;", index);

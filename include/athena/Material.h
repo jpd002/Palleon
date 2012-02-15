@@ -43,6 +43,13 @@ namespace Athena
 		TEXTURE_COMBINE_MODE_MAX
 	};
 
+	enum TEXTURE_ADDRESS_MODE
+	{
+		TEXTURE_ADDRESS_CLAMP = 0,
+		TEXTURE_ADDRESS_REPEAT = 1,
+		TEXTURE_ADDRESS_MODE_MAX
+	};
+
 	class CMaterial
 	{
 	public:
@@ -64,6 +71,9 @@ namespace Athena
 		CULLING_MODE			GetCullingMode() const;
 		void					SetCullingMode(CULLING_MODE);
 
+		CColor					GetColor() const;
+		void					SetColor(const CColor&);
+
 		TexturePtr				GetTexture(unsigned int) const;
 		void					SetTexture(unsigned int, const TexturePtr&);
 
@@ -76,19 +86,28 @@ namespace Athena
 		TEXTURE_COMBINE_MODE	GetTextureCombineMode(unsigned int) const;
 		void					SetTextureCombineMode(unsigned int, TEXTURE_COMBINE_MODE);
 
-		CColor					GetColor() const;
-		void					SetColor(const CColor&);
+		TEXTURE_ADDRESS_MODE	GetTextureAddressModeU(unsigned int) const;
+		void					SetTextureAddressModeU(unsigned int, TEXTURE_ADDRESS_MODE);
+
+		TEXTURE_ADDRESS_MODE	GetTextureAddressModeV(unsigned int) const;
+		void					SetTextureAddressModeV(unsigned int, TEXTURE_ADDRESS_MODE);
 
 	protected:
+		struct TEXTURE_SLOT
+		{
+			TexturePtr				texture;
+			CMatrix4				matrix;
+			TEXTURE_COORD_SOURCE	coordSource;
+			TEXTURE_COMBINE_MODE	combineMode;
+			TEXTURE_ADDRESS_MODE	addressModeU;
+			TEXTURE_ADDRESS_MODE	addressModeV;
+		};
+
 		bool					m_isTransparent;
 		CULLING_MODE			m_cullingMode;
-
-		TexturePtr				m_textures[MAX_TEXTURE_SLOTS];
-		CMatrix4				m_textureMatrices[MAX_TEXTURE_SLOTS];
-		TEXTURE_COORD_SOURCE	m_textureCoordSources[MAX_TEXTURE_SLOTS];
-		TEXTURE_COMBINE_MODE	m_textureCombineModes[MAX_TEXTURE_SLOTS];
-
 		CColor					m_color;
+
+		TEXTURE_SLOT			m_textureSlots[MAX_TEXTURE_SLOTS];
 	};
 };
 

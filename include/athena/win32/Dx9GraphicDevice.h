@@ -46,6 +46,8 @@ namespace Athena
 
 			D3DXHANDLE		diffuseTexture[MAX_DIFFUSE_SLOTS];
 			D3DXHANDLE		diffuseTextureMatrix[MAX_DIFFUSE_SLOTS];
+			D3DXHANDLE		diffuseTextureAddressModeU[MAX_DIFFUSE_SLOTS];
+			D3DXHANDLE		diffuseTextureAddressModeV[MAX_DIFFUSE_SLOTS];
 		};
 
 		typedef std::vector<CMesh*> RenderQueue;
