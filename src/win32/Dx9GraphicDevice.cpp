@@ -70,7 +70,7 @@ void CDx9GraphicDevice::CreateDevice()
 	d3dpp.EnableAutoDepthStencil	= TRUE;
 	d3dpp.AutoDepthStencilFormat	= D3DFMT_D24S8;
 
-	HRESULT result = m_d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_parentWnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_device);
+	HRESULT result = m_d3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_parentWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &m_device);
 	assert(SUCCEEDED(result));
 }
 
