@@ -24,7 +24,7 @@ TexturePtr CDx9Texture::CreateFromFile(IDirect3DDevice9* device, const char* pat
 	IDirect3DTexture9* texture(NULL);
 	HRESULT result = D3DXCreateTextureFromFileA(device, path, &texture);
 	assert(SUCCEEDED(result));
-	return TexturePtr(new CDx9Texture(texture));
+	return std::make_shared<CDx9Texture>(texture);
 }
 
 TexturePtr CDx9Texture::CreateFromMemory(IDirect3DDevice9* device, const void* data, uint32 dataSize)
@@ -32,7 +32,7 @@ TexturePtr CDx9Texture::CreateFromMemory(IDirect3DDevice9* device, const void* d
 	IDirect3DTexture9* texture(NULL);
 	HRESULT result = D3DXCreateTextureFromFileInMemory(device, data, dataSize, &texture);
 	assert(SUCCEEDED(result));
-	return TexturePtr(new CDx9Texture(texture));
+	return std::make_shared<CDx9Texture>(texture);
 }
 
 TexturePtr CDx9Texture::CreateFromRawData(IDirect3DDevice9* device, const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -74,7 +74,7 @@ TexturePtr CDx9Texture::CreateFromRawData(IDirect3DDevice9* device, const void* 
 		texture->UnlockRect(0);
 	}
 
-	return TexturePtr(new CDx9Texture(texture));
+	return std::make_shared<CDx9Texture>(texture);
 }
 
 TexturePtr CDx9Texture::CreateCubeFromFile(IDirect3DDevice9* device, const char* path)
@@ -82,10 +82,10 @@ TexturePtr CDx9Texture::CreateCubeFromFile(IDirect3DDevice9* device, const char*
 	IDirect3DCubeTexture9* texture(NULL);
 	HRESULT result = D3DXCreateCubeTextureFromFileA(device, path, &texture);
 	assert(SUCCEEDED(result));
-	return TexturePtr(new CDx9Texture(texture));
+	return std::make_shared<CDx9Texture>(texture);
 }
 
-IDirect3DBaseTexture9* CDx9Texture::GetTexture() const
+void* CDx9Texture::GetHandle() const
 {
 	return m_texture;
 }

@@ -3,6 +3,8 @@
 #include "athena/win32/Dx9GraphicDevice.h"
 #include "athena/win32/Dx9VertexBuffer.h"
 #include "athena/win32/Dx9Texture.h"
+#include "athena/win32/Dx9RenderTarget.h"
+#include "athena/win32/Dx9CubeRenderTarget.h"
 #include "athena/win32/Dx9EffectGenerator.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
@@ -43,6 +45,13 @@ CDx9GraphicDevice::~CDx9GraphicDevice()
 		declaration->Release();
 	}
 	m_vertexDeclarations.clear();
+
+	for(auto effectIterator(std::begin(m_effects)); effectIterator != std::end(m_effects); effectIterator++)
+	{
+		EFFECTINFO& effectInfo(effectIterator->second);
+		effectInfo.effect->Release();
+	}
+	m_effects.clear();
 
 	m_device->Release();
 	m_d3d->Release();
@@ -131,6 +140,16 @@ TexturePtr CDx9GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE
 TexturePtr CDx9GraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
 	return CDx9Texture::CreateCubeFromFile(m_device, path);
+}
+
+RenderTargetPtr CDx9GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+{
+	return std::make_shared<CDx9RenderTarget>(m_device, textureFormat, width, height);
+}
+
+CubeRenderTargetPtr CDx9GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
+{
+	return std::make_shared<CDx9CubeRenderTarget>(m_device, textureFormat, size);
 }
 
 IDirect3DVertexDeclaration9* CDx9GraphicDevice::CreateVertexDeclaration(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
@@ -261,32 +280,7 @@ void CDx9GraphicDevice::Draw()
 	//Draw all viewports
 	for(auto viewportIterator(std::begin(m_viewports)); viewportIterator != std::end(m_viewports); viewportIterator++)
 	{
-		result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-		assert(SUCCEEDED(result));
-
-		CViewport* viewport(*viewportIterator);
-		CameraPtr camera = viewport->GetCamera();
-
-		D3DXMATRIX projMatrix(reinterpret_cast<const float*>(&camera->GetProjectionMatrix()));
-		D3DXMATRIX viewMatrix(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
-
-		D3DXMATRIX invViewMatrix;
-		D3DXMatrixInverse(&invViewMatrix, NULL, &viewMatrix);
-
-		m_cameraPos = D3DXVECTOR4(invViewMatrix(3, 0), invViewMatrix(3, 1), invViewMatrix(3, 2), 0);
-
-		m_viewProjMatrix = viewMatrix * projMatrix;
-
-		m_renderQueue.clear();
-
-		const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-		sceneRoot->TraverseNodes(std::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
-
-		for(auto meshIterator(std::begin(m_renderQueue)); meshIterator != std::end(m_renderQueue); meshIterator++)
-		{
-			CMesh* mesh = (*meshIterator);
-			DrawMesh(mesh);
-		}
+		DrawViewport(*viewportIterator);
 	}
 
 	result = m_device->EndScene();
@@ -294,6 +288,63 @@ void CDx9GraphicDevice::Draw()
 
 	result = m_device->Present(NULL, NULL, NULL, NULL);
 	assert(SUCCEEDED(result));
+}
+
+void CDx9GraphicDevice::DrawViewportToSurface(IDirect3DSurface9* renderSurface, CViewport* viewport)
+{
+	IDirect3DSurface9* backBuffer(NULL);
+	m_device->GetRenderTarget(0, &backBuffer);
+	
+	m_device->SetRenderTarget(0, renderSurface);
+
+	HRESULT result = m_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	assert(SUCCEEDED(result));
+
+	{
+		result = m_device->BeginScene();
+		assert(SUCCEEDED(result));
+
+		DrawViewport(viewport);
+
+		result = m_device->EndScene();
+		assert(SUCCEEDED(result));
+	}
+
+	m_device->SetRenderTarget(0, backBuffer);
+
+	backBuffer->Release();
+}
+
+void CDx9GraphicDevice::DrawViewport(CViewport* viewport)
+{
+	HRESULT result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	assert(SUCCEEDED(result));
+
+	CameraPtr camera = viewport->GetCamera();
+
+	D3DXMATRIX projMatrix(reinterpret_cast<const float*>(&camera->GetProjectionMatrix()));
+	D3DXMATRIX viewMatrix(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
+
+	D3DXMatrixInverse(&m_invViewMatrix, NULL, &viewMatrix);
+
+	m_viewProjMatrix = viewMatrix * projMatrix;
+
+	viewMatrix(3, 0) = 0;
+	viewMatrix(3, 1) = 0;
+	viewMatrix(3, 2) = 0;
+
+	m_peggedViewProjMatrix = viewMatrix * projMatrix;
+
+	m_renderQueue.clear();
+
+	const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
+	sceneRoot->TraverseNodes(std::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
+
+	for(auto meshIterator(std::begin(m_renderQueue)); meshIterator != std::end(m_renderQueue); meshIterator++)
+	{
+		CMesh* mesh = (*meshIterator);
+		DrawMesh(mesh);
+	}
 }
 
 bool CDx9GraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
@@ -328,9 +379,9 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 
 	D3DXMATRIX worldMatrix;
 	D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, worldPosition.z);
-	worldMatrix.m[0][0] = worldScale.x;
-	worldMatrix.m[1][1] = worldScale.y;
-	worldMatrix.m[2][2] = worldScale.z;
+	worldMatrix.m[0][0] *= worldScale.x;
+	worldMatrix.m[1][1] *= worldScale.y;
+	worldMatrix.m[2][2] *= worldScale.z;
 
 	const EFFECTINFO* currentEffect(NULL);
 
@@ -410,22 +461,30 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 
 		currentEffect = &effectIterator->second;
 
-		currentEffect->effect->SetMatrix(currentEffect->viewProjMatrixHandle, &m_viewProjMatrix);
+		if(mesh->GetIsPeggedToOrigin())
+		{
+			currentEffect->effect->SetMatrix(currentEffect->viewProjMatrixHandle, &m_peggedViewProjMatrix);
+		}
+		else
+		{
+			currentEffect->effect->SetMatrix(currentEffect->viewProjMatrixHandle, &m_viewProjMatrix);
+		}
 		currentEffect->effect->SetMatrix(currentEffect->worldMatrixHandle, &worldMatrix);
 		currentEffect->effect->SetVector(currentEffect->meshColorHandle, reinterpret_cast<D3DXVECTOR4*>(&meshColor));
 
 		if(currentEffect->cameraPosHandle)
 		{
-			currentEffect->effect->SetVector(currentEffect->cameraPosHandle, reinterpret_cast<D3DXVECTOR4*>(&m_cameraPos));
+			D3DXVECTOR4 cameraPos = D3DXVECTOR4(m_invViewMatrix(3, 0), m_invViewMatrix(3, 1), m_invViewMatrix(3, 2), 0);
+			currentEffect->effect->SetVector(currentEffect->cameraPosHandle, reinterpret_cast<D3DXVECTOR4*>(&cameraPos));
 		}
 
 		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
 		{
 			if(currentEffect->diffuseTexture[i])
 			{
-				CDx9Texture* texture = static_cast<CDx9Texture*>(material->GetTexture(i).get());
+				IDirect3DBaseTexture9* textureHandle = reinterpret_cast<IDirect3DBaseTexture9*>(material->GetTexture(i)->GetHandle());
 				const CMatrix4& textureMatrix = material->GetTextureMatrix(i);
-				currentEffect->effect->SetTexture(currentEffect->diffuseTexture[i], texture->GetTexture());
+				currentEffect->effect->SetTexture(currentEffect->diffuseTexture[i], textureHandle);
 				currentEffect->effect->SetMatrix(currentEffect->diffuseTextureMatrix[i], reinterpret_cast<const D3DXMATRIX*>(&textureMatrix));
 				currentEffect->effect->SetInt(currentEffect->diffuseTextureAddressModeU[i], g_textureAddressModes[material->GetTextureAddressModeU(i)]);
 				currentEffect->effect->SetInt(currentEffect->diffuseTextureAddressModeV[i], g_textureAddressModes[material->GetTextureAddressModeV(i)]);
@@ -445,6 +504,15 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 		else
 		{
 			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
+
+		if(mesh->GetIsPeggedToOrigin())
+		{
+			m_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		}
+		else
+		{
+			m_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 		}
 	}
 
@@ -482,6 +550,21 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 	currentEffect->effect->End();
 
 	m_drawCallCount++;
+}
+
+D3DFORMAT CDx9GraphicDevice::ConvertTextureFormatId(TEXTURE_FORMAT textureFormat)
+{
+	D3DFORMAT specTextureFormat = D3DFMT_R8G8B8;
+	switch(textureFormat)
+	{
+	case TEXTURE_FORMAT_RGB888:
+		specTextureFormat = D3DFMT_R8G8B8;
+		break;
+	default:
+		assert(0);
+		break;
+	}
+	return specTextureFormat;
 }
 
 uint32 CGraphicDevice::ConvertColorToUInt32(const CColor& color)

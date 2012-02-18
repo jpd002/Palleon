@@ -18,6 +18,7 @@
     <ClCompile Include="..\src\CatmullRom.cpp" />
     <ClCompile Include="..\src\ConfigManager.cpp" />
     <ClCompile Include="..\src\CubeMesh.cpp" />
+    <ClCompile Include="..\src\CubeRenderTarget.cpp" />
     <ClCompile Include="..\src\FontDescriptor.cpp" />
     <ClCompile Include="..\src\Frustum.cpp" />
     <ClCompile Include="..\src\GraphicDevice.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="..\src\NinePatchButton.cpp" />
     <ClCompile Include="..\src\NinePatchDescriptor.cpp" />
     <ClCompile Include="..\src\Package.cpp" />
+    <ClCompile Include="..\src\RenderTarget.cpp" />
     <ClCompile Include="..\src\ResourceManager.cpp" />
     <ClCompile Include="..\src\SceneNode.cpp" />
     <ClCompile Include="..\src\SphereMesh.cpp" />
@@ -38,9 +40,11 @@
     <ClCompile Include="..\src\VertexBuffer.cpp" />
     <ClCompile Include="..\src\Viewport.cpp" />
     <ClCompile Include="..\src\Widget.cpp" />
+    <ClCompile Include="..\src\win32\Dx9CubeRenderTarget.cpp" />
     <ClCompile Include="..\src\win32\Dx9ApplicationWindow.cpp" />
     <ClCompile Include="..\src\win32\Dx9EffectGenerator.cpp" />
     <ClCompile Include="..\src\win32\Dx9GraphicDevice.cpp" />
+    <ClCompile Include="..\src\win32\Dx9RenderTarget.cpp" />
     <ClCompile Include="..\src\win32\Dx9Texture.cpp" />
     <ClCompile Include="..\src\win32\Dx9VertexBuffer.cpp" />
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp" />
@@ -56,6 +60,7 @@
     <ClInclude Include="..\include\athena\Color.h" />
     <ClInclude Include="..\include\athena\ConfigManager.h" />
     <ClInclude Include="..\include\athena\CubeMesh.h" />
+    <ClInclude Include="..\include\athena\CubeRenderTarget.h" />
     <ClInclude Include="..\include\athena\FontDescriptor.h" />
     <ClInclude Include="..\include\athena\Frustum.h" />
     <ClInclude Include="..\include\athena\GraphicDevice.h" />
@@ -73,6 +78,7 @@
     <ClInclude Include="..\include\athena\Package.h" />
     <ClInclude Include="..\include\athena\Plane.h" />
     <ClInclude Include="..\include\athena\Quaternion.h" />
+    <ClInclude Include="..\include\athena\RenderTarget.h" />
     <ClInclude Include="..\include\athena\ResourceManager.h" />
     <ClInclude Include="..\include\athena\SceneNode.h" />
     <ClInclude Include="..\include\athena\SphereMesh.h" />
@@ -86,8 +92,10 @@
     <ClInclude Include="..\include\athena\Viewport.h" />
     <ClInclude Include="..\include\athena\Widget.h" />
     <ClInclude Include="..\include\athena\win32\Dx9ApplicationWindow.h" />
+    <ClInclude Include="..\include\athena\win32\Dx9CubeRenderTarget.h" />
     <ClInclude Include="..\include\athena\win32\Dx9EffectGenerator.h" />
     <ClInclude Include="..\include\athena\win32\Dx9GraphicDevice.h" />
+    <ClInclude Include="..\include\athena\win32\Dx9RenderTarget.h" />
     <ClInclude Include="..\include\athena\win32\Dx9Texture.h" />
     <ClInclude Include="..\include\athena\win32\Dx9VertexBuffer.h" />
     <ClInclude Include="..\include\athena\win32\Win32ResourceManager.h" />

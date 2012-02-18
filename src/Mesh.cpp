@@ -6,6 +6,7 @@ CMesh::CMesh()
 : m_primitiveType(PRIMITIVE_INVALID)
 , m_primitiveCount(0)
 , m_material(CMaterial::Create())
+, m_isPeggedToOrigin(false)
 {
 
 }
@@ -33,4 +34,14 @@ PRIMITIVE_TYPE CMesh::GetPrimitiveType() const
 uint32 CMesh::GetPrimitiveCount() const
 {
 	return m_primitiveCount;
+}
+
+bool CMesh::GetIsPeggedToOrigin() const
+{
+	return m_isPeggedToOrigin;
+}
+
+void CMesh::SetIsPeggedToOrigin(bool isPeggedToOrigin)
+{
+	m_isPeggedToOrigin = isPeggedToOrigin;
 }

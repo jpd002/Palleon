@@ -24,10 +24,16 @@ namespace Athena
 
 		virtual TexturePtr				CreateCubeTextureFromFile(const char*);
 
+		virtual RenderTargetPtr			CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32);
+		virtual CubeRenderTargetPtr		CreateCubeRenderTarget(TEXTURE_FORMAT, uint32);
+
 		IDirect3DDevice9*				GetDevice() const;
 		HWND							GetParentWindow() const;
+		void							DrawViewportToSurface(IDirect3DSurface9*, CViewport*);
 
 		void							SetFrameRate(float);
+
+		static D3DFORMAT				ConvertTextureFormatId(TEXTURE_FORMAT);
 
 	protected:
 		enum
@@ -62,6 +68,7 @@ namespace Athena
 
 		ID3DXEffect*					CompileEffect(const char*);
 
+		void							DrawViewport(CViewport*);
 		bool							FillRenderQueue(CSceneNode*, CCamera*);
 		void							DrawMesh(CMesh*);
 
@@ -72,8 +79,9 @@ namespace Athena
 		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
 
-		D3DXVECTOR4						m_cameraPos;
+		D3DXMATRIX						m_invViewMatrix;
 		D3DXMATRIX						m_viewProjMatrix;
+		D3DXMATRIX						m_peggedViewProjMatrix;
 	};
 }
 

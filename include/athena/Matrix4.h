@@ -43,6 +43,70 @@ public:
 		return result;
 	}
 
+	CMatrix4 Inverse() const
+	{
+		float a0 = coeff[ 0]*coeff[ 5] - coeff[ 1]*coeff[ 4];
+		float a1 = coeff[ 0]*coeff[ 6] - coeff[ 2]*coeff[ 4];
+		float a2 = coeff[ 0]*coeff[ 7] - coeff[ 3]*coeff[ 4];
+		float a3 = coeff[ 1]*coeff[ 6] - coeff[ 2]*coeff[ 5];
+		float a4 = coeff[ 1]*coeff[ 7] - coeff[ 3]*coeff[ 5];
+		float a5 = coeff[ 2]*coeff[ 7] - coeff[ 3]*coeff[ 6];
+		float b0 = coeff[ 8]*coeff[13] - coeff[ 9]*coeff[12];
+		float b1 = coeff[ 8]*coeff[14] - coeff[10]*coeff[12];
+		float b2 = coeff[ 8]*coeff[15] - coeff[11]*coeff[12];
+		float b3 = coeff[ 9]*coeff[14] - coeff[10]*coeff[13];
+		float b4 = coeff[ 9]*coeff[15] - coeff[11]*coeff[13];
+		float b5 = coeff[10]*coeff[15] - coeff[11]*coeff[14];
+		
+		float det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
+
+		if(fabs(det) > 0.0001f)
+		{
+			CMatrix4 inverse;
+
+			inverse.coeff[ 0] = + coeff[ 5]*b5 - coeff[ 6]*b4 + coeff[ 7]*b3;
+			inverse.coeff[ 4] = - coeff[ 4]*b5 + coeff[ 6]*b2 - coeff[ 7]*b1;
+			inverse.coeff[ 8] = + coeff[ 4]*b4 - coeff[ 5]*b2 + coeff[ 7]*b0;
+			inverse.coeff[12] = - coeff[ 4]*b3 + coeff[ 5]*b1 - coeff[ 6]*b0;
+			inverse.coeff[ 1] = - coeff[ 1]*b5 + coeff[ 2]*b4 - coeff[ 3]*b3;
+			inverse.coeff[ 5] = + coeff[ 0]*b5 - coeff[ 2]*b2 + coeff[ 3]*b1;
+			inverse.coeff[ 9] = - coeff[ 0]*b4 + coeff[ 1]*b2 - coeff[ 3]*b0;
+			inverse.coeff[13] = + coeff[ 0]*b3 - coeff[ 1]*b1 + coeff[ 2]*b0;
+			inverse.coeff[ 2] = + coeff[13]*a5 - coeff[14]*a4 + coeff[15]*a3;
+			inverse.coeff[ 6] = - coeff[12]*a5 + coeff[14]*a2 - coeff[15]*a1;
+			inverse.coeff[10] = + coeff[12]*a4 - coeff[13]*a2 + coeff[15]*a0;
+			inverse.coeff[14] = - coeff[12]*a3 + coeff[13]*a1 - coeff[14]*a0;
+			inverse.coeff[ 3] = - coeff[ 9]*a5 + coeff[10]*a4 - coeff[11]*a3;
+			inverse.coeff[ 7] = + coeff[ 8]*a5 - coeff[10]*a2 + coeff[11]*a1;
+			inverse.coeff[11] = - coeff[ 8]*a4 + coeff[ 9]*a2 - coeff[11]*a0;
+			inverse.coeff[15] = + coeff[ 8]*a3 - coeff[ 9]*a1 + coeff[10]*a0;
+
+			float invDet = 1.0f / det;
+			inverse.coeff[ 0] *= invDet;
+			inverse.coeff[ 1] *= invDet;
+			inverse.coeff[ 2] *= invDet;
+			inverse.coeff[ 3] *= invDet;
+			inverse.coeff[ 4] *= invDet;
+			inverse.coeff[ 5] *= invDet;
+			inverse.coeff[ 6] *= invDet;
+			inverse.coeff[ 7] *= invDet;
+			inverse.coeff[ 8] *= invDet;
+			inverse.coeff[ 9] *= invDet;
+			inverse.coeff[10] *= invDet;
+			inverse.coeff[11] *= invDet;
+			inverse.coeff[12] *= invDet;
+			inverse.coeff[13] *= invDet;
+			inverse.coeff[14] *= invDet;
+			inverse.coeff[15] *= invDet;
+
+			return inverse;
+		}
+		else
+		{
+			return MakeIdentity();
+		}
+	}
+
 	static CMatrix4 MakeIdentity()
 	{
 		CMatrix4 result;

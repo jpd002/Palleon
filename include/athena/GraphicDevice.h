@@ -6,6 +6,8 @@
 #include "Viewport.h"
 #include "VertexBuffer.h"
 #include "Texture.h"
+#include "RenderTarget.h"
+#include "CubeRenderTarget.h"
 #include "Color.h"
 
 namespace Athena
@@ -31,6 +33,9 @@ namespace Athena
 		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) = 0;
 
 		virtual TexturePtr					CreateCubeTextureFromFile(const char*) = 0;
+
+		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) = 0;
+		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) = 0;
 
 		void								AddViewport(CViewport*);
 		void								RemoveViewport(CViewport*);

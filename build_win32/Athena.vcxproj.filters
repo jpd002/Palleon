@@ -103,9 +103,6 @@
     <ClCompile Include="..\src\InputManager.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9ApplicationWindow.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Dx9EffectGenerator.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
@@ -119,6 +116,21 @@
       <Filter>Source Files\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RenderTarget.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx9RenderTarget.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CubeRenderTarget.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx9ApplicationWindow.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx9CubeRenderTarget.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -254,6 +266,18 @@
       <Filter>Source Files\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\win32\Win32ResourceManager.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\RenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx9RenderTarget.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\CubeRenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx9CubeRenderTarget.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
   </ItemGroup>

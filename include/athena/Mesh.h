@@ -26,6 +26,9 @@ namespace Athena
 		PRIMITIVE_TYPE		GetPrimitiveType() const;
 		uint32				GetPrimitiveCount() const;
 
+		bool				GetIsPeggedToOrigin() const;
+		void				SetIsPeggedToOrigin(bool);
+
 	protected:
 							CMesh();
 
@@ -33,6 +36,7 @@ namespace Athena
 		MaterialPtr			m_material;
 		PRIMITIVE_TYPE		m_primitiveType;
 		uint32				m_primitiveCount;
+		bool				m_isPeggedToOrigin;
 	};
 
 	typedef std::shared_ptr<CMesh> MeshPtr;

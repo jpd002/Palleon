@@ -15,6 +15,8 @@ namespace Athena
 	{
 	public:
 		virtual				~CTexture();
+
+		virtual void*		GetHandle() const = 0;
 	};
 
 	typedef std::shared_ptr<CTexture> TexturePtr;
