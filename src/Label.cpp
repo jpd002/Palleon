@@ -38,7 +38,7 @@ CLabel::~CLabel()
 
 LabelPtr CLabel::Create()
 {
-	return std::make_shared<CLabel>();
+	return LabelPtr(new CLabel());
 }
 
 void CLabel::SetText(const char* text)

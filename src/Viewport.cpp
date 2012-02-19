@@ -14,7 +14,7 @@ CViewport::~CViewport()
 
 ViewportPtr CViewport::Create()
 {
-	return std::make_shared<CViewport>();
+	return ViewportPtr(new CViewport());
 }
 
 CameraPtr CViewport::GetCamera() const

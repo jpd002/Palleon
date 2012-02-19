@@ -18,7 +18,7 @@ CNinePatchButton::~CNinePatchButton()
 
 NinePatchButtonPtr CNinePatchButton::Create()
 {
-	return std::make_shared<CNinePatchButton>();
+	return NinePatchButtonPtr(new CNinePatchButton());
 }
 
 void CNinePatchButton::SetReleasedDescriptor(const CNinePatchDescriptor* descriptor)

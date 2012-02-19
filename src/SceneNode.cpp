@@ -23,7 +23,7 @@ CSceneNode::~CSceneNode()
 
 SceneNodePtr CSceneNode::Create()
 {
-	return std::make_shared<CSceneNode>();
+	return SceneNodePtr(new CSceneNode());
 }
 
 SCENE_NODE_TYPE CSceneNode::GetNodeType() const

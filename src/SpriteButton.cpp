@@ -16,7 +16,7 @@ CSpriteButton::~CSpriteButton()
 
 SpriteButtonPtr CSpriteButton::Create()
 {
-	return std::make_shared<CSpriteButton>();
+	return SpriteButtonPtr(new CSpriteButton());
 }
 
 void CSpriteButton::SetReleasedTexture(const TexturePtr& texture)

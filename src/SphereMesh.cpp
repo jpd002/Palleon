@@ -89,5 +89,5 @@ CSphereMesh::~CSphereMesh()
 
 MeshPtr CSphereMesh::Create()
 {
-	return std::make_shared<CSphereMesh>();
+	return MeshPtr(new CSphereMesh());
 }

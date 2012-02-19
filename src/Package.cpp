@@ -22,7 +22,7 @@ CPackage::~CPackage()
 
 PackagePtr CPackage::Create(const char* name)
 {
-	return std::make_shared<CPackage>(name);
+	return PackagePtr(new CPackage(name));
 }
 
 void CPackage::LoadDefinition()
