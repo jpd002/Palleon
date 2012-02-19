@@ -92,7 +92,7 @@ void CLabel::Update(float dt)
 
 void CLabel::BuildVertexBuffer()
 {
-	uint32 currentCharCount = m_text.length();
+	uint32 currentCharCount = GetCharCount();
 
 	m_primitiveCount = currentCharCount * 2;
 
@@ -121,11 +121,10 @@ void CLabel::BuildVertexBuffer()
 	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc = m_vertexBuffer->GetDescriptor(); 
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
-	for(unsigned int i = 0; i < currentCharCount; i++)
+	uint8* verticesEnd = vertices + (bufferDesc.GetVertexSize() * m_charCount * 4);
+	for(auto character(std::begin(m_text)); character != std::end(m_text); character++)
 	{
-		uint8 character = static_cast<uint8>(m_text[i]);
-
-		if(character == '\n')
+		if(*character == '\n')
 		{
 			currentLine++;
 			posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
@@ -133,7 +132,7 @@ void CLabel::BuildVertexBuffer()
 			continue;
 		}
 
-		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
+		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(static_cast<uint8>(*character));
 
 		for(unsigned int j = 0; j < 4; j++)
 		{
@@ -156,6 +155,7 @@ void CLabel::BuildVertexBuffer()
 
 		posX += glyphInfo.xadvance * m_textScale.x;
 	}
+	assert(vertices <= verticesEnd);
 	m_vertexBuffer->UnlockVertices();
 
 	uint16* indices = m_vertexBuffer->LockIndices();
@@ -169,6 +169,17 @@ void CLabel::BuildVertexBuffer()
 		indices[(i * 6) + 5] = (i * 4) + 3;
 	}
 	m_vertexBuffer->UnlockIndices();
+}
+
+unsigned int CLabel::GetCharCount() const
+{
+	unsigned int result = 0;
+	for(auto character(std::begin(m_text)); character != std::end(m_text); character++)
+	{
+		if(*character == '\n') continue;
+		result++;
+	}
+	return result;
 }
 
 unsigned int CLabel::GetLineCount() const

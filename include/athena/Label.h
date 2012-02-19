@@ -60,6 +60,7 @@ namespace Athena
 			float				posY;
 		};
 
+		unsigned int			GetCharCount() const;
 		unsigned int			GetLineCount() const;
 		FloatArray				GetLineWidths() const;
 		float					GetTextHeight() const;
