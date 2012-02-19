@@ -2,7 +2,6 @@
 #define _DX9EFFECTGENERATOR_H_
 
 #include <string>
-#include <boost/static_assert.hpp>
 
 enum DIFFUSE_MAP_COORD_SOURCE
 {
@@ -91,7 +90,7 @@ namespace Athena
 
 			unsigned int		reserved : 11;
 		};
-		BOOST_STATIC_ASSERT(sizeof(EFFECTCAPS) == 4);
+		static_assert(sizeof(EFFECTCAPS) == 4, "Size of EFFECTCAPS isn't 4.");
 
 		static std::string		GenerateEffect(const EFFECTCAPS&);
 
