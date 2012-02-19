@@ -20,7 +20,12 @@ namespace Athena
 		virtual TexturePtr					CreateTextureFromFile(const char*);
 		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32);
 		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32);
+		
+		virtual TexturePtr					CreateCubeTextureFromFile(const char*);
         
+		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32);
+		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32);
+		
         void                                SetFrameRate(float);
         
 	protected:

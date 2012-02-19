@@ -16,7 +16,7 @@ namespace Athena
                                                 CIphoneTexture(const void*, TEXTURE_FORMAT, uint32, uint32);
 		virtual									~CIphoneTexture();
         
-        GLuint                                  GetTexture() const;
+		void*									GetHandle() const;
         
     protected:
         void                                    LoadFromData(void*);

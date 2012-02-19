@@ -18,11 +18,26 @@
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
 		7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F891401F8F300431963 /* MeshProvider.h */; };
 		7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F8B1401F90500431963 /* AthenaEngine.h */; };
+		7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */; };
+		7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */; };
+		7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121E14F19EF700292DD3 /* NinePatch.cpp */; };
+		7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */; };
+		7E5C122714F19EF700292DD3 /* NinePatchDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C122014F19EF700292DD3 /* NinePatchDescriptor.cpp */; };
+		7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C122114F19EF700292DD3 /* SphereMesh.cpp */; };
+		7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C122214F19EF700292DD3 /* SpriteButton.cpp */; };
+		7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122B14F19F0800292DD3 /* ButtonBase.h */; };
+		7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122C14F19F0800292DD3 /* ConfigManager.h */; };
+		7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122D14F19F0800292DD3 /* ILayoutable.h */; };
+		7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122E14F19F0800292DD3 /* NinePatch.h */; };
+		7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122F14F19F0800292DD3 /* NinePatchButton.h */; };
+		7E5C123914F19F0800292DD3 /* NinePatchDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123014F19F0800292DD3 /* NinePatchDescriptor.h */; };
+		7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123114F19F0800292DD3 /* SphereMesh.h */; };
+		7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123214F19F0800292DD3 /* SpriteButton.h */; };
+		7E5C123C14F19F0800292DD3 /* Tween.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123314F19F0800292DD3 /* Tween.h */; };
 		7E6DA4B61473821C0022EFCC /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */; };
 		7E6DA4B8147382230022EFCC /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
 		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
-		7E7D876113F71AC300AD9F7F /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874F13F71AC300AD9F7F /* Button.cpp */; };
 		7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875013F71AC300AD9F7F /* Camera.cpp */; };
 		7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */; };
 		7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */; };
@@ -41,7 +56,6 @@
 		7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875F13F71AC300AD9F7F /* Widget.cpp */; };
 		7E7D878C13F71AD900AD9F7F /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877313F71AD900AD9F7F /* Application.h */; };
 		7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877413F71AD900AD9F7F /* Box2.h */; };
-		7E7D878E13F71AD900AD9F7F /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877513F71AD900AD9F7F /* Button.h */; };
 		7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877613F71AD900AD9F7F /* Camera.h */; };
 		7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877713F71AD900AD9F7F /* CatmullRom.h */; };
 		7E7D879113F71AD900AD9F7F /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877813F71AD900AD9F7F /* Color.h */; };
@@ -88,13 +102,28 @@
 		7E407F871401F8C000431963 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Frustum.cpp; path = ../../src/Frustum.cpp; sourceTree = "<group>"; };
 		7E407F891401F8F300431963 /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../../include/athena/MeshProvider.h; sourceTree = "<group>"; };
 		7E407F8B1401F90500431963 /* AthenaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AthenaEngine.h; path = ../../include/AthenaEngine.h; sourceTree = "<group>"; };
+		7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonBase.cpp; path = ../../src/ButtonBase.cpp; sourceTree = "<group>"; };
+		7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigManager.cpp; path = ../../src/ConfigManager.cpp; sourceTree = "<group>"; };
+		7E5C121E14F19EF700292DD3 /* NinePatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatch.cpp; path = ../../src/NinePatch.cpp; sourceTree = "<group>"; };
+		7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchButton.cpp; path = ../../src/NinePatchButton.cpp; sourceTree = "<group>"; };
+		7E5C122014F19EF700292DD3 /* NinePatchDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchDescriptor.cpp; path = ../../src/NinePatchDescriptor.cpp; sourceTree = "<group>"; };
+		7E5C122114F19EF700292DD3 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SphereMesh.cpp; path = ../../src/SphereMesh.cpp; sourceTree = "<group>"; };
+		7E5C122214F19EF700292DD3 /* SpriteButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteButton.cpp; path = ../../src/SpriteButton.cpp; sourceTree = "<group>"; };
+		7E5C122B14F19F0800292DD3 /* ButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonBase.h; path = ../../include/athena/ButtonBase.h; sourceTree = "<group>"; };
+		7E5C122C14F19F0800292DD3 /* ConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigManager.h; path = ../../include/athena/ConfigManager.h; sourceTree = "<group>"; };
+		7E5C122D14F19F0800292DD3 /* ILayoutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILayoutable.h; path = ../../include/athena/ILayoutable.h; sourceTree = "<group>"; };
+		7E5C122E14F19F0800292DD3 /* NinePatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatch.h; path = ../../include/athena/NinePatch.h; sourceTree = "<group>"; };
+		7E5C122F14F19F0800292DD3 /* NinePatchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchButton.h; path = ../../include/athena/NinePatchButton.h; sourceTree = "<group>"; };
+		7E5C123014F19F0800292DD3 /* NinePatchDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchDescriptor.h; path = ../../include/athena/NinePatchDescriptor.h; sourceTree = "<group>"; };
+		7E5C123114F19F0800292DD3 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../../include/athena/SphereMesh.h; sourceTree = "<group>"; };
+		7E5C123214F19F0800292DD3 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteButton.h; path = ../../include/athena/SpriteButton.h; sourceTree = "<group>"; };
+		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../../include/athena/Tween.h; sourceTree = "<group>"; };
 		7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatedSprite.h; path = ../../include/athena/AnimatedSprite.h; sourceTree = "<group>"; };
 		7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedSprite.cpp; path = ../../src/AnimatedSprite.cpp; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = "<group>"; };
 		7E7D874E13F71AC300AD9F7F /* Box2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2.cpp; path = ../../src/Box2.cpp; sourceTree = "<group>"; };
-		7E7D874F13F71AC300AD9F7F /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Button.cpp; path = ../../src/Button.cpp; sourceTree = "<group>"; };
 		7E7D875013F71AC300AD9F7F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../../src/Camera.cpp; sourceTree = "<group>"; };
 		7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CatmullRom.cpp; path = ../../src/CatmullRom.cpp; sourceTree = "<group>"; };
 		7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubeMesh.cpp; path = ../../src/CubeMesh.cpp; sourceTree = "<group>"; };
@@ -113,7 +142,6 @@
 		7E7D875F13F71AC300AD9F7F /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../../src/Widget.cpp; sourceTree = "<group>"; };
 		7E7D877313F71AD900AD9F7F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../../include/athena/Application.h; sourceTree = "<group>"; };
 		7E7D877413F71AD900AD9F7F /* Box2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2.h; path = ../../include/athena/Box2.h; sourceTree = "<group>"; };
-		7E7D877513F71AD900AD9F7F /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Button.h; path = ../../include/athena/Button.h; sourceTree = "<group>"; };
 		7E7D877613F71AD900AD9F7F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../../include/athena/Camera.h; sourceTree = "<group>"; };
 		7E7D877713F71AD900AD9F7F /* CatmullRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatmullRom.h; path = ../../include/athena/CatmullRom.h; sourceTree = "<group>"; };
 		7E7D877813F71AD900AD9F7F /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../../include/athena/Color.h; sourceTree = "<group>"; };
@@ -186,14 +214,89 @@
 			children = (
 				7E7D874E13F71AC300AD9F7F /* Box2.cpp */,
 				7E7D877413F71AD900AD9F7F /* Box2.h */,
+				7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */,
+				7E7D877713F71AD900AD9F7F /* CatmullRom.h */,
 				7E407F871401F8C000431963 /* Frustum.cpp */,
 				7E407F831401F8AD00431963 /* Frustum.h */,
 				7E7D878013F71AD900AD9F7F /* Matrix4.h */,
+				7E7D877F13F71AD900AD9F7F /* MathDef.h */,
 				7E407F841401F8AD00431963 /* Plane.h */,
+				7E7D878213F71AD900AD9F7F /* Quaternion.h */,
+				7E5C123314F19F0800292DD3 /* Tween.h */,
 				7E7D878713F71AD900AD9F7F /* Vector2.h */,
 				7E7D878813F71AD900AD9F7F /* Vector3.h */,
 			);
 			name = math;
+			sourceTree = "<group>";
+		};
+		7E5C123D14F19F1200292DD3 /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */,
+				7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */,
+				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
+				7E7D877613F71AD900AD9F7F /* Camera.h */,
+				7E7D877813F71AD900AD9F7F /* Color.h */,
+				7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */,
+				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
+				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
+				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
+				7E7D875613F71AC300AD9F7F /* Label.cpp */,
+				7E7D877D13F71AD900AD9F7F /* Label.h */,
+				7E7D875713F71AC300AD9F7F /* Material.cpp */,
+				7E7D877E13F71AD900AD9F7F /* Material.h */,
+				7E7D875813F71AC300AD9F7F /* Mesh.cpp */,
+				7E7D878113F71AD900AD9F7F /* Mesh.h */,
+				7E407F891401F8F300431963 /* MeshProvider.h */,
+				7E5C121E14F19EF700292DD3 /* NinePatch.cpp */,
+				7E5C122E14F19F0800292DD3 /* NinePatch.h */,
+				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
+				7E7D878413F71AD900AD9F7F /* SceneNode.h */,
+				7E5C122114F19EF700292DD3 /* SphereMesh.cpp */,
+				7E5C123114F19F0800292DD3 /* SphereMesh.h */,
+				7E7D875B13F71AC300AD9F7F /* Sprite.cpp */,
+				7E7D878513F71AD900AD9F7F /* Sprite.h */,
+				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
+				7E7D878613F71AD900AD9F7F /* Texture.h */,
+				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
+				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
+				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
+				7E7D878A13F71AD900AD9F7F /* Viewport.h */,
+			);
+			name = graphics;
+			sourceTree = "<group>";
+		};
+		7E5C123E14F19FB600292DD3 /* widgets */ = {
+			isa = PBXGroup;
+			children = (
+				7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */,
+				7E5C122B14F19F0800292DD3 /* ButtonBase.h */,
+				7E5C122D14F19F0800292DD3 /* ILayoutable.h */,
+				7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */,
+				7E5C122F14F19F0800292DD3 /* NinePatchButton.h */,
+				7E5C122214F19EF700292DD3 /* SpriteButton.cpp */,
+				7E5C123214F19F0800292DD3 /* SpriteButton.h */,
+				7E7D875513F71AC300AD9F7F /* InputManager.cpp */,
+				7E7D877C13F71AD900AD9F7F /* InputManager.h */,
+				7E7D875F13F71AC300AD9F7F /* Widget.cpp */,
+				7E7D878B13F71AD900AD9F7F /* Widget.h */,
+			);
+			name = widgets;
+			sourceTree = "<group>";
+		};
+		7E5C123F14F1A01000292DD3 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */,
+				7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */,
+				7E5C122014F19EF700292DD3 /* NinePatchDescriptor.cpp */,
+				7E5C123014F19F0800292DD3 /* NinePatchDescriptor.h */,
+				7EFCCE7814BEB1D400FFB812 /* Package.cpp */,
+				7EFCCE7B14BEB1EC00FFB812 /* Package.h */,
+				7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */,
+				7E7D878313F71AD900AD9F7F /* ResourceManager.h */,
+			);
+			name = resources;
 			sourceTree = "<group>";
 		};
 		7E7D873013F719E400AD9F7F = {
@@ -224,53 +327,16 @@
 		7E7D874013F719E500AD9F7F /* Athena */ = {
 			isa = PBXGroup;
 			children = (
+				7E5C123D14F19F1200292DD3 /* graphics */,
 				7E407F811401F88700431963 /* math */,
+				7E5C123F14F1A01000292DD3 /* resources */,
+				7E5C123E14F19FB600292DD3 /* widgets */,
 				7E2885B813F862F800F606EB /* iphone */,
 				7E7D874113F719E600AD9F7F /* Supporting Files */,
-				7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */,
-				7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */,
+				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
+				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
 				7E407F8B1401F90500431963 /* AthenaEngine.h */,
 				7E7D877313F71AD900AD9F7F /* Application.h */,
-				7E7D874F13F71AC300AD9F7F /* Button.cpp */,
-				7E7D877513F71AD900AD9F7F /* Button.h */,
-				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
-				7E7D877613F71AD900AD9F7F /* Camera.h */,
-				7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */,
-				7E7D877713F71AD900AD9F7F /* CatmullRom.h */,
-				7E7D877813F71AD900AD9F7F /* Color.h */,
-				7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */,
-				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
-				7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */,
-				7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */,
-				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
-				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
-				7E7D875513F71AC300AD9F7F /* InputManager.cpp */,
-				7E7D877C13F71AD900AD9F7F /* InputManager.h */,
-				7E7D875613F71AC300AD9F7F /* Label.cpp */,
-				7E7D877D13F71AD900AD9F7F /* Label.h */,
-				7E7D875713F71AC300AD9F7F /* Material.cpp */,
-				7E7D877E13F71AD900AD9F7F /* Material.h */,
-				7E7D877F13F71AD900AD9F7F /* MathDef.h */,
-				7E7D875813F71AC300AD9F7F /* Mesh.cpp */,
-				7E7D878113F71AD900AD9F7F /* Mesh.h */,
-				7E407F891401F8F300431963 /* MeshProvider.h */,
-				7EFCCE7814BEB1D400FFB812 /* Package.cpp */,
-				7EFCCE7B14BEB1EC00FFB812 /* Package.h */,
-				7E7D878213F71AD900AD9F7F /* Quaternion.h */,
-				7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */,
-				7E7D878313F71AD900AD9F7F /* ResourceManager.h */,
-				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
-				7E7D878413F71AD900AD9F7F /* SceneNode.h */,
-				7E7D875B13F71AC300AD9F7F /* Sprite.cpp */,
-				7E7D878513F71AD900AD9F7F /* Sprite.h */,
-				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
-				7E7D878613F71AD900AD9F7F /* Texture.h */,
-				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
-				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
-				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
-				7E7D878A13F71AD900AD9F7F /* Viewport.h */,
-				7E7D875F13F71AC300AD9F7F /* Widget.cpp */,
-				7E7D878B13F71AD900AD9F7F /* Widget.h */,
 			);
 			path = Athena;
 			sourceTree = "<group>";
@@ -292,7 +358,6 @@
 			files = (
 				7E7D878C13F71AD900AD9F7F /* Application.h in Headers */,
 				7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */,
-				7E7D878E13F71AD900AD9F7F /* Button.h in Headers */,
 				7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */,
 				7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */,
 				7E7D879113F71AD900AD9F7F /* Color.h in Headers */,
@@ -328,6 +393,15 @@
 				7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */,
 				7E6DA4B61473821C0022EFCC /* AnimatedSprite.h in Headers */,
 				7EFCCE7C14BEB1EC00FFB812 /* Package.h in Headers */,
+				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
+				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
+				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
+				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
+				7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */,
+				7E5C123914F19F0800292DD3 /* NinePatchDescriptor.h in Headers */,
+				7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */,
+				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
+				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +456,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */,
-				7E7D876113F71AC300AD9F7F /* Button.cpp in Sources */,
 				7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */,
 				7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */,
 				7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */,
@@ -409,6 +482,13 @@
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
 				7E6DA4B8147382230022EFCC /* AnimatedSprite.cpp in Sources */,
 				7EFCCE7914BEB1D400FFB812 /* Package.cpp in Sources */,
+				7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */,
+				7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */,
+				7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */,
+				7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */,
+				7E5C122714F19EF700292DD3 /* NinePatchDescriptor.cpp in Sources */,
+				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
+				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +528,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				DSTROOT = /tmp/Athena.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
@@ -456,10 +538,10 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_46_1/boost/tr1/tr1",
-					"~/Libraries/boost_1_46_1/",
+					"~/Libraries/boost_1_48_0/",
 					../include/,
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -469,6 +551,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				DSTROOT = /tmp/Athena.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
@@ -477,10 +561,10 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_46_1/boost/tr1/tr1",
-					"~/Libraries/boost_1_46_1/",
+					"~/Libraries/boost_1_48_0/",
 					../include/,
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

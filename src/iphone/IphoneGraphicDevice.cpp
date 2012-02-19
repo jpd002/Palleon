@@ -80,7 +80,7 @@ void CIphoneGraphicDevice::Draw()
         m_renderQueue.clear();
         
         const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-        sceneRoot->TraverseNodes(std::tr1::bind(&CIphoneGraphicDevice::FillRenderQueue, this, std::tr1::placeholders::_1, camera.get()));
+        sceneRoot->TraverseNodes(std::bind(&CIphoneGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
         
         for(RenderQueue::const_iterator meshIterator(m_renderQueue.begin());
             meshIterator != m_renderQueue.end(); meshIterator++)
@@ -119,6 +119,21 @@ TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXT
     return TexturePtr(new CIphoneTexture(data, textureFormat, width, height));
 }
 
+TexturePtr CIphoneGraphicDevice::CreateCubeTextureFromFile(const char* path)
+{
+	return TexturePtr();
+}
+
+RenderTargetPtr CIphoneGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+{
+	return RenderTargetPtr();
+}
+
+CubeRenderTargetPtr CIphoneGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
+{
+	return CubeRenderTargetPtr();
+}
+
 bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
     if(!node->GetVisible()) return false;
@@ -145,8 +160,8 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
     GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
     uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
     
-    CVector2 worldPosition = mesh->GetWorldPosition();
-    CVector2 worldScale = mesh->GetWorldScale();
+    CVector3 worldPosition = mesh->GetWorldPosition();
+    CVector3 worldScale = mesh->GetWorldScale();
     
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -158,10 +173,10 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
         MaterialPtr material = mesh->GetMaterial();
         assert(material != NULL);
         CColor color = material->GetColor();
-        RENDER_TYPE renderType = material->GetRenderType();
+        //RENDER_TYPE renderType = material->GetRenderType();
         
         glColor4f(color.r, color.g, color.b, color.a);
-        
+        /*
         if(renderType == RENDER_ONLYCOLOR)
         {
             glActiveTexture(GL_TEXTURE0);
@@ -220,6 +235,7 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
         {
             glDisable(GL_BLEND);
         }
+		 */
     }
     
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);

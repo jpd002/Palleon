@@ -71,9 +71,9 @@ CIphoneTexture::~CIphoneTexture()
     glDeleteTextures(1, &m_texture);
 }
 
-GLuint CIphoneTexture::GetTexture() const
+void* CIphoneTexture::GetHandle() const
 {
-    return m_texture;
+    return reinterpret_cast<void*>(m_texture);
 }
 
 void CIphoneTexture::LoadFromData(void* texDataPtr)
