@@ -407,7 +407,19 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 				effectCaps.setDiffuseMapCoordSrc(i, material->GetTextureCoordSource(i));
 				if(i != 0)
 				{
-					unsigned int combineMode = (material->GetTextureCombineMode(i) == TEXTURE_COMBINE_MODULATE) ? DIFFUSE_MAP_COMBINE_MODULATE : DIFFUSE_MAP_COMBINE_LERP;
+					unsigned int combineMode = DIFFUSE_MAP_COMBINE_MODULATE;
+					switch(material->GetTextureCombineMode(i))
+					{
+					case TEXTURE_COMBINE_MODULATE:
+						combineMode = DIFFUSE_MAP_COMBINE_MODULATE;
+						break;
+					case TEXTURE_COMBINE_LERP:
+						combineMode = DIFFUSE_MAP_COMBINE_LERP;
+						break;
+					case TEXTURE_COMBINE_ADD:
+						combineMode = DIFFUSE_MAP_COMBINE_ADD;
+						break;
+					}
 					effectCaps.setDiffuseMapCombineMode(i, combineMode);
 				}
 			}

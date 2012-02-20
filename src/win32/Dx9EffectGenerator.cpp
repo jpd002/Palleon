@@ -223,6 +223,9 @@ std::string CDx9EffectGenerator::GenerateDiffuseMapSampling(unsigned int index, 
 	case DIFFUSE_MAP_COMBINE_MODULATE:
 		result += PrintLine("	diffuseColor *= diffuseColor%d;", index);
 		break;
+	case DIFFUSE_MAP_COMBINE_ADD:
+		result += PrintLine("	diffuseColor += diffuseColor%d;", index);
+		break;
 	case DIFFUSE_MAP_COMBINE_LERP:
 		result += PrintLine("	diffuseColor = lerp(diffuseColor, diffuseColor%d, diffuseColor%d.a);", index, index);
 		break;

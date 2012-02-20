@@ -15,12 +15,13 @@ enum DIFFUSE_MAP_COMBINE_MODE
 {
 	DIFFUSE_MAP_COMBINE_MODULATE	= 0,
 	DIFFUSE_MAP_COMBINE_LERP		= 1,
+	DIFFUSE_MAP_COMBINE_ADD			= 2,
 };
 
 #define DECLARE_DIFFUSEMAPCAPS(i)						\
 	unsigned int hasDiffuseMap##i				: 1;	\
 	unsigned int diffuseMap ## i ## CoordSrc	: 2;	\
-	unsigned int diffuseMap ## i ## CombineMode	: 1;	
+	unsigned int diffuseMap ## i ## CombineMode	: 2;	
 
 #define SET_HASDIFFUSEMAP(i, value)		\
 	case(##i##):						\
@@ -88,7 +89,7 @@ namespace Athena
 				}
 			}
 
-			unsigned int		reserved : 11;
+			unsigned int		reserved : 6;
 		};
 		static_assert(sizeof(EFFECTCAPS) == 4, "Size of EFFECTCAPS isn't 4.");
 
