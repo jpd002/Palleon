@@ -232,6 +232,48 @@ IDirect3DVertexDeclaration9* CDx9GraphicDevice::CreateVertexDeclaration(const VE
 	return vertexDeclaration;
 }
 
+void CDx9GraphicDevice::GenerateEffect(const CDx9EffectGenerator::EFFECTCAPS& effectCaps)
+{
+	EFFECTINFO newEffect;
+	std::string effectText = CDx9EffectGenerator::GenerateEffect(effectCaps);
+	newEffect.effect = CompileEffect(effectText.c_str());
+
+	newEffect.viewProjMatrixHandle		= newEffect.effect->GetParameterByName(NULL, "c_viewProjMatrix");
+	newEffect.worldMatrixHandle			= newEffect.effect->GetParameterByName(NULL, "c_worldMatrix");
+	newEffect.meshColorHandle			= newEffect.effect->GetParameterByName(NULL, "c_meshColor");
+	newEffect.cameraPosHandle			= newEffect.effect->GetParameterByName(NULL, "c_cameraPos");
+
+	for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+	{
+		{
+			char paramName[256];
+			sprintf(paramName, "c_diffuse%dTexture", i);
+			newEffect.diffuseTexture[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+		}
+
+		{
+			char paramName[256];
+			sprintf(paramName, "c_diffuse%dTextureMatrix", i);
+			newEffect.diffuseTextureMatrix[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+		}
+
+		{
+			char paramName[256];
+			sprintf(paramName, "c_diffuse%dTextureAddressModeU", i);
+			newEffect.diffuseTextureAddressModeU[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+		}
+
+		{
+			char paramName[256];
+			sprintf(paramName, "c_diffuse%dTextureAddressModeV", i);
+			newEffect.diffuseTextureAddressModeV[i] = newEffect.effect->GetParameterByName(NULL, paramName);
+		}
+	}
+
+	uint32 effectKey = *reinterpret_cast<const uint32*>(&effectCaps);
+	m_effects[effectKey] = newEffect;
+}
+
 ID3DXEffect* CDx9GraphicDevice::CompileEffect(const char* text)
 {
 	ID3DXEffect* effect(NULL);
@@ -430,44 +472,7 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 		auto effectIterator = m_effects.find(effectKey);
 		if(effectIterator == std::end(m_effects))
 		{
-			EFFECTINFO newEffect;
-			std::string effectText = CDx9EffectGenerator::GenerateEffect(effectCaps);
-			newEffect.effect = CompileEffect(effectText.c_str());
-			
-			newEffect.viewProjMatrixHandle		= newEffect.effect->GetParameterByName(NULL, "c_viewProjMatrix");
-			newEffect.worldMatrixHandle			= newEffect.effect->GetParameterByName(NULL, "c_worldMatrix");
-			newEffect.meshColorHandle			= newEffect.effect->GetParameterByName(NULL, "c_meshColor");
-			newEffect.cameraPosHandle			= newEffect.effect->GetParameterByName(NULL, "c_cameraPos");
-
-			for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
-			{
-				{
-					char paramName[256];
-					sprintf(paramName, "c_diffuse%dTexture", i);
-					newEffect.diffuseTexture[i] = newEffect.effect->GetParameterByName(NULL, paramName);
-				}
-
-				{
-					char paramName[256];
-					sprintf(paramName, "c_diffuse%dTextureMatrix", i);
-					newEffect.diffuseTextureMatrix[i] = newEffect.effect->GetParameterByName(NULL, paramName);
-				}
-
-				{
-					char paramName[256];
-					sprintf(paramName, "c_diffuse%dTextureAddressModeU", i);
-					newEffect.diffuseTextureAddressModeU[i] = newEffect.effect->GetParameterByName(NULL, paramName);
-				}
-
-				{
-					char paramName[256];
-					sprintf(paramName, "c_diffuse%dTextureAddressModeV", i);
-					newEffect.diffuseTextureAddressModeV[i] = newEffect.effect->GetParameterByName(NULL, paramName);
-				}
-			}
-
-			m_effects[effectKey] = newEffect;
-
+			GenerateEffect(effectCaps);
 			effectIterator = m_effects.find(effectKey);
 		}
 

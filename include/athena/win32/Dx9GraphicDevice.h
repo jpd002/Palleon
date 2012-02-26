@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "../GraphicDevice.h"
 #include "../Mesh.h"
+#include "Dx9EffectGenerator.h"
 
 namespace Athena
 {
@@ -66,6 +67,7 @@ namespace Athena
 		void							CreateDevice();
 		IDirect3DVertexDeclaration9*	CreateVertexDeclaration(const VERTEX_BUFFER_DESCRIPTOR&);
 
+		void							GenerateEffect(const CDx9EffectGenerator::EFFECTCAPS&);
 		ID3DXEffect*					CompileEffect(const char*);
 
 		void							DrawViewport(CViewport*);
