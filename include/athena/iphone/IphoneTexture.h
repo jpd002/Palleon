@@ -3,8 +3,7 @@
 
 #include "Types.h"
 #include "athena/Texture.h"
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
+#include "OpenGlEsDefs.h"
 
 namespace Athena
 {

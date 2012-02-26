@@ -6,11 +6,11 @@
 
 using namespace Athena;
 
-#define CHECKGLERROR() { assert(glGetError() == GL_NO_ERROR); }
-
-#define ATTRIB_POSITION		0
-#define ATTRIB_TEXCOORD0	1
-#define ATTRIB_COLOR		2
+static const GLenum g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
+{
+	GL_CLAMP_TO_EDGE,
+	GL_REPEAT,
+};
 
 CIphoneGraphicDevice::CIphoneGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
 : m_hasRetinaDisplay(hasRetinaDisplay)
@@ -151,6 +151,7 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 	const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
 	GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
+	GLuint vertexArray = vertexBufferGen->GetVertexArray();
 	
 	CVector3 worldPosition = mesh->GetWorldPosition();
 	CVector3 worldScale = mesh->GetWorldScale();
@@ -221,6 +222,9 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 				GLuint textureHandle = reinterpret_cast<GLuint>(material->GetTexture(i)->GetHandle());
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, textureHandle);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
+				CHECKGLERROR();
 			}
 		}
 		
@@ -239,53 +243,9 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	CHECKGLERROR();
 	
-	uint32 vertexSize = descriptor.GetVertexSize();
-	
-	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS)
-	{
-		glEnableVertexAttribArray(ATTRIB_POSITION);
-		glVertexAttribPointer(ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
-	}
-	else
-	{
-		glDisableVertexAttribArray(ATTRIB_POSITION);
-	}
-	CHECKGLERROR();
-
-	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
-	{
-		glEnableVertexAttribArray(ATTRIB_COLOR);
-		glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
-	}
-	else
-	{
-		glDisableVertexAttribArray(ATTRIB_COLOR);
-	}
+	glBindVertexArrayOES(vertexArray);
 	CHECKGLERROR();
 	
-	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
-	{
-		glEnableVertexAttribArray(ATTRIB_TEXCOORD0);
-		glVertexAttribPointer(ATTRIB_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));		
-	}
-	else
-	{
-		glDisableVertexAttribArray(ATTRIB_TEXCOORD0);
-	}
-	CHECKGLERROR();
-/*
-    glClientActiveTexture(GL_TEXTURE1);
-    if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV1)
-    {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glTexCoordPointer(2, GL_FLOAT, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
-    }
-    else
-    {
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    }
-    assert(glGetError() == GL_NO_ERROR);
-*/	
 	GLenum primitiveType = GL_TRIANGLES;
 	GLsizei primitiveCount = mesh->GetPrimitiveCount();
 	GLsizei vertexCount = primitiveCount * 3;
@@ -391,9 +351,9 @@ GLuint CIphoneGraphicDevice::BuildProgram(const CIphoneEffectGenerator::EFFECTCA
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, pixelShader);
 	
-	glBindAttribLocation(program, ATTRIB_POSITION, "a_position");
-	glBindAttribLocation(program, ATTRIB_TEXCOORD0, "a_texCoord0");
-	glBindAttribLocation(program, ATTRIB_COLOR, "a_color");
+	glBindAttribLocation(program, VERTEX_ATTRIB_POSITION, "a_position");
+	glBindAttribLocation(program, VERTEX_ATTRIB_TEXCOORD0, "a_texCoord0");
+	glBindAttribLocation(program, VERTEX_ATTRIB_COLOR, "a_color");
 	
 	glLinkProgram(program);
 	DumpProgramLog(program);

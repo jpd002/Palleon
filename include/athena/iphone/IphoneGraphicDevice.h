@@ -2,17 +2,23 @@
 #define _IPHONEGRAPHICDEVICE_H_
 
 #include <vector>
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
+#include "OpenGlEsDefs.h"
 #include "athena/GraphicDevice.h"
 #include "athena/Mesh.h"
-#include "athena/IphoneEffectGenerator.h"
+#include "athena/Iphone/IphoneEffectGenerator.h"
 
 namespace Athena
 {
 	class CIphoneGraphicDevice : public CGraphicDevice
 	{
 	public:
+		enum VERTEX_ATTRIB
+		{
+			VERTEX_ATTRIB_POSITION	= 0,
+			VERTEX_ATTRIB_TEXCOORD0	= 1,
+			VERTEX_ATTRIB_COLOR		= 2					
+		};
+		
 		static void							CreateInstance(bool, const CVector2&);
 		static void							DestroyInstance();
 

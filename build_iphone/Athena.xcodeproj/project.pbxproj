@@ -36,6 +36,7 @@
 		7E5C123C14F19F0800292DD3 /* Tween.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123314F19F0800292DD3 /* Tween.h */; };
 		7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */; };
 		7E5C124314F1AE5800292DD3 /* IphoneEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */; };
+		7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */; };
 		7E6DA4B61473821C0022EFCC /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */; };
 		7E6DA4B8147382230022EFCC /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
@@ -122,6 +123,7 @@
 		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../../include/athena/Tween.h; sourceTree = "<group>"; };
 		7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneEffectGenerator.h; path = ../../include/athena/iphone/IphoneEffectGenerator.h; sourceTree = "<group>"; };
 		7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneEffectGenerator.cpp; path = ../../src/iphone/IphoneEffectGenerator.cpp; sourceTree = "<group>"; };
+		7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../../include/athena/iphone/OpenGlEsDefs.h; sourceTree = "<group>"; };
 		7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatedSprite.h; path = ../../include/athena/AnimatedSprite.h; sourceTree = "<group>"; };
 		7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedSprite.cpp; path = ../../src/AnimatedSprite.cpp; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +199,7 @@
 			children = (
 				7EC5E5D613FE153C004B7994 /* EAGLView.mm */,
 				7EC5E5DF13FE1557004B7994 /* EAGLView.h */,
+				7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */,
 				7EC5E5D713FE153C004B7994 /* IphoneAppDelegate.mm */,
 				7EC5E5E013FE1557004B7994 /* IphoneAppDelegate.h */,
 				7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */,
@@ -409,6 +412,7 @@
 				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
 				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
 				7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */,
+				7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
