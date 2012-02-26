@@ -255,7 +255,7 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
 	{
 		glEnableVertexAttribArray(ATTRIB_COLOR);
-		glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
+		glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
 	}
 	else
 	{
