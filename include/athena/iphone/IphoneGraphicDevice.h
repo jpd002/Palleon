@@ -16,7 +16,8 @@ namespace Athena
 		{
 			VERTEX_ATTRIB_POSITION	= 0,
 			VERTEX_ATTRIB_TEXCOORD0	= 1,
-			VERTEX_ATTRIB_COLOR		= 2					
+			VERTEX_ATTRIB_TEXCOORD1 = 2,
+			VERTEX_ATTRIB_COLOR		= 3				
 		};
 		
 		static void							CreateInstance(bool, const CVector2&);
@@ -52,6 +53,7 @@ namespace Athena
 			GLuint		meshColorHandle;
 			
 			GLuint		diffuseTexture[MAX_DIFFUSE_SLOTS];
+			GLuint		diffuseTextureMatrix[MAX_DIFFUSE_SLOTS];
 		};
 		
 		typedef std::vector<CMesh*> RenderQueue;

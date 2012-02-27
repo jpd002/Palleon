@@ -12,6 +12,13 @@ static const GLenum g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
 	GL_REPEAT,
 };
 
+static const unsigned int g_textureCombineMode[TEXTURE_COMBINE_MODE_MAX] =
+{
+	DIFFUSE_MAP_COMBINE_MODULATE,
+	DIFFUSE_MAP_COMBINE_LERP,
+	DIFFUSE_MAP_COMBINE_ADD,
+};
+
 CIphoneGraphicDevice::CIphoneGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
 : m_hasRetinaDisplay(hasRetinaDisplay)
 {
@@ -185,13 +192,7 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 				effectCaps.setDiffuseMapCoordSrc(i, material->GetTextureCoordSource(i));
 				if(i != 0)
 				{
-					unsigned int combineMode = DIFFUSE_MAP_COMBINE_MODULATE;
-					switch(material->GetTextureCombineMode(i))
-					{
-						case TEXTURE_COMBINE_MODULATE:
-							combineMode = DIFFUSE_MAP_COMBINE_MODULATE;
-							break;
-					}
+					unsigned int combineMode = g_textureCombineMode[material->GetTextureCombineMode(i)];
 					effectCaps.setDiffuseMapCombineMode(i, combineMode);
 				}
 			}
@@ -218,7 +219,9 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 		{
 			if(currentEffect->diffuseTexture[i] != -1)
 			{
+				const CMatrix4& textureMatrix(material->GetTextureMatrix(i));
 				glUniform1i(currentEffect->diffuseTexture[i], i);
+				glUniformMatrix4fv(currentEffect->diffuseTextureMatrix[i], 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&textureMatrix));
 				GLuint textureHandle = reinterpret_cast<GLuint>(material->GetTexture(i)->GetHandle());
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, textureHandle);
@@ -283,6 +286,12 @@ void CIphoneGraphicDevice::GenerateEffect(const CIphoneEffectGenerator::EFFECTCA
 			char paramName[256];
 			sprintf(paramName, "c_diffuseTexture%d", i);
 			newEffect.diffuseTexture[i]	= glGetUniformLocation(newEffect.program, paramName);			
+		}
+		
+		{
+			char paramName[256];
+			sprintf(paramName, "c_diffuseTextureMatrix%d", i);
+			newEffect.diffuseTextureMatrix[i] = glGetUniformLocation(newEffect.program, paramName);
 		}
 	}
 	

@@ -71,6 +71,17 @@ CIphoneVertexBuffer::CIphoneVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descrip
 		}
 		CHECKGLERROR();
 		
+		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV1)
+		{
+			glEnableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
+			glVertexAttribPointer(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
+		}
+		else
+		{
+			glDisableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
+		}
+		CHECKGLERROR();
+
 		glBindVertexArrayOES(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

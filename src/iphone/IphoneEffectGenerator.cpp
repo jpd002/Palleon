@@ -27,6 +27,10 @@ std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	
 	//Varyings
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
 	result += PrintLine("varying lowp vec4 v_color;");
 	
 	//Uniforms
@@ -34,6 +38,12 @@ std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	result += PrintLine("uniform mat4 c_worldMatrix;");
 	
 	result += PrintLine("uniform vec4 c_meshColor;");
+	
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapMatrixUniform(0);
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapMatrixUniform(1);
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapMatrixUniform(2);
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapMatrixUniform(3);
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapMatrixUniform(4);
 	
 	result += PrintLine("void main()");
 	result += PrintLine("{");
@@ -47,6 +57,10 @@ std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 		result += PrintLine("v_color = c_meshColor;");
 	}
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordComputation(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordComputation(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordComputation(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordComputation(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordComputation(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
 	result += PrintLine("}");
 	
 	return result;
@@ -58,11 +72,19 @@ std::string CIphoneEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 
 	result += PrintLine("varying lowp vec4 v_color;");
 	if(caps.hasDiffuseMap0) { result += GenerateDiffuseMapSampler(0); result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc)); }
+	if(caps.hasDiffuseMap1) { result += GenerateDiffuseMapSampler(1); result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc)); }
+	if(caps.hasDiffuseMap2) { result += GenerateDiffuseMapSampler(2); result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); }
+	if(caps.hasDiffuseMap3) { result += GenerateDiffuseMapSampler(3); result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); }
+	if(caps.hasDiffuseMap4) { result += GenerateDiffuseMapSampler(4); result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); }
 	
 	result += PrintLine("void main()");
 	result += PrintLine("{");
 	result += PrintLine("	lowp vec4 diffuseColor = v_color;");
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampling(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap0CombineMode));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampling(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap1CombineMode));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));	
 	result += PrintLine("	gl_FragColor = diffuseColor;");
 	result += PrintLine("}");
 	
@@ -98,7 +120,10 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned 
 	switch(source)
 	{
 		case DIFFUSE_MAP_COORD_UV0:
-			result += PrintLine("v_diffuseCoord%d = a_texCoord0;", index);
+			result += PrintLine("v_diffuseCoord%d = (c_diffuseTextureMatrix%d * vec4(a_texCoord0, 0, 1)).xy;", index, index);
+			break;
+		case DIFFUSE_MAP_COORD_UV1:
+			result += PrintLine("v_diffuseCoord%d = (c_diffuseTextureMatrix%d * vec4(a_texCoord1, 0, 1)).xy;", index, index);
 			break;
 	}
 	return result;
@@ -111,6 +136,13 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapSampler(unsigned int index
 	return result;
 }
 
+std::string CIphoneEffectGenerator::GenerateDiffuseMapMatrixUniform(unsigned int index)
+{
+	std::string result;
+	result += PrintLine("uniform mat4 c_diffuseTextureMatrix%d;", index);
+	return result;
+}
+
 std::string CIphoneEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
 {
 	std::string result;
@@ -118,6 +150,7 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapSampling(unsigned int inde
 	switch(source)
 	{
 		case DIFFUSE_MAP_COORD_UV0:
+		case DIFFUSE_MAP_COORD_UV1:
 			result += PrintLine("lowp vec4 diffuseColor%d = texture2D(c_diffuseTexture%d, v_diffuseCoord%d);", index, index, index);
 			break;
 	}
@@ -126,6 +159,12 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapSampling(unsigned int inde
 	{
 		case DIFFUSE_MAP_COMBINE_MODULATE:
 			result += PrintLine("diffuseColor *= diffuseColor%d;", index);
+			break;
+		case DIFFUSE_MAP_COMBINE_ADD:
+			result += PrintLine("diffuseColor += diffuseColor%d;", index);
+			break;
+		case DIFFUSE_MAP_COMBINE_LERP:
+			result += PrintLine("diffuseColor = mix(diffuseColor, diffuseColor%d, diffuseColor%d.a);", index, index);
 			break;
 	}
 	
