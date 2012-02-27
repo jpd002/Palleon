@@ -13,8 +13,6 @@ namespace Athena
 	class CSpriteButton : public CButtonBase
 	{
 	public:
-		typedef boost::signals2::signal<void ()> PressEventType;
-
 								CSpriteButton();
 		virtual					~CSpriteButton();
 

@@ -13,8 +13,6 @@ namespace Athena
 	class CNinePatchButton : public CButtonBase
 	{
 	public:
-		typedef boost::signals2::signal<void ()> PressEventType;
-
 									CNinePatchButton();
 		virtual						~CNinePatchButton();
 
