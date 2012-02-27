@@ -25,6 +25,16 @@ public:
 		return CColor(r * value, g * value, b * value, a * value);
 	}
 
+	CColor MultiplyClamp(float value) const
+	{
+		CColor result;
+		result.r = std::min<float>(std::max<float>(r * value, 0.0f), 1.0f);
+		result.g = std::min<float>(std::max<float>(g * value, 0.0f), 1.0f);
+		result.b = std::min<float>(std::max<float>(b * value, 0.0f), 1.0f);
+		result.a = std::min<float>(std::max<float>(a * value, 0.0f), 1.0f);
+		return result;
+	}
+
 	float r;
 	float g;
 	float b;
