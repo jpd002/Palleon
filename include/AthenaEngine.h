@@ -30,6 +30,8 @@
 
 //Resources
 #include "athena/Package.h"
+#include "athena/PvrImage.h"
+#include "athena/TgaImage.h"
 
 #include "athena/Application.h"
 

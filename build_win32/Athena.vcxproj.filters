@@ -280,5 +280,11 @@
     <ClInclude Include="..\include\athena\win32\Dx9CubeRenderTarget.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\athena\PvrImage.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\TgaImage.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
