@@ -37,6 +37,8 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 		RegisterClassEx(&w);
 	}
 
+	CWin32ResourceManager::CreateInstance();
+
 	CConfigManager::CreateInstance();
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceString(PREFERENCE_WINDOW_TITLE, "Athena Engine");
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_WIDTH, 640);
@@ -58,7 +60,6 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	SetClassPtr();
 
 	CDx9GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
-	CWin32ResourceManager::CreateInstance();
 
 	m_application = CreateApplication();
 }
