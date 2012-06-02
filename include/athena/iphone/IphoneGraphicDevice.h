@@ -78,6 +78,7 @@ namespace Athena
 		bool								m_hasRetinaDisplay;
 		
 		CMatrix4							m_viewProjMatrix;
+		CMatrix4							m_peggedViewProjMatrix;
 	};
 }
 

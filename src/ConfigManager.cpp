@@ -1,11 +1,12 @@
 #include "athena/ConfigManager.h"
+#include "athena/ResourceManager.h"
 
 using namespace Athena;
 
 CConfigManager* CConfigManager::m_instance = NULL;
 
 CConfigManager::CConfigManager()
-: m_config("./AppConfig.xml")
+: m_config(CResourceManager::GetInstance().MakeResourcePath("AppConfig.xml"))
 {
 
 }

@@ -1,6 +1,8 @@
 #include "IphoneTexture.h"
 #include <assert.h>
 #include <vector>
+#include "TgaImage.h"
+#include "PvrImage.h"
 #import <UIKit/UIKit.h>
 
 using namespace Athena;
@@ -15,28 +17,48 @@ uint32 GetNextPowerOfTwo(uint32 number)
 	return currentNumber;
 }
 
-CIphoneTexture::CIphoneTexture(const char* path)
-: m_texture(0)
+CIphoneTexture::CIphoneTexture(GLuint texture, bool isCubeMap)
+: m_texture(texture)
+, m_isCubeMap(isCubeMap)
+{
+
+}
+
+CIphoneTexture::~CIphoneTexture()
+{
+	glDeleteTextures(1, &m_texture);
+}
+
+TexturePtr CIphoneTexture::CreateFromFile(const char* path)
 {
 	NSString* pathString = [NSString stringWithUTF8String: path];
 	NSData* texData = [[NSData alloc] initWithContentsOfFile: pathString];
 	assert(texData != NULL);
-	LoadFromData(texData);
-	[texData release];
+	GLuint texture = LoadFromData(texData);
+	[texData release];	
+	if(texture == 0)
+	{
+		return TexturePtr();
+	}
+	return TexturePtr(new CIphoneTexture(texture));
 }
 
-CIphoneTexture::CIphoneTexture(const void* data, uint32 size)
-: m_texture(0)
+TexturePtr CIphoneTexture::CreateFromMemory(const void* data, uint32 size)
 {
 	NSData* texData = [[NSData alloc] initWithBytesNoCopy: const_cast<void*>(data) length: size freeWhenDone: NO];
-	LoadFromData(texData);
+	GLuint texture = LoadFromData(texData);
 	[texData release];
+	if(texture == 0)
+	{
+		return TexturePtr();
+	}
+	return TexturePtr(new CIphoneTexture(texture));	
 }
 
-CIphoneTexture::CIphoneTexture(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
-: m_texture(0)
+TexturePtr CIphoneTexture::CreateFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	glGenTextures(1, &m_texture);
+	GLuint texture = 0;
+	glGenTextures(1, &texture);
 	CHECKGLERROR();
 	
 	assert(textureFormat == TEXTURE_FORMAT_RGB888);
@@ -51,22 +73,39 @@ CIphoneTexture::CIphoneTexture(const void* data, TEXTURE_FORMAT textureFormat, u
 		uint16 b = reinterpret_cast<const uint8*>(data)[(i * 3) + 0];
 		uint16 g = reinterpret_cast<const uint8*>(data)[(i * 3) + 1];
 		uint16 r = reinterpret_cast<const uint8*>(data)[(i * 3) + 2];
+		b = std::min<uint16>(0xFF, b * 2);
+		g = std::min<uint16>(0xFF, g * 2);
+		r = std::min<uint16>(0xFF, r * 2);
 		uint16 dstPixel = (r >> 3) | ((g >> 2) << 5) | ((b >> 3) << 11);
 		reinterpret_cast<uint16*>(imageData)[i] = dstPixel;
 	}
 	
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, imageData);
 	CHECKGLERROR();
 	
+	glGenerateMipmap(GL_TEXTURE_2D);
+	CHECKGLERROR();
+	
 	delete [] imageData;
+	
+	return TexturePtr(new CIphoneTexture(texture));
 }
 
-CIphoneTexture::~CIphoneTexture()
+TexturePtr CIphoneTexture::CreateCubeFromFile(const char* path)
 {
-	glDeleteTextures(1, &m_texture);
+	NSString* pathString = [NSString stringWithUTF8String: path];
+	NSData* texData = [[NSData alloc] initWithContentsOfFile: pathString];
+	assert(texData != NULL);
+	GLuint texture = LoadCubeFromPVR(texData);
+	[texData release];	
+	if(texture == 0)
+	{
+		return TexturePtr();
+	}
+	return TexturePtr(new CIphoneTexture(texture, true));
 }
 
 void* CIphoneTexture::GetHandle() const
@@ -74,15 +113,19 @@ void* CIphoneTexture::GetHandle() const
 	return reinterpret_cast<void*>(m_texture);
 }
 
-void CIphoneTexture::LoadFromData(void* texDataPtr)
+bool CIphoneTexture::IsCubeMap() const
+{
+	return m_isCubeMap;
+}
+
+GLuint CIphoneTexture::LoadFromData(void* texDataPtr)
 {
 	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
 	
 	UIImage* image = [[UIImage alloc] initWithData: texData];
 	if(image == nil)
 	{
-		TryLoadTGA(texDataPtr);
-		return;
+		return TryLoadTGA(texDataPtr);
 	}
 	
 	GLuint srcWidth = CGImageGetWidth(image.CGImage);
@@ -92,13 +135,13 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
 	GLuint dstWidth = GetNextPowerOfTwo(srcWidth);
 	GLuint dstHeight = GetNextPowerOfTwo(srcHeight);
 
-	void* imageData = malloc( dstHeight * dstWidth * 4 );
+	void* imageData = malloc(dstHeight * dstWidth * 4);
 		
-	CGContextRef context = CGBitmapContextCreate( imageData, dstWidth, dstHeight, 8, 4 * dstWidth, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big );
-	CGColorSpaceRelease( colorSpace );
-	CGContextClearRect( context, CGRectMake( 0, 0, dstWidth, dstHeight ) );
-	CGContextTranslateCTM( context, 0, dstHeight - dstHeight );
-	CGContextDrawImage( context, CGRectMake( 0, 0, dstWidth, dstHeight ), image.CGImage );
+	CGContextRef context = CGBitmapContextCreate(imageData, dstWidth, dstHeight, 8, 4 * dstWidth, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+	CGColorSpaceRelease(colorSpace);
+	CGContextClearRect(context, CGRectMake(0, 0, dstWidth, dstHeight));
+	CGContextTranslateCTM(context, 0, dstHeight - dstHeight);
+	CGContextDrawImage(context, CGRectMake(0, 0, dstWidth, dstHeight), image.CGImage);
 	
 	for(unsigned int i = 0; i < dstWidth * dstHeight; i++)
 	{
@@ -111,13 +154,17 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
 		reinterpret_cast<uint16*>(imageData)[i] = dstPixel;
 	}
 	
-	glGenTextures(1, &m_texture);
+	GLuint result = 0;
+	glGenTextures(1, &result);
 	CHECKGLERROR();
 
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, result);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dstWidth, dstHeight, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, imageData);
+	CHECKGLERROR();
+	
+	glGenerateMipmap(GL_TEXTURE_2D);
 	CHECKGLERROR();
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -126,55 +173,36 @@ void CIphoneTexture::LoadFromData(void* texDataPtr)
 	
 	free(imageData);
 	[image release];
+	
+	return result;
 }
 
-bool CIphoneTexture::TryLoadTGA(void* texDataPtr)
+GLuint CIphoneTexture::TryLoadTGA(void* texDataPtr)
 {
-#pragma pack(push, 1)
-	struct TGAHEADER
-	{
-		uint8	idSize;
-		uint8	colorMapType;
-		uint8	imageType;
-		
-		int16	colorMapStart;
-		int16	colorMapLength;
-		uint8	colorMapBits;
-	
-		int16	startX;
-		int16	startY;
-		int16	width;
-		int16	height;
-	
-		uint8	bits;
-		uint8	descriptor;
-	};
-#pragma pack(pop)
-	
 	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
 	const uint8* tgaFile = reinterpret_cast<const uint8*>([texData bytes]);
 	uint32 tgaFileSize = [texData length];
 	
-	if(tgaFileSize < sizeof(TGAHEADER))
+	if(tgaFileSize < sizeof(TGA_HEADER))
 	{
 		assert(0);
-		return false;
+		return 0;
 	}
 	
-	const TGAHEADER* header = reinterpret_cast<const TGAHEADER*>(tgaFile);
+	const TGA_HEADER* header = reinterpret_cast<const TGA_HEADER*>(tgaFile);
 	if(header->imageType != 0x02)
 	{
 		assert(0);
-		return false;
+		return 0;
 	}
 	
 	if(header->bits != 32)
 	{
 		assert(0);
-		return false;
+		return 0;
 	}
 
-	const uint32* srcImage = reinterpret_cast<const uint32*>(tgaFile + sizeof(TGAHEADER));
+	const uint32* srcImage = reinterpret_cast<const uint32*>(tgaFile + sizeof(TGA_HEADER));
 	uint16* dstImage = new uint16[header->height * header->width];
 	for(unsigned int y = 0; y < header->height; y++)
 	{
@@ -191,19 +219,86 @@ bool CIphoneTexture::TryLoadTGA(void* texDataPtr)
 		}
 	}
 	
-	glGenTextures(1, &m_texture);
+	GLuint result = 0;
+	glGenTextures(1, &result);
 	CHECKGLERROR();
 	
-	
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, result);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, header->width, header->height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, dstImage);
+	CHECKGLERROR();
+	
+	glGenerateMipmap(GL_TEXTURE_2D);
 	CHECKGLERROR();
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	delete dstImage;
 	
-	return true;
+	return result;
+}
+
+GLuint CIphoneTexture::LoadCubeFromPVR(void* texDataPtr)
+{
+	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
+	const uint8* pvrFile = reinterpret_cast<const uint8*>([texData bytes]);
+	uint32 pvrFileSize = [texData length];
+		
+	if(pvrFileSize < sizeof(PVR_HEADER))
+	{
+		assert(0);
+		return 0;
+	}
+	
+	const PVR_HEADER* header = reinterpret_cast<const PVR_HEADER*>(pvrFile);
+	if(!header->IsValid())
+	{
+		return 0;
+	}
+	
+	uint8 pixelFormat = header->GetPixelFormat();
+	if(pixelFormat != PVR_PIXEL_OGL_PVRTC4)
+	{
+		return 0;
+	}
+	
+	if((header->flags & PVR_FLAG_CUBEMAP) == 0)
+	{
+		return 0;
+	}
+	
+	if(header->surfaceCount != 6)
+	{
+		return 0;
+	}
+	
+	GLuint result = 0;
+	glGenTextures(1, &result);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, result);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	CHECKGLERROR();
+	
+	static const GLenum c_cubeMapIndices[6] =
+	{
+		GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+	};
+	
+	const uint8* surfaceDataPtr = pvrFile + sizeof(PVR_HEADER);
+	for(unsigned int i = 0; i < 6; i++)
+	{
+		glCompressedTexImage2D(c_cubeMapIndices[i], 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, header->width, header->height, 0, header->dataSize, surfaceDataPtr);
+		CHECKGLERROR();
+		surfaceDataPtr += header->dataSize;
+	}
+	
+	return result;
 }

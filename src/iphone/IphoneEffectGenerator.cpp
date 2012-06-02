@@ -47,7 +47,8 @@ std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	
 	result += PrintLine("void main()");
 	result += PrintLine("{");
-	result += PrintLine("	gl_Position = c_viewProjMatrix * c_worldMatrix * vec4(a_position, 1);");
+	result += PrintLine("	vec4 worldPos = c_worldMatrix * vec4(a_position, 1);");
+	result += PrintLine("	gl_Position = c_viewProjMatrix * worldPos;");
 	if(caps.hasVertexColor)
 	{
 		result += PrintLine("v_color = a_color * c_meshColor;");
@@ -71,11 +72,11 @@ std::string CIphoneEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	std::string result;
 
 	result += PrintLine("varying lowp vec4 v_color;");
-	if(caps.hasDiffuseMap0) { result += GenerateDiffuseMapSampler(0); result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc)); }
-	if(caps.hasDiffuseMap1) { result += GenerateDiffuseMapSampler(1); result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc)); }
-	if(caps.hasDiffuseMap2) { result += GenerateDiffuseMapSampler(2); result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); }
-	if(caps.hasDiffuseMap3) { result += GenerateDiffuseMapSampler(3); result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); }
-	if(caps.hasDiffuseMap4) { result += GenerateDiffuseMapSampler(4); result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); }
+	if(caps.hasDiffuseMap0) { result += GenerateDiffuseMapSampler(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc)); result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc)); }
+	if(caps.hasDiffuseMap1) { result += GenerateDiffuseMapSampler(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc)); result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc)); }
+	if(caps.hasDiffuseMap2) { result += GenerateDiffuseMapSampler(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); }
+	if(caps.hasDiffuseMap3) { result += GenerateDiffuseMapSampler(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); }
+	if(caps.hasDiffuseMap4) { result += GenerateDiffuseMapSampler(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); }
 	
 	result += PrintLine("void main()");
 	result += PrintLine("{");
@@ -110,6 +111,10 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int i
 		case DIFFUSE_MAP_COORD_UV1:
 			result += PrintLine("varying mediump vec2 v_diffuseCoord%d;", index);
 			break;
+		case DIFFUSE_MAP_COORD_CUBE_POS:
+		case DIFFUSE_MAP_COORD_CUBE_REFLECT:
+			result += PrintLine("varying mediump vec3 v_diffuseCoord%d;", index);
+			break;
 	}
 	return result;
 }
@@ -125,14 +130,27 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned 
 		case DIFFUSE_MAP_COORD_UV1:
 			result += PrintLine("v_diffuseCoord%d = (c_diffuseTextureMatrix%d * vec4(a_texCoord1, 0, 1)).xy;", index, index);
 			break;
+		case DIFFUSE_MAP_COORD_CUBE_POS:
+			result += PrintLine("v_diffuseCoord%d = normalize(worldPos.xyz);", index);
+			break;
 	}
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
+std::string CIphoneEffectGenerator::GenerateDiffuseMapSampler(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
-	result += PrintLine("uniform sampler2D c_diffuseTexture%d;", index);
+	switch(source)
+	{
+		case DIFFUSE_MAP_COORD_UV0:
+		case DIFFUSE_MAP_COORD_UV1:
+			result += PrintLine("uniform sampler2D c_diffuseTexture%d;", index);
+			break;
+		case DIFFUSE_MAP_COORD_CUBE_POS:
+		case DIFFUSE_MAP_COORD_CUBE_REFLECT:
+			result += PrintLine("uniform samplerCube c_diffuseTexture%d;", index);			
+			break;
+	}
 	return result;
 }
 
@@ -152,6 +170,11 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapSampling(unsigned int inde
 		case DIFFUSE_MAP_COORD_UV0:
 		case DIFFUSE_MAP_COORD_UV1:
 			result += PrintLine("lowp vec4 diffuseColor%d = texture2D(c_diffuseTexture%d, v_diffuseCoord%d);", index, index, index);
+			break;
+			
+		case DIFFUSE_MAP_COORD_CUBE_POS:
+		case DIFFUSE_MAP_COORD_CUBE_REFLECT:
+			result += PrintLine("lowp vec4 diffuseColor%d = textureCube(c_diffuseTexture%d, v_diffuseCoord%d);", index, index, index);
 			break;
 	}
 	

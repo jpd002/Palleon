@@ -85,7 +85,16 @@ void CIphoneGraphicDevice::DrawViewport(CViewport* viewport)
 	
 	CameraPtr camera = viewport->GetCamera();
 	
-	m_viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	CMatrix4 projMatrix = camera->GetProjectionMatrix();
+	CMatrix4 viewMatrix = camera->GetViewMatrix();
+	
+	m_viewProjMatrix = viewMatrix * projMatrix;
+	
+	viewMatrix(3, 0) = 0;
+	viewMatrix(3, 1) = 0;
+	viewMatrix(3, 2) = 0;
+	
+	m_peggedViewProjMatrix = viewMatrix * projMatrix;
 	
 	m_renderQueue.clear();
 	
@@ -105,22 +114,22 @@ VertexBufferPtr CIphoneGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DES
 
 TexturePtr CIphoneGraphicDevice::CreateTextureFromFile(const char* path)
 {
-	return TexturePtr(new CIphoneTexture(path));
+	return CIphoneTexture::CreateFromFile(path);
 }
 
 TexturePtr CIphoneGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
 {
-	return TexturePtr(new CIphoneTexture(data, size));
+	return CIphoneTexture::CreateFromMemory(data, size);
 }
 
 TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return TexturePtr(new CIphoneTexture(data, textureFormat, width, height));
+	return CIphoneTexture::CreateFromRawData(data, textureFormat, width, height);
 }
 
 TexturePtr CIphoneGraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
-	return TexturePtr();
+	return CIphoneTexture::CreateCubeFromFile(path);
 }
 
 RenderTargetPtr CIphoneGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -211,7 +220,14 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 		glUseProgram(currentEffect->program);
 		CHECKGLERROR();
 		
-		glUniformMatrix4fv(currentEffect->viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&m_viewProjMatrix));
+		if(mesh->GetIsPeggedToOrigin())
+		{
+			glUniformMatrix4fv(currentEffect->viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&m_peggedViewProjMatrix));			
+		}
+		else
+		{
+			glUniformMatrix4fv(currentEffect->viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&m_viewProjMatrix));
+		}
 		glUniformMatrix4fv(currentEffect->worldMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&worldMatrix));
 		glUniform4f(currentEffect->meshColorHandle, meshColor.r, meshColor.g, meshColor.b, meshColor.a);
 		
@@ -222,9 +238,17 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 				const CMatrix4& textureMatrix(material->GetTextureMatrix(i));
 				glUniform1i(currentEffect->diffuseTexture[i], i);
 				glUniformMatrix4fv(currentEffect->diffuseTextureMatrix[i], 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&textureMatrix));
-				GLuint textureHandle = reinterpret_cast<GLuint>(material->GetTexture(i)->GetHandle());
+				CIphoneTexture* texture = static_cast<CIphoneTexture*>(material->GetTexture(i).get());
+				GLuint textureHandle = reinterpret_cast<GLuint>(texture->GetHandle());
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, textureHandle);
+				if(texture->IsCubeMap())
+				{
+					glBindTexture(GL_TEXTURE_CUBE_MAP, textureHandle);					
+				}
+				else
+				{
+					glBindTexture(GL_TEXTURE_2D, textureHandle);
+				}
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
 				CHECKGLERROR();
@@ -240,9 +264,11 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 		{
 			glDisable(GL_BLEND);
 		}
-		CHECKGLERROR();		
-	}
+		CHECKGLERROR();
 		
+		glDepthMask(mesh->GetIsPeggedToOrigin() ? GL_FALSE : GL_TRUE);
+	}
+	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	CHECKGLERROR();
 	

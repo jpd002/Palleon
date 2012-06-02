@@ -5,18 +5,18 @@
 
 namespace Athena
 {
-    class CIphoneResourceManager : public CResourceManager
-    {
-    public:
-        static void                 CreateInstance();
-        static void                 DestroyInstance();
-        
-        std::string                 MakeResourcePath(const char*) const;
-        
-    protected:
-                                    CIphoneResourceManager();
-        virtual						~CIphoneResourceManager();
-    };
+	class CIphoneResourceManager : public CResourceManager
+	{
+	public:
+		static void					CreateInstance();
+		static void					DestroyInstance();
+		
+		std::string					MakeResourcePath(const char*) const;
+		
+	protected:
+									CIphoneResourceManager();
+		virtual						~CIphoneResourceManager();
+	};
 }
 
 #endif

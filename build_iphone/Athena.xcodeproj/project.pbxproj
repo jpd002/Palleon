@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E1923BA150C0404003BB65B /* PvrImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B8150C0404003BB65B /* PvrImage.h */; };
+		7E1923BB150C0404003BB65B /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B9150C0404003BB65B /* TgaImage.h */; };
 		7E2885BB13F8632A00F606EB /* IphoneResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E2885BA13F8632A00F606EB /* IphoneResourceManager.mm */; };
 		7E2885BD13F8634500F606EB /* IphoneResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885BC13F8634500F606EB /* IphoneResourceManager.h */; };
 		7E2885CE13F8AB3300F606EB /* IphoneVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885CD13F8AB3300F606EB /* IphoneVertexBuffer.h */; };
@@ -94,6 +96,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E1923B8150C0404003BB65B /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../../include/athena/PvrImage.h; sourceTree = "<group>"; };
+		7E1923B9150C0404003BB65B /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../../include/athena/TgaImage.h; sourceTree = "<group>"; };
 		7E2885BA13F8632A00F606EB /* IphoneResourceManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IphoneResourceManager.mm; path = ../../src/iphone/IphoneResourceManager.mm; sourceTree = "<group>"; };
 		7E2885BC13F8634500F606EB /* IphoneResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneResourceManager.h; path = ../../include/athena/iphone/IphoneResourceManager.h; sourceTree = "<group>"; };
 		7E2885CD13F8AB3300F606EB /* IphoneVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneVertexBuffer.h; path = ../../include/athena/iphone/IphoneVertexBuffer.h; sourceTree = "<group>"; };
@@ -302,8 +306,10 @@
 				7E5C123014F19F0800292DD3 /* NinePatchDescriptor.h */,
 				7EFCCE7814BEB1D400FFB812 /* Package.cpp */,
 				7EFCCE7B14BEB1EC00FFB812 /* Package.h */,
+				7E1923B8150C0404003BB65B /* PvrImage.h */,
 				7E7D875913F71AC300AD9F7F /* ResourceManager.cpp */,
 				7E7D878313F71AD900AD9F7F /* ResourceManager.h */,
+				7E1923B9150C0404003BB65B /* TgaImage.h */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -413,6 +419,8 @@
 				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
 				7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */,
 				7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */,
+				7E1923BA150C0404003BB65B /* PvrImage.h in Headers */,
+				7E1923BB150C0404003BB65B /* TgaImage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,7 +558,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_48_0/",
+					"~/Libraries/boost_1_49_0/",
 					../include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -573,7 +581,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_48_0/",
+					"~/Libraries/boost_1_49_0/",
 					../include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
