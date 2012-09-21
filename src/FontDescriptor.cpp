@@ -53,7 +53,7 @@ void CFontDescriptor::Load(const char* path)
 	m_glyphInfos.clear();
 
 	Framework::CStdStream inputStream(path, "rb");
-	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(&inputStream));
+	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	//Get common info
 	{

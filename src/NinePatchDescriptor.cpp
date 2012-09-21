@@ -62,7 +62,7 @@ unsigned int CNinePatchDescriptor::GetBottomMargin() const
 void CNinePatchDescriptor::Load(const char* path)
 {
 	Framework::CStdStream inputStream(path, "rb");
-	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(&inputStream));
+	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	auto ninePatchNode = document->Select("NinePatch");
 
