@@ -42,3 +42,8 @@ void CWidget::OnTouchReleased(bool inside)
 {
 
 }
+
+void CWidget::OnTouchMoved(const CVector2& position)
+{
+
+}

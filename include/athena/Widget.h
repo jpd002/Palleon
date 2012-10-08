@@ -21,6 +21,7 @@ namespace Athena
 
 		virtual void				OnTouchPressed(bool);
 		virtual void				OnTouchReleased(bool);
+		virtual void				OnTouchMoved(const CVector2&);
 
 	protected:
 		CVector2					m_size;

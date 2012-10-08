@@ -81,6 +81,11 @@ public:
 		return (x == rhs.x) && (y == rhs.y);
 	}
 
+	bool operator !=(const CVector2& rhs) const
+	{
+		return (x != rhs.x) || (y != rhs.y);
+	}
+
 	CVector2 operator -() const
 	{
 		return CVector2(-x, -y);

@@ -26,6 +26,11 @@ MaterialPtr CMesh::GetMaterial() const
 	return m_material;
 }
 
+void CMesh::SetMaterial(const MaterialPtr& material)
+{
+	m_material = material;
+}
+
 PRIMITIVE_TYPE CMesh::GetPrimitiveType() const
 {
 	return m_primitiveType;

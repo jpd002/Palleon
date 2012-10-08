@@ -22,6 +22,7 @@ namespace Athena
 		VertexBufferPtr		GetVertexBuffer() const;
 
 		MaterialPtr			GetMaterial() const;
+		void				SetMaterial(const MaterialPtr&);
 
 		PRIMITIVE_TYPE		GetPrimitiveType() const;
 		uint32				GetPrimitiveCount() const;

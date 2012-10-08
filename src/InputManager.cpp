@@ -29,6 +29,11 @@ bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPositi
 				widget->OnTouchReleased(inside);
 				break;
 			case INPUT_EVENT_MOVED:
+				if(inside)
+				{
+					CVector2 localPosition = inputPosition - position;
+					widget->OnTouchMoved(localPosition);
+				}
 				break;
 			default:
 				assert(0);
