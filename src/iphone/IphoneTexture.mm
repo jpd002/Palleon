@@ -29,6 +29,19 @@ CIphoneTexture::~CIphoneTexture()
 	glDeleteTextures(1, &m_texture);
 }
 
+TexturePtr CIphoneTexture::Create(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+{
+	GLuint texture = 0;
+	glGenTextures(1, &texture);
+	CHECKGLERROR();
+
+	auto result = std::make_shared<CIphoneTexture>(texture);
+	result->m_width = width;
+	result->m_height = height;
+	result->m_format = textureFormat;
+	return result;
+}
+
 TexturePtr CIphoneTexture::CreateFromFile(const char* path)
 {
 	NSString* pathString = [NSString stringWithUTF8String: path];
@@ -55,43 +68,28 @@ TexturePtr CIphoneTexture::CreateFromMemory(const void* data, uint32 size)
 	return TexturePtr(new CIphoneTexture(texture));	
 }
 
-TexturePtr CIphoneTexture::CreateFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+void CIphoneTexture::Update(const void* data)
 {
-	GLuint texture = 0;
-	glGenTextures(1, &texture);
-	CHECKGLERROR();
-	
-	assert(textureFormat == TEXTURE_FORMAT_RGB888);
-	
-	uint32 pixelCount = width * height;
+	GLenum internalFormat = GL_RGB;
 
-	uint16* imageData = new uint16[pixelCount];
-	memset(imageData, 0, pixelCount * sizeof(uint16));
-	
-	for(unsigned int i = 0; i < pixelCount; i++)
+	switch(m_format)
 	{
-		uint16 b = reinterpret_cast<const uint8*>(data)[(i * 3) + 0];
-		uint16 g = reinterpret_cast<const uint8*>(data)[(i * 3) + 1];
-		uint16 r = reinterpret_cast<const uint8*>(data)[(i * 3) + 2];
-		b = std::min<uint16>(0xFF, b * 2);
-		g = std::min<uint16>(0xFF, g * 2);
-		r = std::min<uint16>(0xFF, r * 2);
-		uint16 dstPixel = (r >> 3) | ((g >> 2) << 5) | ((b >> 3) << 11);
-		reinterpret_cast<uint16*>(imageData)[i] = dstPixel;
+		case TEXTURE_FORMAT_RGB888:
+			internalFormat = GL_RGB;
+			break;
+		case TEXTURE_FORMAT_RGBA8888:
+			internalFormat = GL_RGBA;
+			break;
+		default:
+			assert(0);
+			break;
 	}
-	
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		
+	glBindTexture(GL_TEXTURE_2D, m_texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, imageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, internalFormat, GL_UNSIGNED_BYTE, data);
 	CHECKGLERROR();
-	
-	glGenerateMipmap(GL_TEXTURE_2D);
-	CHECKGLERROR();
-	
-	delete [] imageData;
-	
-	return TexturePtr(new CIphoneTexture(texture));
 }
 
 TexturePtr CIphoneTexture::CreateCubeFromFile(const char* path)

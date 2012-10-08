@@ -13,11 +13,13 @@ namespace Athena
 												CIphoneTexture(GLuint, bool = false);
 		virtual									~CIphoneTexture();
 		
+		static TexturePtr						Create(TEXTURE_FORMAT, uint32, uint32);
 		static TexturePtr						CreateFromFile(const char*);
 		static TexturePtr						CreateFromMemory(const void*, uint32);
-		static TexturePtr						CreateFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32);
 		
 		static TexturePtr						CreateCubeFromFile(const char*);
+				
+		void									Update(const void*);
 		
 		void*									GetHandle() const;
 		bool									IsCubeMap() const;

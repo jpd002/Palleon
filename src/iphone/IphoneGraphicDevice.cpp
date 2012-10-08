@@ -112,6 +112,11 @@ VertexBufferPtr CIphoneGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DES
 	return VertexBufferPtr(new CIphoneVertexBuffer(bufferDesc));
 }
 
+TexturePtr CIphoneGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+{
+	return CIphoneTexture::Create(textureFormat, width, height);
+}
+
 TexturePtr CIphoneGraphicDevice::CreateTextureFromFile(const char* path)
 {
 	return CIphoneTexture::CreateFromFile(path);
@@ -124,12 +129,19 @@ TexturePtr CIphoneGraphicDevice::CreateTextureFromMemory(const void* data, uint3
 
 TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return CIphoneTexture::CreateFromRawData(data, textureFormat, width, height);
+	auto texture = CIphoneTexture::Create(textureFormat, width, height);
+	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);
+	return texture;
 }
 
 TexturePtr CIphoneGraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
 	return CIphoneTexture::CreateCubeFromFile(path);
+}
+
+void CIphoneGraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
+{
+	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);	
 }
 
 RenderTargetPtr CIphoneGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)

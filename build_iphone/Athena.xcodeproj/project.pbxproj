@@ -558,7 +558,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_49_0/",
+					"~/Libraries/boost_1_50_0/",
 					../include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -581,7 +581,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"~/Projects/Framework/include",
-					"~/Libraries/boost_1_49_0/",
+					"~/Libraries/boost_1_50_0/",
 					../include/,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
