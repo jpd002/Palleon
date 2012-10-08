@@ -122,6 +122,11 @@ VertexBufferPtr CDx9GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRI
 	return std::make_shared<CDx9VertexBuffer>(m_device, bufferDesc, vertexDeclaration);
 }
 
+TexturePtr CDx9GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+{
+	return CDx9Texture::Create(m_device, textureFormat, width, height);
+}
+
 TexturePtr CDx9GraphicDevice::CreateTextureFromFile(const char* path)
 {
 	return CDx9Texture::CreateFromFile(m_device, path);
@@ -134,7 +139,9 @@ TexturePtr CDx9GraphicDevice::CreateTextureFromMemory(const void* data, uint32 d
 
 TexturePtr CDx9GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return CDx9Texture::CreateFromRawData(m_device, data, textureFormat, width, height);
+	auto texture = CDx9Texture::Create(m_device, textureFormat, width, height);
+	std::static_pointer_cast<CDx9Texture>(texture)->Update(data);
+	return texture;
 }
 
 TexturePtr CDx9GraphicDevice::CreateCubeTextureFromFile(const char* path)
@@ -145,6 +152,11 @@ TexturePtr CDx9GraphicDevice::CreateCubeTextureFromFile(const char* path)
 RenderTargetPtr CDx9GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	return std::make_shared<CDx9RenderTarget>(m_device, textureFormat, width, height);
+}
+
+void CDx9GraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
+{
+	std::static_pointer_cast<CDx9Texture>(texture)->Update(data);
 }
 
 CubeRenderTargetPtr CDx9GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
