@@ -70,6 +70,11 @@ void CSceneNode::RemoveChild(const SceneNodePtr& node)
 	node->m_parent = NULL;
 }
 
+CAnimationController& CSceneNode::GetAnimationController()
+{
+	return m_animationController;
+}
+
 CVector3 CSceneNode::GetPosition() const
 {
 	return m_position;
@@ -102,6 +107,7 @@ void CSceneNode::SetVisible(bool visible)
 
 void CSceneNode::Update(float dt)
 {
+	m_animationController.Update(this, dt);
 	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
 	{
 		(*nodeIterator)->Update(dt);

@@ -21,7 +21,13 @@
 #include "athena/Label.h"
 #include "athena/Sprite.h"
 #include "athena/NinePatch.h"
-#include "athena/AnimatedSprite.h"
+
+//Animation
+#include "athena/IAnimation.h"
+#include "athena/AnimationController.h"
+#include "athena/AnimationCurve.h"
+#include "athena/TextureAnimation.h"
+#include "athena/RumbleAnimation.h"
 
 //Widgets
 #include "athena/InputManager.h"

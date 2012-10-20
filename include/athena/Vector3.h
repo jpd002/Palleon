@@ -91,6 +91,11 @@ public:
 		return (*this);
 	}
 	
+	bool operator ==(const CVector3& rhs) const
+	{
+		return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
+	}
+
 	CVector3 operator -() const
 	{
 		return CVector3(-x, -y, -z);

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\AnimatedSprite.cpp" />
+    <ClCompile Include="..\src\AnimationController.cpp" />
     <ClCompile Include="..\src\Box2.cpp" />
     <ClCompile Include="..\src\ButtonBase.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
@@ -40,11 +40,13 @@
     <ClCompile Include="..\src\Package.cpp" />
     <ClCompile Include="..\src\RenderTarget.cpp" />
     <ClCompile Include="..\src\ResourceManager.cpp" />
+    <ClCompile Include="..\src\RumbleAnimation.cpp" />
     <ClCompile Include="..\src\SceneNode.cpp" />
     <ClCompile Include="..\src\SphereMesh.cpp" />
     <ClCompile Include="..\src\Sprite.cpp" />
     <ClCompile Include="..\src\SpriteButton.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
+    <ClCompile Include="..\src\TextureAnimation.cpp" />
     <ClCompile Include="..\src\VertexBuffer.cpp" />
     <ClCompile Include="..\src\Viewport.cpp" />
     <ClCompile Include="..\src\Widget.cpp" />
@@ -59,7 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
-    <ClInclude Include="..\include\athena\AnimatedSprite.h" />
+    <ClInclude Include="..\include\athena\AnimationController.h" />
+    <ClInclude Include="..\include\athena\AnimationCurve.h" />
     <ClInclude Include="..\include\athena\Application.h" />
     <ClInclude Include="..\include\athena\Box2.h" />
     <ClInclude Include="..\include\athena\ButtonBase.h" />
@@ -72,6 +75,7 @@
     <ClInclude Include="..\include\athena\FontDescriptor.h" />
     <ClInclude Include="..\include\athena\Frustum.h" />
     <ClInclude Include="..\include\athena\GraphicDevice.h" />
+    <ClInclude Include="..\include\athena\IAnimation.h" />
     <ClInclude Include="..\include\athena\ILayoutable.h" />
     <ClInclude Include="..\include\athena\InputManager.h" />
     <ClInclude Include="..\include\athena\Label.h" />
@@ -89,11 +93,13 @@
     <ClInclude Include="..\include\athena\Quaternion.h" />
     <ClInclude Include="..\include\athena\RenderTarget.h" />
     <ClInclude Include="..\include\athena\ResourceManager.h" />
+    <ClInclude Include="..\include\athena\RumbleAnimation.h" />
     <ClInclude Include="..\include\athena\SceneNode.h" />
     <ClInclude Include="..\include\athena\SphereMesh.h" />
     <ClInclude Include="..\include\athena\Sprite.h" />
     <ClInclude Include="..\include\athena\SpriteButton.h" />
     <ClInclude Include="..\include\athena\Texture.h" />
+    <ClInclude Include="..\include\athena\TextureAnimation.h" />
     <ClInclude Include="..\include\athena\TgaImage.h" />
     <ClInclude Include="..\include\athena\Tween.h" />
     <ClInclude Include="..\include\athena\Vector2.h" />

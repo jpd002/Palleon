@@ -1,10 +1,11 @@
 #ifndef _SCENENODE_H_
 #define _SCENENODE_H_
 
-#include "Vector3.h"
 #include <vector>
 #include <functional>
 #include <memory>
+#include "Vector3.h"
+#include "AnimationController.h"
 
 namespace Athena
 {
@@ -35,6 +36,8 @@ namespace Athena
 		void						AppendChildAfter(const SceneNodePtr&, const SceneNodePtr&);
 		void						RemoveChild(const SceneNodePtr&);
 
+		CAnimationController&		GetAnimationController();
+
 		CVector3					GetPosition() const;
 		void						SetPosition(const CVector3&);
 		
@@ -64,6 +67,8 @@ namespace Athena
 		CVector3					m_worldPosition;
 		CVector3					m_worldScale;
 		bool						m_worldVisibility;
+
+		CAnimationController		m_animationController;
 
 		SceneNodeArray				m_children;
 	};

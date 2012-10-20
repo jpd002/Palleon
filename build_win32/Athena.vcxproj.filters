@@ -20,6 +20,9 @@
     <Filter Include="Source Files\win32">
       <UniqueIdentifier>{9076505b-cb07-438c-9a95-2a8b0964accf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\animation">
+      <UniqueIdentifier>{fc218be3-8d2a-4e3a-b233-30c638ac4bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ConfigManager.cpp">
@@ -33,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="..\src\Frustum.cpp">
       <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\AnimatedSprite.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Camera.cpp">
       <Filter>Source Files\graphics</Filter>
@@ -133,6 +133,15 @@
     <ClCompile Include="..\src\win32\Dx9CubeRenderTarget.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\AnimationController.cpp">
+      <Filter>Source Files\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TextureAnimation.cpp">
+      <Filter>Source Files\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RumbleAnimation.cpp">
+      <Filter>Source Files\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -159,9 +168,6 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\MathDef.h">
       <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\AnimatedSprite.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\Camera.h">
       <Filter>Source Files\graphics</Filter>
@@ -285,6 +291,21 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\TgaImage.h">
       <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\IAnimation.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\AnimationController.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\AnimationCurve.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\TextureAnimation.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\RumbleAnimation.h">
+      <Filter>Source Files\animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,9 +20,42 @@ public:
 		
 	}
 	
+	CColor operator +(const CColor& rhs) const
+	{
+		return CColor(
+						r + rhs.r,
+						g + rhs.g,
+						b + rhs.b,
+						a + rhs.a);
+	}
+
+	CColor operator -(const CColor& rhs) const
+	{
+		return CColor(
+						r - rhs.r,
+						g - rhs.g,
+						b - rhs.b,
+						a - rhs.a);
+	}
+
 	CColor operator *(float value) const
 	{
 		return CColor(r * value, g * value, b * value, a * value);
+	}
+
+	CColor operator /(float value) const
+	{
+		return CColor(r / value, g / value, b / value, a / value);
+	}
+
+	bool operator ==(const CColor& rhs) const
+	{
+		return (r == rhs.r) && (g == rhs.g) && (b == rhs.b) && (a == rhs.a);
+	}
+
+	CColor operator -() const
+	{
+		return CColor(-r, -g, -b, -a);
 	}
 
 	CColor MultiplyClamp(float value) const
@@ -40,5 +73,14 @@ public:
 	float b;
 	float a;
 };
+
+static CColor operator *(float lhs, const CColor& rhs)
+{
+	return CColor(
+		lhs * rhs.r, 
+		lhs * rhs.g, 
+		lhs * rhs.b,
+		lhs * rhs.a);
+}
 
 #endif

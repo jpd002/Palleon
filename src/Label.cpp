@@ -83,6 +83,7 @@ void CLabel::SetTextScale(const CVector2& textScale)
 
 void CLabel::Update(float dt)
 {
+	CSceneNode::Update(dt);
 	if(m_dirty)
 	{
 		BuildVertexBuffer();
