@@ -1,10 +1,6 @@
 #include "athena/AnimationController.h"
 #include <assert.h>
 
-
-#include <Windows.h>
-#include "athena/SceneNode.h"
-
 using namespace Athena;
 
 CAnimationController::CAnimationController()
