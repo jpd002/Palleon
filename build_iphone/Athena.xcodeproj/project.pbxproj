@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B582491635215200C40F25 /* AnimationController.cpp */; };
+		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
+		70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824B1635215200C40F25 /* TextureAnimation.cpp */; };
+		70B582531635216800C40F25 /* AnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B5824F1635216800C40F25 /* AnimationController.h */; };
+		70B582541635216800C40F25 /* AnimationCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582501635216800C40F25 /* AnimationCurve.h */; };
+		70B582551635216800C40F25 /* RumbleAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582511635216800C40F25 /* RumbleAnimation.h */; };
+		70B582561635216800C40F25 /* TextureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582521635216800C40F25 /* TextureAnimation.h */; };
 		7E1923BA150C0404003BB65B /* PvrImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B8150C0404003BB65B /* PvrImage.h */; };
 		7E1923BB150C0404003BB65B /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B9150C0404003BB65B /* TgaImage.h */; };
 		7E2885BB13F8632A00F606EB /* IphoneResourceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E2885BA13F8632A00F606EB /* IphoneResourceManager.mm */; };
@@ -39,8 +46,6 @@
 		7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */; };
 		7E5C124314F1AE5800292DD3 /* IphoneEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */; };
 		7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */; };
-		7E6DA4B61473821C0022EFCC /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */; };
-		7E6DA4B8147382230022EFCC /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
 		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
 		7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875013F71AC300AD9F7F /* Camera.cpp */; };
@@ -96,6 +101,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		70B582491635215200C40F25 /* AnimationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimationController.cpp; path = ../../src/AnimationController.cpp; sourceTree = "<group>"; };
+		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
+		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../../src/TextureAnimation.cpp; sourceTree = "<group>"; };
+		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../../include/athena/AnimationController.h; sourceTree = "<group>"; };
+		70B582501635216800C40F25 /* AnimationCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationCurve.h; path = ../../include/athena/AnimationCurve.h; sourceTree = "<group>"; };
+		70B582511635216800C40F25 /* RumbleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RumbleAnimation.h; path = ../../include/athena/RumbleAnimation.h; sourceTree = "<group>"; };
+		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../../include/athena/TextureAnimation.h; sourceTree = "<group>"; };
 		7E1923B8150C0404003BB65B /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../../include/athena/PvrImage.h; sourceTree = "<group>"; };
 		7E1923B9150C0404003BB65B /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../../include/athena/TgaImage.h; sourceTree = "<group>"; };
 		7E2885BA13F8632A00F606EB /* IphoneResourceManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IphoneResourceManager.mm; path = ../../src/iphone/IphoneResourceManager.mm; sourceTree = "<group>"; };
@@ -128,8 +140,6 @@
 		7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneEffectGenerator.h; path = ../../include/athena/iphone/IphoneEffectGenerator.h; sourceTree = "<group>"; };
 		7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneEffectGenerator.cpp; path = ../../src/iphone/IphoneEffectGenerator.cpp; sourceTree = "<group>"; };
 		7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../../include/athena/iphone/OpenGlEsDefs.h; sourceTree = "<group>"; };
-		7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimatedSprite.h; path = ../../include/athena/AnimatedSprite.h; sourceTree = "<group>"; };
-		7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimatedSprite.cpp; path = ../../src/AnimatedSprite.cpp; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = "<group>"; };
@@ -198,6 +208,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70B582481635214200C40F25 /* animation */ = {
+			isa = PBXGroup;
+			children = (
+				70B582491635215200C40F25 /* AnimationController.cpp */,
+				70B5824F1635216800C40F25 /* AnimationController.h */,
+				70B582501635216800C40F25 /* AnimationCurve.h */,
+				70B5824A1635215200C40F25 /* RumbleAnimation.cpp */,
+				70B582511635216800C40F25 /* RumbleAnimation.h */,
+				70B5824B1635215200C40F25 /* TextureAnimation.cpp */,
+				70B582521635216800C40F25 /* TextureAnimation.h */,
+			);
+			name = animation;
+			sourceTree = "<group>";
+		};
 		7E2885B813F862F800F606EB /* iphone */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,8 +269,6 @@
 		7E5C123D14F19F1200292DD3 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				7E6DA4B7147382220022EFCC /* AnimatedSprite.cpp */,
-				7E6DA4B51473821C0022EFCC /* AnimatedSprite.h */,
 				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
 				7E7D877613F71AD900AD9F7F /* Camera.h */,
 				7E7D877813F71AD900AD9F7F /* Color.h */,
@@ -342,6 +364,7 @@
 		7E7D874013F719E500AD9F7F /* Athena */ = {
 			isa = PBXGroup;
 			children = (
+				70B582481635214200C40F25 /* animation */,
 				7E5C123D14F19F1200292DD3 /* graphics */,
 				7E407F811401F88700431963 /* math */,
 				7E5C123F14F1A01000292DD3 /* resources */,
@@ -406,7 +429,6 @@
 				7E407F861401F8AD00431963 /* Plane.h in Headers */,
 				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
 				7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */,
-				7E6DA4B61473821C0022EFCC /* AnimatedSprite.h in Headers */,
 				7EFCCE7C14BEB1EC00FFB812 /* Package.h in Headers */,
 				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
@@ -421,6 +443,10 @@
 				7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */,
 				7E1923BA150C0404003BB65B /* PvrImage.h in Headers */,
 				7E1923BB150C0404003BB65B /* TgaImage.h in Headers */,
+				70B582531635216800C40F25 /* AnimationController.h in Headers */,
+				70B582541635216800C40F25 /* AnimationCurve.h in Headers */,
+				70B582551635216800C40F25 /* RumbleAnimation.h in Headers */,
+				70B582561635216800C40F25 /* TextureAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,7 +525,6 @@
 				7EC5E5DC13FE153C004B7994 /* IphoneGraphicDevice.cpp in Sources */,
 				7EC5E5DD13FE153C004B7994 /* IphoneViewController.mm in Sources */,
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
-				7E6DA4B8147382230022EFCC /* AnimatedSprite.cpp in Sources */,
 				7EFCCE7914BEB1D400FFB812 /* Package.cpp in Sources */,
 				7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */,
 				7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */,
@@ -509,6 +534,9 @@
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 				7E5C124314F1AE5800292DD3 /* IphoneEffectGenerator.cpp in Sources */,
+				70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */,
+				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
+				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
