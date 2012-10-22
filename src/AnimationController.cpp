@@ -78,7 +78,7 @@ void CAnimationController::Update(CSceneNode* sceneNode, float dt)
 			if(animationState.time == animation->GetLength())
 			{
 				animationState.playing = false;
-				AnimationOver(animationIterator->first.c_str());
+				AnimationOver(sceneNode, animationIterator->first.c_str());
 			}
 			break;
 		}

@@ -1,5 +1,4 @@
-#ifndef _ATHENA_SPRITE_H_
-#define _ATHENA_SPRITE_H_
+#pragma once
 
 #include "Mesh.h"
 
@@ -33,5 +32,3 @@ namespace Athena
 		uint32				m_status;
 	};
 }
-
-#endif

@@ -19,7 +19,7 @@ namespace Athena
 	class CAnimationController
 	{
 	public:
-		typedef boost::signals2::signal<void (const char*)> AnimationOverEvent;
+		typedef boost::signals2::signal<void (CSceneNode*, const char*)> AnimationOverEvent;
 
 									CAnimationController();
 		virtual						~CAnimationController();
