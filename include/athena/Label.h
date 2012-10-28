@@ -43,6 +43,8 @@ namespace Athena
 		VERTICAL_ALIGNMENT		GetVerticalAlignment() const;
 		void					SetVerticalAlignment(VERTICAL_ALIGNMENT);
 
+		void					SetWordWrapEnabled(bool);
+
 		virtual void			SetPosition(const CVector3&);
 
 		void					SetSize(const CVector2&);
@@ -53,6 +55,7 @@ namespace Athena
 		
 	protected:
 		typedef std::vector<float> FloatArray;
+		typedef std::vector<std::string> StringArray;
 
 		struct TEXTPOSINFO
 		{
@@ -60,12 +63,13 @@ namespace Athena
 			float				posY;
 		};
 
-		unsigned int			GetCharCount() const;
-		unsigned int			GetLineCount() const;
-		FloatArray				GetLineWidths() const;
-		float					GetTextHeight() const;
-		CVector2				GetTextExtents() const;
-		TEXTPOSINFO				GetTextPosition() const;
+		StringArray				GetLines() const;
+		unsigned int			GetCharCount(const StringArray&) const;
+		FloatArray				GetLineWidths(const StringArray&) const;
+		float					GetTextHeight(const StringArray&) const;
+		TEXTPOSINFO				GetTextPosition(const StringArray&) const;
+
+		CVector2				MeasureString(const char*) const;
 
 		void					BuildVertexBuffer();
 		
@@ -75,6 +79,7 @@ namespace Athena
 
 		HORIZONTAL_ALIGNMENT	m_horizontalAlignment;
 		VERTICAL_ALIGNMENT		m_verticalAlignment;
+		bool					m_wordWrapEnabled;
 		CVector2				m_size;
 
 		bool					m_dirty;

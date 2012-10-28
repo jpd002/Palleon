@@ -27,6 +27,7 @@ CLabel::CLabel()
 , m_dirty(false)
 , m_charCount(0)
 , m_textScale(1, 1)
+, m_wordWrapEnabled(true)
 {
 
 }
@@ -64,6 +65,11 @@ void CLabel::SetVerticalAlignment(VERTICAL_ALIGNMENT align)
 	m_verticalAlignment = align;
 }
 
+void CLabel::SetWordWrapEnabled(bool wordWrapEnabled)
+{
+	m_wordWrapEnabled = wordWrapEnabled;
+}
+
 void CLabel::SetPosition(const CVector3& position)
 {
 	CMesh::SetPosition(position);
@@ -93,7 +99,8 @@ void CLabel::Update(float dt)
 
 void CLabel::BuildVertexBuffer()
 {
-	uint32 currentCharCount = GetCharCount();
+	auto lines = GetLines();
+	uint32 currentCharCount = GetCharCount(lines);
 
 	m_primitiveCount = currentCharCount * 2;
 
@@ -111,51 +118,52 @@ void CLabel::BuildVertexBuffer()
 		m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 	}
 
-	TEXTPOSINFO textPosInfo = GetTextPosition();
+	TEXTPOSINFO textPosInfo = GetTextPosition(lines);
 	float textureWidth = static_cast<float>(m_font->GetTextureWidth());
 	float textureHeight = static_cast<float>(m_font->GetTextureHeight());
 
 	unsigned int currentLine = 0;
-	float posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
 	float posY = textPosInfo.posY;
 
-	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc = m_vertexBuffer->GetDescriptor(); 
+	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc = m_vertexBuffer->GetDescriptor();
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
 	uint8* verticesEnd = vertices + (bufferDesc.GetVertexSize() * m_charCount * 4);
-	for(auto character(std::begin(m_text)); character != std::end(m_text); character++)
+	for(auto lineIterator(std::begin(lines)); lineIterator != std::end(lines); lineIterator++, currentLine++)
 	{
-		if(*character == '\n')
+		const auto& line = *lineIterator;
+
+		float posX = textPosInfo.linePosX[currentLine];
+
+		for(auto character(std::begin(line)); character != std::end(line); character++)
 		{
-			currentLine++;
-			posX = (currentLine < textPosInfo.linePosX.size()) ? textPosInfo.linePosX[currentLine] : 0;
-			posY += static_cast<float>(m_font->GetLineHeight()) * m_textScale.y;
-			continue;
+			CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(static_cast<uint8>(*character));
+
+			for(unsigned int j = 0; j < 4; j++)
+			{
+				CVector3 position(&s_positions[j * 3]);
+				position.x *= glyphInfo.dx * m_textScale.x;
+				position.y *= glyphInfo.dy * m_textScale.y;
+				position.x += posX + glyphInfo.xoffset * m_textScale.x;
+				position.y += posY + glyphInfo.yoffset * m_textScale.y;
+
+				CVector2 texCoord(&s_texCoords[j * 2]);
+				texCoord.x *= glyphInfo.dx / textureWidth;
+				texCoord.y *= glyphInfo.dy / textureHeight;
+				texCoord.x += glyphInfo.x / textureWidth;
+				texCoord.y += glyphInfo.y / textureHeight;
+
+				*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
+				*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = texCoord;
+				vertices += bufferDesc.GetVertexSize();
+			}
+
+			posX += glyphInfo.xadvance * m_textScale.x;
 		}
 
-		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(static_cast<uint8>(*character));
-
-		for(unsigned int j = 0; j < 4; j++)
-		{
-			CVector3 position(&s_positions[j * 3]);
-			position.x *= glyphInfo.dx * m_textScale.x;
-			position.y *= glyphInfo.dy * m_textScale.y;
-			position.x += posX + glyphInfo.xoffset * m_textScale.x;
-			position.y += posY + glyphInfo.yoffset * m_textScale.y;
-
-			CVector2 texCoord(&s_texCoords[j * 2]);
-			texCoord.x *= glyphInfo.dx / textureWidth;
-			texCoord.y *= glyphInfo.dy / textureHeight;
-			texCoord.x += glyphInfo.x / textureWidth;
-			texCoord.y += glyphInfo.y / textureHeight;
-
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = texCoord;
-			vertices += bufferDesc.GetVertexSize();
-		}
-
-		posX += glyphInfo.xadvance * m_textScale.x;
+		posY += static_cast<float>(m_font->GetLineHeight()) * m_textScale.y;
 	}
+
 	assert(vertices <= verticesEnd);
 	m_vertexBuffer->UnlockVertices();
 
@@ -172,86 +180,124 @@ void CLabel::BuildVertexBuffer()
 	m_vertexBuffer->UnlockIndices();
 }
 
-unsigned int CLabel::GetCharCount() const
+CLabel::StringArray CLabel::GetLines() const
 {
-	unsigned int result = 0;
+	StringArray result;
+
+	auto startCharacter = std::begin(m_text);
 	for(auto character(std::begin(m_text)); character != std::end(m_text); character++)
 	{
-		if(*character == '\n') continue;
-		result++;
+		if(*character == '\n')
+		{
+			result.push_back(std::string(startCharacter, character));
+			startCharacter = character + 1;
+		}
 	}
-	return result;
-}
-
-unsigned int CLabel::GetLineCount() const
-{
-	unsigned int charCount = m_text.length();
-	if(charCount == 0) return 0;
-	unsigned int result = 1;
-	for(unsigned int i = 0; i < charCount; i++)
+	if(startCharacter != std::end(m_text))
 	{
-		char character = m_text[i];
-		if(character == '\n') result++;
+		result.push_back(std::string(startCharacter, std::end(m_text)));
+	}
+
+	//Fit the lines into the bounding box
+	if(m_wordWrapEnabled)
+	{
+		StringArray sourceLines(std::move(result));
+
+		for(auto lineIterator(std::begin(sourceLines));
+			lineIterator != std::end(sourceLines); lineIterator++)
+		{
+			const auto& line = *lineIterator;
+			std::string currentLine;
+			std::string currentWord;
+			std::string currentSeparator;
+			for(auto character(std::begin(line)); character != std::end(line); character++)
+			{
+				if(*character == 0x20)
+				{
+					CVector2 wordSize = MeasureString(currentWord.c_str());
+					CVector2 lineSize = MeasureString(currentLine.c_str());
+					if((wordSize.x + lineSize.x) > m_size.x)
+					{
+						result.push_back(currentLine);
+						currentLine = currentWord;
+						currentWord.clear();
+					}
+					else
+					{
+						currentLine += currentSeparator;
+						currentLine += currentWord;
+						currentWord.clear();
+						currentSeparator = *character;
+					}
+				}
+				else
+				{
+					currentWord += *character;
+				}
+			}
+
+			if(currentLine.length() != 0)
+			{
+				CVector2 wordSize = MeasureString(currentWord.c_str());
+				CVector2 lineSize = MeasureString(currentLine.c_str());
+				if((wordSize.x + lineSize.x) > m_size.x)
+				{
+					result.push_back(currentLine);
+					result.push_back(currentWord);
+				}
+				else
+				{
+					result.push_back(currentLine + currentSeparator + currentWord);
+				}
+			}
+			else if(currentWord.length() != 0)
+			{
+				result.push_back(currentWord);
+			}
+		}
+	}
+
+	return result;
+}
+
+unsigned int CLabel::GetCharCount(const StringArray& lines) const
+{
+	unsigned int result = 0;
+	for(auto lineIterator(std::begin(lines)); lineIterator != std::end(lines); lineIterator++)
+	{
+		const auto& line = *lineIterator;
+		result += line.size();
 	}
 	return result;
 }
 
-CLabel::FloatArray CLabel::GetLineWidths() const
+CLabel::FloatArray CLabel::GetLineWidths(const StringArray& lines) const
 {
 	CLabel::FloatArray widths;
 
-	unsigned int lineCount = GetLineCount();
-	if(lineCount == 0) return widths;
+	widths.reserve(lines.size());
 
-	widths.reserve(lineCount);
-
-	unsigned int charCount = m_text.length();
-	float currentWidth = 0;
-	for(unsigned int i = 0; i < charCount; i++)
+	for(auto lineIterator(std::begin(lines));
+		lineIterator != std::end(lines); lineIterator++)
 	{
-		uint8 character = static_cast<uint8>(m_text[i]);
-		if(character == '\n')
-		{
-			widths.push_back(currentWidth);
-			currentWidth = 0;
-			continue;
-		}
-		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
-		currentWidth += glyphInfo.xadvance * m_textScale.x;
+		auto lineSize = MeasureString(lineIterator->c_str());
+		widths.push_back(lineSize.x);
 	}
-
-	widths.push_back(currentWidth);
-	assert(widths.size() == lineCount);
 
 	return widths;
 }
 
-float CLabel::GetTextHeight() const
+float CLabel::GetTextHeight(const StringArray& lines) const
 {
-	unsigned int lineCount = GetLineCount();
+	unsigned int lineCount = lines.size();
 	return static_cast<float>(lineCount * m_font->GetLineHeight()) * m_textScale.y;
 }
 
-CVector2 CLabel::GetTextExtents() const
-{
-	FloatArray lineWidths = GetLineWidths();
-
-	CVector2 result;
-	result.x = 0;
-	for(unsigned int i = 0; i < lineWidths.size(); i++)
-	{
-		result.x = std::max<float>(lineWidths[i], result.x);
-	}
-	result.y = GetTextHeight();
-
-	return result;
-}
-
-CLabel::TEXTPOSINFO CLabel::GetTextPosition() const
+CLabel::TEXTPOSINFO CLabel::GetTextPosition(const StringArray& lines) const
 {
 	TEXTPOSINFO result;
 
-	FloatArray lineWidths = GetLineWidths();
+	FloatArray lineWidths = GetLineWidths(lines);
 	result.linePosX.reserve(lineWidths.size());
 	for(unsigned int i = 0; i < lineWidths.size(); i++)
 	{
@@ -272,7 +318,7 @@ CLabel::TEXTPOSINFO CLabel::GetTextPosition() const
 		result.linePosX.push_back(posX);
 	}
 
-	float textHeight = GetTextHeight();
+	float textHeight = GetTextHeight(lines);
 	float posY = 0;
 	switch(m_verticalAlignment)
 	{
@@ -289,4 +335,17 @@ CLabel::TEXTPOSINFO CLabel::GetTextPosition() const
 	result.posY = posY;
 
 	return result;
+}
+
+CVector2 CLabel::MeasureString(const char* string) const
+{
+	size_t charCount = strlen(string);
+	float currentWidth = 0;
+	for(unsigned int i = 0; i < charCount; i++)
+	{
+		uint8 character = static_cast<uint8>(string[i]);
+		CFontDescriptor::GLYPHINFO glyphInfo = m_font->GetGlyphInfo(character);
+		currentWidth += glyphInfo.xadvance * m_textScale.x;
+	}
+	return CVector2(currentWidth, static_cast<float>(m_font->GetLineHeight()));
 }
