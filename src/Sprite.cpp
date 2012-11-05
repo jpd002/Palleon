@@ -44,6 +44,11 @@ SpritePtr CSprite::Create()
 	return std::make_shared<CSprite>();
 }
 
+CVector2 CSprite::GetSize() const
+{
+	return m_size;
+}
+
 void CSprite::SetSize(const CVector2& size)
 {
 	m_size = size;

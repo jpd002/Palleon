@@ -17,6 +17,7 @@ namespace Athena
 
 		virtual void		Update(float dt);
 		
+		CVector2			GetSize() const;
 		void				SetSize(const CVector2&);
 		
 	protected:
