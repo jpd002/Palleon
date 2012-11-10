@@ -1,6 +1,7 @@
 #include "athena/Label.h"
 #include "athena/ResourceManager.h"
 #include "athena/GraphicDevice.h"
+#include "Utf8.h"
 
 using namespace Athena;
 
@@ -44,7 +45,7 @@ LabelPtr CLabel::Create()
 
 void CLabel::SetText(const char* text)
 {
-	m_text = text;
+	m_text = Framework::Utf8::ConvertFrom(text);
 	m_dirty = true;
 }
 

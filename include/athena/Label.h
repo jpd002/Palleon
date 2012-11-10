@@ -74,7 +74,7 @@ namespace Athena
 		void					BuildVertexBuffer();
 		
 		const CFontDescriptor*	m_font;
-		std::string				m_text;
+		std::wstring			m_text;
 		CVector2				m_textScale;
 
 		HORIZONTAL_ALIGNMENT	m_horizontalAlignment;
