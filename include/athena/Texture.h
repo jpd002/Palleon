@@ -1,5 +1,4 @@
-#ifndef _TEXTURE_H_
-#define _TEXTURE_H_
+#pragma once
 
 #include <memory>
 #include "Types.h"
@@ -32,5 +31,3 @@ namespace Athena
 
 	typedef std::shared_ptr<CTexture> TexturePtr;
 }
-
-#endif

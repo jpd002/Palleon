@@ -37,22 +37,6 @@ static const uint16 s_indices[INDEX_COUNT] =
 	10, 11, 15,
 };
 
-static const float s_positions[4 * 3] =
-{
-	0, 0, 0,
-	1, 0, 0,
-	0, 1, 0,
-	1, 1, 0
-};
-
-static const float s_texCoords[4 * 2] =
-{
-	0, 0,
-	1, 0,
-	0, 1,
-	1, 1
-};
-
 CNinePatch::CNinePatch()
 : m_size(1, 1)
 , m_status(0)
