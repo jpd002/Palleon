@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "athena/win32/Win32ResourceManager.h"
+#include "athena/win32/Win32AudioManager.h"
 #include "athena/win32/Dx9GraphicDevice.h"
 #include "athena/win32/Dx9ApplicationWindow.h"
 #include "athena/ConfigManager.h"
@@ -60,6 +61,7 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	SetClassPtr();
 
 	CDx9GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
+	CWin32AudioManager::CreateInstance();
 
 	m_application = CreateApplication();
 }
