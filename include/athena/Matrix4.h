@@ -1,5 +1,4 @@
-#ifndef _MATRIX4_H_
-#define _MATRIX4_H_
+#pragma once
 
 #include <memory.h>
 #include <math.h>
@@ -10,7 +9,7 @@ class CMatrix4
 public:
 	CMatrix4()
 	{
-
+		Clear();
 	}
 	
 	void Clear()
@@ -188,5 +187,3 @@ public:
 
 	float coeff[16];
 };
-
-#endif

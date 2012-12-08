@@ -1,5 +1,4 @@
-#ifndef _QUATERNION_H_
-#define _QUATERNION_H_
+#pragma once
 
 #include "Vector3.h"
 #include "Matrix4.h"
@@ -25,7 +24,7 @@ public:
 	CMatrix4 ToMatrix() const
 	{
 		CMatrix4 result;
-		
+
 		result(0, 0) = 1 - (2 * y * y) - (2 * z * z);
 		result(0, 1) = (2 * x * y) - (2 * z * w);
 		result(0, 2) = (2 * x * z) + (2 * y * w);
@@ -37,7 +36,9 @@ public:
 		result(2, 0) = (2 * x * z) - (2 * y * w);
 		result(2, 1) = (2 * y * z) + (2 * x * w);
 		result(2, 2) = 1 - (2 * x * x) - (2 * y * y);
-		
+
+		result(3, 3) = 1;
+
 		return result;
 	}
 	
@@ -153,5 +154,3 @@ static CQuaternion Slerp(const CQuaternion& q1, const CQuaternion& q2, float alp
 	result = (q1prime * scale) + (q2prime * invScale);
 	return result;
 }
-
-#endif
