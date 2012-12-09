@@ -180,14 +180,8 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 	GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	GLuint vertexArray = vertexBufferGen->GetVertexArray();
-	
-	CVector3 worldPosition = mesh->GetWorldPosition();
-	CVector3 worldScale = mesh->GetWorldScale();
-	
-	CMatrix4 worldMatrix = CMatrix4::MakeTranslation(worldPosition.x, worldPosition.y, worldPosition.z);
-	worldMatrix(0, 0) = worldScale.x;
-	worldMatrix(1, 1) = worldScale.y;
-	worldMatrix(2, 2) = worldScale.z;
+		
+	CMatrix4 worldMatrix = mesh->GetWorldTransformation();
 	
 	const EFFECTINFO* currentEffect(NULL);
 	
