@@ -26,9 +26,9 @@ CIphoneAudioClip::~CIphoneAudioClip()
 	}
 }
 
-void CIphoneAudioClip::Play()
+void CIphoneAudioClip::Play(bool loop)
 {
 	if(m_player == nil) return;
-	m_player.numberOfLoops = -1;
+	m_player.numberOfLoops = loop ? -1 : 0;
 	[m_player play];
 }

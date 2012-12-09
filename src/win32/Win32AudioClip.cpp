@@ -12,7 +12,7 @@ CWin32AudioClip::~CWin32AudioClip()
 
 }
 
-void CWin32AudioClip::Play()
+void CWin32AudioClip::Play(bool)
 {
 
 }

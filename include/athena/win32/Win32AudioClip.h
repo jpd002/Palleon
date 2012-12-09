@@ -10,6 +10,6 @@ namespace Athena
 					CWin32AudioClip();
 		virtual		~CWin32AudioClip();
 
-		void		Play();
+		void		Play(bool);
 	};
 }
