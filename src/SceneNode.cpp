@@ -9,8 +9,7 @@ CSceneNode::CSceneNode()
 , m_scale(1, 1, 1)
 , m_visible(true)
 , m_parent(NULL)
-, m_worldPosition(0, 0, 0)
-, m_worldScale(1, 1, 1)
+, m_hotspot(0, 0, 0)
 , m_worldVisibility(true)
 {
 	m_children.reserve(5);
@@ -85,6 +84,16 @@ void CSceneNode::SetPosition(const CVector3& position)
 	m_position = position;
 }
 
+CQuaternion CSceneNode::GetRotation() const
+{
+	return m_rotation;
+}
+
+void CSceneNode::SetRotation(const CQuaternion& rotation)
+{
+	m_rotation = rotation;
+}
+
 CVector3 CSceneNode::GetScale() const
 {
 	return m_scale;
@@ -103,6 +112,16 @@ bool CSceneNode::GetVisible() const
 void CSceneNode::SetVisible(bool visible)
 {
 	m_visible = visible;
+}
+
+CVector3 CSceneNode::GetHotspot() const
+{
+	return m_hotspot;
+}
+
+void CSceneNode::SetHotspot(const CVector3& hotspot)
+{
+	m_hotspot = hotspot;
 }
 
 void CSceneNode::Update(float dt)
@@ -129,23 +148,20 @@ void CSceneNode::TraverseNodes(const TraversalFunction& traversalFunc)
 
 void CSceneNode::UpdateTransformations()
 {
+	CMatrix4 applyHotspotTransformation(CMatrix4::MakeTranslation(-m_hotspot.x, -m_hotspot.y, -m_hotspot.z));
+	CMatrix4 removeHotspotTransformation(CMatrix4::MakeTranslation(m_hotspot.x, m_hotspot.y, m_hotspot.z));
+	CMatrix4 localRotation(m_rotation.ToMatrix());
+	CMatrix4 localScale(CMatrix4::MakeScale(m_scale.x, m_scale.y, m_scale.z));
+	CMatrix4 localPosition(CMatrix4::MakeTranslation(m_position.x, m_position.y, m_position.z));
+	CMatrix4 localTransformation(applyHotspotTransformation * localRotation * localScale * localPosition * removeHotspotTransformation);
+
 	if(m_parent == NULL)
 	{
-		m_worldPosition		= m_position;
-		m_worldScale		= m_scale;
-		m_worldVisibility	= m_visible;
+		m_worldTransformation = localTransformation;
 	}
 	else
 	{
-		m_worldPosition	 = m_parent->m_worldPosition;
-		m_worldPosition.x += m_position.x * m_parent->m_worldScale.x;
-		m_worldPosition.y += m_position.y * m_parent->m_worldScale.y;
-		m_worldPosition.z += m_position.z * m_parent->m_worldScale.z;
-
-		m_worldScale.x = m_scale.x * m_parent->m_worldScale.x;
-		m_worldScale.y = m_scale.y * m_parent->m_worldScale.y;
-		m_worldScale.z = m_scale.z * m_parent->m_worldScale.z;
-
+		m_worldTransformation = localTransformation * m_parent->m_worldTransformation;
 		m_worldVisibility = m_visible && m_parent->m_worldVisibility;
 	}
 
@@ -155,14 +171,9 @@ void CSceneNode::UpdateTransformations()
 	}
 }
 
-CVector3 CSceneNode::GetWorldPosition() const
+CMatrix4 CSceneNode::GetWorldTransformation() const
 {
-	return m_worldPosition;
-}
-
-CVector3 CSceneNode::GetWorldScale() const
-{
-	return m_worldScale;
+	return m_worldTransformation;
 }
 
 bool CSceneNode::GetWorldVisibility() const

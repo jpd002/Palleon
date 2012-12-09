@@ -428,14 +428,7 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 	IDirect3DIndexBuffer9* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	IDirect3DVertexDeclaration9* vertexDeclaration = vertexBufferGen->GetVertexDeclaration();
 
-	CVector3 worldPosition = mesh->GetWorldPosition();
-	CVector3 worldScale = mesh->GetWorldScale();
-
-	D3DXMATRIX worldMatrix;
-	D3DXMatrixTranslation(&worldMatrix, worldPosition.x, worldPosition.y, worldPosition.z);
-	worldMatrix.m[0][0] *= worldScale.x;
-	worldMatrix.m[1][1] *= worldScale.y;
-	worldMatrix.m[2][2] *= worldScale.z;
+	D3DXMATRIX worldMatrix(mesh->GetWorldTransformation().coeff);
 
 	const EFFECTINFO* currentEffect(NULL);
 

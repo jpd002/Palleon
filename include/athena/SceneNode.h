@@ -5,7 +5,9 @@
 #include <functional>
 #include <memory>
 #include "Vector3.h"
+#include "Quaternion.h"
 #include "AnimationController.h"
+#include "Matrix4.h"
 
 namespace Athena
 {
@@ -41,11 +43,17 @@ namespace Athena
 		CVector3					GetPosition() const;
 		void						SetPosition(const CVector3&);
 		
+		CQuaternion					GetRotation() const;
+		void						SetRotation(const CQuaternion&);
+
 		CVector3					GetScale() const;
 		void						SetScale(const CVector3&);
 
 		bool						GetVisible() const;
 		void						SetVisible(bool);
+
+		CVector3					GetHotspot() const;
+		void						SetHotspot(const CVector3&);
 
 		virtual void				Update(float dt);
 
@@ -53,19 +61,20 @@ namespace Athena
 
 		void						UpdateTransformations();
 
-		CVector3					GetWorldPosition() const;
-		CVector3					GetWorldScale() const;
+		CMatrix4					GetWorldTransformation() const;
 		bool						GetWorldVisibility() const;
 
 	protected:
 		CSceneNode*					m_parent;
 
 		CVector3					m_position;
+		CQuaternion					m_rotation;
 		CVector3					m_scale;
 		bool						m_visible;
 
-		CVector3					m_worldPosition;
-		CVector3					m_worldScale;
+		CVector3					m_hotspot;
+
+		CMatrix4					m_worldTransformation;
 		bool						m_worldVisibility;
 
 		CAnimationController		m_animationController;

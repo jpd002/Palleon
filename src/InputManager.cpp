@@ -13,8 +13,9 @@ bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPositi
 		if(!node->GetWorldVisibility()) return false;
 
 		CWidget* widget = static_cast<CWidget*>(node);
-		CVector2 position = widget->GetWorldPosition().xy();
-		CVector2 scale = widget->GetWorldScale().xy();
+		CMatrix4 transformation = widget->GetWorldTransformation();
+		CVector2 position(transformation(3, 0), transformation(3, 1));
+		CVector2 scale(transformation(0, 0), transformation(1, 1));
 		CVector2 size = widget->GetSize();
 		size.x *= scale.x;
 		size.y *= scale.y;
