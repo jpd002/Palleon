@@ -28,7 +28,7 @@ void CIphoneAudioManager::DestroyInstance()
 	m_instance = nullptr;
 }
 
-AudioClipPtr CIphoneAudioManager::CreateAudioClip(const char*)
+AudioClipPtr CIphoneAudioManager::CreateAudioClip(const char* path)
 {
-	return std::make_shared<CIphoneAudioClip>();
+	return std::make_shared<CIphoneAudioClip>(path);
 }

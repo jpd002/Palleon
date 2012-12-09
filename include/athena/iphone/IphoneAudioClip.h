@@ -1,15 +1,19 @@
 #pragma once
 
 #include "../AudioClip.h"
+#include <AVFoundation/AVFoundation.h>
 
 namespace Athena
 {
 	class CIphoneAudioClip : public CAudioClip
 	{
 	public:
-					CIphoneAudioClip();
-		virtual		~CIphoneAudioClip();
+						CIphoneAudioClip(const char*);
+		virtual			~CIphoneAudioClip();
 
-		void		Play();
+		void			Play();
+		
+	private:
+		AVAudioPlayer*	m_player;
 	};
 }

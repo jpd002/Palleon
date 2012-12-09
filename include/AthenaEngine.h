@@ -34,6 +34,9 @@
 #include "athena/SpriteButton.h"
 #include "athena/NinePatchButton.h"
 
+//Audio
+#include "athena/AudioManager.h"
+
 //Resources
 #include "athena/Package.h"
 #include "athena/PvrImage.h"

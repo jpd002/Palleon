@@ -3,6 +3,7 @@
 #import "athena/iphone/IphoneViewController.h"
 #import "athena/iphone/IphoneGraphicDevice.h"
 #import "athena/iphone/IphoneResourceManager.h"
+#import "athena/iphone/IphoneAudioManager.h"
 #import "athena/ConfigManager.h"
 #import "EAGLView.h"
 #include <mach/mach.h>
@@ -55,6 +56,7 @@ using namespace Athena;
 	bool hasRetinaDisplay = [(EAGLView *)self.view hasRetinaDisplay];
 	
 	CIphoneResourceManager::CreateInstance();
+	CIphoneAudioManager::CreateInstance();
 	CConfigManager::CreateInstance();
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
 	
@@ -86,6 +88,7 @@ using namespace Athena;
 	[self stopAnimation];
 	
 	delete m_application;
+	CIphoneAudioManager::DestroyInstance();
 	CIphoneResourceManager::DestroyInstance();
 	[super dealloc];
 }
