@@ -53,7 +53,7 @@ void CLabel::SetFont(const CFontDescriptor* font)
 {
 	m_font = font;
 	m_material->SetTexture(0, CResourceManager::GetInstance().GetTexture(font->GetTextureName()));
-	m_material->SetIsTransparent(true);
+	m_material->SetAlphaBlendingMode(ALPHA_BLENDING_LERP);
 }
 
 void CLabel::SetHorizontalAlignment(HORIZONTAL_ALIGNMENT align)

@@ -23,6 +23,7 @@ namespace Athena
 	enum ALPHA_BLENDING_MODE
 	{
 		ALPHA_BLENDING_NONE,
+		ALPHA_BLENDING_LERP,
 		ALPHA_BLENDING_MODE_MAX
 	};
 
@@ -65,8 +66,8 @@ namespace Athena
 
 		bool					operator <(const CMaterial&) const;
 
-		bool					GetIsTransparent() const;
-		void					SetIsTransparent(bool);
+		ALPHA_BLENDING_MODE		GetAlphaBlendingMode() const;
+		void					SetAlphaBlendingMode(ALPHA_BLENDING_MODE);
 
 		CULLING_MODE			GetCullingMode() const;
 		void					SetCullingMode(CULLING_MODE);
@@ -103,7 +104,7 @@ namespace Athena
 			TEXTURE_ADDRESS_MODE	addressModeV;
 		};
 
-		bool					m_isTransparent;
+		ALPHA_BLENDING_MODE		m_alphaBlendingMode;
 		CULLING_MODE			m_cullingMode;
 		CColor					m_color;
 

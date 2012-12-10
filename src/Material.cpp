@@ -4,7 +4,7 @@
 using namespace Athena;
 
 CMaterial::CMaterial()
-: m_isTransparent(false)
+: m_alphaBlendingMode(ALPHA_BLENDING_NONE)
 , m_color(1.0f, 1.0f, 1.0f, 1.0f)
 , m_cullingMode(CULLING_CCW)
 {
@@ -35,14 +35,14 @@ bool CMaterial::operator <(const CMaterial& rhs) const
 	return m_textureSlots[0].texture.get() < rhs.m_textureSlots[0].texture.get();
 }
 
-bool CMaterial::GetIsTransparent() const
+ALPHA_BLENDING_MODE CMaterial::GetAlphaBlendingMode() const
 {
-	return m_isTransparent;
+	return m_alphaBlendingMode;
 }
 
-void CMaterial::SetIsTransparent(bool isTransparent)
+void CMaterial::SetAlphaBlendingMode(ALPHA_BLENDING_MODE alphaBlendingMode)
 {
-	m_isTransparent = isTransparent;
+	m_alphaBlendingMode = alphaBlendingMode;
 }
 
 CULLING_MODE CMaterial::GetCullingMode() const

@@ -7,7 +7,6 @@ CNinePatchButton::CNinePatchButton()
 , m_pressedDescriptor(NULL)
 {
 	m_background = CNinePatch::Create();
-	m_background->GetMaterial()->SetIsTransparent(true);
 	PrependChild(m_background);
 }
 

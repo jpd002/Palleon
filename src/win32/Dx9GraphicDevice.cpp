@@ -516,7 +516,8 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 		CULLING_MODE cullingMode = material->GetCullingMode();
 		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);
 
-		if(material->GetIsTransparent())
+		ALPHA_BLENDING_MODE alphaBlendingMode = material->GetAlphaBlendingMode();
+		if(alphaBlendingMode == ALPHA_BLENDING_LERP)
 		{
 			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

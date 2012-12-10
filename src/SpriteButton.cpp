@@ -5,7 +5,6 @@ using namespace Athena;
 CSpriteButton::CSpriteButton()
 {
 	m_background = CSprite::Create();
-	m_background->GetMaterial()->SetIsTransparent(true);
 	PrependChild(m_background);
 }
 
