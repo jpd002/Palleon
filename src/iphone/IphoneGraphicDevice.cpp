@@ -19,6 +19,19 @@ static const unsigned int g_textureCombineMode[TEXTURE_COMBINE_MODE_MAX] =
 	DIFFUSE_MAP_COMBINE_ADD,
 };
 
+static const GLenum g_stencilOp[STENCIL_FAIL_ACTION_MAX] =
+{
+	GL_KEEP,
+	GL_REPLACE
+};
+
+static const GLenum g_stencilFunc[STENCIL_FUNCTION_MAX] =
+{
+	GL_NEVER,
+	GL_ALWAYS,
+	GL_EQUAL
+};
+
 CIphoneGraphicDevice::CIphoneGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
 : m_hasRetinaDisplay(hasRetinaDisplay)
 {
@@ -80,7 +93,8 @@ void CIphoneGraphicDevice::Draw()
 void CIphoneGraphicDevice::DrawViewport(CViewport* viewport)
 {
 	glClearDepthf(1.0f);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClearStencil(0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	CHECKGLERROR();
 	
 	CameraPtr camera = viewport->GetCamera();
@@ -261,7 +275,8 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 			}
 		}
 		
-		if(material->GetIsTransparent())
+		ALPHA_BLENDING_MODE alphaBlendingMode = material->GetAlphaBlendingMode();
+		if(alphaBlendingMode == ALPHA_BLENDING_LERP)
 		{
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -269,6 +284,18 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 		else
 		{
 			glDisable(GL_BLEND);
+		}
+		CHECKGLERROR();
+		
+		if(material->GetStencilEnabled())
+		{
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(g_stencilFunc[material->GetStencilFunction()], material->GetStencilValue(), ~0);
+			glStencilOp(g_stencilOp[material->GetStencilFailAction()], GL_KEEP, GL_KEEP);
+		}
+		else
+		{
+			glDisable(GL_STENCIL_TEST);
 		}
 		CHECKGLERROR();
 		
