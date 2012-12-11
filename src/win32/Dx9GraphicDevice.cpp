@@ -24,6 +24,19 @@ static const D3DTEXTUREADDRESS g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
 	D3DTADDRESS_WRAP,
 };
 
+static const D3DSTENCILOP g_stencilOp[STENCIL_FAIL_ACTION_MAX] =
+{
+	D3DSTENCILOP_KEEP,
+	D3DSTENCILOP_REPLACE
+};
+
+static const D3DCMPFUNC g_stencilFunc[STENCIL_FUNCTION_MAX] =
+{
+	D3DCMP_NEVER,
+	D3DCMP_ALWAYS,
+	D3DCMP_EQUAL
+};
+
 CDx9GraphicDevice::CDx9GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_d3d(NULL)
 , m_device(NULL)
@@ -371,7 +384,7 @@ void CDx9GraphicDevice::DrawViewportToSurface(IDirect3DSurface9* renderSurface, 
 
 void CDx9GraphicDevice::DrawViewport(CViewport* viewport)
 {
-	HRESULT result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	HRESULT result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	assert(SUCCEEDED(result));
 
 	CameraPtr camera = viewport->GetCamera();
@@ -527,6 +540,18 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 		else
 		{
 			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
+
+		if(material->GetStencilEnabled())
+		{
+			m_device->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+			m_device->SetRenderState(D3DRS_STENCILFAIL, g_stencilOp[material->GetStencilFailAction()]);
+			m_device->SetRenderState(D3DRS_STENCILFUNC, g_stencilFunc[material->GetStencilFunction()]);
+			m_device->SetRenderState(D3DRS_STENCILREF, material->GetStencilValue());
+		}
+		else
+		{
+			m_device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 		}
 
 		if(mesh->GetIsPeggedToOrigin())

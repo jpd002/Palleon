@@ -7,6 +7,10 @@ CMaterial::CMaterial()
 : m_alphaBlendingMode(ALPHA_BLENDING_NONE)
 , m_color(1.0f, 1.0f, 1.0f, 1.0f)
 , m_cullingMode(CULLING_CCW)
+, m_stencilEnabled(false)
+, m_stencilFunction(STENCIL_FUNCTION_NEVER)
+, m_stencilFailAction(STENCIL_FAIL_ACTION_KEEP)
+, m_stencilValue(0)
 {
 	for(auto slotIterator = std::begin(m_textureSlots); 
 		slotIterator != std::end(m_textureSlots); slotIterator++)
@@ -147,4 +151,44 @@ void CMaterial::SetTextureAddressModeV(unsigned int slot, TEXTURE_ADDRESS_MODE a
 	assert(slot < MAX_TEXTURE_SLOTS);
 	if(slot >= MAX_TEXTURE_SLOTS) return;
 	m_textureSlots[slot].addressModeV = addressMode;
+}
+
+bool CMaterial::GetStencilEnabled() const
+{
+	return m_stencilEnabled;
+}
+
+void CMaterial::SetStencilEnabled(bool stencilEnabled)
+{
+	m_stencilEnabled = stencilEnabled;
+}
+
+STENCIL_FUNCTION CMaterial::GetStencilFunction() const
+{
+	return m_stencilFunction;
+}
+
+void CMaterial::SetStencilFunction(STENCIL_FUNCTION stencilFunction)
+{
+	m_stencilFunction = stencilFunction;
+}
+
+STENCIL_FAIL_ACTION CMaterial::GetStencilFailAction() const
+{
+	return m_stencilFailAction;
+}
+
+void CMaterial::SetStencilFailAction(STENCIL_FAIL_ACTION stencilFailAction)
+{
+	m_stencilFailAction = stencilFailAction;
+}
+
+uint8 CMaterial::GetStencilValue() const
+{
+	return m_stencilValue;
+}
+
+void CMaterial::SetStencilValue(uint8 stencilValue)
+{
+	m_stencilValue = stencilValue;
 }

@@ -51,6 +51,21 @@ namespace Athena
 		TEXTURE_ADDRESS_MODE_MAX
 	};
 
+	enum STENCIL_FUNCTION
+	{
+		STENCIL_FUNCTION_NEVER,
+		STENCIL_FUNCTION_ALWAYS,
+		STENCIL_FUNCTION_EQUAL,
+		STENCIL_FUNCTION_MAX
+	};
+
+	enum STENCIL_FAIL_ACTION
+	{
+		STENCIL_FAIL_ACTION_KEEP,
+		STENCIL_FAIL_ACTION_WRITE,
+		STENCIL_FAIL_ACTION_MAX
+	};
+
 	class CMaterial
 	{
 	public:
@@ -93,6 +108,18 @@ namespace Athena
 		TEXTURE_ADDRESS_MODE	GetTextureAddressModeV(unsigned int) const;
 		void					SetTextureAddressModeV(unsigned int, TEXTURE_ADDRESS_MODE);
 
+		bool					GetStencilEnabled() const;
+		void					SetStencilEnabled(bool);
+
+		STENCIL_FUNCTION		GetStencilFunction() const;
+		void					SetStencilFunction(STENCIL_FUNCTION);
+
+		STENCIL_FAIL_ACTION		GetStencilFailAction() const;
+		void					SetStencilFailAction(STENCIL_FAIL_ACTION);
+
+		uint8					GetStencilValue() const;
+		void					SetStencilValue(uint8);
+
 	protected:
 		struct TEXTURE_SLOT
 		{
@@ -107,6 +134,11 @@ namespace Athena
 		ALPHA_BLENDING_MODE		m_alphaBlendingMode;
 		CULLING_MODE			m_cullingMode;
 		CColor					m_color;
+
+		bool					m_stencilEnabled;
+		STENCIL_FUNCTION		m_stencilFunction;
+		STENCIL_FAIL_ACTION		m_stencilFailAction;
+		uint8					m_stencilValue;
 
 		TEXTURE_SLOT			m_textureSlots[MAX_TEXTURE_SLOTS];
 	};

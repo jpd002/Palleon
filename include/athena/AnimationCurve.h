@@ -26,6 +26,17 @@ namespace Athena
 		}
 	};
 
+	class CScaleModifier
+	{
+	public:
+		typedef CVector3 ItemType;
+		
+		void operator()(CSceneNode* target, const ItemType& value) const
+		{
+			target->SetScale(value);
+		}
+	};
+
 	class CColorModifier
 	{
 	public:
