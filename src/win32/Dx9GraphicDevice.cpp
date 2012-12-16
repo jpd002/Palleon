@@ -537,6 +537,13 @@ void CDx9GraphicDevice::DrawMesh(CMesh* mesh)
 			m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		}
+		else if(alphaBlendingMode == ALPHA_BLENDING_ADD)
+		{
+			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+			m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		}
 		else
 		{
 			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

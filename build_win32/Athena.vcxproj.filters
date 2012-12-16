@@ -157,6 +157,9 @@
     <ClCompile Include="..\src\AudioClip.cpp">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Emitter.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -333,6 +336,9 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\win32\Win32AudioClip.h">
       <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\Emitter.h">
+      <Filter>Source Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

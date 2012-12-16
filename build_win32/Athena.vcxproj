@@ -29,6 +29,7 @@
     <ClCompile Include="..\src\ConfigManager.cpp" />
     <ClCompile Include="..\src\CubeMesh.cpp" />
     <ClCompile Include="..\src\CubeRenderTarget.cpp" />
+    <ClCompile Include="..\src\Emitter.cpp" />
     <ClCompile Include="..\src\FontDescriptor.cpp" />
     <ClCompile Include="..\src\Frustum.cpp" />
     <ClCompile Include="..\src\GraphicDevice.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="..\include\athena\ConfigManager.h" />
     <ClInclude Include="..\include\athena\CubeMesh.h" />
     <ClInclude Include="..\include\athena\CubeRenderTarget.h" />
+    <ClInclude Include="..\include\athena\Emitter.h" />
     <ClInclude Include="..\include\athena\FontDescriptor.h" />
     <ClInclude Include="..\include\athena\Frustum.h" />
     <ClInclude Include="..\include\athena\GraphicDevice.h" />
