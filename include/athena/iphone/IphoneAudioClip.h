@@ -12,6 +12,7 @@ namespace Athena
 		virtual			~CIphoneAudioClip();
 
 		void			Play(bool);
+		void			Stop();
 		
 	private:
 		AVAudioPlayer*	m_player;

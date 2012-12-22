@@ -24,6 +24,8 @@
 		70B582541635216800C40F25 /* AnimationCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582501635216800C40F25 /* AnimationCurve.h */; };
 		70B582551635216800C40F25 /* RumbleAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582511635216800C40F25 /* RumbleAnimation.h */; };
 		70B582561635216800C40F25 /* TextureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582521635216800C40F25 /* TextureAnimation.h */; };
+		70C6E54D1685709E001544EB /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C6E54C1685709E001544EB /* Emitter.cpp */; };
+		70C6E550168570A8001544EB /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C6E54F168570A8001544EB /* Emitter.h */; };
 		7E1923BA150C0404003BB65B /* PvrImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B8150C0404003BB65B /* PvrImage.h */; };
 		7E1923BB150C0404003BB65B /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B9150C0404003BB65B /* TgaImage.h */; };
 		7E2885BD13F8634500F606EB /* IphoneResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885BC13F8634500F606EB /* IphoneResourceManager.h */; };
@@ -126,6 +128,8 @@
 		70B582501635216800C40F25 /* AnimationCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationCurve.h; path = ../../include/athena/AnimationCurve.h; sourceTree = "<group>"; };
 		70B582511635216800C40F25 /* RumbleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RumbleAnimation.h; path = ../../include/athena/RumbleAnimation.h; sourceTree = "<group>"; };
 		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../../include/athena/TextureAnimation.h; sourceTree = "<group>"; };
+		70C6E54C1685709E001544EB /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../../src/Emitter.cpp; sourceTree = "<group>"; };
+		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../../include/athena/Emitter.h; sourceTree = "<group>"; };
 		7E1923B8150C0404003BB65B /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../../include/athena/PvrImage.h; sourceTree = "<group>"; };
 		7E1923B9150C0404003BB65B /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../../include/athena/TgaImage.h; sourceTree = "<group>"; };
 		7E2885BC13F8634500F606EB /* IphoneResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneResourceManager.h; path = ../../include/athena/iphone/IphoneResourceManager.h; sourceTree = "<group>"; };
@@ -307,6 +311,8 @@
 				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
 				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
 				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
+				70C6E54C1685709E001544EB /* Emitter.cpp */,
+				70C6E54F168570A8001544EB /* Emitter.h */,
 				7E7D875613F71AC300AD9F7F /* Label.cpp */,
 				7E7D877D13F71AD900AD9F7F /* Label.h */,
 				7E7D875713F71AC300AD9F7F /* Material.cpp */,
@@ -483,6 +489,7 @@
 				70104E451674051300807647 /* IphoneAudioManager.h in Headers */,
 				70104E62167409F500807647 /* AudioClip.h in Headers */,
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
+				70C6E550168570A8001544EB /* Emitter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +584,7 @@
 				70104E41167404EF00807647 /* IphoneTexture.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
+				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

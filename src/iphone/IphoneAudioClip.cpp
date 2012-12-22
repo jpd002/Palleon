@@ -32,3 +32,9 @@ void CIphoneAudioClip::Play(bool loop)
 	m_player.numberOfLoops = loop ? -1 : 0;
 	[m_player play];
 }
+
+void CIphoneAudioClip::Stop()
+{
+	if(m_player == nil) return;
+	[m_player stop];
+}

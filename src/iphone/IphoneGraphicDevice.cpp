@@ -281,6 +281,11 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
+		else if(alphaBlendingMode == ALPHA_BLENDING_ADD)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		}
 		else
 		{
 			glDisable(GL_BLEND);
