@@ -16,3 +16,8 @@ void CWin32AudioClip::Play(bool)
 {
 
 }
+
+void CWin32AudioClip::Stop()
+{
+
+}

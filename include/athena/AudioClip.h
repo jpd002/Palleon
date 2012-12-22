@@ -10,6 +10,7 @@ namespace Athena
 		virtual				~CAudioClip();
 		
 		virtual void		Play(bool loop) = 0;
+		virtual void		Stop() = 0;
 
 	private:
 

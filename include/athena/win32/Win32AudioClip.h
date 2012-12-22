@@ -11,5 +11,6 @@ namespace Athena
 		virtual		~CWin32AudioClip();
 
 		void		Play(bool);
+		void		Stop();
 	};
 }
