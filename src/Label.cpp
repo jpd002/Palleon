@@ -29,6 +29,7 @@ CLabel::CLabel()
 , m_charCount(0)
 , m_textScale(1, 1)
 , m_wordWrapEnabled(true)
+, m_size(0, 0)
 {
 
 }

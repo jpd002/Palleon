@@ -41,6 +41,10 @@ int CFontDescriptor::GetLineHeight() const
 	return m_lineHeight;
 }
 
+#ifdef _MSC_VER
+//Don't know what's going on here, doesn't seem to play well with inlining
+__declspec(noinline)
+#endif
 CFontDescriptor::GLYPHINFO CFontDescriptor::GetGlyphInfo(unsigned int charId) const
 {
 	auto glyphIterator(m_glyphInfos.find(charId));
