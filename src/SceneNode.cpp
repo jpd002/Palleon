@@ -84,6 +84,11 @@ void CSceneNode::SetPosition(const CVector3& position)
 	m_position = position;
 }
 
+void CSceneNode::SetPositionHotspot(const CVector3& position)
+{
+	m_position = position - m_hotspot;
+}
+
 CQuaternion CSceneNode::GetRotation() const
 {
 	return m_rotation;

@@ -42,6 +42,7 @@ namespace Athena
 
 		CVector3					GetPosition() const;
 		void						SetPosition(const CVector3&);
+		void						SetPositionHotspot(const CVector3&);
 		
 		CQuaternion					GetRotation() const;
 		void						SetRotation(const CQuaternion&);
