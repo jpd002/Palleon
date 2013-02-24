@@ -1,5 +1,4 @@
 #import "IphoneAppDelegate.h"
-#import "IphoneViewController.h"
 
 @implementation IphoneAppDelegate
 
@@ -22,7 +21,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-	
+	[m_mainViewController stopAnimation];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -37,7 +36,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	
+	[m_mainViewController startAnimation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
