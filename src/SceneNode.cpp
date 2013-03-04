@@ -69,6 +69,11 @@ void CSceneNode::RemoveChild(const SceneNodePtr& node)
 	node->m_parent = NULL;
 }
 
+CSceneNode* CSceneNode::GetParent() const
+{
+	return m_parent;
+}
+
 CAnimationController& CSceneNode::GetAnimationController()
 {
 	return m_animationController;

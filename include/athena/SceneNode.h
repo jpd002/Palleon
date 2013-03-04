@@ -38,6 +38,8 @@ namespace Athena
 		void						AppendChildAfter(const SceneNodePtr&, const SceneNodePtr&);
 		void						RemoveChild(const SceneNodePtr&);
 
+		CSceneNode*					GetParent() const;
+
 		CAnimationController&		GetAnimationController();
 
 		CVector3					GetPosition() const;

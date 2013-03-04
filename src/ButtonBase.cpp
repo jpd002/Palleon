@@ -46,7 +46,7 @@ void CButtonBase::OnTouchReleased(bool inside)
 {
 	if(inside && m_state == STATE_PRESSED)
 	{
-		Press();
+		Press(this);
 	}
 	m_state = STATE_RELEASED;
 	UpdateButtonState();

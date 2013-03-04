@@ -13,7 +13,7 @@ namespace Athena
 	class CButtonBase : public CWidget
 	{
 	public:
-		typedef boost::signals2::signal<void ()> PressEventType;
+		typedef boost::signals2::signal<void (CButtonBase*)> PressEventType;
 
 							CButtonBase();
 		virtual				~CButtonBase();
