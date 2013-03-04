@@ -1,4 +1,4 @@
-#include "athena/iphone/IphoneEffectGenerator.h"
+#include "athena/iphone/IosEffectGenerator.h"
 
 using namespace Athena;
 
@@ -12,7 +12,7 @@ std::string PrintLine(const char* format, ...)
 	return std::string(buffer) + std::string("\r\n");
 }
 
-std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
+std::string CIosEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 {
 	bool needsTexCoord0 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV0);
 	bool needsTexCoord1 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV1);
@@ -67,7 +67,7 @@ std::string CIphoneEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
+std::string CIosEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 {
 	std::string result;
 
@@ -92,7 +92,7 @@ std::string CIphoneEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	return result;
 }
 
-bool CIphoneEffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texCoordSource)
+bool CIosEffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texCoordSource)
 {
 	return
 		(caps.diffuseMap0CoordSrc == texCoordSource) ||
@@ -102,7 +102,7 @@ bool CIphoneEffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int te
 		(caps.diffuseMap4CoordSrc == texCoordSource);
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
+std::string CIosEffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 	switch(source)
@@ -119,7 +119,7 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int i
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
+std::string CIosEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 	switch(source)
@@ -137,7 +137,7 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned 
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapSampler(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
+std::string CIosEffectGenerator::GenerateDiffuseMapSampler(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 	switch(source)
@@ -154,14 +154,14 @@ std::string CIphoneEffectGenerator::GenerateDiffuseMapSampler(unsigned int index
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapMatrixUniform(unsigned int index)
+std::string CIosEffectGenerator::GenerateDiffuseMapMatrixUniform(unsigned int index)
 {
 	std::string result;
 	result += PrintLine("uniform mat4 c_diffuseTextureMatrix%d;", index);
 	return result;
 }
 
-std::string CIphoneEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
+std::string CIosEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
 {
 	std::string result;
 	

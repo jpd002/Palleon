@@ -1,6 +1,6 @@
 #import <QuartzCore/QuartzCore.h>
 
-#import "athena/iphone/IphoneViewController.h"
+#import "athena/iphone/IosViewController.h"
 #import "athena/iphone/IphoneGraphicDevice.h"
 #import "athena/iphone/IphoneResourceManager.h"
 #import "athena/iphone/IphoneAudioManager.h"
@@ -14,11 +14,11 @@
 
 using namespace Athena;
 
-@interface IphoneViewController ()
+@interface IosViewController ()
 @property (nonatomic, assign) CADisplayLink *displayLink;
 @end
 
-@implementation IphoneViewController
+@implementation IosViewController
 
 @synthesize animating, displayLink;
 

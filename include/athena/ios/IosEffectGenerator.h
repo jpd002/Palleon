@@ -1,5 +1,4 @@
-#ifndef _IPHONEEFFECTGENERATOR_H_
-#define _IPHONEEFFECTGENERATOR_H_
+#pragma once
 
 #include <string>
 
@@ -40,7 +39,7 @@ enum DIFFUSE_MAP_COMBINE_MODE
 
 namespace Athena
 {
-	class CIphoneEffectGenerator
+	class CIosEffectGenerator
 	{
 	public:
 		struct EFFECTCAPS
@@ -105,5 +104,3 @@ namespace Athena
 		static std::string		GenerateDiffuseMapSampling(unsigned int, DIFFUSE_MAP_COORD_SOURCE, DIFFUSE_MAP_COMBINE_MODE);
 	};
 }
-
-#endif

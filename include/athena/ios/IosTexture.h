@@ -1,5 +1,4 @@
-#ifndef _IPHONETEXTURE_H_
-#define _IPHONETEXTURE_H_
+#pragma once
 
 #include "Types.h"
 #include "athena/Texture.h"
@@ -7,11 +6,11 @@
 
 namespace Athena
 {
-	class CIphoneTexture : public CTexture
+	class CIosTexture : public CTexture
 	{
 	public:
-												CIphoneTexture(GLuint, bool = false);
-		virtual									~CIphoneTexture();
+												CIosTexture(GLuint, bool = false);
+		virtual									~CIosTexture();
 		
 		static TexturePtr						Create(TEXTURE_FORMAT, uint32, uint32);
 		static TexturePtr						CreateFromFile(const char*);
@@ -34,5 +33,3 @@ namespace Athena
 		bool									m_isCubeMap;
 	};
 }
-
-#endif

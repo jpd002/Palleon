@@ -1,33 +1,33 @@
-#include "IphoneResourceManager.h"
+#include "IosResourceManager.h"
 #include "athena/GraphicDevice.h"
 
 using namespace Athena;
 
-CIphoneResourceManager::CIphoneResourceManager()
+CIosResourceManager::CIosResourceManager()
 {
 
 }
 
-CIphoneResourceManager::~CIphoneResourceManager()
+CIosResourceManager::~CIosResourceManager()
 {
 
 }
 
-void CIphoneResourceManager::CreateInstance()
+void CIosResourceManager::CreateInstance()
 {
 	assert(m_instance == NULL);
 	if(m_instance != NULL) return;
-	m_instance = new CIphoneResourceManager();
+	m_instance = new CIosResourceManager();
 }
 
-void CIphoneResourceManager::DestroyInstance()
+void CIosResourceManager::DestroyInstance()
 {
 	assert(m_instance != NULL);
 	if(m_instance == NULL) return;
 	delete m_instance;
 }
 
-std::string CIphoneResourceManager::MakeResourcePath(const char* name) const
+std::string CIosResourceManager::MakeResourcePath(const char* name) const
 {
 	NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
 	NSString* fullPath = [NSString stringWithFormat: @"%@/data/%s", bundlePath, name];

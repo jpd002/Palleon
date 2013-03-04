@@ -1,11 +1,11 @@
-#include "IphoneVertexBuffer.h"
+#include "IosVertexBuffer.h"
 #include "IphoneGraphicDevice.h"
 #include <assert.h>
 #include <vector>
 
 using namespace Athena;
 
-CIphoneVertexBuffer::CIphoneVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)
 , m_vertexBuffer(NULL)
 , m_vertexArray(NULL)
@@ -87,7 +87,7 @@ CIphoneVertexBuffer::CIphoneVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descrip
 	}
 }
 
-CIphoneVertexBuffer::~CIphoneVertexBuffer()
+CIosVertexBuffer::~CIosVertexBuffer()
 {
 	delete [] m_shadowVertexBuffer;
 	delete [] m_indexBuffer;
@@ -95,12 +95,12 @@ CIphoneVertexBuffer::~CIphoneVertexBuffer()
 	glDeleteBuffers(1, &m_vertexBuffer);
 }
 
-void* CIphoneVertexBuffer::LockVertices()
+void* CIosVertexBuffer::LockVertices()
 {
 	return m_shadowVertexBuffer;
 }
 
-void CIphoneVertexBuffer::UnlockVertices(uint32 sizeHint)
+void CIosVertexBuffer::UnlockVertices(uint32 sizeHint)
 {
 	const VERTEX_BUFFER_DESCRIPTOR& descriptor(GetDescriptor());
 	
@@ -121,27 +121,27 @@ void CIphoneVertexBuffer::UnlockVertices(uint32 sizeHint)
 	CHECKGLERROR();
 }
 
-uint16* CIphoneVertexBuffer::LockIndices()
+uint16* CIosVertexBuffer::LockIndices()
 {
 	return m_indexBuffer;
 }
 
-void CIphoneVertexBuffer::UnlockIndices()
+void CIosVertexBuffer::UnlockIndices()
 {
 	
 }
 
-GLuint CIphoneVertexBuffer::GetVertexBuffer() const
+GLuint CIosVertexBuffer::GetVertexBuffer() const
 {
 	return m_vertexBuffer;
 }
 
-uint16* CIphoneVertexBuffer::GetIndexBuffer() const
+uint16* CIosVertexBuffer::GetIndexBuffer() const
 {
 	return m_indexBuffer;
 }
 
-GLuint CIphoneVertexBuffer::GetVertexArray() const
+GLuint CIosVertexBuffer::GetVertexArray() const
 {
 	return m_vertexArray;
 }

@@ -1,8 +1,8 @@
-#include "athena/iphone/IphoneAudioClip.h"
+#include "athena/iphone/IosAudioClip.h"
 
 using namespace Athena;
 
-CIphoneAudioClip::CIphoneAudioClip(const char* path)
+CIosAudioClip::CIosAudioClip(const char* path)
 : m_player(nil)
 {
 	NSString* audioFilePath = [[NSString alloc] initWithUTF8String: path];
@@ -18,7 +18,7 @@ CIphoneAudioClip::CIphoneAudioClip(const char* path)
 	}
 }
 
-CIphoneAudioClip::~CIphoneAudioClip()
+CIosAudioClip::~CIosAudioClip()
 {
 	if(m_player)
 	{
@@ -26,14 +26,14 @@ CIphoneAudioClip::~CIphoneAudioClip()
 	}
 }
 
-void CIphoneAudioClip::Play(bool loop)
+void CIosAudioClip::Play(bool loop)
 {
 	if(m_player == nil) return;
 	m_player.numberOfLoops = loop ? -1 : 0;
 	[m_player play];
 }
 
-void CIphoneAudioClip::Stop()
+void CIosAudioClip::Stop()
 {
 	if(m_player == nil) return;
 	[m_player stop];

@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "athena/Application.h"
 
-@interface IphoneViewController : UIViewController
+@interface IosViewController : UIViewController
 {
 	BOOL						animating;
 	NSInteger					animationFrameInterval;

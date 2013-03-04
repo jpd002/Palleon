@@ -1,6 +1,6 @@
-#import "IphoneAppDelegate.h"
+#import "IosAppDelegate.h"
 
-@implementation IphoneAppDelegate
+@implementation IosAppDelegate
 
 @synthesize window=_window;
 
@@ -55,7 +55,7 @@
 int main(int argc, char *argv[])
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	int retVal = UIApplicationMain(argc, argv, nil, @"IphoneAppDelegate");
+	int retVal = UIApplicationMain(argc, argv, nil, @"IosAppDelegate");
 	[pool release];
 	return retVal;
 }

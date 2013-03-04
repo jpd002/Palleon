@@ -4,7 +4,7 @@
 
 namespace Athena
 {
-	class CIphoneAudioManager : public CAudioManager
+	class CIosAudioManager : public CAudioManager
 	{
 	public:
 		static void				CreateInstance();
@@ -13,7 +13,7 @@ namespace Athena
 		virtual AudioClipPtr	CreateAudioClip(const char*);
 
 	private:
-								CIphoneAudioManager();
-		virtual					~CIphoneAudioManager();
+								CIosAudioManager();
+		virtual					~CIosAudioManager();
 	};
 }

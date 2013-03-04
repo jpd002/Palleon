@@ -5,11 +5,11 @@
 
 namespace Athena
 {
-	class CIphoneAudioClip : public CAudioClip
+	class CIosAudioClip : public CAudioClip
 	{
 	public:
-						CIphoneAudioClip(const char*);
-		virtual			~CIphoneAudioClip();
+						CIosAudioClip(const char*);
+		virtual			~CIosAudioClip();
 
 		void			Play(bool);
 		void			Stop();

@@ -1,9 +1,9 @@
 #import <UIKit/UIKit.h>
-#import "IphoneViewController.h"
+#import "IosViewController.h"
 
 @interface IphoneAppDelegate : NSObject <UIApplicationDelegate> 
 {
-	IphoneViewController*		m_mainViewController;
+	IosViewController*		m_mainViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

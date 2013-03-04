@@ -1,5 +1,4 @@
-#ifndef _IPHONEGRAPHICDEVICE_H_
-#define _IPHONEGRAPHICDEVICE_H_
+#pragma once
 
 #include <vector>
 #include "OpenGlEsDefs.h"
@@ -9,7 +8,7 @@
 
 namespace Athena
 {
-	class CIphoneGraphicDevice : public CGraphicDevice
+	class CIosGraphicDevice : public CGraphicDevice
 	{
 	public:
 		enum VERTEX_ATTRIB
@@ -62,8 +61,8 @@ namespace Athena
 		typedef std::vector<CMesh*> RenderQueue;
 		typedef std::unordered_map<uint32, EFFECTINFO> EffectMap;
 
-											CIphoneGraphicDevice(bool, const CVector2&);
-		virtual								~CIphoneGraphicDevice();
+											CIosGraphicDevice(bool, const CVector2&);
+		virtual								~CIosGraphicDevice();
 		
 		void								DrawViewport(CViewport*);
 
@@ -84,5 +83,3 @@ namespace Athena
 		CMatrix4							m_peggedViewProjMatrix;
 	};
 }
-
-#endif

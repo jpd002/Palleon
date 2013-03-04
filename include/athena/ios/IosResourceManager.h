@@ -1,11 +1,10 @@
-#ifndef _IPHONERESOURCEMANAGER_H_
-#define _IPHONERESOURCEMANAGER_H_
+#pragma once
 
 #include "athena/ResourceManager.h"
 
 namespace Athena
 {
-	class CIphoneResourceManager : public CResourceManager
+	class CIosResourceManager : public CResourceManager
 	{
 	public:
 		static void					CreateInstance();
@@ -14,9 +13,7 @@ namespace Athena
 		std::string					MakeResourcePath(const char*) const;
 		
 	protected:
-									CIphoneResourceManager();
-		virtual						~CIphoneResourceManager();
+									CIosResourceManager();
+		virtual						~CIosResourceManager();
 	};
 }
-
-#endif

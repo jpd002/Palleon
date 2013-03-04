@@ -1,4 +1,4 @@
-#include "IphoneGraphicDevice.h"
+#include "IosGraphicDevice.h"
 #include "athena/iphone/IphoneVertexBuffer.h"
 #include "athena/iphone/IphoneTexture.h"
 #include "athena/Mesh.h"
@@ -32,33 +32,33 @@ static const GLenum g_stencilFunc[STENCIL_FUNCTION_MAX] =
 	GL_EQUAL
 };
 
-CIphoneGraphicDevice::CIphoneGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
+CIosGraphicDevice::CIosGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
 : m_hasRetinaDisplay(hasRetinaDisplay)
 {
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x10000);
 }
 
-CIphoneGraphicDevice::~CIphoneGraphicDevice()
+CIosGraphicDevice::~CIosGraphicDevice()
 {
 
 }
 
-void CIphoneGraphicDevice::CreateInstance(bool hasRetinaDisplay, const CVector2& screenSize)
+void CIosGraphicDevice::CreateInstance(bool hasRetinaDisplay, const CVector2& screenSize)
 {
 	assert(m_instance == NULL);
 	if(m_instance != NULL) return;
-	m_instance = new CIphoneGraphicDevice(hasRetinaDisplay, screenSize);
+	m_instance = new CIosGraphicDevice(hasRetinaDisplay, screenSize);
 }
 
-void CIphoneGraphicDevice::DestroyInstance()
+void CIosGraphicDevice::DestroyInstance()
 {
 	assert(m_instance != NULL);
 	if(m_instance == NULL) return;
 	delete m_instance;
 }
 
-void CIphoneGraphicDevice::Draw()
+void CIosGraphicDevice::Draw()
 {
 	if(m_hasRetinaDisplay)
 	{
@@ -90,7 +90,7 @@ void CIphoneGraphicDevice::Draw()
 	CHECKGLERROR();	
 }
 
-void CIphoneGraphicDevice::DrawViewport(CViewport* viewport)
+void CIosGraphicDevice::DrawViewport(CViewport* viewport)
 {
 	glClearDepthf(1.0f);
 	glClearStencil(0);
@@ -113,7 +113,7 @@ void CIphoneGraphicDevice::DrawViewport(CViewport* viewport)
 	m_renderQueue.clear();
 	
 	const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
-	sceneRoot->TraverseNodes(std::bind(&CIphoneGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
+	sceneRoot->TraverseNodes(std::bind(&CIosGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 	
 	for(CMesh* mesh : m_renderQueue)
 	{
@@ -121,54 +121,54 @@ void CIphoneGraphicDevice::DrawViewport(CViewport* viewport)
 	}
 }
 
-VertexBufferPtr CIphoneGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
+VertexBufferPtr CIosGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
 {
 	return VertexBufferPtr(new CIphoneVertexBuffer(bufferDesc));
 }
 
-TexturePtr CIphoneGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CIosGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	return CIphoneTexture::Create(textureFormat, width, height);
 }
 
-TexturePtr CIphoneGraphicDevice::CreateTextureFromFile(const char* path)
+TexturePtr CIosGraphicDevice::CreateTextureFromFile(const char* path)
 {
 	return CIphoneTexture::CreateFromFile(path);
 }
 
-TexturePtr CIphoneGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
+TexturePtr CIosGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
 {
 	return CIphoneTexture::CreateFromMemory(data, size);
 }
 
-TexturePtr CIphoneGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CIosGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	auto texture = CIphoneTexture::Create(textureFormat, width, height);
 	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);
 	return texture;
 }
 
-TexturePtr CIphoneGraphicDevice::CreateCubeTextureFromFile(const char* path)
+TexturePtr CIosGraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
 	return CIphoneTexture::CreateCubeFromFile(path);
 }
 
-void CIphoneGraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
+void CIosGraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
 {
 	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);	
 }
 
-RenderTargetPtr CIphoneGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+RenderTargetPtr CIosGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	return RenderTargetPtr();
 }
 
-CubeRenderTargetPtr CIphoneGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
+CubeRenderTargetPtr CIosGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
 {
 	return CubeRenderTargetPtr();
 }
 
-bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
+bool CIosGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 {
 	if(!node->GetVisible()) return false;
 	
@@ -183,7 +183,7 @@ bool CIphoneGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
 	return true;
 }
 
-void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
+void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	
@@ -334,7 +334,7 @@ void CIphoneGraphicDevice::DrawMesh(CMesh* mesh)
 	m_drawCallCount++;
 }
 
-void CIphoneGraphicDevice::GenerateEffect(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
+void CIosGraphicDevice::GenerateEffect(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
 {
 	EFFECTINFO newEffect;
 	
@@ -363,7 +363,7 @@ void CIphoneGraphicDevice::GenerateEffect(const CIphoneEffectGenerator::EFFECTCA
 	m_effects[effectKey] = newEffect;
 }
 
-GLuint CIphoneGraphicDevice::CompileShader(const char* shaderSource, GLenum shaderType)
+GLuint CIosGraphicDevice::CompileShader(const char* shaderSource, GLenum shaderType)
 {
 	GLuint shader = glCreateShader(shaderType);
 	glShaderSource(shader, 1, &shaderSource, NULL);
@@ -393,7 +393,7 @@ GLuint CIphoneGraphicDevice::CompileShader(const char* shaderSource, GLenum shad
 	return shader;
 }
 
-void CIphoneGraphicDevice::DumpProgramLog(GLuint program)
+void CIosGraphicDevice::DumpProgramLog(GLuint program)
 {
 #if defined(DEBUG)
 	GLint logLength;
@@ -408,7 +408,7 @@ void CIphoneGraphicDevice::DumpProgramLog(GLuint program)
 #endif	
 }
 
-GLuint CIphoneGraphicDevice::BuildProgram(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
+GLuint CIosGraphicDevice::BuildProgram(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
 {
 	std::string vertexShaderSource = CIphoneEffectGenerator::GenerateVertexShader(effectCaps);
 	std::string pixelShaderSource = CIphoneEffectGenerator::GeneratePixelShader(effectCaps);
@@ -454,7 +454,7 @@ GLuint CIphoneGraphicDevice::BuildProgram(const CIphoneEffectGenerator::EFFECTCA
 	return program;
 }
 
-void CIphoneGraphicDevice::SetFrameRate(float frameRate)
+void CIosGraphicDevice::SetFrameRate(float frameRate)
 {
 	m_frameRate = frameRate;
 }

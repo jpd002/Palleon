@@ -1,5 +1,4 @@
-#ifndef _IPHONEVERTEXBUFFER_H_
-#define _IPHONEVERTEXBUFFER_H_
+#pragma once
 
 #include "athena/VertexBuffer.h"
 #include "OpenGlEsDefs.h"
@@ -30,5 +29,3 @@ namespace Athena
 		uint16*									m_indexBuffer;
 	};
 }
-
-#endif

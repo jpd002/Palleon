@@ -1,4 +1,4 @@
-#include "IphoneTexture.h"
+#include "IosTexture.h"
 #include <assert.h>
 #include <vector>
 #include "TgaImage.h"
@@ -17,32 +17,32 @@ uint32 GetNextPowerOfTwo(uint32 number)
 	return currentNumber;
 }
 
-CIphoneTexture::CIphoneTexture(GLuint texture, bool isCubeMap)
+CIosTexture::CIosTexture(GLuint texture, bool isCubeMap)
 : m_texture(texture)
 , m_isCubeMap(isCubeMap)
 {
 
 }
 
-CIphoneTexture::~CIphoneTexture()
+CIosTexture::~CIosTexture()
 {
 	glDeleteTextures(1, &m_texture);
 }
 
-TexturePtr CIphoneTexture::Create(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CIosTexture::Create(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	GLuint texture = 0;
 	glGenTextures(1, &texture);
 	CHECKGLERROR();
 
-	auto result = std::make_shared<CIphoneTexture>(texture);
+	auto result = std::make_shared<CIosTexture>(texture);
 	result->m_width = width;
 	result->m_height = height;
 	result->m_format = textureFormat;
 	return result;
 }
 
-TexturePtr CIphoneTexture::CreateFromFile(const char* path)
+TexturePtr CIosTexture::CreateFromFile(const char* path)
 {
 	NSString* pathString = [NSString stringWithUTF8String: path];
 	NSData* texData = [[NSData alloc] initWithContentsOfFile: pathString];
@@ -53,10 +53,10 @@ TexturePtr CIphoneTexture::CreateFromFile(const char* path)
 	{
 		return TexturePtr();
 	}
-	return TexturePtr(new CIphoneTexture(texture));
+	return TexturePtr(new CIosTexture(texture));
 }
 
-TexturePtr CIphoneTexture::CreateFromMemory(const void* data, uint32 size)
+TexturePtr CIosTexture::CreateFromMemory(const void* data, uint32 size)
 {
 	NSData* texData = [[NSData alloc] initWithBytesNoCopy: const_cast<void*>(data) length: size freeWhenDone: NO];
 	GLuint texture = LoadFromData(texData);
@@ -65,10 +65,10 @@ TexturePtr CIphoneTexture::CreateFromMemory(const void* data, uint32 size)
 	{
 		return TexturePtr();
 	}
-	return TexturePtr(new CIphoneTexture(texture));	
+	return TexturePtr(new CIosTexture(texture));	
 }
 
-void CIphoneTexture::Update(const void* data)
+void CIosTexture::Update(const void* data)
 {
 	GLenum internalFormat = GL_RGB;
 
@@ -92,7 +92,7 @@ void CIphoneTexture::Update(const void* data)
 	CHECKGLERROR();
 }
 
-TexturePtr CIphoneTexture::CreateCubeFromFile(const char* path)
+TexturePtr CIosTexture::CreateCubeFromFile(const char* path)
 {
 	NSString* pathString = [NSString stringWithUTF8String: path];
 	NSData* texData = [[NSData alloc] initWithContentsOfFile: pathString];
@@ -103,20 +103,20 @@ TexturePtr CIphoneTexture::CreateCubeFromFile(const char* path)
 	{
 		return TexturePtr();
 	}
-	return TexturePtr(new CIphoneTexture(texture, true));
+	return TexturePtr(new CIosTexture(texture, true));
 }
 
-void* CIphoneTexture::GetHandle() const
+void* CIosTexture::GetHandle() const
 {
 	return reinterpret_cast<void*>(m_texture);
 }
 
-bool CIphoneTexture::IsCubeMap() const
+bool CIosTexture::IsCubeMap() const
 {
 	return m_isCubeMap;
 }
 
-GLuint CIphoneTexture::LoadFromData(void* texDataPtr)
+GLuint CIosTexture::LoadFromData(void* texDataPtr)
 {
 	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
 	
@@ -175,7 +175,7 @@ GLuint CIphoneTexture::LoadFromData(void* texDataPtr)
 	return result;
 }
 
-GLuint CIphoneTexture::TryLoadTGA(void* texDataPtr)
+GLuint CIosTexture::TryLoadTGA(void* texDataPtr)
 {
 	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
 	const uint8* tgaFile = reinterpret_cast<const uint8*>([texData bytes]);
@@ -237,7 +237,7 @@ GLuint CIphoneTexture::TryLoadTGA(void* texDataPtr)
 	return result;
 }
 
-GLuint CIphoneTexture::LoadCubeFromPVR(void* texDataPtr)
+GLuint CIosTexture::LoadCubeFromPVR(void* texDataPtr)
 {
 	NSData* texData = reinterpret_cast<NSData*>(texDataPtr);
 	const uint8* pvrFile = reinterpret_cast<const uint8*>([texData bytes]);
