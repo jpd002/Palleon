@@ -1,6 +1,6 @@
 #include "IosGraphicDevice.h"
-#include "athena/iphone/IphoneVertexBuffer.h"
-#include "athena/iphone/IphoneTexture.h"
+#include "athena/ios/IosVertexBuffer.h"
+#include "athena/ios/IosTexture.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
 
@@ -123,39 +123,39 @@ void CIosGraphicDevice::DrawViewport(CViewport* viewport)
 
 VertexBufferPtr CIosGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
 {
-	return VertexBufferPtr(new CIphoneVertexBuffer(bufferDesc));
+	return VertexBufferPtr(new CIosVertexBuffer(bufferDesc));
 }
 
 TexturePtr CIosGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return CIphoneTexture::Create(textureFormat, width, height);
+	return CIosTexture::Create(textureFormat, width, height);
 }
 
 TexturePtr CIosGraphicDevice::CreateTextureFromFile(const char* path)
 {
-	return CIphoneTexture::CreateFromFile(path);
+	return CIosTexture::CreateFromFile(path);
 }
 
 TexturePtr CIosGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
 {
-	return CIphoneTexture::CreateFromMemory(data, size);
+	return CIosTexture::CreateFromMemory(data, size);
 }
 
 TexturePtr CIosGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	auto texture = CIphoneTexture::Create(textureFormat, width, height);
-	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);
+	auto texture = CIosTexture::Create(textureFormat, width, height);
+	std::static_pointer_cast<CIosTexture>(texture)->Update(data);
 	return texture;
 }
 
 TexturePtr CIosGraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
-	return CIphoneTexture::CreateCubeFromFile(path);
+	return CIosTexture::CreateCubeFromFile(path);
 }
 
 void CIosGraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
 {
-	std::static_pointer_cast<CIphoneTexture>(texture)->Update(data);	
+	std::static_pointer_cast<CIosTexture>(texture)->Update(data);	
 }
 
 RenderTargetPtr CIosGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -187,7 +187,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	
-	CIphoneVertexBuffer* vertexBufferGen = static_cast<CIphoneVertexBuffer*>(mesh->GetVertexBuffer().get());
+	CIosVertexBuffer* vertexBufferGen = static_cast<CIosVertexBuffer*>(mesh->GetVertexBuffer().get());
 	assert(vertexBufferGen != NULL);
 	
 	const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
@@ -205,7 +205,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 		assert(material);
 		CColor meshColor = material->GetColor();
 		
-		CIphoneEffectGenerator::EFFECTCAPS effectCaps;
+		CIosEffectGenerator::EFFECTCAPS effectCaps;
 		memset(&effectCaps, 0, sizeof(effectCaps));
 		
 		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
@@ -258,7 +258,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 				const CMatrix4& textureMatrix(material->GetTextureMatrix(i));
 				glUniform1i(currentEffect->diffuseTexture[i], i);
 				glUniformMatrix4fv(currentEffect->diffuseTextureMatrix[i], 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&textureMatrix));
-				CIphoneTexture* texture = static_cast<CIphoneTexture*>(material->GetTexture(i).get());
+				CIosTexture* texture = static_cast<CIosTexture*>(material->GetTexture(i).get());
 				GLuint textureHandle = reinterpret_cast<GLuint>(texture->GetHandle());
 				glActiveTexture(GL_TEXTURE0 + i);
 				if(texture->IsCubeMap())
@@ -334,7 +334,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 	m_drawCallCount++;
 }
 
-void CIosGraphicDevice::GenerateEffect(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
+void CIosGraphicDevice::GenerateEffect(const CIosEffectGenerator::EFFECTCAPS& effectCaps)
 {
 	EFFECTINFO newEffect;
 	
@@ -408,10 +408,10 @@ void CIosGraphicDevice::DumpProgramLog(GLuint program)
 #endif	
 }
 
-GLuint CIosGraphicDevice::BuildProgram(const CIphoneEffectGenerator::EFFECTCAPS& effectCaps)
+GLuint CIosGraphicDevice::BuildProgram(const CIosEffectGenerator::EFFECTCAPS& effectCaps)
 {
-	std::string vertexShaderSource = CIphoneEffectGenerator::GenerateVertexShader(effectCaps);
-	std::string pixelShaderSource = CIphoneEffectGenerator::GeneratePixelShader(effectCaps);
+	std::string vertexShaderSource = CIosEffectGenerator::GenerateVertexShader(effectCaps);
+	std::string pixelShaderSource = CIosEffectGenerator::GeneratePixelShader(effectCaps);
 	
 	GLuint vertexShader = CompileShader(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
 	GLuint pixelShader = CompileShader(pixelShaderSource.c_str(), GL_FRAGMENT_SHADER);

@@ -4,7 +4,7 @@
 #include "OpenGlEsDefs.h"
 #include "athena/GraphicDevice.h"
 #include "athena/Mesh.h"
-#include "athena/Iphone/IphoneEffectGenerator.h"
+#include "athena/Ios/IosEffectGenerator.h"
 
 namespace Athena
 {
@@ -66,11 +66,11 @@ namespace Athena
 		
 		void								DrawViewport(CViewport*);
 
-		void								GenerateEffect(const CIphoneEffectGenerator::EFFECTCAPS&);
+		void								GenerateEffect(const CIosEffectGenerator::EFFECTCAPS&);
 
 		static GLuint						CompileShader(const char*, GLuint);
 		void								DumpProgramLog(GLuint);
-		GLuint								BuildProgram(const CIphoneEffectGenerator::EFFECTCAPS&);
+		GLuint								BuildProgram(const CIosEffectGenerator::EFFECTCAPS&);
 		
 		bool								FillRenderQueue(CSceneNode*, CCamera*);
 		void								DrawMesh(CMesh*);

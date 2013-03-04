@@ -1,5 +1,5 @@
 #include "IosVertexBuffer.h"
-#include "IphoneGraphicDevice.h"
+#include "IosGraphicDevice.h"
 #include <assert.h>
 #include <vector>
 
@@ -45,40 +45,40 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 		
 		assert(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS);
 		
-		glEnableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_POSITION);
-		glVertexAttribPointer(CIphoneGraphicDevice::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
+		glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_POSITION);
+		glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
 		CHECKGLERROR();
 		
 		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
 		{
-			glEnableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_COLOR);
-			glVertexAttribPointer(CIphoneGraphicDevice::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
+			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_COLOR);
+			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
 		}
 		else
 		{
-			glDisableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_COLOR);
+			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_COLOR);
 		}
 		CHECKGLERROR();
 		
 		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
 		{
-			glEnableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
-			glVertexAttribPointer(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));		
+			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
+			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));		
 		}
 		else
 		{
-			glDisableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
+			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
 		}
 		CHECKGLERROR();
 		
 		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV1)
 		{
-			glEnableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
-			glVertexAttribPointer(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
+			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
+			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
 		}
 		else
 		{
-			glDisableVertexAttribArray(CIphoneGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
+			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
 		}
 		CHECKGLERROR();
 

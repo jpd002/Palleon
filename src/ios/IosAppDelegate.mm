@@ -11,7 +11,7 @@
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	self.window = [[UIWindow alloc] initWithFrame: screenBounds];
 
-	m_mainViewController = [[IphoneViewController alloc] init];
+	m_mainViewController = [[IosViewController alloc] init];
 	self.window.rootViewController = m_mainViewController;
 	
 	[self.window makeKeyAndVisible];

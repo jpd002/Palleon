@@ -1,4 +1,4 @@
-#include "athena/iphone/IosEffectGenerator.h"
+#include "athena/ios/IosEffectGenerator.h"
 
 using namespace Athena;
 

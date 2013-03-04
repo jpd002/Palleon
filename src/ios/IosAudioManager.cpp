@@ -1,5 +1,5 @@
-#include "athena/iphone/IosAudioManager.h"
-#include "athena/iphone/IphoneAudioClip.h"
+#include "athena/ios/IosAudioManager.h"
+#include "athena/ios/IosAudioClip.h"
 #include <assert.h>
 
 using namespace Athena;
@@ -30,5 +30,5 @@ void CIosAudioManager::DestroyInstance()
 
 AudioClipPtr CIosAudioManager::CreateAudioClip(const char* path)
 {
-	return std::make_shared<CIphoneAudioClip>(path);
+	return std::make_shared<CIosAudioClip>(path);
 }

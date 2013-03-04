@@ -7,16 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70104E3E167404EF00807647 /* IphoneAudioClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E3A167404EF00807647 /* IphoneAudioClip.cpp */; };
-		70104E3F167404EF00807647 /* IphoneAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E3B167404EF00807647 /* IphoneAudioManager.cpp */; };
-		70104E40167404EF00807647 /* IphoneResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E3C167404EF00807647 /* IphoneResourceManager.cpp */; };
-		70104E41167404EF00807647 /* IphoneTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E3D167404EF00807647 /* IphoneTexture.cpp */; };
-		70104E441674051300807647 /* IphoneAudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E421674051300807647 /* IphoneAudioClip.h */; };
-		70104E451674051300807647 /* IphoneAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E431674051300807647 /* IphoneAudioManager.h */; };
 		70104E5E167409EB00807647 /* AudioClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E5C167409EB00807647 /* AudioClip.cpp */; };
 		70104E5F167409EB00807647 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E5D167409EB00807647 /* AudioManager.cpp */; };
 		70104E62167409F500807647 /* AudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E60167409F500807647 /* AudioClip.h */; };
 		70104E63167409F500807647 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E61167409F500807647 /* AudioManager.h */; };
+		707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F216E45BAF00CFCE67 /* EAGLView.mm */; };
+		707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */; };
+		707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */; };
+		707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */; };
+		7078960016E45BAF00CFCE67 /* IosEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */; };
+		7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */; };
+		7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */; };
+		7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F916E45BAF00CFCE67 /* IosTexture.cpp */; };
+		7078960416E45BAF00CFCE67 /* IosVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895FA16E45BAF00CFCE67 /* IosVertexBuffer.cpp */; };
+		7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895FB16E45BAF00CFCE67 /* IosViewController.mm */; };
+		7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960616E45BBA00CFCE67 /* EAGLView.h */; };
+		7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960716E45BBA00CFCE67 /* IosAppDelegate.h */; };
+		7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960816E45BBA00CFCE67 /* IosAudioClip.h */; };
+		7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960916E45BBA00CFCE67 /* IosAudioManager.h */; };
+		7078961516E45BBA00CFCE67 /* IosEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */; };
+		7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */; };
+		7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960C16E45BBA00CFCE67 /* IosResourceManager.h */; };
+		7078961816E45BBA00CFCE67 /* IosTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960D16E45BBA00CFCE67 /* IosTexture.h */; };
+		7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */; };
+		7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960F16E45BBA00CFCE67 /* IosViewController.h */; };
+		7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */; };
 		70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B582491635215200C40F25 /* AnimationController.cpp */; };
 		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
 		70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824B1635215200C40F25 /* TextureAnimation.cpp */; };
@@ -28,10 +43,6 @@
 		70C6E550168570A8001544EB /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C6E54F168570A8001544EB /* Emitter.h */; };
 		7E1923BA150C0404003BB65B /* PvrImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B8150C0404003BB65B /* PvrImage.h */; };
 		7E1923BB150C0404003BB65B /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E1923B9150C0404003BB65B /* TgaImage.h */; };
-		7E2885BD13F8634500F606EB /* IphoneResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885BC13F8634500F606EB /* IphoneResourceManager.h */; };
-		7E2885CE13F8AB3300F606EB /* IphoneVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885CD13F8AB3300F606EB /* IphoneVertexBuffer.h */; };
-		7E2885D013F8AB4100F606EB /* IphoneVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E2885CF13F8AB4100F606EB /* IphoneVertexBuffer.cpp */; };
-		7E2885D413FA157500F606EB /* IphoneTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2885D313FA157500F606EB /* IphoneTexture.h */; };
 		7E407F851401F8AD00431963 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F831401F8AD00431963 /* Frustum.h */; };
 		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
@@ -53,9 +64,6 @@
 		7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123114F19F0800292DD3 /* SphereMesh.h */; };
 		7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123214F19F0800292DD3 /* SpriteButton.h */; };
 		7E5C123C14F19F0800292DD3 /* Tween.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123314F19F0800292DD3 /* Tween.h */; };
-		7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */; };
-		7E5C124314F1AE5800292DD3 /* IphoneEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */; };
-		7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
 		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
 		7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875013F71AC300AD9F7F /* Camera.cpp */; };
@@ -98,29 +106,36 @@
 		7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878913F71AD900AD9F7F /* VertexBuffer.h */; };
 		7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878A13F71AD900AD9F7F /* Viewport.h */; };
 		7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878B13F71AD900AD9F7F /* Widget.h */; };
-		7EC5E5DA13FE153C004B7994 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EC5E5D613FE153C004B7994 /* EAGLView.mm */; };
-		7EC5E5DB13FE153C004B7994 /* IphoneAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EC5E5D713FE153C004B7994 /* IphoneAppDelegate.mm */; };
-		7EC5E5DC13FE153C004B7994 /* IphoneGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EC5E5D813FE153C004B7994 /* IphoneGraphicDevice.cpp */; };
-		7EC5E5DD13FE153C004B7994 /* IphoneViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7EC5E5D913FE153C004B7994 /* IphoneViewController.mm */; };
-		7EC5E5E313FE1557004B7994 /* EAGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EC5E5DF13FE1557004B7994 /* EAGLView.h */; };
-		7EC5E5E413FE1557004B7994 /* IphoneAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EC5E5E013FE1557004B7994 /* IphoneAppDelegate.h */; };
-		7EC5E5E513FE1557004B7994 /* IphoneGraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EC5E5E113FE1557004B7994 /* IphoneGraphicDevice.h */; };
-		7EC5E5E613FE1557004B7994 /* IphoneViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EC5E5E213FE1557004B7994 /* IphoneViewController.h */; };
 		7EFCCE7914BEB1D400FFB812 /* Package.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EFCCE7814BEB1D400FFB812 /* Package.cpp */; };
 		7EFCCE7C14BEB1EC00FFB812 /* Package.h in Headers */ = {isa = PBXBuildFile; fileRef = 7EFCCE7B14BEB1EC00FFB812 /* Package.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		70104E3A167404EF00807647 /* IphoneAudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneAudioClip.cpp; path = ../../src/iphone/IphoneAudioClip.cpp; sourceTree = "<group>"; };
-		70104E3B167404EF00807647 /* IphoneAudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneAudioManager.cpp; path = ../../src/iphone/IphoneAudioManager.cpp; sourceTree = "<group>"; };
-		70104E3C167404EF00807647 /* IphoneResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneResourceManager.cpp; path = ../../src/iphone/IphoneResourceManager.cpp; sourceTree = "<group>"; };
-		70104E3D167404EF00807647 /* IphoneTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneTexture.cpp; path = ../../src/iphone/IphoneTexture.cpp; sourceTree = "<group>"; };
-		70104E421674051300807647 /* IphoneAudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneAudioClip.h; path = ../../include/athena/iphone/IphoneAudioClip.h; sourceTree = "<group>"; };
-		70104E431674051300807647 /* IphoneAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneAudioManager.h; path = ../../include/athena/iphone/IphoneAudioManager.h; sourceTree = "<group>"; };
 		70104E5C167409EB00807647 /* AudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioClip.cpp; path = ../../src/AudioClip.cpp; sourceTree = "<group>"; };
 		70104E5D167409EB00807647 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = ../../src/AudioManager.cpp; sourceTree = "<group>"; };
 		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../../include/athena/AudioClip.h; sourceTree = "<group>"; };
 		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../../include/athena/AudioManager.h; sourceTree = "<group>"; };
+		707895F216E45BAF00CFCE67 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../src/ios/EAGLView.mm; sourceTree = "<group>"; };
+		707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosAppDelegate.mm; path = ../../src/ios/IosAppDelegate.mm; sourceTree = "<group>"; };
+		707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioClip.cpp; path = ../../src/ios/IosAudioClip.cpp; sourceTree = "<group>"; };
+		707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioManager.cpp; path = ../../src/ios/IosAudioManager.cpp; sourceTree = "<group>"; };
+		707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosEffectGenerator.cpp; path = ../../src/ios/IosEffectGenerator.cpp; sourceTree = "<group>"; };
+		707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosGraphicDevice.cpp; path = ../../src/ios/IosGraphicDevice.cpp; sourceTree = "<group>"; };
+		707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosResourceManager.cpp; path = ../../src/ios/IosResourceManager.cpp; sourceTree = "<group>"; };
+		707895F916E45BAF00CFCE67 /* IosTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosTexture.cpp; path = ../../src/ios/IosTexture.cpp; sourceTree = "<group>"; };
+		707895FA16E45BAF00CFCE67 /* IosVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosVertexBuffer.cpp; path = ../../src/ios/IosVertexBuffer.cpp; sourceTree = "<group>"; };
+		707895FB16E45BAF00CFCE67 /* IosViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosViewController.mm; path = ../../src/ios/IosViewController.mm; sourceTree = "<group>"; };
+		7078960616E45BBA00CFCE67 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../../include/athena/ios/EAGLView.h; sourceTree = "<group>"; };
+		7078960716E45BBA00CFCE67 /* IosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAppDelegate.h; path = ../../include/athena/ios/IosAppDelegate.h; sourceTree = "<group>"; };
+		7078960816E45BBA00CFCE67 /* IosAudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioClip.h; path = ../../include/athena/ios/IosAudioClip.h; sourceTree = "<group>"; };
+		7078960916E45BBA00CFCE67 /* IosAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioManager.h; path = ../../include/athena/ios/IosAudioManager.h; sourceTree = "<group>"; };
+		7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosEffectGenerator.h; path = ../../include/athena/ios/IosEffectGenerator.h; sourceTree = "<group>"; };
+		7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosGraphicDevice.h; path = ../../include/athena/ios/IosGraphicDevice.h; sourceTree = "<group>"; };
+		7078960C16E45BBA00CFCE67 /* IosResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosResourceManager.h; path = ../../include/athena/ios/IosResourceManager.h; sourceTree = "<group>"; };
+		7078960D16E45BBA00CFCE67 /* IosTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosTexture.h; path = ../../include/athena/ios/IosTexture.h; sourceTree = "<group>"; };
+		7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosVertexBuffer.h; path = ../../include/athena/ios/IosVertexBuffer.h; sourceTree = "<group>"; };
+		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../../include/athena/ios/IosViewController.h; sourceTree = "<group>"; };
+		7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../../include/athena/ios/OpenGlEsDefs.h; sourceTree = "<group>"; };
 		70B582491635215200C40F25 /* AnimationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimationController.cpp; path = ../../src/AnimationController.cpp; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../../src/TextureAnimation.cpp; sourceTree = "<group>"; };
@@ -132,10 +147,6 @@
 		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../../include/athena/Emitter.h; sourceTree = "<group>"; };
 		7E1923B8150C0404003BB65B /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../../include/athena/PvrImage.h; sourceTree = "<group>"; };
 		7E1923B9150C0404003BB65B /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../../include/athena/TgaImage.h; sourceTree = "<group>"; };
-		7E2885BC13F8634500F606EB /* IphoneResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneResourceManager.h; path = ../../include/athena/iphone/IphoneResourceManager.h; sourceTree = "<group>"; };
-		7E2885CD13F8AB3300F606EB /* IphoneVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneVertexBuffer.h; path = ../../include/athena/iphone/IphoneVertexBuffer.h; sourceTree = "<group>"; };
-		7E2885CF13F8AB4100F606EB /* IphoneVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneVertexBuffer.cpp; path = ../../src/iphone/IphoneVertexBuffer.cpp; sourceTree = "<group>"; };
-		7E2885D313FA157500F606EB /* IphoneTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneTexture.h; path = ../../include/athena/iphone/IphoneTexture.h; sourceTree = "<group>"; };
 		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../../include/athena/Frustum.h; sourceTree = "<group>"; };
 		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../../include/athena/Plane.h; sourceTree = "<group>"; };
 		7E407F871401F8C000431963 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Frustum.cpp; path = ../../src/Frustum.cpp; sourceTree = "<group>"; };
@@ -157,9 +168,6 @@
 		7E5C123114F19F0800292DD3 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../../include/athena/SphereMesh.h; sourceTree = "<group>"; };
 		7E5C123214F19F0800292DD3 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteButton.h; path = ../../include/athena/SpriteButton.h; sourceTree = "<group>"; };
 		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../../include/athena/Tween.h; sourceTree = "<group>"; };
-		7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneEffectGenerator.h; path = ../../include/athena/iphone/IphoneEffectGenerator.h; sourceTree = "<group>"; };
-		7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneEffectGenerator.cpp; path = ../../src/iphone/IphoneEffectGenerator.cpp; sourceTree = "<group>"; };
-		7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../../include/athena/iphone/OpenGlEsDefs.h; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874213F719E600AD9F7F /* Athena-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = "<group>"; };
@@ -204,14 +212,6 @@
 		7E7D878913F71AD900AD9F7F /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../../include/athena/VertexBuffer.h; sourceTree = "<group>"; };
 		7E7D878A13F71AD900AD9F7F /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../../include/athena/Viewport.h; sourceTree = "<group>"; };
 		7E7D878B13F71AD900AD9F7F /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../../include/athena/Widget.h; sourceTree = "<group>"; };
-		7EC5E5D613FE153C004B7994 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../src/iphone/EAGLView.mm; sourceTree = "<group>"; };
-		7EC5E5D713FE153C004B7994 /* IphoneAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IphoneAppDelegate.mm; path = ../../src/iphone/IphoneAppDelegate.mm; sourceTree = "<group>"; };
-		7EC5E5D813FE153C004B7994 /* IphoneGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IphoneGraphicDevice.cpp; path = ../../src/iphone/IphoneGraphicDevice.cpp; sourceTree = "<group>"; };
-		7EC5E5D913FE153C004B7994 /* IphoneViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IphoneViewController.mm; path = ../../src/iphone/IphoneViewController.mm; sourceTree = "<group>"; };
-		7EC5E5DF13FE1557004B7994 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../../include/athena/iphone/EAGLView.h; sourceTree = "<group>"; };
-		7EC5E5E013FE1557004B7994 /* IphoneAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneAppDelegate.h; path = ../../include/athena/iphone/IphoneAppDelegate.h; sourceTree = "<group>"; };
-		7EC5E5E113FE1557004B7994 /* IphoneGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneGraphicDevice.h; path = ../../include/athena/iphone/IphoneGraphicDevice.h; sourceTree = "<group>"; };
-		7EC5E5E213FE1557004B7994 /* IphoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IphoneViewController.h; path = ../../include/athena/iphone/IphoneViewController.h; sourceTree = "<group>"; };
 		7EFCCE7814BEB1D400FFB812 /* Package.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Package.cpp; path = ../../src/Package.cpp; sourceTree = "<group>"; };
 		7EFCCE7B14BEB1EC00FFB812 /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../../include/athena/Package.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -253,32 +253,32 @@
 			name = animation;
 			sourceTree = "<group>";
 		};
-		7E2885B813F862F800F606EB /* iphone */ = {
+		7E2885B813F862F800F606EB /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				7EC5E5D613FE153C004B7994 /* EAGLView.mm */,
-				7EC5E5DF13FE1557004B7994 /* EAGLView.h */,
-				7E5C124714FAAB7F00292DD3 /* OpenGlEsDefs.h */,
-				7EC5E5D713FE153C004B7994 /* IphoneAppDelegate.mm */,
-				7EC5E5E013FE1557004B7994 /* IphoneAppDelegate.h */,
-				70104E3A167404EF00807647 /* IphoneAudioClip.cpp */,
-				70104E421674051300807647 /* IphoneAudioClip.h */,
-				70104E3B167404EF00807647 /* IphoneAudioManager.cpp */,
-				70104E431674051300807647 /* IphoneAudioManager.h */,
-				7E5C124214F1AE5800292DD3 /* IphoneEffectGenerator.cpp */,
-				7E5C124014F1AE4C00292DD3 /* IphoneEffectGenerator.h */,
-				7EC5E5D813FE153C004B7994 /* IphoneGraphicDevice.cpp */,
-				7EC5E5E113FE1557004B7994 /* IphoneGraphicDevice.h */,
-				7EC5E5D913FE153C004B7994 /* IphoneViewController.mm */,
-				7EC5E5E213FE1557004B7994 /* IphoneViewController.h */,
-				70104E3D167404EF00807647 /* IphoneTexture.cpp */,
-				7E2885D313FA157500F606EB /* IphoneTexture.h */,
-				70104E3C167404EF00807647 /* IphoneResourceManager.cpp */,
-				7E2885BC13F8634500F606EB /* IphoneResourceManager.h */,
-				7E2885CF13F8AB4100F606EB /* IphoneVertexBuffer.cpp */,
-				7E2885CD13F8AB3300F606EB /* IphoneVertexBuffer.h */,
+				707895F216E45BAF00CFCE67 /* EAGLView.mm */,
+				7078960616E45BBA00CFCE67 /* EAGLView.h */,
+				707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */,
+				7078960716E45BBA00CFCE67 /* IosAppDelegate.h */,
+				707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */,
+				7078960816E45BBA00CFCE67 /* IosAudioClip.h */,
+				707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */,
+				7078960916E45BBA00CFCE67 /* IosAudioManager.h */,
+				707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */,
+				7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */,
+				707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */,
+				7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */,
+				707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */,
+				7078960C16E45BBA00CFCE67 /* IosResourceManager.h */,
+				707895F916E45BAF00CFCE67 /* IosTexture.cpp */,
+				7078960D16E45BBA00CFCE67 /* IosTexture.h */,
+				707895FA16E45BAF00CFCE67 /* IosVertexBuffer.cpp */,
+				7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */,
+				707895FB16E45BAF00CFCE67 /* IosViewController.mm */,
+				7078960F16E45BBA00CFCE67 /* IosViewController.h */,
+				7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */,
 			);
-			name = iphone;
+			name = ios;
 			sourceTree = "<group>";
 		};
 		7E407F811401F88700431963 /* math */ = {
@@ -407,7 +407,7 @@
 				7E407F811401F88700431963 /* math */,
 				7E5C123F14F1A01000292DD3 /* resources */,
 				7E5C123E14F19FB600292DD3 /* widgets */,
-				7E2885B813F862F800F606EB /* iphone */,
+				7E2885B813F862F800F606EB /* ios */,
 				7E7D874113F719E600AD9F7F /* Supporting Files */,
 				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
 				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
@@ -456,13 +456,6 @@
 				7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */,
 				7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */,
 				7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */,
-				7E2885BD13F8634500F606EB /* IphoneResourceManager.h in Headers */,
-				7E2885CE13F8AB3300F606EB /* IphoneVertexBuffer.h in Headers */,
-				7E2885D413FA157500F606EB /* IphoneTexture.h in Headers */,
-				7EC5E5E313FE1557004B7994 /* EAGLView.h in Headers */,
-				7EC5E5E413FE1557004B7994 /* IphoneAppDelegate.h in Headers */,
-				7EC5E5E513FE1557004B7994 /* IphoneGraphicDevice.h in Headers */,
-				7EC5E5E613FE1557004B7994 /* IphoneViewController.h in Headers */,
 				7E407F851401F8AD00431963 /* Frustum.h in Headers */,
 				7E407F861401F8AD00431963 /* Plane.h in Headers */,
 				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
@@ -477,19 +470,26 @@
 				7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */,
 				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
 				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
-				7E5C124114F1AE4C00292DD3 /* IphoneEffectGenerator.h in Headers */,
-				7E5C124814FAAB8100292DD3 /* OpenGlEsDefs.h in Headers */,
 				7E1923BA150C0404003BB65B /* PvrImage.h in Headers */,
 				7E1923BB150C0404003BB65B /* TgaImage.h in Headers */,
 				70B582531635216800C40F25 /* AnimationController.h in Headers */,
 				70B582541635216800C40F25 /* AnimationCurve.h in Headers */,
 				70B582551635216800C40F25 /* RumbleAnimation.h in Headers */,
 				70B582561635216800C40F25 /* TextureAnimation.h in Headers */,
-				70104E441674051300807647 /* IphoneAudioClip.h in Headers */,
-				70104E451674051300807647 /* IphoneAudioManager.h in Headers */,
 				70104E62167409F500807647 /* AudioClip.h in Headers */,
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
 				70C6E550168570A8001544EB /* Emitter.h in Headers */,
+				7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */,
+				7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */,
+				7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */,
+				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
+				7078961516E45BBA00CFCE67 /* IosEffectGenerator.h in Headers */,
+				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
+				7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */,
+				7078961816E45BBA00CFCE67 /* IosTexture.h in Headers */,
+				7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */,
+				7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */,
+				7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,11 +560,6 @@
 				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
 				7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */,
 				7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */,
-				7E2885D013F8AB4100F606EB /* IphoneVertexBuffer.cpp in Sources */,
-				7EC5E5DA13FE153C004B7994 /* EAGLView.mm in Sources */,
-				7EC5E5DB13FE153C004B7994 /* IphoneAppDelegate.mm in Sources */,
-				7EC5E5DC13FE153C004B7994 /* IphoneGraphicDevice.cpp in Sources */,
-				7EC5E5DD13FE153C004B7994 /* IphoneViewController.mm in Sources */,
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
 				7EFCCE7914BEB1D400FFB812 /* Package.cpp in Sources */,
 				7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */,
@@ -574,17 +569,22 @@
 				7E5C122714F19EF700292DD3 /* NinePatchDescriptor.cpp in Sources */,
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
-				7E5C124314F1AE5800292DD3 /* IphoneEffectGenerator.cpp in Sources */,
 				70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
-				70104E3E167404EF00807647 /* IphoneAudioClip.cpp in Sources */,
-				70104E3F167404EF00807647 /* IphoneAudioManager.cpp in Sources */,
-				70104E40167404EF00807647 /* IphoneResourceManager.cpp in Sources */,
-				70104E41167404EF00807647 /* IphoneTexture.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
 				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
+				707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */,
+				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
+				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
+				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
+				7078960016E45BAF00CFCE67 /* IosEffectGenerator.cpp in Sources */,
+				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,
+				7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */,
+				7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */,
+				7078960416E45BAF00CFCE67 /* IosVertexBuffer.cpp in Sources */,
+				7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

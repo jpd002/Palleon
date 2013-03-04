@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "IosViewController.h"
 
-@interface IphoneAppDelegate : NSObject <UIApplicationDelegate> 
+@interface IosAppDelegate : NSObject <UIApplicationDelegate>
 {
 	IosViewController*		m_mainViewController;
 }

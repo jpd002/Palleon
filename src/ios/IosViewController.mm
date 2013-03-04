@@ -1,9 +1,9 @@
 #import <QuartzCore/QuartzCore.h>
 
-#import "athena/iphone/IosViewController.h"
-#import "athena/iphone/IphoneGraphicDevice.h"
-#import "athena/iphone/IphoneResourceManager.h"
-#import "athena/iphone/IphoneAudioManager.h"
+#import "athena/ios/IosViewController.h"
+#import "athena/ios/IosGraphicDevice.h"
+#import "athena/ios/IosResourceManager.h"
+#import "athena/ios/IosAudioManager.h"
 #import "athena/ConfigManager.h"
 #import "EAGLView.h"
 #include <mach/mach.h>
@@ -55,8 +55,8 @@ using namespace Athena;
 
 	bool hasRetinaDisplay = [(EAGLView *)self.view hasRetinaDisplay];
 	
-	CIphoneResourceManager::CreateInstance();
-	CIphoneAudioManager::CreateInstance();
+	CIosResourceManager::CreateInstance();
+	CIosAudioManager::CreateInstance();
 	CConfigManager::CreateInstance();
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
 	
@@ -64,11 +64,11 @@ using namespace Athena;
 	
 	if(m_isPortraitOrientation)
 	{
-		CIphoneGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.width, screenBounds.size.height));
+		CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.width, screenBounds.size.height));
 	}
 	else
 	{
-		CIphoneGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.height, screenBounds.size.width));
+		CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.height, screenBounds.size.width));
 	}
 
 	assert(m_application == NULL);
@@ -88,8 +88,8 @@ using namespace Athena;
 	[self stopAnimation];
 	
 	delete m_application;
-	CIphoneAudioManager::DestroyInstance();
-	CIphoneResourceManager::DestroyInstance();
+	CIosAudioManager::DestroyInstance();
+	CIosResourceManager::DestroyInstance();
 	[super dealloc];
 }
 
@@ -158,7 +158,7 @@ using namespace Athena;
 		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
 		m_frameCounterTime = 0;
 		m_currentFrameCount = 0;
-		static_cast<CIphoneGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
+		static_cast<CIosGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
 	}
 	
 }

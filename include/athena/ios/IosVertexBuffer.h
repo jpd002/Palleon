@@ -5,11 +5,11 @@
 
 namespace Athena
 {
-	class CIphoneVertexBuffer : public CVertexBuffer
+	class CIosVertexBuffer : public CVertexBuffer
 	{
 	public:
-												CIphoneVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
-		virtual									~CIphoneVertexBuffer();
+												CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
+		virtual									~CIosVertexBuffer();
 
 		virtual void*							LockVertices();
 		virtual void							UnlockVertices(uint32);

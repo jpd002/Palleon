@@ -1,4 +1,4 @@
-#include "athena/iphone/IosAudioClip.h"
+#include "athena/ios/IosAudioClip.h"
 
 using namespace Athena;
 
