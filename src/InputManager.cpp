@@ -43,3 +43,13 @@ bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPositi
 	}
 	return true;
 }
+
+void CInputManager::SendInputEventToTree(CSceneNode* root, const CVector2& inputPosition, INPUT_EVENT event)
+{
+	root->TraverseNodes(
+		[&] (CSceneNode* node)
+		{
+			return SendInputEvent(node, inputPosition, event);
+		}
+	);
+}

@@ -56,6 +56,7 @@ void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNode
 	assert(nodeIterator != m_children.end());
 
 	if(nodeIterator == m_children.end()) return;
+	std::advance(nodeIterator, 1);
 	m_children.insert(nodeIterator, child);
 	child->m_parent = this;
 }

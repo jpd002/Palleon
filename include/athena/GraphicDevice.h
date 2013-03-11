@@ -1,5 +1,4 @@
-#ifndef _GRAPHICDEVICE_H_
-#define _GRAPHICDEVICE_H_
+#pragma once
 
 #include <list>
 #include "Types.h"
@@ -41,6 +40,7 @@ namespace Athena
 		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) = 0;
 
 		void								AddViewport(CViewport*);
+		void								AddViewportAfter(CViewport*, CViewport*);
 		void								RemoveViewport(CViewport*);
 
 		static uint32						ConvertColorToUInt32(const CColor&);
@@ -59,5 +59,3 @@ namespace Athena
 		float								m_frameRate;
 	};
 }
-
-#endif

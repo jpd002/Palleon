@@ -1,5 +1,4 @@
-#ifndef _VIEWPORT_H_
-#define _VIEWPORT_H_
+#pragma once
 
 #include <memory>
 #include "SceneNode.h"
@@ -29,5 +28,3 @@ namespace Athena
 		CameraPtr				m_camera;
 	};
 }
-
-#endif

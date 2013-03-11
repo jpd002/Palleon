@@ -345,9 +345,9 @@ void CDx9GraphicDevice::Draw()
 	assert(SUCCEEDED(result));
 
 	//Draw all viewports
-	for(auto viewportIterator(std::begin(m_viewports)); viewportIterator != std::end(m_viewports); viewportIterator++)
+	for(CViewport* viewport : m_viewports)
 	{
-		DrawViewport(*viewportIterator);
+		DrawViewport(viewport);
 	}
 
 	result = m_device->EndScene();
@@ -387,7 +387,8 @@ void CDx9GraphicDevice::DrawViewport(CViewport* viewport)
 	HRESULT result = m_device->Clear(0, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	assert(SUCCEEDED(result));
 
-	CameraPtr camera = viewport->GetCamera();
+	auto camera = viewport->GetCamera();
+	assert(camera);
 
 	D3DXMATRIX projMatrix(reinterpret_cast<const float*>(&camera->GetProjectionMatrix()));
 	D3DXMATRIX viewMatrix(reinterpret_cast<const float*>(&camera->GetViewMatrix()));
@@ -407,9 +408,8 @@ void CDx9GraphicDevice::DrawViewport(CViewport* viewport)
 	const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
 	sceneRoot->TraverseNodes(std::bind(&CDx9GraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 
-	for(auto meshIterator(std::begin(m_renderQueue)); meshIterator != std::end(m_renderQueue); meshIterator++)
+	for(CMesh* mesh : m_renderQueue)
 	{
-		CMesh* mesh = (*meshIterator);
 		DrawMesh(mesh);
 	}
 }

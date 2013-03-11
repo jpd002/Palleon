@@ -48,6 +48,18 @@ void CGraphicDevice::AddViewport(CViewport* viewport)
 	m_viewports.push_back(viewport);
 }
 
+void CGraphicDevice::AddViewportAfter(CViewport* reference, CViewport* viewport)
+{
+	assert(std::find(std::begin(m_viewports), std::end(m_viewports), viewport) == std::end(m_viewports));
+
+	auto viewportIterator(std::find(std::begin(m_viewports), std::end(m_viewports), reference));
+	assert(viewportIterator != m_viewports.end());
+
+	if(viewportIterator == m_viewports.end()) return;
+	std::advance(viewportIterator, 1);
+	m_viewports.insert(viewportIterator, viewport);
+}
+
 void CGraphicDevice::RemoveViewport(CViewport* viewport)
 {
 	auto viewportIterator = std::find(std::begin(m_viewports), std::end(m_viewports), viewport);

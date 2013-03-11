@@ -17,6 +17,7 @@ namespace Athena
 	{
 	public:
 		static bool		SendInputEvent(CSceneNode*, const CVector2&, INPUT_EVENT);
+		static void		SendInputEventToTree(CSceneNode*, const CVector2&, INPUT_EVENT);
 	};
 }
 
