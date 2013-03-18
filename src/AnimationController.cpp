@@ -27,15 +27,32 @@ void CAnimationController::AddAnimation(const char* name, const AnimationPtr& an
 	m_animations.insert(AnimationMap::value_type(name, animationState));
 }
 
-void CAnimationController::PlayAnimation(const char* name, ANIMATION_PLAY_MODE playMode)
+void CAnimationController::PlayAnimation(const char* name, ANIMATION_PLAY_MODE playMode, ANIMATION_PLAY_DIRECTION playDirection)
 {
 	auto animationIterator = m_animations.find(name);
 	assert(animationIterator != std::end(m_animations));
 	if(animationIterator == std::end(m_animations)) return;
 	auto& animationState = animationIterator->second;
 	animationState.playMode			= playMode;
-	animationState.time				= 0;
+	animationState.playDirection	= playDirection;
+	if(playDirection == ANIMATION_PLAY_FORWARD)
+	{
+		animationState.time = 0;
+	}
+	else
+	{
+		animationState.time = animationState.animation->GetLength();
+	}
 	animationState.playing			= true;
+}
+
+void CAnimationController::SetAnimationPlayDirection(const char* name, ANIMATION_PLAY_DIRECTION playDirection)
+{
+	auto animationIterator = m_animations.find(name);
+	assert(animationIterator != std::end(m_animations));
+	if(animationIterator == std::end(m_animations)) return;
+	auto& animationState = animationIterator->second;
+	animationState.playDirection	= playDirection;
 }
 
 bool CAnimationController::IsAnimationOver() const
@@ -71,10 +88,21 @@ void CAnimationController::Update(CSceneNode* sceneNode, float dt)
 		switch(animationState.playMode)
 		{
 		case ANIMATION_PLAY_ONCE:
-			if(animationState.time == animation->GetLength())
 			{
-				animationState.playing = false;
-				AnimationOver(sceneNode, animationIterator->first.c_str());
+				bool done = false;
+				if(animationState.playDirection == ANIMATION_PLAY_FORWARD)
+				{
+					done = (animationState.time == animation->GetLength());
+				}
+				else
+				{
+					done = (animationState.time == 0);
+				}
+				if(done)
+				{
+					animationState.playing = false;
+					AnimationOver(sceneNode, animationIterator->first.c_str());
+				}
 			}
 			break;
 		}
@@ -85,16 +113,37 @@ void CAnimationController::Update(CSceneNode* sceneNode, float dt)
 		switch(animationState.playMode)
 		{
 		case ANIMATION_PLAY_ONCE:
-			animationState.time = std::min<float>(animationState.time + dt, animation->GetLength());
-			break;
-		case ANIMATION_PLAY_LOOP:
-			if(animationState.time >= animation->GetLength())
+			if(animationState.playDirection == ANIMATION_PLAY_FORWARD)
 			{
-				animationState.time = 0;
+				animationState.time = std::min<float>(animationState.time + dt, animation->GetLength());
 			}
 			else
 			{
-				animationState.time += dt;
+				animationState.time = std::max<float>(animationState.time - dt, 0);
+			}
+			break;
+		case ANIMATION_PLAY_LOOP:
+			if(animationState.playDirection == ANIMATION_PLAY_FORWARD)
+			{
+				if(animationState.time >= animation->GetLength())
+				{
+					animationState.time = 0;
+				}
+				else
+				{
+					animationState.time += dt;
+				}
+			}
+			else
+			{
+				if(animationState.time <= 0)
+				{
+					animationState.time = animation->GetLength();
+				}
+				else
+				{
+					animationState.time -= dt;
+				}
 			}
 			break;
 		}

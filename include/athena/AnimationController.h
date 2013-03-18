@@ -16,6 +16,12 @@ namespace Athena
 		ANIMATION_PLAY_LOOP
 	};
 
+	enum ANIMATION_PLAY_DIRECTION
+	{
+		ANIMATION_PLAY_FORWARD,
+		ANIMATION_PLAY_BACKWARD
+	};
+
 	class CAnimationController
 	{
 	public:
@@ -25,7 +31,9 @@ namespace Athena
 		virtual						~CAnimationController();
 
 		void						AddAnimation(const char*, const AnimationPtr&);
-		void						PlayAnimation(const char*, ANIMATION_PLAY_MODE = ANIMATION_PLAY_ONCE);
+		void						PlayAnimation(const char*, ANIMATION_PLAY_MODE = ANIMATION_PLAY_ONCE, ANIMATION_PLAY_DIRECTION = ANIMATION_PLAY_FORWARD);
+
+		void						SetAnimationPlayDirection(const char*, ANIMATION_PLAY_DIRECTION);
 
 		bool						IsAnimationOver() const;
 		bool						IsAnimationOver(const char*) const;
@@ -37,10 +45,11 @@ namespace Athena
 	private:
 		struct ANIMATION_STATE
 		{
-			AnimationPtr			animation;
-			float					time;
-			ANIMATION_PLAY_MODE		playMode;
-			bool					playing;
+			AnimationPtr				animation;
+			float						time;
+			ANIMATION_PLAY_MODE			playMode;
+			ANIMATION_PLAY_DIRECTION	playDirection;
+			bool						playing;
 		};
 
 		typedef std::unordered_map<std::string, ANIMATION_STATE> AnimationMap;
