@@ -1,8 +1,9 @@
 #include <assert.h>
 #include "athena/win32/Win32ResourceManager.h"
 #include "athena/win32/Win32AudioManager.h"
-#include "athena/win32/Dx9GraphicDevice.h"
-#include "athena/win32/Dx9ApplicationWindow.h"
+#include "athena/win32/Win32ApplicationWindow.h"
+//#include "athena/win32/Dx9GraphicDevice.h"
+#include "athena/win32/Dx11GraphicDevice.h"
 #include "athena/ConfigManager.h"
 #include "win32/Rect.h"
 #include "string_cast.h"
@@ -16,7 +17,7 @@
 
 using namespace Athena;
 
-CDx9ApplicationWindow::CDx9ApplicationWindow()
+CWin32ApplicationWindow::CWin32ApplicationWindow()
 : m_mouseX(0)
 , m_mouseY(0)
 , m_mouseDownPending(false)
@@ -60,13 +61,13 @@ CDx9ApplicationWindow::CDx9ApplicationWindow()
 	Create(NULL, CLSNAME, windowTitleString.c_str(), WNDSTYLE, &windowRect, NULL, NULL);
 	SetClassPtr();
 
-	CDx9GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
+	CDx11GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
 	CWin32AudioManager::CreateInstance();
 
 	m_application = CreateApplication();
 }
 
-CDx9ApplicationWindow::~CDx9ApplicationWindow()
+CWin32ApplicationWindow::~CWin32ApplicationWindow()
 {
 	if(m_application != NULL)
 	{
@@ -75,10 +76,10 @@ CDx9ApplicationWindow::~CDx9ApplicationWindow()
 	}
 
 	CWin32ResourceManager::DestroyInstance();
-	CDx9GraphicDevice::DestroyInstance();
+	CDx11GraphicDevice::DestroyInstance();
 }
 
-void CDx9ApplicationWindow::UpdateApplication()
+void CWin32ApplicationWindow::UpdateApplication()
 {
 	m_application->NotifyMouseMove(m_mouseX, m_mouseY);
 
@@ -108,7 +109,7 @@ void CDx9ApplicationWindow::UpdateApplication()
 
 	m_application->Update(deltaTimeRel);
 
-	Athena::CDx9GraphicDevice::GetInstance().Draw();
+	Athena::CDx11GraphicDevice::GetInstance().Draw();
 
 	m_currentFrameCount++;
 	if(m_frameCounterTime >= 1)
@@ -116,30 +117,30 @@ void CDx9ApplicationWindow::UpdateApplication()
 		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
 		m_frameCounterTime = 0;
 		m_currentFrameCount = 0;
-		static_cast<CDx9GraphicDevice&>(CDx9GraphicDevice::GetInstance()).SetFrameRate(frameRate);
+		static_cast<CDx11GraphicDevice&>(CDx11GraphicDevice::GetInstance()).SetFrameRate(frameRate);
 	}
 }
 
-long CDx9ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
+long CWin32ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
 {
 	m_mouseX = x;
 	m_mouseY = y;
 	return TRUE;
 }
 
-long CDx9ApplicationWindow::OnLeftButtonDown(int, int)
+long CWin32ApplicationWindow::OnLeftButtonDown(int, int)
 {
 	m_mouseDownPending = true;
 	return TRUE;
 }
 
-long CDx9ApplicationWindow::OnLeftButtonUp(int, int)
+long CWin32ApplicationWindow::OnLeftButtonUp(int, int)
 {
 	m_mouseUpPending = true;
 	return TRUE;
 }
 
-void CDx9ApplicationWindow::Loop()
+void CWin32ApplicationWindow::Loop()
 {
 	while(IsWindow())
 	{
@@ -155,7 +156,7 @@ void CDx9ApplicationWindow::Loop()
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, char*, int)
 {
-	CDx9ApplicationWindow applicationWindow;
+	CWin32ApplicationWindow applicationWindow;
 	applicationWindow.Center(NULL);
 	applicationWindow.Show(SW_SHOW);
 	applicationWindow.Loop();

@@ -106,35 +106,14 @@
     <ClCompile Include="..\src\InputManager.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9EffectGenerator.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9GraphicDevice.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9Texture.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9VertexBuffer.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\RenderTarget.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9RenderTarget.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\CubeRenderTarget.cpp">
       <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9ApplicationWindow.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\win32\Dx9CubeRenderTarget.cpp">
-      <Filter>Source Files\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\AnimationController.cpp">
       <Filter>Source Files\animation</Filter>
@@ -159,6 +138,21 @@
     </ClCompile>
     <ClCompile Include="..\src\Emitter.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Win32ApplicationWindow.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11GraphicDevice.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11VertexBuffer.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11EffectGenerator.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11Texture.cpp">
+      <Filter>Source Files\win32</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,35 +268,14 @@
     <ClInclude Include="..\include\athena\InputManager.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9ApplicationWindow.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9EffectGenerator.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9GraphicDevice.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9Texture.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9VertexBuffer.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\win32\Win32ResourceManager.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\RenderTarget.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9RenderTarget.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\CubeRenderTarget.h">
       <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx9CubeRenderTarget.h">
-      <Filter>Source Files\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\PvrImage.h">
       <Filter>Source Files\resources</Filter>
@@ -339,6 +312,21 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\Emitter.h">
       <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Win32ApplicationWindow.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11GraphicDevice.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11VertexBuffer.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11EffectGenerator.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11Texture.h">
+      <Filter>Source Files\win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

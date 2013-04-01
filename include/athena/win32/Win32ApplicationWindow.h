@@ -1,5 +1,4 @@
-#ifndef _DX9APPLICATIONWINDOW_H_
-#define _DX9APPLICATIONWINDOW_H_
+#pragma once
 
 #include "Types.h"
 #include "win32/Window.h"
@@ -7,11 +6,11 @@
 
 namespace Athena
 {
-	class CDx9ApplicationWindow : public Framework::Win32::CWindow
+	class CWin32ApplicationWindow : public Framework::Win32::CWindow
 	{
 	public:
-									CDx9ApplicationWindow();
-		virtual						~CDx9ApplicationWindow();
+									CWin32ApplicationWindow();
+		virtual						~CWin32ApplicationWindow();
 
 		void						Loop();
 
@@ -40,5 +39,3 @@ namespace Athena
 		LARGE_INTEGER				m_counterFreq;
 	};
 }
-
-#endif
