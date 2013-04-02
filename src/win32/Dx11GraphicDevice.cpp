@@ -4,7 +4,6 @@
 #include "athena/win32/Dx11Texture.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
-#include <atlbase.h>
 #include <D3Dcompiler.h>
 
 using namespace Athena;
@@ -38,14 +37,7 @@ static const D3DCMPFUNC g_stencilFunc[STENCIL_FUNCTION_MAX] =
 */
 
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize)
-: m_device(nullptr)
-, m_deviceContext(nullptr)
-, m_swapChain(nullptr)
-, m_renderTargetView(nullptr)
-, m_depthBuffer(nullptr)
-, m_depthStencilState(nullptr)
-, m_rasterState(nullptr)
-, m_parentWnd(parentWnd)
+: m_parentWnd(parentWnd)
 {
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x1000);
@@ -71,13 +63,6 @@ CDx11GraphicDevice::~CDx11GraphicDevice()
 		effectInfo.vertexShaderCode->Release();
 	}
 	m_effects.clear();
-
-	m_depthStencilState->Release();
-	m_depthBuffer->Release();
-	m_renderTargetView->Release();
-	m_swapChain->Release();
-	m_deviceContext->Release();
-	m_device->Release();
 }
 
 void CDx11GraphicDevice::CreateDevice()
@@ -114,7 +99,7 @@ void CDx11GraphicDevice::CreateDevice()
 	assert(SUCCEEDED(result));
 	
 	{
-		CComPtr<ID3D11Texture2D> backBuffer;
+		Framework::Win32::CComPtr<ID3D11Texture2D> backBuffer;
 		result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
 		assert(SUCCEEDED(result));
 	
@@ -161,6 +146,17 @@ void CDx11GraphicDevice::CreateDevice()
 		rasterDesc.FillMode					= D3D11_FILL_SOLID;
 
 		result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
+		assert(SUCCEEDED(result));
+	}
+
+	{
+		D3D11_SAMPLER_DESC samplerDesc = {};
+		samplerDesc.AddressU	= D3D11_TEXTURE_ADDRESS_CLAMP;
+		samplerDesc.AddressV	= D3D11_TEXTURE_ADDRESS_CLAMP;
+		samplerDesc.AddressW	= D3D11_TEXTURE_ADDRESS_CLAMP;
+		samplerDesc.Filter		= D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		
+		result = m_device->CreateSamplerState(&samplerDesc, &m_defaultSamplerState);
 		assert(SUCCEEDED(result));
 	}
 
@@ -327,14 +323,14 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 	HRESULT result = S_OK;
 
 	{
-		CComPtr<ID3DBlob> vertexShaderCode;
-		CComPtr<ID3DBlob> vertexShaderErrors;
+		Framework::Win32::CComPtr<ID3DBlob> vertexShaderCode;
+		Framework::Win32::CComPtr<ID3DBlob> vertexShaderErrors;
 
 		result = D3DCompile(vertexShaderText.c_str(), vertexShaderText.length() + 1, "vs", nullptr, nullptr, "VertexProgram", 
 			"vs_5_0", D3DCOMPILE_DEBUG, 0, &vertexShaderCode, &vertexShaderErrors);
 		if(FAILED(result))
 		{
-			if(vertexShaderErrors)
+			if(!vertexShaderErrors.IsEmpty())
 			{
 				OutputDebugStringA(vertexShaderText.c_str());
 				OutputDebugStringA("\r\n");
@@ -350,14 +346,14 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 	}
 
 	{
-		CComPtr<ID3DBlob> pixelShaderCode;
-		CComPtr<ID3DBlob> pixelShaderErrors;
+		Framework::Win32::CComPtr<ID3DBlob> pixelShaderCode;
+		Framework::Win32::CComPtr<ID3DBlob> pixelShaderErrors;
 
 		result = D3DCompile(pixelShaderText.c_str(), pixelShaderText.length() + 1, "ps", nullptr, nullptr, "PixelProgram",
 			"ps_5_0", D3DCOMPILE_DEBUG, 0, &pixelShaderCode, &pixelShaderErrors);
 		if(FAILED(result))
 		{
-			if(pixelShaderErrors)
+			if(!pixelShaderErrors.IsEmpty())
 			{
 				OutputDebugStringA(pixelShaderText.c_str());
 				OutputDebugStringA("\r\n");
@@ -370,10 +366,34 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 		assert(SUCCEEDED(result));
 	}
 
+	struct OffsetKeeper
+	{
+		OffsetKeeper()
+		{
+			currentOffset = 0;
+		}
+
+		uint32 Allocate(uint32 size)
+		{
+			uint32 result = currentOffset;
+			currentOffset += size;
+			return result;
+		}
+
+		uint32 currentOffset;
+	};
+
+	OffsetKeeper constantOffset;
+
+	newEffect.meshColorOffset			= constantOffset.Allocate(0x10);
+	newEffect.worldMatrixOffset			= constantOffset.Allocate(0x40);
+	newEffect.viewProjMatrixOffset		= constantOffset.Allocate(0x40);
+	if(effectCaps.hasDiffuseMap0) newEffect.diffuseTextureMatrixOffset[0] = constantOffset.Allocate(0x40);
+
 	{
 		D3D11_BUFFER_DESC bufferDesc = {};
 		bufferDesc.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
-		bufferDesc.ByteWidth		= 128;
+		bufferDesc.ByteWidth		= constantOffset.currentOffset;
 		bufferDesc.Usage			= D3D11_USAGE_DYNAMIC;
 		bufferDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
 
@@ -381,11 +401,34 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 		assert(SUCCEEDED(result));
 	}
 
-	newEffect.worldMatrixOffset			= 0;
-	newEffect.viewProjMatrixOffset		= 64;
-
 	uint32 effectKey = *reinterpret_cast<const uint32*>(&effectCaps);
 	m_effects[effectKey] = newEffect;
+}
+
+ID3D11BlendState* CDx11GraphicDevice::GetBlendState(ALPHA_BLENDING_MODE blendingMode)
+{
+	if(m_blendStates[blendingMode].IsEmpty())
+	{
+		D3D11_BLEND_DESC blendDesc = {};
+		switch(blendingMode)
+		{
+		case ALPHA_BLENDING_LERP:
+			blendDesc.RenderTarget[0].BlendEnable		= true;
+			blendDesc.RenderTarget[0].BlendOp			= D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[0].SrcBlend			= D3D11_BLEND_SRC_ALPHA;
+			blendDesc.RenderTarget[0].DestBlend			= D3D11_BLEND_INV_SRC_ALPHA;
+			blendDesc.RenderTarget[0].BlendOpAlpha		= D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[0].SrcBlendAlpha		= D3D11_BLEND_ONE;
+			blendDesc.RenderTarget[0].DestBlendAlpha	= D3D11_BLEND_ZERO;
+			break;
+		}
+		blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		HRESULT result = m_device->CreateBlendState(&blendDesc, &m_blendStates[blendingMode]);
+		assert(SUCCEEDED(result));
+	}
+
+	return m_blendStates[blendingMode];
 }
 
 void CDx11GraphicDevice::Draw()
@@ -540,17 +583,46 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh)
 			assert(SUCCEEDED(result));
 
 			auto constantBufferPtr = reinterpret_cast<uint8*>(mappedResource.pData);
+			*reinterpret_cast<CColor*>(constantBufferPtr + currentEffect->meshColorOffset) = meshColor;
 			*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->worldMatrixOffset) = worldMatrix;
 			*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->viewProjMatrixOffset) = m_viewProjMatrix;
 
+			for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+			{
+				if(currentEffect->diffuseTextureMatrixOffset[i] != 0)
+				{
+					const auto& textureMatrix = material->GetTextureMatrix(i);
+					*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->diffuseTextureMatrixOffset[i]) = textureMatrix;
+				}
+			}
+
 			m_deviceContext->Unmap(currentEffect->constantBuffer, 0);
+		}
+
+		unsigned int textureCount = 0;
+		ID3D11ShaderResourceView* textureViews[MAX_DIFFUSE_SLOTS] = {};
+		ID3D11SamplerState* samplerStates[MAX_DIFFUSE_SLOTS] = {};
+		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+		{
+			auto texture = material->GetTexture(i);
+			if(texture)
+			{
+				auto dx11Texture = std::static_pointer_cast<CDx11Texture>(texture);
+				samplerStates[textureCount] = m_defaultSamplerState;
+				textureViews[textureCount] = dx11Texture->GetTextureView();
+				textureCount++;
+			}
 		}
 
 		m_deviceContext->IASetInputLayout(inputLayout);
 		m_deviceContext->VSSetConstantBuffers(0, 1, &currentEffect->constantBuffer);
 		m_deviceContext->VSSetShader(currentEffect->vertexShader, nullptr, 0);
 		m_deviceContext->PSSetShader(currentEffect->pixelShader, nullptr, 0);
+		m_deviceContext->PSSetShaderResources(0, textureCount, textureViews);
+		m_deviceContext->PSSetSamplers(0, textureCount, samplerStates);
 
+		auto blendState = GetBlendState(material->GetAlphaBlendingMode());
+		m_deviceContext->OMSetBlendState(blendState, nullptr, ~0);
 /*
 		CULLING_MODE cullingMode = material->GetCullingMode();
 		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);

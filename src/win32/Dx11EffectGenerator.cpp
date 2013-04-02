@@ -15,63 +15,120 @@ std::string PrintLine(const char* format, ...)
 
 std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 {
-	const char* shader =
-		"cbuffer MatrixBuffer\r\n"
-		"{\r\n"
-		"	matrix worldMatrix;\r\n"
-		"	matrix viewProjMatrix;\r\n"
-		"};\r\n"
+	bool needsTexCoord0 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV0);
+	bool needsTexCoord1 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV1);
 
-		"struct VertexInputType\r\n"
-		"{\r\n"
-		"	float3 position : POSITION;\r\n"
-		"};\r\n"
+	std::string result;
 
-		"struct PixelInputType\r\n"
-		"{\r\n"
-		"	float4 position : SV_POSITION;\r\n"
-		"	float4 color : COLOR;\r\n"
-		"};\r\n"
+	result += PrintLine("cbuffer MatrixBuffer");
+	result += PrintLine("{");
+	result += PrintLine("float4 c_meshColor;");
+	result += PrintLine("matrix c_worldMatrix;");
+	result += PrintLine("matrix c_viewProjMatrix;");
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapMatrix(0);
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapMatrix(1);
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapMatrix(2);
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapMatrix(3);
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapMatrix(4);
+	result += PrintLine("};");
 
-		"PixelInputType VertexProgram(VertexInputType input)\r\n"
-		"{\r\n"
-		"	PixelInputType output;\r\n"
-		"\r\n"
-		"	output.position = mul(worldMatrix, float4(input.position, 1));\r\n"
-		"	output.position = mul(viewProjMatrix, output.position);\r\n"
-		"\r\n"
-		"	output.color = float4(1, 1, 1, 1);\r\n"
-		"\r\n"
-		"	return output;\r\n"
-		"}\r\n";
+	result += PrintLine("struct VertexInputType");
+	result += PrintLine("{");
+	result += PrintLine("float3 position : POSITION;");
+	if(caps.hasVertexColor)
+	{
+		result += PrintLine("float4 color : COLOR;");
+	}
+	if(needsTexCoord0)
+	{
+		result += PrintLine("float2 texCoord0 : TEXCOORD0;");
+	}
+	if(needsTexCoord1)
+	{
+		result += PrintLine("float2 texCoord1 : TEXCOORD1;");
+	}
+	result += PrintLine("};");
 
-	return shader;
+	result += PrintLine("struct PixelInputType");
+	result += PrintLine("{");
+	result += PrintLine("float4 position : SV_POSITION;");
+	result += PrintLine("float4 color : COLOR;");
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+	result += PrintLine("};");
+
+	result += PrintLine("PixelInputType VertexProgram(VertexInputType input)");
+	result += PrintLine("{");
+	result += PrintLine("PixelInputType output;");
+	result += PrintLine("output.position = mul(c_worldMatrix, float4(input.position, 1));");
+	result += PrintLine("output.position = mul(c_viewProjMatrix, output.position);");
+	if(caps.hasVertexColor)
+	{
+		result += PrintLine("output.color = input.color * c_meshColor;");
+	}
+	else
+	{
+		result += PrintLine("output.color = c_meshColor;");
+	}
+
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordComputation(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordComputation(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordComputation(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordComputation(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordComputation(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+
+	result += PrintLine("return output;");
+	result += PrintLine("}");
+
+	return result;
 }
 
 std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 {
-	const char* shader = 
-		"struct PixelInputType\r\n"
-		"{\r\n"
-		"	float4 position : SV_POSITION;\r\n"
-		"	float4 color : COLOR;\r\n"
-		"};\r\n"
-		"\r\n"
-		"float4 PixelProgram(PixelInputType input) : SV_TARGET\r\n"
-		"{\r\n"
-		"	return input.color;\r\n"
-		"}\r\n";
-	return shader;
+	std::string result;
+
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampler(0);
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampler(1);
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampler(2);
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampler(3);
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampler(4);
+
+	result += PrintLine("struct PixelInputType");
+	result += PrintLine("{");
+	result += PrintLine("float4 position : SV_POSITION;");
+	result += PrintLine("float4 color : COLOR;");
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+	result += PrintLine("};");
+
+	result += PrintLine("float4 PixelProgram(PixelInputType input) : SV_TARGET");
+	result += PrintLine("{");
+	result += PrintLine("	float4 diffuseColor = input.color;");
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampling(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap0CombineMode));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampling(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap1CombineMode));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));
+	result += PrintLine("	return diffuseColor;");
+	result += PrintLine("}");
+
+	return result;
 }
 
 bool CDx11EffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texCoordSource)
 {
 	return 
-		(caps.diffuseMap0CoordSrc == texCoordSource) || 
-		(caps.diffuseMap1CoordSrc == texCoordSource) || 
-		(caps.diffuseMap2CoordSrc == texCoordSource) || 
-		(caps.diffuseMap3CoordSrc == texCoordSource) || 
-		(caps.diffuseMap4CoordSrc == texCoordSource);
+		(caps.hasDiffuseMap0 && (caps.diffuseMap0CoordSrc == texCoordSource)) || 
+		(caps.hasDiffuseMap1 && (caps.diffuseMap1CoordSrc == texCoordSource)) || 
+		(caps.hasDiffuseMap2 && (caps.diffuseMap2CoordSrc == texCoordSource)) || 
+		(caps.hasDiffuseMap3 && (caps.diffuseMap3CoordSrc == texCoordSource)) || 
+		(caps.hasDiffuseMap4 && (caps.diffuseMap4CoordSrc == texCoordSource));
 }
 
 std::string CDx11EffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
@@ -119,17 +176,16 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
 	std::string result;
 
 	result += PrintLine("texture2D c_diffuse%dTexture;", index);
-	result += PrintLine("int c_diffuse%dTextureAddressModeU = 0;", index);
-	result += PrintLine("int c_diffuse%dTextureAddressModeV = 0;", index);
+	result += PrintLine("SamplerState c_diffuse%dSampler;", index);
 
-	result += PrintLine("sampler c_diffuse%dSampler = sampler_state", index);
-	result += PrintLine("{");
-	result += PrintLine("	Texture = <c_diffuse%dTexture>;", index);
-	result += PrintLine("	AddressU = <c_diffuse%dTextureAddressModeU>;", index);
-	result += PrintLine("	AddressV = <c_diffuse%dTextureAddressModeV>;", index);
-	result += PrintLine("};");
+	return result;
+}
 
-	result += PrintLine("float4x4 c_diffuse%dTextureMatrix;", index);
+std::string CDx11EffectGenerator::GenerateDiffuseMapMatrix(unsigned int index)
+{
+	std::string result;
+
+	result += PrintLine("matrix c_diffuse%dTextureMatrix;", index);
 
 	return result;
 }
@@ -142,7 +198,7 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapSampling(unsigned int index,
 	{
 	case DIFFUSE_MAP_COORD_UV0:
 	case DIFFUSE_MAP_COORD_UV1:
-		result += PrintLine("	float4 diffuseColor%d = tex2D(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index);
+		result += PrintLine("	float4 diffuseColor%d = c_diffuse%dTexture.Sample(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
 	case DIFFUSE_MAP_COORD_CUBE_REFLECT:

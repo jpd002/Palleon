@@ -5,6 +5,7 @@
 #include "../GraphicDevice.h"
 #include "../Mesh.h"
 #include "../win32/Dx11EffectGenerator.h"
+#include "win32/ComPtr.h"
 
 namespace Athena
 {
@@ -54,8 +55,10 @@ namespace Athena
 			ID3D11Buffer*			constantBuffer;
 			InputLayoutMap			inputLayouts;
 
+			uint32					meshColorOffset;
 			uint32					worldMatrixOffset;
 			uint32					viewProjMatrixOffset;
+			uint32					diffuseTextureMatrixOffset[MAX_DIFFUSE_SLOTS];
 		};
 
 		typedef std::vector<CMesh*> RenderQueue;
@@ -69,18 +72,24 @@ namespace Athena
 
 		void							GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS&);
 
+		ID3D11BlendState*				GetBlendState(ALPHA_BLENDING_MODE);
+
 		void							DrawViewport(CViewport*);
 		bool							FillRenderQueue(CSceneNode*, CCamera*);
 		void							DrawMesh(CMesh*);
 
-		HWND							m_parentWnd;
-		ID3D11Device*					m_device;
-		ID3D11DeviceContext*			m_deviceContext;
-		ID3D11RenderTargetView*			m_renderTargetView;
-		ID3D11Texture2D*				m_depthBuffer;
-		ID3D11DepthStencilState*		m_depthStencilState;
-		ID3D11RasterizerState*			m_rasterState;
-		IDXGISwapChain*					m_swapChain;
+		HWND												m_parentWnd;
+		Framework::Win32::CComPtr<ID3D11Device>				m_device;
+		Framework::Win32::CComPtr<ID3D11DeviceContext>		m_deviceContext;
+		Framework::Win32::CComPtr<IDXGISwapChain>			m_swapChain;
+		Framework::Win32::CComPtr<ID3D11RenderTargetView>	m_renderTargetView;
+		Framework::Win32::CComPtr<ID3D11Texture2D>			m_depthBuffer;
+		Framework::Win32::CComPtr<ID3D11DepthStencilState>	m_depthStencilState;
+		Framework::Win32::CComPtr<ID3D11RasterizerState>	m_rasterState;
+		Framework::Win32::CComPtr<ID3D11SamplerState>		m_defaultSamplerState;
+
+		Framework::Win32::CComPtr<ID3D11BlendState>			m_blendStates[ALPHA_BLENDING_MODE_MAX];
+
 		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
 

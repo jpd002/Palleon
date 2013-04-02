@@ -100,6 +100,7 @@ namespace Athena
 		static std::string		GenerateDiffuseMapCoordOutput(unsigned int, DIFFUSE_MAP_COORD_SOURCE);
 		static std::string		GenerateDiffuseMapCoordComputation(unsigned int, DIFFUSE_MAP_COORD_SOURCE);
 		static std::string		GenerateDiffuseMapSampler(unsigned int);
+		static std::string		GenerateDiffuseMapMatrix(unsigned int);
 		static std::string		GenerateDiffuseMapSampling(unsigned int, DIFFUSE_MAP_COORD_SOURCE, DIFFUSE_MAP_COMBINE_MODE);
 	};
 }
