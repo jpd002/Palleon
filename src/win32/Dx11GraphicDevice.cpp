@@ -8,34 +8,6 @@
 
 using namespace Athena;
 
-/*
-static const D3DCULL g_cullingModes[CULLING_MODE_MAX] =
-{
-	D3DCULL_NONE,
-	D3DCULL_CCW,
-	D3DCULL_CW
-};
-
-static const D3DTEXTUREADDRESS g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
-{
-	D3DTADDRESS_CLAMP,
-	D3DTADDRESS_WRAP,
-};
-
-static const D3DSTENCILOP g_stencilOp[STENCIL_FAIL_ACTION_MAX] =
-{
-	D3DSTENCILOP_KEEP,
-	D3DSTENCILOP_REPLACE
-};
-
-static const D3DCMPFUNC g_stencilFunc[STENCIL_FUNCTION_MAX] =
-{
-	D3DCMP_NEVER,
-	D3DCMP_ALWAYS,
-	D3DCMP_EQUAL
-};
-*/
-
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_parentWnd(parentWnd)
 {
@@ -47,21 +19,6 @@ CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSiz
 
 CDx11GraphicDevice::~CDx11GraphicDevice()
 {
-//	for(auto declarationIterator(std::begin(m_vertexDeclarations)); declarationIterator != std::end(m_vertexDeclarations); declarationIterator++)
-//	{
-//		IDirect3DVertexDeclaration9* declaration = declarationIterator->second;
-//		declaration->Release();
-//	}
-//	m_vertexDeclarations.clear();
-
-	for(auto& effectInfoPair : m_effects)
-	{
-		EFFECTINFO& effectInfo(effectInfoPair.second);
-		effectInfo.vertexShader->Release();
-		effectInfo.pixelShader->Release();
-		effectInfo.constantBuffer->Release();
-		effectInfo.vertexShaderCode->Release();
-	}
 	m_effects.clear();
 }
 
@@ -238,7 +195,7 @@ CubeRenderTargetPtr CDx11GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT te
 	return CubeRenderTargetPtr();
 }
 
-ID3D11InputLayout* CDx11GraphicDevice::CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor, ID3DBlob* vertexShaderCode)
+CDx11GraphicDevice::D3D11InputLayoutPtr CDx11GraphicDevice::CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor, ID3DBlob* vertexShaderCode)
 {
 	typedef std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementArray;
 
@@ -306,7 +263,7 @@ ID3D11InputLayout* CDx11GraphicDevice::CreateInputLayout(const VERTEX_BUFFER_DES
 		inputElements.push_back(inputElement);
 	}
 
-	ID3D11InputLayout* inputLayout(nullptr);
+	D3D11InputLayoutPtr inputLayout;
 	HRESULT result = m_device->CreateInputLayout(inputElements.data(), inputElements.size(), 
 		vertexShaderCode->GetBufferPointer(), vertexShaderCode->GetBufferSize(), &inputLayout);
 	assert(SUCCEEDED(result));
@@ -342,7 +299,7 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 		result = m_device->CreateVertexShader(vertexShaderCode->GetBufferPointer(), vertexShaderCode->GetBufferSize(), nullptr, &newEffect.vertexShader);
 		assert(SUCCEEDED(result));
 
-		newEffect.vertexShaderCode = vertexShaderCode.Detach();
+		newEffect.vertexShaderCode = vertexShaderCode;
 	}
 
 	{
@@ -562,7 +519,7 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh)
 
 		currentEffect = &effectIterator->second;
 
-		ID3D11InputLayout* inputLayout(nullptr);
+		D3D11InputLayoutPtr inputLayout;
 		uint64 descriptorKey = descriptor.MakeKey();
 		{
 			auto inputLayoutIterator(currentEffect->inputLayouts.find(descriptorKey));
@@ -626,26 +583,6 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh)
 /*
 		CULLING_MODE cullingMode = material->GetCullingMode();
 		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);
-
-		ALPHA_BLENDING_MODE alphaBlendingMode = material->GetAlphaBlendingMode();
-		if(alphaBlendingMode == ALPHA_BLENDING_LERP)
-		{
-			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-			m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-		}
-		else if(alphaBlendingMode == ALPHA_BLENDING_ADD)
-		{
-			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-			m_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-			m_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			m_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-		}
-		else
-		{
-			m_device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		}
 
 		if(material->GetStencilEnabled())
 		{

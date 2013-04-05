@@ -45,14 +45,16 @@ namespace Athena
 			MAX_DIFFUSE_SLOTS = 5,
 		};
 
-		typedef std::unordered_map<uint64, ID3D11InputLayout*> InputLayoutMap;
+		typedef Framework::Win32::CComPtr<ID3D11InputLayout> D3D11InputLayoutPtr;
+		typedef std::unordered_map<uint64, D3D11InputLayoutPtr> InputLayoutMap;
 
 		struct EFFECTINFO
 		{
-			ID3D11VertexShader*		vertexShader;
-			ID3DBlob*				vertexShaderCode;
-			ID3D11PixelShader*		pixelShader;
-			ID3D11Buffer*			constantBuffer;
+			Framework::Win32::CComPtr<ID3D11VertexShader>	vertexShader;
+			Framework::Win32::CComPtr<ID3DBlob>				vertexShaderCode;
+			Framework::Win32::CComPtr<ID3D11PixelShader>	pixelShader;
+			Framework::Win32::CComPtr<ID3D11Buffer>			constantBuffer;
+
 			InputLayoutMap			inputLayouts;
 
 			uint32					meshColorOffset;
@@ -68,7 +70,7 @@ namespace Athena
 		virtual							~CDx11GraphicDevice();
 
 		void							CreateDevice();
-		ID3D11InputLayout*				CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&, ID3DBlob*);
+		D3D11InputLayoutPtr				CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&, ID3DBlob*);
 
 		void							GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS&);
 
@@ -78,17 +80,16 @@ namespace Athena
 		bool							FillRenderQueue(CSceneNode*, CCamera*);
 		void							DrawMesh(CMesh*);
 
-		HWND												m_parentWnd;
-		Framework::Win32::CComPtr<ID3D11Device>				m_device;
-		Framework::Win32::CComPtr<ID3D11DeviceContext>		m_deviceContext;
-		Framework::Win32::CComPtr<IDXGISwapChain>			m_swapChain;
-		Framework::Win32::CComPtr<ID3D11RenderTargetView>	m_renderTargetView;
-		Framework::Win32::CComPtr<ID3D11Texture2D>			m_depthBuffer;
-		Framework::Win32::CComPtr<ID3D11DepthStencilState>	m_depthStencilState;
-		Framework::Win32::CComPtr<ID3D11RasterizerState>	m_rasterState;
-		Framework::Win32::CComPtr<ID3D11SamplerState>		m_defaultSamplerState;
-
-		Framework::Win32::CComPtr<ID3D11BlendState>			m_blendStates[ALPHA_BLENDING_MODE_MAX];
+		HWND													m_parentWnd;
+		Framework::Win32::CComPtr<ID3D11Device>					m_device;
+		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
+		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
+		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_renderTargetView;
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_depthBuffer;
+		Framework::Win32::CComPtr<ID3D11DepthStencilState>		m_depthStencilState;
+		Framework::Win32::CComPtr<ID3D11RasterizerState>		m_rasterState;
+		Framework::Win32::CComPtr<ID3D11SamplerState>			m_defaultSamplerState;
+		Framework::Win32::CComPtr<ID3D11BlendState>				m_blendStates[ALPHA_BLENDING_MODE_MAX];
 
 		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
