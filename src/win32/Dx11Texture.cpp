@@ -13,11 +13,14 @@ static const DXGI_FORMAT g_textureFormats[TEXTURE_FORMAT_MAX] =
 	DXGI_FORMAT_R8G8B8A8_UNORM,
 };
 
-CDx11Texture::CDx11Texture(ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureView)
-: m_texture(texture)
-, m_textureView(textureView)
+CDx11Texture::CDx11Texture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11Texture2D* texture)
+: m_device(device)
+, m_deviceContext(deviceContext)
+, m_texture(texture)
+, m_textureView(nullptr)
 {
-
+	HRESULT result = device->CreateShaderResourceView(texture, nullptr, &m_textureView);
+	assert(SUCCEEDED(result));
 }
 
 CDx11Texture::~CDx11Texture()
@@ -32,7 +35,7 @@ CDx11Texture::~CDx11Texture()
 	}
 }
 
-TexturePtr CDx11Texture::Create(ID3D11Device* device, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	auto specTextureFormat = g_textureFormats[textureFormat];
 
@@ -54,14 +57,14 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, TEXTURE_FORMAT textureForm
 		assert(SUCCEEDED(result));
 	}
 
-	auto result = std::make_shared<CDx11Texture>(texture, nullptr);
+	auto result = std::make_shared<CDx11Texture>(device, deviceContext, texture);
 	result->m_format = textureFormat;
 	result->m_width = width;
 	result->m_height = height;
 	return result;
 }
 
-TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, const char* path)
+TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* path)
 {
 	Framework::CBitmap imageData = Framework::CPNG::ReadBitmap(Framework::CStdStream(path, "rb"));
 	if(imageData.GetBitsPerPixel() == 24)
@@ -90,27 +93,15 @@ TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, const char* path)
 		assert(SUCCEEDED(result));
 	}
 
-	ID3D11ShaderResourceView* resView(nullptr);
-
-	{
-		D3D11_SHADER_RESOURCE_VIEW_DESC resViewDesc = {};
-		resViewDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
-		resViewDesc.ViewDimension				= D3D11_SRV_DIMENSION_TEXTURE2D;
-		resViewDesc.Texture2D.MipLevels			= 1;
-		resViewDesc.Texture2D.MostDetailedMip	= 0;
-
-		device->CreateShaderResourceView(texture, &resViewDesc, &resView);
-	}
-
-	return std::make_shared<CDx11Texture>(texture, resView);
+	return std::make_shared<CDx11Texture>(device, deviceContext, texture);
 }
 
-TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, const void* data, uint32 dataSize)
+TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const void* data, uint32 dataSize)
 {
 	ID3D11Texture2D* texture(nullptr);
 //	HRESULT result = D3DXCreateTextureFromFileInMemory(device, data, dataSize, &texture);
 //	assert(SUCCEEDED(result));
-	return std::make_shared<CDx11Texture>(texture, nullptr);
+	return std::make_shared<CDx11Texture>(device, deviceContext, texture);
 }
 
 TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, const char* path)
@@ -134,21 +125,21 @@ ID3D11ShaderResourceView* CDx11Texture::GetTextureView() const
 
 void CDx11Texture::Update(const void* data)
 {
-/*
-	assert(m_format != TEXTURE_FORMAT_UNKNOWN);
-	uint32 srcPitch = c_textureFormatSize[m_format] * m_width;
-	auto texture = static_cast<IDirect3DTexture9*>(m_texture);
+	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
+	HRESULT result = m_deviceContext->Map(m_texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	assert(SUCCEEDED(result));
 
-	D3DLOCKED_RECT lockedRect;
-	texture->LockRect(0, &lockedRect, NULL, 0);
+	assert(m_format == TEXTURE_FORMAT_RGBA8888);
+	uint32 srcPitch = c_textureFormatSize[m_format] * m_width;
+
 	const uint8* srcPtr = reinterpret_cast<const uint8*>(data);
-	uint8* dstPtr = reinterpret_cast<uint8*>(lockedRect.pBits);
+	uint8* dstPtr = reinterpret_cast<uint8*>(mappedResource.pData);
 	for(uint32 y = 0; y < m_height; y++)
 	{
 		memcpy(dstPtr, srcPtr, srcPitch);
 		srcPtr += srcPitch;
-		dstPtr += lockedRect.Pitch;
+		dstPtr += mappedResource.RowPitch;
 	}
-	texture->UnlockRect(0);
-*/
+
+	m_deviceContext->Unmap(m_texture, 0);
 }

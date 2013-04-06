@@ -9,12 +9,12 @@ namespace Athena
 	class CDx11Texture : public CTexture
 	{
 	public:
-									CDx11Texture(ID3D11Texture2D*, ID3D11ShaderResourceView*);
+									CDx11Texture(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D*);
 		virtual						~CDx11Texture();
 
-		static TexturePtr			Create(ID3D11Device*, TEXTURE_FORMAT, uint32, uint32);
-		static TexturePtr			CreateFromFile(ID3D11Device*, const char*);
-		static TexturePtr			CreateFromMemory(ID3D11Device*, const void*, uint32);
+		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32);
+		static TexturePtr			CreateFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
+		static TexturePtr			CreateFromMemory(ID3D11Device*, ID3D11DeviceContext*, const void*, uint32);
 	
 		static TexturePtr			CreateCubeFromFile(ID3D11Device*, const char*);
 
@@ -24,6 +24,8 @@ namespace Athena
 		void						Update(const void*);
 
 	protected:
+		ID3D11Device*				m_device;
+		ID3D11DeviceContext*		m_deviceContext;
 		ID3D11Texture2D*			m_texture;
 		ID3D11ShaderResourceView*	m_textureView;
 	};

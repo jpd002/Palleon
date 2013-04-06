@@ -157,12 +157,12 @@ VertexBufferPtr CDx11GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCR
 
 TexturePtr CDx11GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return CDx11Texture::Create(m_device, textureFormat, width, height);
+	return CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
 }
 
 TexturePtr CDx11GraphicDevice::CreateTextureFromFile(const char* path)
 {
-	return CDx11Texture::CreateFromFile(m_device, path);
+	return CDx11Texture::CreateFromFile(m_device, m_deviceContext, path);
 }
 
 TexturePtr CDx11GraphicDevice::CreateTextureFromMemory(const void* data, uint32 dataSize)
@@ -187,7 +187,7 @@ RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFor
 
 void CDx11GraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
 {
-
+	std::static_pointer_cast<CDx11Texture>(texture)->Update(data);
 }
 
 CubeRenderTargetPtr CDx11GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
@@ -256,7 +256,7 @@ CDx11GraphicDevice::D3D11InputLayoutPtr CDx11GraphicDevice::CreateInputLayout(co
 		D3D11_INPUT_ELEMENT_DESC inputElement = {};
 		inputElement.SemanticName			= "COLOR";
 		inputElement.SemanticIndex			= 0;
-		inputElement.Format					= DXGI_FORMAT_R32G32B32A32_FLOAT;
+		inputElement.Format					= DXGI_FORMAT_R8G8B8A8_UNORM;
 		inputElement.AlignedByteOffset		= descriptor.colorOffset;
 		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
 		inputElement.InstanceDataStepRate	= 0;
@@ -374,6 +374,15 @@ ID3D11BlendState* CDx11GraphicDevice::GetBlendState(ALPHA_BLENDING_MODE blending
 			blendDesc.RenderTarget[0].BlendOp			= D3D11_BLEND_OP_ADD;
 			blendDesc.RenderTarget[0].SrcBlend			= D3D11_BLEND_SRC_ALPHA;
 			blendDesc.RenderTarget[0].DestBlend			= D3D11_BLEND_INV_SRC_ALPHA;
+			blendDesc.RenderTarget[0].BlendOpAlpha		= D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[0].SrcBlendAlpha		= D3D11_BLEND_ONE;
+			blendDesc.RenderTarget[0].DestBlendAlpha	= D3D11_BLEND_ZERO;
+			break;
+		case ALPHA_BLENDING_ADD:
+			blendDesc.RenderTarget[0].BlendEnable		= true;
+			blendDesc.RenderTarget[0].BlendOp			= D3D11_BLEND_OP_ADD;
+			blendDesc.RenderTarget[0].SrcBlend			= D3D11_BLEND_SRC_ALPHA;
+			blendDesc.RenderTarget[0].DestBlend			= D3D11_BLEND_ONE;
 			blendDesc.RenderTarget[0].BlendOpAlpha		= D3D11_BLEND_OP_ADD;
 			blendDesc.RenderTarget[0].SrcBlendAlpha		= D3D11_BLEND_ONE;
 			blendDesc.RenderTarget[0].DestBlendAlpha	= D3D11_BLEND_ZERO;
