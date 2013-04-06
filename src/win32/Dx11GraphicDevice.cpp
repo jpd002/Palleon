@@ -81,16 +81,8 @@ void CDx11GraphicDevice::CreateDevice()
 
 		result = m_device->CreateTexture2D(&depthBufferDesc, nullptr, &m_depthBuffer);
 		assert(SUCCEEDED(result));
-	}
 
-	{
-		D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
-
-		depthStencilDesc.DepthEnable		= false;
-		depthStencilDesc.DepthWriteMask		= D3D11_DEPTH_WRITE_MASK_ALL;
-		depthStencilDesc.DepthFunc			= D3D11_COMPARISON_LESS;
-
-		result = m_device->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
+		result = m_device->CreateDepthStencilView(m_depthBuffer, nullptr, &m_depthBufferView);
 		assert(SUCCEEDED(result));
 	}
 
@@ -99,7 +91,6 @@ void CDx11GraphicDevice::CreateDevice()
 
 		rasterDesc.CullMode					= D3D11_CULL_NONE;
 		rasterDesc.FrontCounterClockwise	= false;
-		rasterDesc.DepthClipEnable			= true;
 		rasterDesc.FillMode					= D3D11_FILL_SOLID;
 
 		result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
@@ -118,7 +109,6 @@ void CDx11GraphicDevice::CreateDevice()
 	}
 
 	m_deviceContext->RSSetState(m_rasterState);
-	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 0);
 }
 
 void CDx11GraphicDevice::CreateInstance(HWND parentWnd, const CVector2& screenSize)
@@ -134,12 +124,7 @@ void CDx11GraphicDevice::DestroyInstance()
 	delete m_instance;
 	m_instance = NULL;
 }
-/*
-IDirect3DDevice9* CDx11GraphicDevice::GetDevice() const
-{
-	return m_device;
-}
-*/
+
 HWND CDx11GraphicDevice::GetParentWindow() const
 {
 	return m_parentWnd;
@@ -397,6 +382,55 @@ ID3D11BlendState* CDx11GraphicDevice::GetBlendState(ALPHA_BLENDING_MODE blending
 	return m_blendStates[blendingMode];
 }
 
+ID3D11DepthStencilState* CDx11GraphicDevice::GetDepthStencilState(const DEPTHSTENCIL_STATE_INFO& stateInfo)
+{
+	D3D11DepthStencilStatePtr state;
+
+	uint32 stateKey = *reinterpret_cast<const uint32*>(&stateInfo);
+	auto stateIterator = m_depthStencilStates.find(stateKey);
+	if(stateIterator == std::end(m_depthStencilStates))
+	{
+		static const D3D11_COMPARISON_FUNC c_stencilFunctions[STENCIL_FUNCTION_MAX] =
+		{
+			D3D11_COMPARISON_NEVER,
+			D3D11_COMPARISON_ALWAYS,
+			D3D11_COMPARISON_EQUAL
+		};
+
+		static const D3D11_STENCIL_OP c_stencilFailOps[STENCIL_FAIL_ACTION_MAX] =
+		{
+			D3D11_STENCIL_OP_KEEP,
+			D3D11_STENCIL_OP_REPLACE
+		};
+
+		D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
+		depthStencilDesc.StencilEnable					= stateInfo.stencilTestEnabled;
+		depthStencilDesc.StencilReadMask				= ~0;
+		depthStencilDesc.StencilWriteMask				= ~0;
+
+		depthStencilDesc.FrontFace.StencilFunc			= c_stencilFunctions[stateInfo.stencilFunction];
+		depthStencilDesc.FrontFace.StencilPassOp		= D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.FrontFace.StencilFailOp		= c_stencilFailOps[stateInfo.stencilFailAction];
+		depthStencilDesc.FrontFace.StencilDepthFailOp	= D3D11_STENCIL_OP_KEEP;
+
+		depthStencilDesc.BackFace.StencilFunc			= c_stencilFunctions[stateInfo.stencilFunction];
+		depthStencilDesc.BackFace.StencilPassOp			= D3D11_STENCIL_OP_KEEP;
+		depthStencilDesc.BackFace.StencilFailOp			= c_stencilFailOps[stateInfo.stencilFailAction];
+		depthStencilDesc.BackFace.StencilDepthFailOp	= D3D11_STENCIL_OP_KEEP;
+
+		HRESULT result = m_device->CreateDepthStencilState(&depthStencilDesc, &state);
+		assert(SUCCEEDED(result));
+
+		m_depthStencilStates.insert(std::make_pair(stateKey, state));
+	}
+	else
+	{
+		state = stateIterator->second;
+	}
+
+	return state;
+}
+
 void CDx11GraphicDevice::Draw()
 {
 	D3D11_VIEWPORT viewport = {};
@@ -412,8 +446,8 @@ void CDx11GraphicDevice::Draw()
 	static const float clearColor[4] = { 0, 0, 0, 0 };
 
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
-
-	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, nullptr);
+	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthBufferView);
 
 	//Draw all viewports
 	for(CViewport* viewport : m_viewports)
@@ -589,6 +623,14 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh)
 
 		auto blendState = GetBlendState(material->GetAlphaBlendingMode());
 		m_deviceContext->OMSetBlendState(blendState, nullptr, ~0);
+
+		DEPTHSTENCIL_STATE_INFO depthStencilStateInfo = {};
+		depthStencilStateInfo.stencilTestEnabled	= material->GetStencilEnabled();
+		depthStencilStateInfo.stencilFunction		= material->GetStencilFunction();
+		depthStencilStateInfo.stencilFailAction		= material->GetStencilFailAction();
+		auto depthStencilState = GetDepthStencilState(depthStencilStateInfo);
+		m_deviceContext->OMSetDepthStencilState(depthStencilState, material->GetStencilValue());
+
 /*
 		CULLING_MODE cullingMode = material->GetCullingMode();
 		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);
