@@ -11,6 +11,10 @@
 		70104E5F167409EB00807647 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E5D167409EB00807647 /* AudioManager.cpp */; };
 		70104E62167409F500807647 /* AudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E60167409F500807647 /* AudioClip.h */; };
 		70104E63167409F500807647 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E61167409F500807647 /* AudioManager.h */; };
+		7035A93817166B530092A5CF /* EmitterDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93617166B530092A5CF /* EmitterDescriptor.cpp */; };
+		7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93717166B530092A5CF /* EmitterModifier.cpp */; };
+		7035A93C17166B630092A5CF /* EmitterDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93A17166B630092A5CF /* EmitterDescriptor.h */; };
+		7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93B17166B630092A5CF /* EmitterModifier.h */; };
 		707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F216E45BAF00CFCE67 /* EAGLView.mm */; };
 		707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */; };
 		707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */; };
@@ -32,7 +36,6 @@
 		7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */; };
 		7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960F16E45BBA00CFCE67 /* IosViewController.h */; };
 		7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */; };
-		70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B582491635215200C40F25 /* AnimationController.cpp */; };
 		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
 		70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824B1635215200C40F25 /* TextureAnimation.cpp */; };
 		70B582531635216800C40F25 /* AnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B5824F1635216800C40F25 /* AnimationController.h */; };
@@ -115,6 +118,10 @@
 		70104E5D167409EB00807647 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = ../../src/AudioManager.cpp; sourceTree = "<group>"; };
 		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../../include/athena/AudioClip.h; sourceTree = "<group>"; };
 		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../../include/athena/AudioManager.h; sourceTree = "<group>"; };
+		7035A93617166B530092A5CF /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../../src/EmitterDescriptor.cpp; sourceTree = "<group>"; };
+		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../../src/EmitterModifier.cpp; sourceTree = "<group>"; };
+		7035A93A17166B630092A5CF /* EmitterDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterDescriptor.h; path = ../../include/athena/EmitterDescriptor.h; sourceTree = "<group>"; };
+		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../../include/athena/EmitterModifier.h; sourceTree = "<group>"; };
 		707895F216E45BAF00CFCE67 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../src/ios/EAGLView.mm; sourceTree = "<group>"; };
 		707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosAppDelegate.mm; path = ../../src/ios/IosAppDelegate.mm; sourceTree = "<group>"; };
 		707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioClip.cpp; path = ../../src/ios/IosAudioClip.cpp; sourceTree = "<group>"; };
@@ -136,7 +143,6 @@
 		7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosVertexBuffer.h; path = ../../include/athena/ios/IosVertexBuffer.h; sourceTree = "<group>"; };
 		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../../include/athena/ios/IosViewController.h; sourceTree = "<group>"; };
 		7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../../include/athena/ios/OpenGlEsDefs.h; sourceTree = "<group>"; };
-		70B582491635215200C40F25 /* AnimationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimationController.cpp; path = ../../src/AnimationController.cpp; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../../src/TextureAnimation.cpp; sourceTree = "<group>"; };
 		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../../include/athena/AnimationController.h; sourceTree = "<group>"; };
@@ -242,7 +248,6 @@
 		70B582481635214200C40F25 /* animation */ = {
 			isa = PBXGroup;
 			children = (
-				70B582491635215200C40F25 /* AnimationController.cpp */,
 				70B5824F1635216800C40F25 /* AnimationController.h */,
 				70B582501635216800C40F25 /* AnimationCurve.h */,
 				70B5824A1635215200C40F25 /* RumbleAnimation.cpp */,
@@ -313,6 +318,8 @@
 				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
 				70C6E54C1685709E001544EB /* Emitter.cpp */,
 				70C6E54F168570A8001544EB /* Emitter.h */,
+				7035A93717166B530092A5CF /* EmitterModifier.cpp */,
+				7035A93B17166B630092A5CF /* EmitterModifier.h */,
 				7E7D875613F71AC300AD9F7F /* Label.cpp */,
 				7E7D877D13F71AD900AD9F7F /* Label.h */,
 				7E7D875713F71AC300AD9F7F /* Material.cpp */,
@@ -359,6 +366,8 @@
 		7E5C123F14F1A01000292DD3 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				7035A93617166B530092A5CF /* EmitterDescriptor.cpp */,
+				7035A93A17166B630092A5CF /* EmitterDescriptor.h */,
 				7E7D875313F71AC300AD9F7F /* FontDescriptor.cpp */,
 				7E7D877A13F71AD900AD9F7F /* FontDescriptor.h */,
 				7E5C122014F19EF700292DD3 /* NinePatchDescriptor.cpp */,
@@ -490,6 +499,8 @@
 				7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */,
 				7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */,
 				7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */,
+				7035A93C17166B630092A5CF /* EmitterDescriptor.h in Headers */,
+				7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,7 +580,6 @@
 				7E5C122714F19EF700292DD3 /* NinePatchDescriptor.cpp in Sources */,
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
-				70B5824C1635215200C40F25 /* AnimationController.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
@@ -585,6 +595,8 @@
 				7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */,
 				7078960416E45BAF00CFCE67 /* IosVertexBuffer.cpp in Sources */,
 				7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */,
+				7035A93817166B530092A5CF /* EmitterDescriptor.cpp in Sources */,
+				7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

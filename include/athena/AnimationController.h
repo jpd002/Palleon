@@ -48,7 +48,7 @@ namespace Athena
 			animationState.animation	= animation;
 			animationState.playing		= false;
 
-			m_animations.insert(AnimationMap::value_type(name, animationState));
+			m_animations.insert(typename AnimationMap::value_type(name, animationState));
 		}
 
 		void PlayAnimation(const char* name, ANIMATION_PLAY_MODE playMode = ANIMATION_PLAY_ONCE, ANIMATION_PLAY_DIRECTION playDirection = ANIMATION_PLAY_FORWARD)

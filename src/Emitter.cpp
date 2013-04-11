@@ -72,7 +72,7 @@ void CEmitter::Emit(unsigned int emitCount)
 		{
 		case EMITTER_SOURCE_POINT:
 			{
-				float angle = RangeRandom(0.0f, 2.0f * M_PI);
+				float angle = RangeRandom(0.0f, 2.0f * static_cast<float>(M_PI));
 				particle.position = CVector2(0, 0);
 				particle.velocity = CVector2(sin(angle), cos(angle)) * speed;
 			}
