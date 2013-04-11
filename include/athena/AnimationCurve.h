@@ -19,6 +19,7 @@ namespace Athena
 	{
 	public:
 		typedef CVector3 ItemType;
+		typedef CSceneNode TargetType;
 		
 		void operator()(CSceneNode* target, const ItemType& value) const
 		{
@@ -30,6 +31,7 @@ namespace Athena
 	{
 	public:
 		typedef CVector3 ItemType;
+		typedef CSceneNode TargetType;
 		
 		void operator()(CSceneNode* target, const ItemType& value) const
 		{
@@ -41,6 +43,7 @@ namespace Athena
 	{
 	public:
 		typedef CColor ItemType;
+		typedef CSceneNode TargetType;
 
 		void operator()(CSceneNode* target, const ItemType& value) const
 		{
@@ -55,6 +58,7 @@ namespace Athena
 	{
 	public:
 		typedef float ItemType;
+		typedef CSceneNode TargetType;
 
 		void operator()(CSceneNode* target, const ItemType& value) const
 		{
@@ -68,10 +72,11 @@ namespace Athena
 	};
 
 	template<typename Modifier>
-	class CAnimationCurve : public IAnimation
+	class CAnimationCurve : public IAnimation<typename Modifier::TargetType>
 	{
 	public:
 		typedef typename Modifier::ItemType ItemType;
+		typedef typename Modifier::TargetType TargetType;
 
 		CAnimationCurve()
 			: m_length(0)
@@ -104,7 +109,7 @@ namespace Athena
 			m_length += length;
 		}
 
-		virtual void Animate(CSceneNode* target, float t) const
+		virtual void Animate(TargetType* target, float t) const
 		{
 			for(auto partIterator(m_parts.begin());
 				partIterator != m_parts.end(); partIterator++)

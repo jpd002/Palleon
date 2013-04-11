@@ -1,5 +1,5 @@
 #include <assert.h>
-#include <boost/scoped_ptr.hpp>
+#include <memory>
 #include "athena/NinePatchDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
@@ -22,6 +22,22 @@ CNinePatchDescriptor::CNinePatchDescriptor()
 CNinePatchDescriptor::~CNinePatchDescriptor()
 {
 
+}
+
+void CNinePatchDescriptor::Load(const char* path)
+{
+	Framework::CStdStream inputStream(path, "rb");
+	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
+
+	auto ninePatchNode = document->Select("NinePatch");
+
+	m_textureName = Framework::Xml::GetAttributeStringValue(ninePatchNode, "Texture");
+	m_width = Framework::Xml::GetAttributeIntValue(ninePatchNode, "Width");
+	m_height = Framework::Xml::GetAttributeIntValue(ninePatchNode, "Height");
+	m_leftMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "LeftMargin");
+	m_topMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "TopMargin");
+	m_rightMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "RightMargin");
+	m_bottomMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "BottomMargin");
 }
 
 const char* CNinePatchDescriptor::GetTextureName() const
@@ -57,20 +73,4 @@ unsigned int CNinePatchDescriptor::GetRightMargin() const
 unsigned int CNinePatchDescriptor::GetBottomMargin() const
 {
 	return m_bottomMargin;
-}
-
-void CNinePatchDescriptor::Load(const char* path)
-{
-	Framework::CStdStream inputStream(path, "rb");
-	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
-
-	auto ninePatchNode = document->Select("NinePatch");
-
-	m_textureName = Framework::Xml::GetAttributeStringValue(ninePatchNode, "Texture");
-	m_width = Framework::Xml::GetAttributeIntValue(ninePatchNode, "Width");
-	m_height = Framework::Xml::GetAttributeIntValue(ninePatchNode, "Height");
-	m_leftMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "LeftMargin");
-	m_topMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "TopMargin");
-	m_rightMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "RightMargin");
-	m_bottomMargin = Framework::Xml::GetAttributeIntValue(ninePatchNode, "BottomMargin");
 }

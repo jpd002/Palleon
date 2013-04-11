@@ -22,6 +22,7 @@
 #include "athena/Sprite.h"
 #include "athena/NinePatch.h"
 #include "athena/Emitter.h"
+#include "athena/EmitterModifier.h"
 
 //Animation
 #include "athena/IAnimation.h"

@@ -1,20 +1,17 @@
 #pragma once
 
+#include <memory>
 #include "Mesh.h"
+#include "EmitterDescriptor.h"
 
 namespace Athena
 {
+	class CEmitterModifier;
+	typedef std::shared_ptr<CEmitterModifier> EmitterModifierPtr;
+
 	class CEmitter : public CMesh
 	{
 	public:
-						CEmitter();
-		virtual			~CEmitter();
-
-		void			Emit(unsigned int);
-
-		virtual void	Update(float);
-
-	private:
 		struct PARTICLE
 		{
 			float		life;
@@ -25,12 +22,27 @@ namespace Athena
 			CColor		color;
 		};
 
+						CEmitter();
+		virtual			~CEmitter();
+
+		void			SetDescriptor(const CEmitterDescriptor*);
+
+		void			AddModifier(const EmitterModifierPtr&);
+
+		void			Emit(unsigned int);
+
+		virtual void	Update(float);
+
+	private:
 		typedef std::vector<PARTICLE> ParticleArray;
+		typedef std::vector<EmitterModifierPtr> EmitterModifierArray;
 
-		void			UpdateParticles(float);
-		void			UpdateVertexBuffer();
+		void						UpdateParticles(float);
+		void						UpdateVertexBuffer();
 
-		ParticleArray	m_particles;
+		const CEmitterDescriptor*	m_descriptor;
+		ParticleArray				m_particles;
+		EmitterModifierArray		m_modifiers;
 	};
 
 	typedef std::shared_ptr<CEmitter> EmitterPtr;

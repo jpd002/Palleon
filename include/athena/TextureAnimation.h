@@ -6,7 +6,9 @@
 
 namespace Athena
 {
-	class CTextureAnimation : public IAnimation
+	class CSceneNode;
+
+	class CTextureAnimation : public IAnimation<CSceneNode>
 	{
 	public:
 							CTextureAnimation();

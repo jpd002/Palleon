@@ -75,7 +75,7 @@ CSceneNode* CSceneNode::GetParent() const
 	return m_parent;
 }
 
-CAnimationController& CSceneNode::GetAnimationController()
+SceneNodeAnimationController& CSceneNode::GetAnimationController()
 {
 	return m_animationController;
 }

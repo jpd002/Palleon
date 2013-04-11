@@ -1,5 +1,4 @@
-#ifndef _ATHENA_NINEPATCHDESCRIPTOR_H_
-#define _ATHENA_NINEPATCHDESCRIPTOR_H_
+#pragma once
 
 #include <string>
 
@@ -35,5 +34,3 @@ namespace Athena
 		std::string		m_textureName;
 	};
 };
-
-#endif

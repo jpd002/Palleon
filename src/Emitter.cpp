@@ -1,4 +1,5 @@
 #include "athena/Emitter.h"
+#include "athena/EmitterModifier.h"
 #include "athena/GraphicDevice.h"
 
 using namespace Athena;
@@ -11,9 +12,23 @@ static const float s_texCoords[4 * 2] =
 	0, 1
 };
 
-#define MAX_PARTICLE_COUNT 1000
+#define MAX_PARTICLE_COUNT 2000
+
+template <typename ValueType>
+ValueType RangeRandom(const ValueType& minVal, const ValueType& maxVal)
+{
+	float alpha = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+	return minVal + (maxVal - minVal) * alpha;
+}
+
+template <typename ValueType>
+ValueType RangeRandom(const std::pair<ValueType, ValueType>& range)
+{
+	return RangeRandom(range.first, range.second);
+}
 
 CEmitter::CEmitter()
+: m_descriptor(nullptr)
 {
 	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(MAX_PARTICLE_COUNT * 4, MAX_PARTICLE_COUNT * 6, 
 		VERTEX_BUFFER_HAS_POS | VERTEX_BUFFER_HAS_UV0 | VERTEX_BUFFER_HAS_COLOR);
@@ -26,7 +41,7 @@ CEmitter::CEmitter()
 	memset(&m_particles[0], 0, sizeof(PARTICLE) * MAX_PARTICLE_COUNT);
 
 	m_material->SetCullingMode(Athena::CULLING_NONE);
-	m_material->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_ADD);
+	m_material->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_LERP);
 }
 
 CEmitter::~CEmitter()
@@ -34,39 +49,63 @@ CEmitter::~CEmitter()
 
 }
 
+void CEmitter::SetDescriptor(const CEmitterDescriptor* descriptor)
+{
+	m_descriptor = descriptor;
+}
+
+void CEmitter::AddModifier(const EmitterModifierPtr& emitterModifier)
+{
+	m_modifiers.push_back(emitterModifier);
+}
+
 void CEmitter::Emit(unsigned int emitCount)
 {
+	assert(m_descriptor != nullptr);
 	for(unsigned int i = 0; i < MAX_PARTICLE_COUNT; i++)
 	{
 		if(emitCount == 0) break;
 		auto& particle(m_particles[i]);
 		if(particle.life != 0) continue;
-//		float angle = ((M_PI / 6) * static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) - (M_PI / 12);
-		float angle = 2 * M_PI * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-		particle.position = CVector2(0, 0);
-		particle.velocity = CVector2(sin(angle), cos(angle)) * 300.f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-		particle.size = CVector2(30, 30);
-		particle.maxLife = 0.01f + 0.25f * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+		float speed = RangeRandom(m_descriptor->GetInitialVelocityRange());
+		switch(m_descriptor->GetSourceType())
+		{
+		case EMITTER_SOURCE_POINT:
+			{
+				float angle = RangeRandom(0.0f, 2.0f * M_PI);
+				particle.position = CVector2(0, 0);
+				particle.velocity = CVector2(sin(angle), cos(angle)) * speed;
+			}
+			break;
+		case EMITTER_SOURCE_LINE:
+			{
+				particle.position = RangeRandom(m_descriptor->GetLineSourceStart(), m_descriptor->GetLineSourceEnd());
+				particle.velocity = CVector2(0, 1) * speed;
+			}
+			break;
+		}
+		particle.size = RangeRandom(m_descriptor->GetInitialSizeRange());
+		particle.maxLife = RangeRandom(m_descriptor->GetInitialLifeRange());
 		particle.life = particle.maxLife;
-//		particle.color.r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-//		particle.color.g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-//		particle.color.b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-		particle.color.r = 1;
-		particle.color.g = 1;
-		particle.color.b = 1;
-		particle.color.a = 1;
+		particle.color = CColor(1, 1, 1, 1);
 		emitCount--;
 	}
 }
 
 void CEmitter::Update(float dt)
 {
+	for(auto& modifier : m_modifiers)
+	{
+		modifier->Update(dt);
+	}
 	UpdateParticles(dt);
 	UpdateVertexBuffer();
 }
 
 void CEmitter::UpdateParticles(float dt)
 {
+	static float someTime = 0;
+	someTime += dt;
 	//Update all particles
 	for(unsigned int i = 0; i < MAX_PARTICLE_COUNT; i++)
 	{
@@ -76,6 +115,10 @@ void CEmitter::UpdateParticles(float dt)
 			particle.life = std::max<float>(particle.life - dt, 0);
 			particle.color.a = particle.life / particle.maxLife;
 			particle.position += particle.velocity * dt;
+			for(const auto& modifier : m_modifiers)
+			{
+				modifier->Modify(particle);
+			}
 		}
 	}
 }

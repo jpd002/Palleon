@@ -1,4 +1,5 @@
-#include <boost/scoped_ptr.hpp>
+#include <memory>
+#include <assert.h>
 #include "athena/Package.h"
 #include "athena/ResourceManager.h"
 #include "xml/Node.h"
@@ -31,7 +32,7 @@ void CPackage::LoadDefinition()
 	std::string packagePath = CResourceManager::GetInstance().MakeResourcePath(packageRelPath.c_str());
 
 	Framework::CStdStream inputStream(packagePath.c_str(), "rb");
-	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
+	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	Framework::Xml::CNode* packageNode = document->Select("Package");
 	assert(packageNode != NULL);
@@ -60,6 +61,10 @@ void CPackage::LoadDefinition()
 		{
 			newItem.type = ITEM_NINEPATCHDESCRIPTOR;
 		}
+		else if(!strcmp(itemType, "EmitterDescriptor"))
+		{
+			newItem.type = ITEM_EMITTERDESCRIPTOR;
+		}
 		else
 		{
 			assert(0);
@@ -86,6 +91,9 @@ void CPackage::LoadItems()
 			break;
 		case ITEM_NINEPATCHDESCRIPTOR:
 			CResourceManager::GetInstance().LoadNinePatchDescriptor(item.name.c_str(), itemPath.c_str());
+			break;
+		case ITEM_EMITTERDESCRIPTOR:
+			CResourceManager::GetInstance().LoadEmitterDescriptor(item.name.c_str(), itemPath.c_str());
 			break;
 		}
 	}

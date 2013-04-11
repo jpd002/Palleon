@@ -5,7 +5,9 @@
 
 namespace Athena
 {
-	class CRumbleAnimation : public IAnimation
+	class CSceneNode;
+
+	class CRumbleAnimation : public IAnimation<CSceneNode>
 	{
 	public:
 							CRumbleAnimation(const CVector3& minPosition, const CVector3& maxPosition, float frequency, float damping, float length);

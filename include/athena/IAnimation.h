@@ -4,16 +4,12 @@
 
 namespace Athena
 {
-	class CSceneNode;
-	typedef std::shared_ptr<CSceneNode> SceneNodePtr;
-
+	template <typename TargetType>
 	class IAnimation
 	{
 	public:
 		virtual				~IAnimation() {}
-		virtual void		Animate(CSceneNode* target, float t) const = 0;
+		virtual void		Animate(TargetType* target, float t) const = 0;
 		virtual float		GetLength() const = 0;
 	};
-
-	typedef std::shared_ptr<IAnimation> AnimationPtr;
 }

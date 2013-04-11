@@ -127,6 +127,41 @@ void CResourceManager::ReleaseNinePatchDescriptor(const char* fileName)
 	m_ninePatchDescriptors.erase(ninePatchDescriptorIterator);
 }
 
+//Emitter Descriptor
+//-------------------------------------------------------------------
+
+const CEmitterDescriptor* CResourceManager::GetEmitterDescriptor(const char* fileName) const
+{
+	unsigned int resId = MakeCrc(fileName);
+	auto emitterDescriptorIterator(m_emitterDescriptors.find(resId));
+	assert(emitterDescriptorIterator != std::end(m_emitterDescriptors));
+	if(emitterDescriptorIterator == std::end(m_emitterDescriptors))
+	{
+		return NULL;
+	}
+	return emitterDescriptorIterator->second;
+}
+
+void CResourceManager::LoadEmitterDescriptor(const char* name, const char* localPath)
+{
+	if(!localPath) localPath = name;
+	unsigned int resId = MakeCrc(name);
+	std::string path = MakeResourcePath(localPath);
+
+	assert(m_emitterDescriptors.find(resId) == std::end(m_emitterDescriptors));
+	CEmitterDescriptor* descriptor = new CEmitterDescriptor();
+	descriptor->Load(path.c_str());
+	m_emitterDescriptors[resId] = descriptor;
+}
+
+void CResourceManager::ReleaseEmitterDescriptor(const char* fileName)
+{
+	unsigned int resId = MakeCrc(fileName);
+	auto emitterDescriptorIterator(m_emitterDescriptors.find(resId));
+	assert(emitterDescriptorIterator != std::end(m_emitterDescriptors));
+	m_emitterDescriptors.erase(emitterDescriptorIterator);
+}
+
 uint32 CResourceManager::MakeCrc(const char* inputString)
 {
 	uLong crc = 0;
