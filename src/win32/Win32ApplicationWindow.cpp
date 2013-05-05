@@ -58,7 +58,7 @@ CWin32ApplicationWindow::CWin32ApplicationWindow()
 	SetRect(&windowRect, 0, 0, m_screenWidth, m_screenHeight);
 	AdjustWindowRectEx(&windowRect, WNDSTYLE, FALSE, NULL);
 
-	Create(NULL, CLSNAME, windowTitleString.c_str(), WNDSTYLE, &windowRect, NULL, NULL);
+	Create(NULL, CLSNAME, windowTitleString.c_str(), WNDSTYLE, windowRect, NULL, NULL);
 	SetClassPtr();
 
 	CDx11GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
