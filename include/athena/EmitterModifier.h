@@ -17,7 +17,7 @@ namespace Athena
 		virtual									~CEmitterModifier();
 
 		virtual void							Update(float);
-		virtual void							Modify(CEmitter::PARTICLE&) = 0;
+		virtual void							Modify(float, CEmitter::PARTICLE&) = 0;
 
 		EmitterModifierAnimationController&		GetAnimationController();
 

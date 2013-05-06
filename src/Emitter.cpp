@@ -12,7 +12,7 @@ static const float s_texCoords[4 * 2] =
 	0, 1
 };
 
-#define MAX_PARTICLE_COUNT 2000
+#define MAX_PARTICLE_COUNT 4000
 
 template <typename ValueType>
 ValueType RangeRandom(const ValueType& minVal, const ValueType& maxVal)
@@ -104,8 +104,6 @@ void CEmitter::Update(float dt)
 
 void CEmitter::UpdateParticles(float dt)
 {
-	static float someTime = 0;
-	someTime += dt;
 	//Update all particles
 	for(unsigned int i = 0; i < MAX_PARTICLE_COUNT; i++)
 	{
@@ -117,7 +115,7 @@ void CEmitter::UpdateParticles(float dt)
 			particle.position += particle.velocity * dt;
 			for(const auto& modifier : m_modifiers)
 			{
-				modifier->Modify(particle);
+				modifier->Modify(dt, particle);
 			}
 		}
 	}
