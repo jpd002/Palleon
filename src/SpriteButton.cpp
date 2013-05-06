@@ -30,6 +30,11 @@ void CSpriteButton::SetPressedTexture(const TexturePtr& texture)
 	UpdateButtonState();
 }
 
+void CSpriteButton::SetBackgroundAlphaBlendingMode(ALPHA_BLENDING_MODE alphaBlendingMode)
+{
+	m_background->GetMaterial()->SetAlphaBlendingMode(alphaBlendingMode);
+}
+
 void CSpriteButton::SetSize(const CVector2& size)
 {
 	CButtonBase::SetSize(size);

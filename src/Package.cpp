@@ -115,6 +115,9 @@ void CPackage::ReleaseItems()
 		case ITEM_NINEPATCHDESCRIPTOR:
 			CResourceManager::GetInstance().ReleaseNinePatchDescriptor(item.name.c_str());
 			break;
+		case ITEM_EMITTERDESCRIPTOR:
+			CResourceManager::GetInstance().ReleaseEmitterDescriptor(item.name.c_str());
+			break;
 		}
 	}
 }

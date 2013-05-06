@@ -21,7 +21,9 @@ namespace Athena
 		void					SetReleasedTexture(const TexturePtr&);
 		void					SetPressedTexture(const TexturePtr&);
 
-		virtual void			SetSize(const CVector2&);
+		void					SetBackgroundAlphaBlendingMode(Athena::ALPHA_BLENDING_MODE);
+
+		virtual void			SetSize(const CVector2&) override;
 
 	protected:
 		void					UpdateButtonState();
