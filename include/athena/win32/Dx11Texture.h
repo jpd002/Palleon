@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include "Types.h"
 #include "../Texture.h"
+#include "Stream.h"
 
 namespace Athena
 {
@@ -24,6 +25,8 @@ namespace Athena
 		void						Update(const void*);
 
 	protected:
+		static TexturePtr			CreateFromStream(ID3D11Device*, ID3D11DeviceContext*, Framework::CStream&);
+
 		ID3D11Device*				m_device;
 		ID3D11DeviceContext*		m_deviceContext;
 		ID3D11Texture2D*			m_texture;
