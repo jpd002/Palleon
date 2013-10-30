@@ -1,8 +1,10 @@
 #include "athena/win32/Dx11Texture.h"
 #include <assert.h>
-#include "Bitmap.h"
-#include "PNG.h"
+#include "bitmap/Bitmap.h"
+#include "bitmap/PNG.h"
+#include "bitmap/JPEG.h"
 #include "StdStream.h"
+#include "PtrStream.h"
 
 using namespace Athena;
 
@@ -66,7 +68,51 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 
 TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* path)
 {
-	Framework::CBitmap imageData = Framework::CPNG::ReadBitmap(Framework::CStdStream(path, "rb"));
+	return CreateFromStream(device, deviceContext, Framework::CStdStream(path, "rb"));
+}
+
+TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const void* data, uint32 dataSize)
+{
+	return CreateFromStream(device, deviceContext, Framework::CPtrStream(data, dataSize));
+}
+
+TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, const char* path)
+{
+//	IDirect3DCubeTexture9* texture(NULL);
+//	HRESULT result = D3DXCreateCubeTextureFromFileA(device, path, &texture);
+//	assert(SUCCEEDED(result));
+//	return std::make_shared<CDx11Texture>(texture);
+	return TexturePtr();
+}
+
+TexturePtr CDx11Texture::CreateFromStream(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Framework::CStream& stream)
+{
+	Framework::CBitmap imageData;
+
+	try
+	{
+		uint8 header[16];
+		stream.Read(header, 16);
+		stream.Seek(0, Framework::STREAM_SEEK_SET);
+
+		if((header[0] == 0x89) && (header[1] == 'P') && (header[2] == 'N') && (header[3] == 'G'))
+		{
+			imageData = Framework::CPNG::ReadBitmap(stream);
+		}
+		else if((header[0] == 0xFF) && (header[1] == 0xD8))
+		{
+			imageData = Framework::CJPEG::ReadBitmap(stream);
+		}
+		else
+		{
+			throw std::exception();
+		}
+	}
+	catch(...)
+	{
+		return TexturePtr();
+	}
+
 	if(imageData.GetBitsPerPixel() == 24)
 	{
 		imageData = imageData.AddAlphaChannel(0xFF);
@@ -94,23 +140,6 @@ TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, ID3D11DeviceContex
 	}
 
 	return std::make_shared<CDx11Texture>(device, deviceContext, texture);
-}
-
-TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const void* data, uint32 dataSize)
-{
-	ID3D11Texture2D* texture(nullptr);
-//	HRESULT result = D3DXCreateTextureFromFileInMemory(device, data, dataSize, &texture);
-//	assert(SUCCEEDED(result));
-	return std::make_shared<CDx11Texture>(device, deviceContext, texture);
-}
-
-TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, const char* path)
-{
-//	IDirect3DCubeTexture9* texture(NULL);
-//	HRESULT result = D3DXCreateCubeTextureFromFileA(device, path, &texture);
-//	assert(SUCCEEDED(result));
-//	return std::make_shared<CDx11Texture>(texture);
-	return TexturePtr();
 }
 
 void* CDx11Texture::GetHandle() const
