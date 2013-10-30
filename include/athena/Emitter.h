@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "Mesh.h"
-#include "EmitterDescriptor.h"
+#include "resources/EmitterDescriptor.h"
 
 namespace Athena
 {

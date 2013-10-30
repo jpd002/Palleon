@@ -1,7 +1,11 @@
 #include <memory>
 #include <assert.h>
-#include "athena/Package.h"
-#include "athena/ResourceManager.h"
+#include "athena/resources/Package.h"
+#include "athena/resources/ResourceManager.h"
+#include "athena/resources/FontDescriptor.h"
+#include "athena/resources/EmitterDescriptor.h"
+#include "athena/resources/SceneDescriptor.h"
+#include "athena/resources/NinePatchDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
@@ -37,10 +41,8 @@ void CPackage::LoadDefinition()
 	Framework::Xml::CNode* packageNode = document->Select("Package");
 	assert(packageNode != NULL);
 
-	for(auto nodeIterator(packageNode->GetChildrenBegin()); 
-		nodeIterator != packageNode->GetChildrenEnd(); nodeIterator++)
+	for(const auto& itemNode : packageNode->GetChildren())
 	{
-		Framework::Xml::CNode* itemNode = (*nodeIterator);
 		if(!itemNode->IsTag()) continue;
 		const char* itemType = itemNode->GetText();
 		const char* itemSource = itemNode->GetAttribute("Source");
@@ -65,6 +67,10 @@ void CPackage::LoadDefinition()
 		{
 			newItem.type = ITEM_EMITTERDESCRIPTOR;
 		}
+		else if(!strcmp(itemType, "Scene"))
+		{
+			newItem.type = ITEM_SCENEDESCRIPTOR;
+		}
 		else
 		{
 			assert(0);
@@ -77,23 +83,25 @@ void CPackage::LoadDefinition()
 
 void CPackage::LoadItems()
 {
-	for(auto itemIterator(std::begin(m_items)); itemIterator != std::end(m_items); itemIterator++)
+	for(const auto& item : m_items)
 	{
-		const ITEM& item(*itemIterator);
-		std::string itemPath = m_name + std::string("/") + item.name;
+		auto itemPath = m_name + std::string("/") + item.name;
 		switch(item.type)
 		{
 		case ITEM_TEXTURE:
-			CResourceManager::GetInstance().LoadTexture(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CTextureResource>(item.name.c_str(), itemPath.c_str());
 			break;
 		case ITEM_FONTDESCRIPTOR:
-			CResourceManager::GetInstance().LoadFontDescriptor(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CFontDescriptor>(item.name.c_str(), itemPath.c_str());
 			break;
 		case ITEM_NINEPATCHDESCRIPTOR:
-			CResourceManager::GetInstance().LoadNinePatchDescriptor(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CNinePatchDescriptor>(item.name.c_str(), itemPath.c_str());
 			break;
 		case ITEM_EMITTERDESCRIPTOR:
-			CResourceManager::GetInstance().LoadEmitterDescriptor(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CEmitterDescriptor>(item.name.c_str(), itemPath.c_str());
+			break;
+		case ITEM_SCENEDESCRIPTOR:
+			CResourceManager::GetInstance().LoadResource<CSceneDescriptor>(item.name.c_str(), itemPath.c_str());
 			break;
 		}
 	}
@@ -101,23 +109,8 @@ void CPackage::LoadItems()
 
 void CPackage::ReleaseItems()
 {
-	for(auto itemIterator(std::begin(m_items)); itemIterator != std::end(m_items); itemIterator++)
+	for(const auto& item : m_items)
 	{
-		const ITEM& item(*itemIterator);
-		switch(item.type)
-		{
-		case ITEM_TEXTURE:
-			CResourceManager::GetInstance().ReleaseTexture(item.name.c_str());
-			break;
-		case ITEM_FONTDESCRIPTOR:
-			CResourceManager::GetInstance().ReleaseFontDescriptor(item.name.c_str());
-			break;
-		case ITEM_NINEPATCHDESCRIPTOR:
-			CResourceManager::GetInstance().ReleaseNinePatchDescriptor(item.name.c_str());
-			break;
-		case ITEM_EMITTERDESCRIPTOR:
-			CResourceManager::GetInstance().ReleaseEmitterDescriptor(item.name.c_str());
-			break;
-		}
+		CResourceManager::GetInstance().ReleaseResource(item.name.c_str());
 	}
 }

@@ -79,9 +79,6 @@
     <ClCompile Include="..\src\Widget.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\NinePatchDescriptor.cpp">
-      <Filter>Source Files\resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\NinePatch.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
@@ -91,17 +88,8 @@
     <ClCompile Include="..\src\ButtonBase.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\FontDescriptor.cpp">
-      <Filter>Source Files\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Package.cpp">
-      <Filter>Source Files\resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\SpriteButton.cpp">
       <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ResourceManager.cpp">
-      <Filter>Source Files\resources</Filter>
     </ClCompile>
     <ClCompile Include="..\src\InputManager.cpp">
       <Filter>Source Files\widgets</Filter>
@@ -151,10 +139,31 @@
     <ClCompile Include="..\src\win32\Dx11Texture.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\EmitterDescriptor.cpp">
+    <ClCompile Include="..\src\EmitterModifier.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\EmitterDescriptor.cpp">
       <Filter>Source Files\resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\EmitterModifier.cpp">
+    <ClCompile Include="..\src\resources\FontDescriptor.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\NinePatchDescriptor.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\ResourceManager.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\SceneDescriptor.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\TextureResource.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\resources\Package.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Scene.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -238,9 +247,6 @@
     <ClInclude Include="..\include\athena\Widget.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\NinePatchDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\NinePatch.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
@@ -250,20 +256,11 @@
     <ClInclude Include="..\include\athena\ButtonBase.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\FontDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\ILayoutable.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\Package.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\SpriteButton.h">
       <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\ResourceManager.h">
-      <Filter>Source Files\resources</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\Plane.h">
       <Filter>Source Files\math</Filter>
@@ -279,12 +276,6 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\CubeRenderTarget.h">
       <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\PvrImage.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\TgaImage.h">
-      <Filter>Source Files\resources</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\IAnimation.h">
       <Filter>Source Files\animation</Filter>
@@ -331,10 +322,40 @@
     <ClInclude Include="..\include\athena\win32\Dx11Texture.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\EmitterDescriptor.h">
+    <ClInclude Include="..\include\athena\EmitterModifier.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\TgaImage.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\EmitterModifier.h">
+    <ClInclude Include="..\include\athena\resources\EmitterDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\FontDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\NinePatchDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\PvrImage.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\Resource.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\ResourceManager.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\SceneDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\TextureResource.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\Package.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\Scene.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>

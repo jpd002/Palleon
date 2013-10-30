@@ -1,8 +1,7 @@
-#ifndef _ATHENA_NINEPATCH_H_
-#define _ATHENA_NINEPATCH_H_
+#pragma once
 
 #include "athena/Mesh.h"
-#include "athena/NinePatchDescriptor.h"
+#include "athena/resources/NinePatchDescriptor.h"
 
 namespace Athena
 {
@@ -37,5 +36,3 @@ namespace Athena
 		const CNinePatchDescriptor*	m_descriptor;
 	};
 };
-
-#endif

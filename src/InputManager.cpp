@@ -6,13 +6,13 @@
 
 using namespace Athena;
 
-bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPosition, INPUT_EVENT event)
+bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inputPosition, INPUT_EVENT event)
 {
 	if(node->GetNodeType() == SCENE_NODE_WIDGET)
 	{
 		if(!node->GetWorldVisibility()) return false;
 
-		CWidget* widget = static_cast<CWidget*>(node);
+		auto widget = std::static_pointer_cast<CWidget>(node);
 		CMatrix4 transformation = widget->GetWorldTransformation();
 		CVector2 position(transformation(3, 0), transformation(3, 1));
 		CVector2 scale(transformation(0, 0), transformation(1, 1));
@@ -44,10 +44,10 @@ bool CInputManager::SendInputEvent(CSceneNode* node, const CVector2& inputPositi
 	return true;
 }
 
-void CInputManager::SendInputEventToTree(CSceneNode* root, const CVector2& inputPosition, INPUT_EVENT event)
+void CInputManager::SendInputEventToTree(const SceneNodePtr& root, const CVector2& inputPosition, INPUT_EVENT event)
 {
 	root->TraverseNodes(
-		[&] (CSceneNode* node)
+		[&] (const SceneNodePtr& node)
 		{
 			return SendInputEvent(node, inputPosition, event);
 		}

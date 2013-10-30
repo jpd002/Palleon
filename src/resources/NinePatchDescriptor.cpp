@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <memory>
-#include "athena/NinePatchDescriptor.h"
+#include "athena/resources/NinePatchDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"

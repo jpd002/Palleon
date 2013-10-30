@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -29,9 +29,7 @@
     <ClCompile Include="..\src\CubeMesh.cpp" />
     <ClCompile Include="..\src\CubeRenderTarget.cpp" />
     <ClCompile Include="..\src\Emitter.cpp" />
-    <ClCompile Include="..\src\EmitterDescriptor.cpp" />
     <ClCompile Include="..\src\EmitterModifier.cpp" />
-    <ClCompile Include="..\src\FontDescriptor.cpp" />
     <ClCompile Include="..\src\Frustum.cpp" />
     <ClCompile Include="..\src\GraphicDevice.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
@@ -40,11 +38,16 @@
     <ClCompile Include="..\src\Mesh.cpp" />
     <ClCompile Include="..\src\NinePatch.cpp" />
     <ClCompile Include="..\src\NinePatchButton.cpp" />
-    <ClCompile Include="..\src\NinePatchDescriptor.cpp" />
-    <ClCompile Include="..\src\Package.cpp" />
     <ClCompile Include="..\src\RenderTarget.cpp" />
-    <ClCompile Include="..\src\ResourceManager.cpp" />
+    <ClCompile Include="..\src\resources\EmitterDescriptor.cpp" />
+    <ClCompile Include="..\src\resources\FontDescriptor.cpp" />
+    <ClCompile Include="..\src\resources\NinePatchDescriptor.cpp" />
+    <ClCompile Include="..\src\resources\Package.cpp" />
+    <ClCompile Include="..\src\resources\ResourceManager.cpp" />
+    <ClCompile Include="..\src\resources\SceneDescriptor.cpp" />
+    <ClCompile Include="..\src\resources\TextureResource.cpp" />
     <ClCompile Include="..\src\RumbleAnimation.cpp" />
+    <ClCompile Include="..\src\Scene.cpp" />
     <ClCompile Include="..\src\SceneNode.cpp" />
     <ClCompile Include="..\src\SphereMesh.cpp" />
     <ClCompile Include="..\src\Sprite.cpp" />
@@ -79,9 +82,7 @@
     <ClInclude Include="..\include\athena\CubeMesh.h" />
     <ClInclude Include="..\include\athena\CubeRenderTarget.h" />
     <ClInclude Include="..\include\athena\Emitter.h" />
-    <ClInclude Include="..\include\athena\EmitterDescriptor.h" />
     <ClInclude Include="..\include\athena\EmitterModifier.h" />
-    <ClInclude Include="..\include\athena\FontDescriptor.h" />
     <ClInclude Include="..\include\athena\Frustum.h" />
     <ClInclude Include="..\include\athena\GraphicDevice.h" />
     <ClInclude Include="..\include\athena\IAnimation.h" />
@@ -95,21 +96,27 @@
     <ClInclude Include="..\include\athena\MeshProvider.h" />
     <ClInclude Include="..\include\athena\NinePatch.h" />
     <ClInclude Include="..\include\athena\NinePatchButton.h" />
-    <ClInclude Include="..\include\athena\NinePatchDescriptor.h" />
-    <ClInclude Include="..\include\athena\Package.h" />
     <ClInclude Include="..\include\athena\Plane.h" />
-    <ClInclude Include="..\include\athena\PvrImage.h" />
     <ClInclude Include="..\include\athena\Quaternion.h" />
     <ClInclude Include="..\include\athena\RenderTarget.h" />
-    <ClInclude Include="..\include\athena\ResourceManager.h" />
+    <ClInclude Include="..\include\athena\resources\EmitterDescriptor.h" />
+    <ClInclude Include="..\include\athena\resources\FontDescriptor.h" />
+    <ClInclude Include="..\include\athena\resources\NinePatchDescriptor.h" />
+    <ClInclude Include="..\include\athena\resources\Package.h" />
+    <ClInclude Include="..\include\athena\resources\PvrImage.h" />
+    <ClInclude Include="..\include\athena\resources\Resource.h" />
+    <ClInclude Include="..\include\athena\resources\ResourceManager.h" />
+    <ClInclude Include="..\include\athena\resources\SceneDescriptor.h" />
+    <ClInclude Include="..\include\athena\resources\TextureResource.h" />
+    <ClInclude Include="..\include\athena\resources\TgaImage.h" />
     <ClInclude Include="..\include\athena\RumbleAnimation.h" />
+    <ClInclude Include="..\include\athena\Scene.h" />
     <ClInclude Include="..\include\athena\SceneNode.h" />
     <ClInclude Include="..\include\athena\SphereMesh.h" />
     <ClInclude Include="..\include\athena\Sprite.h" />
     <ClInclude Include="..\include\athena\SpriteButton.h" />
     <ClInclude Include="..\include\athena\Texture.h" />
     <ClInclude Include="..\include\athena\TextureAnimation.h" />
-    <ClInclude Include="..\include\athena\TgaImage.h" />
     <ClInclude Include="..\include\athena\Tween.h" />
     <ClInclude Include="..\include\athena\Vector2.h" />
     <ClInclude Include="..\include\athena\Vector3.h" />
@@ -135,27 +142,27 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

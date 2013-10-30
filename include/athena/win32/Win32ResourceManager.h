@@ -1,7 +1,6 @@
-#ifndef _WIN32RESOURCEMANAGER_H_
-#define _WIN32RESOURCEMANAGER_H_
+#pragma once
 
-#include "athena/ResourceManager.h"
+#include "athena/resources/ResourceManager.h"
 
 namespace Athena
 {
@@ -18,5 +17,3 @@ namespace Athena
 		virtual					~CWin32ResourceManager();
 	};
 }
-
-#endif

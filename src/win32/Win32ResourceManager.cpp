@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <string>
 #include "athena/win32/Win32ResourceManager.h"
 
 #define DATA_BASE	"./data/"
@@ -31,5 +32,5 @@ void CWin32ResourceManager::DestroyInstance()
 
 std::string CWin32ResourceManager::MakeResourcePath(const char* name) const
 {
-	return std::string(DATA_BASE) + name;
+	return std::string(DATA_BASE) + std::string(name);
 }

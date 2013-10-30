@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <boost/scoped_ptr.hpp>
-#include "athena/FontDescriptor.h"
+#include "athena/resources/FontDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"

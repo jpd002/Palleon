@@ -26,7 +26,7 @@ namespace Athena
 	{
 	public:
 		typedef std::vector<SceneNodePtr> SceneNodeArray;
-		typedef std::function<bool (CSceneNode*)> TraversalFunction;
+		typedef std::function<bool (const SceneNodePtr&)> TraversalFunction;
 
 										CSceneNode();
 		virtual							~CSceneNode();
@@ -41,6 +41,9 @@ namespace Athena
 		void							RemoveChild(const SceneNodePtr&);
 
 		CSceneNode*						GetParent() const;
+
+		std::string						GetName() const;
+		void							SetName(const std::string&);
 
 		SceneNodeAnimationController&	GetAnimationController();
 
@@ -72,6 +75,7 @@ namespace Athena
 	protected:
 		CSceneNode*						m_parent;
 
+		std::string						m_name;
 		CVector3						m_position;
 		CQuaternion						m_rotation;
 		CVector3						m_scale;

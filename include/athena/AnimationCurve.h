@@ -4,6 +4,7 @@
 #include "IAnimation.h"
 #include "SceneNode.h"
 #include "Mesh.h"
+#include "Tween.h"
 #include <vector>
 
 namespace Athena

@@ -1,10 +1,8 @@
-#ifndef _LABEL_H_
-#define _LABEL_H_
+#pragma once
 
 #include <string>
 #include "Mesh.h"
-#include "FontDescriptor.h"
-#include "ResourceManager.h"
+#include "resources/FontDescriptor.h"
 #include "ILayoutable.h"
 
 namespace Athena
@@ -35,7 +33,7 @@ namespace Athena
 		static LabelPtr			Create();
 
 		void					SetFont(const CFontDescriptor*);
-		void					SetText(const char*);
+		void					SetText(const std::string&);
 
 		HORIZONTAL_ALIGNMENT	GetHorizontalAlignment() const;
 		void					SetHorizontalAlignment(HORIZONTAL_ALIGNMENT);
@@ -86,5 +84,3 @@ namespace Athena
 		uint32					m_charCount;
 	};
 }
-
-#endif

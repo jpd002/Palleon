@@ -1,4 +1,4 @@
-#include "athena/EmitterDescriptor.h"
+#include "athena/resources/EmitterDescriptor.h"
 #include "StdStream.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"

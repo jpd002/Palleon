@@ -1,7 +1,7 @@
-#ifndef _COLOR_H_
-#define _COLOR_H_
+#pragma once
 
 #include "Types.h"
+#include <algorithm>
 
 class CColor
 {
@@ -82,5 +82,3 @@ static CColor operator *(float lhs, const CColor& rhs)
 		lhs * rhs.b,
 		lhs * rhs.a);
 }
-
-#endif

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Vector2.h"
+#include "../Vector2.h"
+#include "Resource.h"
 #include <algorithm>
 
 namespace Athena
@@ -14,13 +15,13 @@ namespace Athena
 	typedef std::pair<float, float> FloatRange;
 	typedef std::pair<CVector2, CVector2> Vector2Range;
 
-	class CEmitterDescriptor
+	class CEmitterDescriptor : public CResource
 	{
 	public:
 								CEmitterDescriptor();
 		virtual					~CEmitterDescriptor();
 
-		void					Load(const char*);
+		void					Load(const char*) override;
 
 		EMITTER_SOURCE_TYPE		GetSourceType() const;
 

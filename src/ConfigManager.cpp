@@ -1,5 +1,5 @@
 #include "athena/ConfigManager.h"
-#include "athena/ResourceManager.h"
+#include "athena/resources/ResourceManager.h"
 
 using namespace Athena;
 

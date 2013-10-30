@@ -37,7 +37,7 @@ namespace Athena
 
 		}
 
-		void AddAnimation(const char* name, const AnimationPtr& animation)
+		void AddAnimation(const std::string& name, const AnimationPtr& animation)
 		{
 			assert(animation);
 			assert(m_animations.find(name) == std::end(m_animations));
@@ -51,7 +51,7 @@ namespace Athena
 			m_animations.insert(typename AnimationMap::value_type(name, animationState));
 		}
 
-		void PlayAnimation(const char* name, ANIMATION_PLAY_MODE playMode = ANIMATION_PLAY_ONCE, ANIMATION_PLAY_DIRECTION playDirection = ANIMATION_PLAY_FORWARD)
+		void PlayAnimation(const std::string& name, ANIMATION_PLAY_MODE playMode = ANIMATION_PLAY_ONCE, ANIMATION_PLAY_DIRECTION playDirection = ANIMATION_PLAY_FORWARD)
 		{
 			auto animationIterator = m_animations.find(name);
 			assert(animationIterator != std::end(m_animations));
@@ -70,6 +70,15 @@ namespace Athena
 			animationState.playing			= true;
 		}
 
+		void PlayAllAnimations(ANIMATION_PLAY_MODE playMode = ANIMATION_PLAY_ONCE, ANIMATION_PLAY_DIRECTION playDirection = ANIMATION_PLAY_FORWARD)
+		{
+			for(const auto& animationStatePair : m_animations)
+			{
+				const auto& animationName = animationStatePair.first;
+				PlayAnimation(animationName, playMode, playDirection);
+			}
+		}
+
 		void SetAnimationPlayDirection(const char* name, ANIMATION_PLAY_DIRECTION playDirection)
 		{
 			auto animationIterator = m_animations.find(name);
@@ -81,10 +90,9 @@ namespace Athena
 
 		bool IsAnimationOver() const
 		{
-			for(auto animationIterator = std::begin(m_animations);
-				animationIterator != std::end(m_animations); animationIterator++)
+			for(const auto& animationStatePair : m_animations)
 			{
-				const auto& animationState = animationIterator->second;
+				const auto& animationState = animationStatePair.second;
 				if(animationState.playing) return false;
 			}
 			return true;
@@ -101,10 +109,10 @@ namespace Athena
 
 		void Update(TargetType* target, float dt)
 		{
-			for(auto animationIterator = std::begin(m_animations);
-				animationIterator != std::end(m_animations); animationIterator++)
+			for(auto& animationStatePair : m_animations)
 			{
-				auto& animationState = animationIterator->second;
+				const auto& animationName = animationStatePair.first;
+				auto& animationState = animationStatePair.second;
 				if(!animationState.playing) continue;
 				const auto& animation = animationState.animation;
 
@@ -125,7 +133,7 @@ namespace Athena
 						if(done)
 						{
 							animationState.playing = false;
-							AnimationOver(target, animationIterator->first.c_str());
+							AnimationOver(target, animationName.c_str());
 						}
 					}
 					break;

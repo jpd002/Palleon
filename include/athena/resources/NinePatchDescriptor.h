@@ -1,16 +1,17 @@
 #pragma once
 
 #include <string>
+#include "Resource.h"
 
 namespace Athena
 {
-	class CNinePatchDescriptor
+	class CNinePatchDescriptor : public CResource
 	{
 	public:
 						CNinePatchDescriptor();
 		virtual			~CNinePatchDescriptor();
 
-		void			Load(const char*);
+		void			Load(const char*) override;
 
 		const char*		GetTextureName() const;
 

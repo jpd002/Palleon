@@ -1,12 +1,12 @@
-#ifndef _ATHENA_FONTDESCRIPTOR_H_
-#define _ATHENA_FONTDESCRIPTOR_H_
+#pragma once
 
 #include <unordered_map>
 #include <string>
+#include "Resource.h"
 
 namespace Athena
 {
-	class CFontDescriptor
+	class CFontDescriptor : public CResource
 	{
 	public:
 		struct PAGEINFO
@@ -36,7 +36,7 @@ namespace Athena
 
 		GLYPHINFO		GetGlyphInfo(unsigned int) const;
 			
-		void			Load(const char*);
+		void			Load(const char*) override;
 		
 	private:
 		typedef std::unordered_map<unsigned int, PAGEINFO> PageInfoMap;
@@ -50,5 +50,3 @@ namespace Athena
 		std::string		m_textureName;
 	};
 }
-
-#endif

@@ -8,7 +8,7 @@ CSceneNode::CSceneNode()
 : m_position(0, 0, 0)
 , m_scale(1, 1, 1)
 , m_visible(true)
-, m_parent(NULL)
+, m_parent(nullptr)
 , m_hotspot(0, 0, 0)
 , m_worldVisibility(true)
 {
@@ -32,7 +32,8 @@ SCENE_NODE_TYPE CSceneNode::GetNodeType() const
 
 void CSceneNode::AppendChild(const SceneNodePtr& node)
 {
-	assert(node->m_parent == NULL);
+	assert(node->m_parent == nullptr);
+	assert(node.get() != this);
 	assert(std::find(std::begin(m_children), std::end(m_children), node) == m_children.end());
 	m_children.push_back(node);
 	node->m_parent = this;
@@ -40,7 +41,7 @@ void CSceneNode::AppendChild(const SceneNodePtr& node)
 
 void CSceneNode::PrependChild(const SceneNodePtr& node)
 {
-	assert(node->m_parent == NULL);
+	assert(node->m_parent == nullptr);
 	assert(std::find(std::begin(m_children), std::end(m_children), node) == m_children.end());
 	m_children.insert(m_children.begin(), node);
 	node->m_parent = this;
@@ -49,7 +50,7 @@ void CSceneNode::PrependChild(const SceneNodePtr& node)
 void CSceneNode::AppendChildAfter(const SceneNodePtr& reference, const SceneNodePtr& child)
 {
 	assert(reference->m_parent == this);
-	assert(child->m_parent == NULL);
+	assert(child->m_parent == nullptr);
 	assert(child.get() != this);
 
 	auto nodeIterator(std::find(std::begin(m_children), std::end(m_children), reference));
@@ -73,6 +74,16 @@ void CSceneNode::RemoveChild(const SceneNodePtr& node)
 CSceneNode* CSceneNode::GetParent() const
 {
 	return m_parent;
+}
+
+std::string CSceneNode::GetName() const
+{
+	return m_name;
+}
+
+void CSceneNode::SetName(const std::string& name)
+{
+	m_name = name;
 }
 
 SceneNodeAnimationController& CSceneNode::GetAnimationController()
@@ -138,22 +149,20 @@ void CSceneNode::SetHotspot(const CVector3& hotspot)
 void CSceneNode::Update(float dt)
 {
 	m_animationController.Update(this, dt);
-	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
+	for(const auto& child : m_children)
 	{
-		(*nodeIterator)->Update(dt);
+		child->Update(dt);
 	}
 }
 
 void CSceneNode::TraverseNodes(const TraversalFunction& traversalFunc)
 {
-	if(!traversalFunc(this))
+	for(const auto& child : m_children)
 	{
-		return;
-	}
-
-	for(auto nodeIterator(std::begin(m_children)); nodeIterator != std::end(m_children); nodeIterator++)
-	{
-		(*nodeIterator)->TraverseNodes(traversalFunc);
+		if(traversalFunc(child))
+		{
+			child->TraverseNodes(traversalFunc);
+		}
 	}
 }
 
