@@ -6,7 +6,7 @@
 
 using namespace Athena;
 
-bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inputPosition, INPUT_EVENT event)
+bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inputPosition, INPUT_EVENT event, InputEventHandlerArray& eventHandlers)
 {
 	if(node->GetNodeType() == SCENE_NODE_WIDGET)
 	{
@@ -24,16 +24,28 @@ bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inp
 		switch(event)
 		{
 			case INPUT_EVENT_PRESSED:
-				widget->OnTouchPressed(inside);
+				eventHandlers.push_back(
+					[widget, inside]()
+					{
+						widget->OnTouchPressed(inside);
+					});
 				break;
 			case INPUT_EVENT_RELEASED:
-				widget->OnTouchReleased(inside);
+				eventHandlers.push_back(
+					[widget, inside]()
+					{
+						widget->OnTouchReleased(inside);
+					});
 				break;
 			case INPUT_EVENT_MOVED:
 				if(inside)
 				{
 					CVector2 localPosition = inputPosition - position;
-					widget->OnTouchMoved(localPosition);
+					eventHandlers.push_back(
+						[widget, localPosition]()
+						{
+							widget->OnTouchMoved(localPosition);
+						});
 				}
 				break;
 			default:
@@ -46,10 +58,15 @@ bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inp
 
 void CInputManager::SendInputEventToTree(const SceneNodePtr& root, const CVector2& inputPosition, INPUT_EVENT event)
 {
+	InputEventHandlerArray eventHandlers;
 	root->TraverseNodes(
 		[&] (const SceneNodePtr& node)
 		{
-			return SendInputEvent(node, inputPosition, event);
+			return SendInputEvent(node, inputPosition, event, eventHandlers);
 		}
 	);
+	for(const auto& eventHandler : eventHandlers)
+	{
+		eventHandler();
+	}
 }

@@ -15,7 +15,11 @@ namespace Athena
 	class CInputManager
 	{
 	public:
-		static bool		SendInputEvent(const SceneNodePtr&, const CVector2&, INPUT_EVENT);
 		static void		SendInputEventToTree(const SceneNodePtr&, const CVector2&, INPUT_EVENT);
+
+	private:
+		typedef std::vector<std::function<void ()>> InputEventHandlerArray;
+
+		static bool		SendInputEvent(const SceneNodePtr&, const CVector2&, INPUT_EVENT, InputEventHandlerArray&);
 	};
 }
