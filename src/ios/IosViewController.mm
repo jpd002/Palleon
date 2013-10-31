@@ -47,6 +47,11 @@ using namespace Athena;
 	return self;
 }
 
+-(BOOL)prefersStatusBarHidden
+{
+	return YES;
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
 	[(EAGLView *)self.view prepareContext];

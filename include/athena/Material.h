@@ -1,9 +1,7 @@
-
-#ifndef _MATERIAL_H_
-#define _MATERIAL_H_
+#pragma once
 
 #include <memory>
-#include "ResourceManager.h"
+#include "athena/resources/ResourceManager.h"
 #include "athena/Color.h"
 #include "athena/Matrix4.h"
 
@@ -144,5 +142,3 @@ namespace Athena
 		TEXTURE_SLOT			m_textureSlots[MAX_TEXTURE_SLOTS];
 	};
 };
-
-#endif

@@ -375,13 +375,13 @@ std::shared_ptr<CAnimationCurve<ModifierType>> CreateAnimationCurveFromAnimation
 {
 	auto animationCurve = std::make_shared<CAnimationCurve<ModifierType>>();
 	float previousTime = 0;
-	typename ModifierType::ItemType previousValue = ModifierType::ItemType();
+	typename ModifierType::ItemType previousValue = typename ModifierType::ItemType();
 	ANIMATION_INTERPOLATION_TYPE previousInterpolation = ANIMATION_INTERPOLATION_TYPE();
 	bool previousValid = false;
 	for(const auto& animationKeyInfo : animationInfo.keys)
 	{
 		auto time = GetValueFromItemInfo<float>(animationKeyInfo, "Time", 0);
-		auto value = GetValueFromItemInfo<ModifierType::ItemType>(animationKeyInfo, "Value", ModifierType::ItemType());
+		auto value = GetValueFromItemInfo<typename ModifierType::ItemType>(animationKeyInfo, "Value", typename ModifierType::ItemType());
 		auto interpolation = GetEnumFromItemInfo(animationKeyInfo, "Interpolation", c_animationCurveInterpolationTranslator);
 		if(previousValid)
 		{

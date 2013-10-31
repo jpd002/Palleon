@@ -72,7 +72,7 @@ namespace Athena
 		void								DumpProgramLog(GLuint);
 		GLuint								BuildProgram(const CIosEffectGenerator::EFFECTCAPS&);
 		
-		bool								FillRenderQueue(CSceneNode*, CCamera*);
+		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);
 		void								DrawMesh(CMesh*);
 
 		EffectMap							m_effects;

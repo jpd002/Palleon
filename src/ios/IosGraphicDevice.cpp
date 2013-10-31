@@ -168,15 +168,15 @@ CubeRenderTargetPtr CIosGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT tex
 	return CubeRenderTargetPtr();
 }
 
-bool CIosGraphicDevice::FillRenderQueue(CSceneNode* node, CCamera* camera)
+bool CIosGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* camera)
 {
 	if(!node->GetVisible()) return false;
 	
-	if(CMesh* mesh = dynamic_cast<CMesh*>(node))
+	if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
 	{
-		m_renderQueue.push_back(mesh);
+		m_renderQueue.push_back(mesh.get());
 	}
-	else if(CMeshProvider* meshProvider = dynamic_cast<CMeshProvider*>(node))
+	else if(auto meshProvider = std::dynamic_pointer_cast<CMeshProvider>(node))
 	{
 		meshProvider->GetMeshes(m_renderQueue, camera);
 	}
