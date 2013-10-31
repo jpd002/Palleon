@@ -3,6 +3,7 @@
 #include "athena/resources/ResourceManager.h"
 #include "athena/Sprite.h"
 #include "athena/Label.h"
+#include "athena/NinePatchButton.h"
 #include "athena/AnimationCurve.h"
 #include <boost/algorithm/string.hpp>
 
@@ -320,26 +321,46 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
 
 		auto label = CLabel::Create();
 		label->SetSize(size);
-		label->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font.c_str()));
-		label->SetText(text.c_str());
+		label->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		label->SetText(text);
 		label->SetHorizontalAlignment(horizontalAlignment);
 		label->SetVerticalAlignment(verticalAlignment);
 		label->SetTextScale(textScale);
 		result = label;
+	}
+	else if(nodeDesc.type == "NinePatchButton")
+	{
+		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
+		auto font = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Font", "");
+		auto text = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Text", "");
+		auto releasedNinePatch = GetValueFromItemInfo<std::string>(nodeDesc.properties, "ReleasedNinePatch", "");
+		auto pressedNinePatch = GetValueFromItemInfo<std::string>(nodeDesc.properties, "PressedNinePatch", "");
+
+		auto button = CNinePatchButton::Create();
+		button->SetSize(size);
+		button->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		button->SetText(text);
+		button->SetReleasedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(releasedNinePatch));
+		button->SetPressedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(pressedNinePatch));
+		result = button;
 	}
 	else
 	{
 		result = CSceneNode::Create();
 	}
 
-	result->SetName(nodeDesc.name);
-	result->SetPosition(position);
-	result->SetScale(scale);
-	result->SetVisible(visible);
-	result->SetHotspot(hotspot);
-	RegisterNodeAnimations(result, animations);
+	assert(result);
+	if(result)
+	{
+		result->SetName(nodeDesc.name);
+		result->SetPosition(position);
+		result->SetScale(scale);
+		result->SetVisible(visible);
+		result->SetHotspot(hotspot);
+		RegisterNodeAnimations(result, animations);
 
-	CreateNodes(result.get(), nodeDesc.children);
+		CreateNodes(result.get(), nodeDesc.children);
+	}
 
 	return result;
 }

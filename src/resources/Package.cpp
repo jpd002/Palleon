@@ -89,19 +89,19 @@ void CPackage::LoadItems()
 		switch(item.type)
 		{
 		case ITEM_TEXTURE:
-			CResourceManager::GetInstance().LoadResource<CTextureResource>(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CTextureResource>(item.name, itemPath);
 			break;
 		case ITEM_FONTDESCRIPTOR:
-			CResourceManager::GetInstance().LoadResource<CFontDescriptor>(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CFontDescriptor>(item.name, itemPath);
 			break;
 		case ITEM_NINEPATCHDESCRIPTOR:
-			CResourceManager::GetInstance().LoadResource<CNinePatchDescriptor>(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CNinePatchDescriptor>(item.name, itemPath);
 			break;
 		case ITEM_EMITTERDESCRIPTOR:
-			CResourceManager::GetInstance().LoadResource<CEmitterDescriptor>(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CEmitterDescriptor>(item.name, itemPath);
 			break;
 		case ITEM_SCENEDESCRIPTOR:
-			CResourceManager::GetInstance().LoadResource<CSceneDescriptor>(item.name.c_str(), itemPath.c_str());
+			CResourceManager::GetInstance().LoadResource<CSceneDescriptor>(item.name, itemPath);
 			break;
 		}
 	}

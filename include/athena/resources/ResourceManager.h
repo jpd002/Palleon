@@ -15,12 +15,12 @@ namespace Athena
 		
 		static CResourceManager&	GetInstance();
 
-		virtual std::string			MakeResourcePath(const char*) const = 0;
+		virtual std::string			MakeResourcePath(const std::string&) const = 0;
 		
-		ResourcePtr					GetResource(const char*) const;
+		ResourcePtr					GetResource(const std::string&) const;
 
 		template <typename T>
-		const T* GetResource(const char* fileName) const
+		const T* GetResource(const std::string& fileName) const
 		{
 			auto resource = GetResource(fileName);
 			assert(resource);
@@ -29,28 +29,28 @@ namespace Athena
 			return specResource.get();
 		}
 
-		TexturePtr					GetTexture(const char*) const;
+		TexturePtr					GetTexture(const std::string&) const;
 
 		template <typename T>
-		void LoadResource(const char* name, const char* localPath = nullptr)
+		void LoadResource(const std::string& name, const std::string& localPath = std::string())
 		{
-			if(!localPath) localPath = name;
+			std::string resourcePath = localPath.empty() ? name : localPath;
 			unsigned int resId = MakeCrc(name);
-			auto path = MakeResourcePath(localPath);
+			auto path = MakeResourcePath(resourcePath);
 			assert(m_resources.find(resId) == std::end(m_resources));
 			auto resource = std::shared_ptr<T>(new T());
 			resource->Load(path.c_str());
 			m_resources[resId] = resource;
 		}
 
-		void						ReleaseResource(const char*);
+		void						ReleaseResource(const std::string&);
 
 	protected:
 		typedef std::unordered_map<uint32, ResourcePtr> ResourceMap;
 
 									CResourceManager();
 
-		static uint32				MakeCrc(const char*);
+		static uint32				MakeCrc(const std::string&);
 
 		static CResourceManager*	m_instance;
 		ResourceMap					m_resources;

@@ -17,7 +17,7 @@ CButtonBase::~CButtonBase()
 
 }
 
-void CButtonBase::SetText(const char* caption)
+void CButtonBase::SetText(const std::string& caption)
 {
 	m_label->SetText(caption);
 }

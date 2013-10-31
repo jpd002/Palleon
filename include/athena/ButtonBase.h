@@ -18,13 +18,13 @@ namespace Athena
 							CButtonBase();
 		virtual				~CButtonBase();
 
-		void				SetText(const char*);
+		void				SetText(const std::string&);
 		void				SetFont(const CFontDescriptor*);
 
 		virtual void		SetSize(const CVector2&);
 
-		virtual void		OnTouchPressed(bool);
-		virtual void		OnTouchReleased(bool);
+		virtual void		OnTouchPressed(bool) override;
+		virtual void		OnTouchReleased(bool) override;
 
 		PressEventType		Press;
 

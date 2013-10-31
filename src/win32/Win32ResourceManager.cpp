@@ -30,7 +30,7 @@ void CWin32ResourceManager::DestroyInstance()
 	m_instance = NULL;
 }
 
-std::string CWin32ResourceManager::MakeResourcePath(const char* name) const
+std::string CWin32ResourceManager::MakeResourcePath(const std::string& name) const
 {
-	return std::string(DATA_BASE) + std::string(name);
+	return std::string(DATA_BASE) + name;
 }
