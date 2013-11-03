@@ -45,6 +45,7 @@ namespace Athena
 		struct EFFECTCAPS
 		{
 			unsigned int hasVertexColor		: 1;
+			unsigned int hasShadowMap		: 1;
 
 			DECLARE_DIFFUSEMAPCAPS(0)
 			DECLARE_DIFFUSEMAPCAPS(1)
@@ -88,7 +89,7 @@ namespace Athena
 				}
 			}
 
-			unsigned int		reserved : 6;
+			unsigned int		reserved : 5;
 		};
 		static_assert(sizeof(EFFECTCAPS) == 4, "Size of EFFECTCAPS isn't 4.");
 

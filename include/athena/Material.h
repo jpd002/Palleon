@@ -107,6 +107,12 @@ namespace Athena
 		TEXTURE_ADDRESS_MODE	GetTextureAddressModeV(unsigned int) const;
 		void					SetTextureAddressModeV(unsigned int, TEXTURE_ADDRESS_MODE);
 
+		bool					GetShadowCasting() const;
+		void					SetShadowCasting(bool);
+
+		bool					GetShadowReceiving() const;
+		void					SetShadowReceiving(bool);
+
 		bool					GetStencilEnabled() const;
 		void					SetStencilEnabled(bool);
 
@@ -133,6 +139,9 @@ namespace Athena
 		ALPHA_BLENDING_MODE		m_alphaBlendingMode;
 		CULLING_MODE			m_cullingMode;
 		CColor					m_color;
+
+		bool					m_shadowCasting;
+		bool					m_shadowReceiving;
 
 		bool					m_stencilEnabled;
 		STENCIL_FUNCTION		m_stencilFunction;

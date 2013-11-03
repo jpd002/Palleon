@@ -30,6 +30,7 @@ std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapMatrix(2);
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapMatrix(3);
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapMatrix(4);
+	if(caps.hasShadowMap) result += PrintLine("matrix c_shadowViewProjMatrix;");
 	result += PrintLine("};");
 
 	result += PrintLine("struct VertexInputType");
@@ -58,13 +59,14 @@ std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+	if(caps.hasShadowMap) result += PrintLine("float4 shadowPosition : POSITION;");
 	result += PrintLine("};");
 
 	result += PrintLine("PixelInputType VertexProgram(VertexInputType input)");
 	result += PrintLine("{");
 	result += PrintLine("PixelInputType output;");
-	result += PrintLine("output.position = mul(c_worldMatrix, float4(input.position, 1));");
-	result += PrintLine("output.position = mul(c_viewProjMatrix, output.position);");
+	result += PrintLine("float4 worldPosition = mul(c_worldMatrix, float4(input.position, 1));");
+	result += PrintLine("output.position = mul(c_viewProjMatrix, worldPosition);");
 	if(caps.hasVertexColor)
 	{
 		result += PrintLine("output.color = input.color * c_meshColor;");
@@ -79,6 +81,8 @@ std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordComputation(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordComputation(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordComputation(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+
+	if(caps.hasShadowMap) result += PrintLine("output.shadowPosition = mul(c_shadowViewProjMatrix, worldPosition);");
 
 	result += PrintLine("return output;");
 	result += PrintLine("}");
@@ -95,7 +99,12 @@ std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampler(2);
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampler(3);
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampler(4);
-
+	if(caps.hasShadowMap)
+	{
+		result += PrintLine("texture2D c_shadowTexture;");
+		result += PrintLine("SamplerState c_shadowSampler;");
+	}
+	
 	result += PrintLine("struct PixelInputType");
 	result += PrintLine("{");
 	result += PrintLine("float4 position : SV_POSITION;");
@@ -105,6 +114,7 @@ std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+	if(caps.hasShadowMap) result += PrintLine("float4 shadowPosition : POSITION;");
 	result += PrintLine("};");
 
 	result += PrintLine("float4 PixelProgram(PixelInputType input) : SV_TARGET");
@@ -115,6 +125,20 @@ std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));
+
+	if(caps.hasShadowMap) 
+	{
+		result += PrintLine("float2 shadowMapCoord = 0.5 * (input.shadowPosition.xy / input.shadowPosition.w) + float2(0.5, 0.5);");
+		result += PrintLine("shadowMapCoord.y = 1 - shadowMapCoord.y;");
+		result += PrintLine("float pixelZ = input.shadowPosition.z / input.shadowPosition.w;");
+		result += PrintLine("float shadowZ = c_shadowTexture.Sample(c_shadowSampler, shadowMapCoord).r;");
+		result += PrintLine("float shadowBias = 0.03f;");
+		result += PrintLine("if(shadowZ < pixelZ - shadowBias)");
+		result += PrintLine("{");
+		result += PrintLine("	diffuseColor.xyz *= 0.25f;");
+		result += PrintLine("}");
+	}
+	
 	result += PrintLine("	return diffuseColor;");
 	result += PrintLine("}");
 

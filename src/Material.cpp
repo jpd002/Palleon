@@ -7,6 +7,8 @@ CMaterial::CMaterial()
 : m_alphaBlendingMode(ALPHA_BLENDING_NONE)
 , m_color(1.0f, 1.0f, 1.0f, 1.0f)
 , m_cullingMode(CULLING_CCW)
+, m_shadowCasting(false)
+, m_shadowReceiving(false)
 , m_stencilEnabled(false)
 , m_stencilFunction(STENCIL_FUNCTION_NEVER)
 , m_stencilFailAction(STENCIL_FAIL_ACTION_KEEP)
@@ -151,6 +153,26 @@ void CMaterial::SetTextureAddressModeV(unsigned int slot, TEXTURE_ADDRESS_MODE a
 	assert(slot < MAX_TEXTURE_SLOTS);
 	if(slot >= MAX_TEXTURE_SLOTS) return;
 	m_textureSlots[slot].addressModeV = addressMode;
+}
+
+bool CMaterial::GetShadowCasting() const
+{
+	return m_shadowCasting;
+}
+
+void CMaterial::SetShadowCasting(bool shadowCasting)
+{
+	m_shadowCasting = shadowCasting;
+}
+
+bool CMaterial::GetShadowReceiving() const
+{
+	return m_shadowReceiving;
+}
+
+void CMaterial::SetShadowReceiving(bool shadowReceiving)
+{
+	m_shadowReceiving = shadowReceiving;
 }
 
 bool CMaterial::GetStencilEnabled() const

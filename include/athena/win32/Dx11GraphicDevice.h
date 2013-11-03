@@ -44,12 +44,17 @@ namespace Athena
 			MAX_DIFFUSE_SLOTS = 5,
 		};
 
+		enum
+		{
+			MAX_PIXEL_SHADER_RESOURCE_SLOTS = MAX_DIFFUSE_SLOTS + 1
+		};
+
 		typedef Framework::Win32::CComPtr<ID3D11InputLayout> D3D11InputLayoutPtr;
 		typedef std::unordered_map<uint64, D3D11InputLayoutPtr> InputLayoutMap;
 
 		struct DEPTHSTENCIL_STATE_INFO
 		{
-			unsigned int		depthTestEnabled		: 1;
+			unsigned int		depthWriteEnabled		: 1;
 			unsigned int		stencilTestEnabled		: 1;
 			unsigned int		stencilFunction			: 4;
 			unsigned int		stencilFailAction		: 4;
@@ -62,6 +67,18 @@ namespace Athena
 
 		struct EFFECTINFO
 		{
+			EFFECTINFO()
+			: meshColorOffset(-1)
+			, worldMatrixOffset(-1)
+			, viewProjMatrixOffset(-1)
+			, shadowViewProjMatrixOffset(-1)
+			{
+				for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+				{
+					diffuseTextureMatrixOffset[i] = -1;
+				}
+			}
+
 			Framework::Win32::CComPtr<ID3D11VertexShader>	vertexShader;
 			Framework::Win32::CComPtr<ID3DBlob>				vertexShaderCode;
 			Framework::Win32::CComPtr<ID3D11PixelShader>	pixelShader;
@@ -72,6 +89,7 @@ namespace Athena
 			uint32					meshColorOffset;
 			uint32					worldMatrixOffset;
 			uint32					viewProjMatrixOffset;
+			uint32					shadowViewProjMatrixOffset;
 			uint32					diffuseTextureMatrixOffset[MAX_DIFFUSE_SLOTS];
 		};
 
@@ -82,16 +100,21 @@ namespace Athena
 		virtual							~CDx11GraphicDevice();
 
 		void							CreateDevice();
+		void							CreateShadowMap();
 		D3D11InputLayoutPtr				CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&, ID3DBlob*);
 
 		void							GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS&);
+		EFFECTINFO						GenerateShadowMapEffect();
 
 		ID3D11BlendState*				GetBlendState(ALPHA_BLENDING_MODE);
 		ID3D11DepthStencilState*		GetDepthStencilState(const DEPTHSTENCIL_STATE_INFO&);
 
 		void							DrawViewport(CViewport*);
-		bool							FillRenderQueue(CSceneNode*, CCamera*);
-		void							DrawMesh(CMesh*);
+		void							DrawViewportMainMap(CViewport*);
+		void							DrawViewportShadowMap(CViewport*);
+		void							DrawMesh(CMesh*, EFFECTINFO*, const CMatrix4&, const CMatrix4& = CMatrix4::MakeIdentity());
+
+		EFFECTINFO*						GetEffectFromMesh(CMesh*, bool);
 
 		HWND													m_parentWnd;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
@@ -105,9 +128,15 @@ namespace Athena
 		Framework::Win32::CComPtr<ID3D11BlendState>				m_blendStates[ALPHA_BLENDING_MODE_MAX];
 		DepthStencilStateMap									m_depthStencilStates;
 
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_shadowMap;
+		Framework::Win32::CComPtr<ID3D11ShaderResourceView>		m_shadowMapView;
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_shadowDepthMap;
+		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_shadowMapRenderView;
+		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_shadowDepthMapView;
+
 		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
 
-		CMatrix4						m_viewProjMatrix;
+		EFFECTINFO						m_shadowMapEffect;
 	};
 }

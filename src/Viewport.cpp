@@ -31,3 +31,13 @@ SceneNodePtr CViewport::GetSceneRoot() const
 {
 	return m_sceneRoot;
 }
+
+CameraPtr CViewport::GetShadowCamera() const
+{
+	return m_shadowCamera;
+}
+
+void CViewport::SetShadowCamera(const CameraPtr& shadowCamera)
+{
+	m_shadowCamera = shadowCamera;
+}
