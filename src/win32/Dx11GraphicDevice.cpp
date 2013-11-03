@@ -660,7 +660,10 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 
 			if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
 			{
-				m_renderQueue.push_back(mesh.get());
+				if(mesh->GetPrimitiveCount() != 0)
+				{
+					m_renderQueue.push_back(mesh.get());
+				}
 			}
 			else if(auto meshProvider = std::dynamic_pointer_cast<CMeshProvider>(node))
 			{
