@@ -3,6 +3,7 @@
 #include "athena/resources/ResourceManager.h"
 #include "athena/Sprite.h"
 #include "athena/Label.h"
+#include "athena/SpriteButton.h"
 #include "athena/NinePatchButton.h"
 #include "athena/AnimationCurve.h"
 #include <boost/algorithm/string.hpp>
@@ -266,6 +267,8 @@ MaterialPtr CScene::GetMaterialFromItemInfo(const CSceneDescriptor::ItemInfo& it
 		}
 		else
 		{
+			//Material was specified but wasn't found in scene
+			assert(0);
 			return MaterialPtr();
 		}
 	}
@@ -328,6 +331,31 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
 		label->SetTextScale(textScale);
 		result = label;
 	}
+	else if(nodeDesc.type == "SpriteButton")
+	{
+		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
+		auto font = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Font", "");
+		auto text = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Text", "");
+		auto releasedTexture = GetValueFromItemInfo<std::string>(nodeDesc.properties, "ReleasedTexture", "");
+		auto pressedTexture = GetValueFromItemInfo<std::string>(nodeDesc.properties, "PressedTexture", "");
+
+		auto button = CSpriteButton::Create();
+		button->SetSize(size);
+		if(!font.empty())
+		{
+			button->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		}
+		if(!releasedTexture.empty())
+		{
+			button->SetReleasedTexture(CResourceManager::GetInstance().GetTexture(releasedTexture));
+		}
+		if(!pressedTexture.empty())
+		{
+			button->SetPressedTexture(CResourceManager::GetInstance().GetTexture(pressedTexture));
+		}
+		button->SetText(text);
+		result = button;
+	}
 	else if(nodeDesc.type == "NinePatchButton")
 	{
 		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
@@ -338,10 +366,19 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
 
 		auto button = CNinePatchButton::Create();
 		button->SetSize(size);
-		button->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		if(!font.empty())
+		{
+			button->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		}
 		button->SetText(text);
-		button->SetReleasedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(releasedNinePatch));
-		button->SetPressedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(pressedNinePatch));
+		if(!releasedNinePatch.empty())
+		{
+			button->SetReleasedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(releasedNinePatch));
+		}
+		if(!pressedNinePatch.empty())
+		{
+			button->SetPressedDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(pressedNinePatch));
+		}
 		result = button;
 	}
 	else
