@@ -230,7 +230,9 @@ TexturePtr CDx11GraphicDevice::CreateTextureFromMemory(const void* data, uint32 
 
 TexturePtr CDx11GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return TexturePtr();
+	auto texture = CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
+	std::static_pointer_cast<CDx11Texture>(texture)->Update(data);
+	return texture;
 }
 
 TexturePtr CDx11GraphicDevice::CreateCubeTextureFromFile(const char* path)
@@ -389,6 +391,10 @@ void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& 
 	
 	if(effectCaps.hasShadowMap)		newEffect.shadowViewProjMatrixOffset	= constantOffset.Allocate(0x40);
 	if(effectCaps.hasDiffuseMap0)	newEffect.diffuseTextureMatrixOffset[0] = constantOffset.Allocate(0x40);
+	if(effectCaps.hasDiffuseMap1)	newEffect.diffuseTextureMatrixOffset[1] = constantOffset.Allocate(0x40);
+	if(effectCaps.hasDiffuseMap2)	newEffect.diffuseTextureMatrixOffset[2] = constantOffset.Allocate(0x40);
+	if(effectCaps.hasDiffuseMap3)	newEffect.diffuseTextureMatrixOffset[3] = constantOffset.Allocate(0x40);
+	if(effectCaps.hasDiffuseMap4)	newEffect.diffuseTextureMatrixOffset[4] = constantOffset.Allocate(0x40);
 
 	{
 		D3D11_BUFFER_DESC bufferDesc = {};
@@ -600,15 +606,46 @@ ID3D11DepthStencilState* CDx11GraphicDevice::GetDepthStencilState(const DEPTHSTE
 	return state;
 }
 
+ID3D11SamplerState* CDx11GraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO& stateInfo)
+{
+	D3D11SamplerStatePtr state;
+
+	uint32 stateKey = *reinterpret_cast<const uint32*>(&stateInfo);
+	auto stateIterator = m_samplerStates.find(stateKey);
+	if(stateIterator == std::end(m_samplerStates))
+	{
+		static const D3D11_TEXTURE_ADDRESS_MODE c_addressMode[TEXTURE_ADDRESS_MODE_MAX] =
+		{
+			D3D11_TEXTURE_ADDRESS_CLAMP,
+			D3D11_TEXTURE_ADDRESS_WRAP
+		};
+
+		D3D11_SAMPLER_DESC samplerDesc = {};
+		samplerDesc.AddressU	= c_addressMode[stateInfo.addressU];
+		samplerDesc.AddressV	= c_addressMode[stateInfo.addressV];
+		samplerDesc.AddressW	= D3D11_TEXTURE_ADDRESS_CLAMP;
+		samplerDesc.Filter		= D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		
+		HRESULT result = m_device->CreateSamplerState(&samplerDesc, &state);
+		assert(SUCCEEDED(result));
+
+		m_samplerStates.insert(std::make_pair(stateKey, state));
+	}
+	else
+	{
+		state = stateIterator->second;
+	}
+
+	return state;
+}
+
 void CDx11GraphicDevice::Draw()
 {
 	//Reset metrics
 	m_drawCallCount = 0;
 
 	static const float clearColor[4] = { 0, 0, 0, 0 };
-
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
-	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	ID3D11ShaderResourceView* textureViews[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
 	ID3D11SamplerState* samplerStates[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
@@ -645,6 +682,7 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	}
 
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthBufferView);
+	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	auto camera = viewport->GetCamera();
 	assert(camera);
@@ -804,8 +842,13 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 			auto texture = material->GetTexture(i);
 			if(texture)
 			{
+				SAMPLER_STATE_INFO samplerStateInfo = {};
+				samplerStateInfo.addressU = material->GetTextureAddressModeU(i);
+				samplerStateInfo.addressV = material->GetTextureAddressModeV(i);
+				auto samplerState = GetSamplerState(samplerStateInfo);
+
 				auto specTexture = std::static_pointer_cast<CDx11Texture>(texture);
-				samplerStates[textureCount] = m_defaultSamplerState;
+				samplerStates[textureCount] = samplerState;
 				textureViews[textureCount] = specTexture->GetTextureView();
 				textureCount++;
 			}
@@ -825,16 +868,20 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 		m_deviceContext->PSSetShaderResources(0, textureCount, textureViews);
 		m_deviceContext->PSSetSamplers(0, textureCount, samplerStates);
 
-		auto blendState = GetBlendState(material->GetAlphaBlendingMode());
-		m_deviceContext->OMSetBlendState(blendState, nullptr, ~0);
+		{
+			auto blendState = GetBlendState(material->GetAlphaBlendingMode());
+			m_deviceContext->OMSetBlendState(blendState, nullptr, ~0);
+		}
 
-		DEPTHSTENCIL_STATE_INFO depthStencilStateInfo = {};
-		depthStencilStateInfo.stencilTestEnabled	= material->GetStencilEnabled();
-		depthStencilStateInfo.stencilFunction		= material->GetStencilFunction();
-		depthStencilStateInfo.stencilFailAction		= material->GetStencilFailAction();
-		depthStencilStateInfo.depthWriteEnabled		= (material->GetAlphaBlendingMode() == ALPHA_BLENDING_NONE);
-		auto depthStencilState = GetDepthStencilState(depthStencilStateInfo);
-		m_deviceContext->OMSetDepthStencilState(depthStencilState, material->GetStencilValue());
+		{
+			DEPTHSTENCIL_STATE_INFO depthStencilStateInfo = {};
+			depthStencilStateInfo.stencilTestEnabled	= material->GetStencilEnabled();
+			depthStencilStateInfo.stencilFunction		= material->GetStencilFunction();
+			depthStencilStateInfo.stencilFailAction		= material->GetStencilFailAction();
+			depthStencilStateInfo.depthWriteEnabled		= (material->GetAlphaBlendingMode() == ALPHA_BLENDING_NONE);
+			auto depthStencilState = GetDepthStencilState(depthStencilStateInfo);
+			m_deviceContext->OMSetDepthStencilState(depthStencilState, material->GetStencilValue());
+		}
 
 /*
 		CULLING_MODE cullingMode = material->GetCullingMode();

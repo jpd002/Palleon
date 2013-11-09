@@ -19,7 +19,7 @@ namespace Athena
 	
 		static TexturePtr			CreateCubeFromFile(ID3D11Device*, const char*);
 
-		virtual void*				GetHandle() const;
+		virtual void*				GetHandle() const override;
 		ID3D11ShaderResourceView*	GetTextureView() const;
 
 		void						Update(const void*);

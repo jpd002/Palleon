@@ -65,6 +65,17 @@ namespace Athena
 		typedef Framework::Win32::CComPtr<ID3D11DepthStencilState> D3D11DepthStencilStatePtr;
 		typedef std::unordered_map<uint32, D3D11DepthStencilStatePtr> DepthStencilStateMap;
 
+		struct SAMPLER_STATE_INFO
+		{
+			unsigned int		addressU		: 1;
+			unsigned int		addressV		: 1;
+			unsigned int		reserved		: 30;
+		};
+		static_assert(sizeof(SAMPLER_STATE_INFO) == 4, "SAMPLER_STATE_INFO's size must be 4 bytes.");
+
+		typedef Framework::Win32::CComPtr<ID3D11SamplerState> D3D11SamplerStatePtr;
+		typedef std::unordered_map<uint32, D3D11SamplerStatePtr> SamplerStateMap;
+
 		struct EFFECTINFO
 		{
 			EFFECTINFO()
@@ -108,6 +119,7 @@ namespace Athena
 
 		ID3D11BlendState*				GetBlendState(ALPHA_BLENDING_MODE);
 		ID3D11DepthStencilState*		GetDepthStencilState(const DEPTHSTENCIL_STATE_INFO&);
+		ID3D11SamplerState*				GetSamplerState(const SAMPLER_STATE_INFO&);
 
 		void							DrawViewport(CViewport*);
 		void							DrawViewportMainMap(CViewport*);
@@ -127,6 +139,7 @@ namespace Athena
 		Framework::Win32::CComPtr<ID3D11SamplerState>			m_defaultSamplerState;
 		Framework::Win32::CComPtr<ID3D11BlendState>				m_blendStates[ALPHA_BLENDING_MODE_MAX];
 		DepthStencilStateMap									m_depthStencilStates;
+		SamplerStateMap											m_samplerStates;
 
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_shadowMap;
 		Framework::Win32::CComPtr<ID3D11ShaderResourceView>		m_shadowMapView;

@@ -20,7 +20,7 @@ namespace Athena
 				
 		void									Update(const void*);
 		
-		void*									GetHandle() const;
+		void*									GetHandle() const override;
 		bool									IsCubeMap() const;
 		
 	protected:

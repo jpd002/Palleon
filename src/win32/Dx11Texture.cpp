@@ -3,6 +3,7 @@
 #include "bitmap/Bitmap.h"
 #include "bitmap/PNG.h"
 #include "bitmap/JPEG.h"
+#include "bitmap/TGA.h"
 #include "StdStream.h"
 #include "PtrStream.h"
 
@@ -13,6 +14,7 @@ static const DXGI_FORMAT g_textureFormats[TEXTURE_FORMAT_MAX] =
 	DXGI_FORMAT_UNKNOWN,
 	DXGI_FORMAT_R8G8B8A8_UNORM,
 	DXGI_FORMAT_R8G8B8A8_UNORM,
+	DXGI_FORMAT_BC1_UNORM,
 };
 
 CDx11Texture::CDx11Texture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11Texture2D* texture)
@@ -103,6 +105,13 @@ TexturePtr CDx11Texture::CreateFromStream(ID3D11Device* device, ID3D11DeviceCont
 		{
 			imageData = Framework::CJPEG::ReadBitmap(stream);
 		}
+		else if(
+				(header[0] == 0x00) && (header[1] == 0x00) && (header[2] == 0x02) && (header[3] == 0x00) &&
+				(header[4] == 0x00) && (header[5] == 0x00) && (header[6] == 0x00) && (header[7] == 0x00)
+			)
+		{
+			imageData = Framework::CTGA::ReadBitmap(stream);
+		}
 		else
 		{
 			throw std::exception();
@@ -158,16 +167,42 @@ void CDx11Texture::Update(const void* data)
 	HRESULT result = m_deviceContext->Map(m_texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
 
-	assert(m_format == TEXTURE_FORMAT_RGBA8888);
 	uint32 srcPitch = c_textureFormatSize[m_format] * m_width;
-
 	const uint8* srcPtr = reinterpret_cast<const uint8*>(data);
 	uint8* dstPtr = reinterpret_cast<uint8*>(mappedResource.pData);
-	for(uint32 y = 0; y < m_height; y++)
+
+	if(m_format == TEXTURE_FORMAT_RGB888)
 	{
-		memcpy(dstPtr, srcPtr, srcPitch);
-		srcPtr += srcPitch;
-		dstPtr += mappedResource.RowPitch;
+		//Conversion needed
+		for(uint32 y = 0; y < m_height; y++)
+		{
+			const uint8* srcLinePtr = srcPtr;
+			uint8* dstLinePtr = dstPtr;
+			for(uint32 x = 0; x < m_width; x++)
+			{
+				uint8 r = srcLinePtr[0];
+				uint8 g = srcLinePtr[1];
+				uint8 b = srcLinePtr[2];
+				dstLinePtr[0] = r;
+				dstLinePtr[1] = g;
+				dstLinePtr[2] = b;
+				dstLinePtr[3] = 0xFF;
+				srcLinePtr += 3;
+				dstLinePtr += 4;
+			}
+			srcPtr += srcPitch;
+			dstPtr += mappedResource.RowPitch;
+		}
+	}
+	else
+	{
+		assert(m_format == TEXTURE_FORMAT_RGBA8888);
+		for(uint32 y = 0; y < m_height; y++)
+		{
+			memcpy(dstPtr, srcPtr, srcPitch);
+			srcPtr += srcPitch;
+			dstPtr += mappedResource.RowPitch;
+		}
 	}
 
 	m_deviceContext->Unmap(m_texture, 0);

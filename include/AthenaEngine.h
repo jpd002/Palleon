@@ -17,7 +17,6 @@
 #include "athena/resources/SceneDescriptor.h"
 #include "athena/resources/Package.h"
 #include "athena/resources/PvrImage.h"
-#include "athena/resources/TgaImage.h"
 
 //Graphics
 #include "athena/GraphicDevice.h"

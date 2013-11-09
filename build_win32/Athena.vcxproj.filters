@@ -325,9 +325,6 @@
     <ClInclude Include="..\include\athena\EmitterModifier.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\resources\TgaImage.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\resources\EmitterDescriptor.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
