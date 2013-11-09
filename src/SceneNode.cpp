@@ -10,6 +10,7 @@ CSceneNode::CSceneNode()
 , m_visible(true)
 , m_parent(nullptr)
 , m_hotspot(0, 0, 0)
+, m_worldTransformation(CMatrix4::MakeIdentity())
 , m_worldVisibility(true)
 {
 	m_children.reserve(5);
