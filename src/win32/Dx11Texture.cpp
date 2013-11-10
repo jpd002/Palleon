@@ -167,7 +167,7 @@ void CDx11Texture::Update(const void* data)
 	HRESULT result = m_deviceContext->Map(m_texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
 
-	uint32 srcPitch = c_textureFormatSize[m_format] * m_width;
+	uint32 srcPitch = (c_textureFormatSize[m_format] * m_width) / 8;
 	const uint8* srcPtr = reinterpret_cast<const uint8*>(data);
 	uint8* dstPtr = reinterpret_cast<uint8*>(mappedResource.pData);
 
@@ -194,9 +194,13 @@ void CDx11Texture::Update(const void* data)
 			dstPtr += mappedResource.RowPitch;
 		}
 	}
+	else if(m_format == TEXTURE_FORMAT_DXT1)
+	{
+		assert(mappedResource.DepthPitch == (m_width * m_height * 4 / 8));
+		memcpy(dstPtr, data, mappedResource.DepthPitch);
+	}
 	else
 	{
-		assert(m_format == TEXTURE_FORMAT_RGBA8888);
 		for(uint32 y = 0; y < m_height; y++)
 		{
 			memcpy(dstPtr, srcPtr, srcPitch);

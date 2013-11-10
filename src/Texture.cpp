@@ -5,7 +5,8 @@ using namespace Athena;
 const uint32 Athena::c_textureFormatSize[TEXTURE_FORMAT_MAX] =
 {
 	0,
-	3,
+	24,
+	32,
 	4
 };
 
