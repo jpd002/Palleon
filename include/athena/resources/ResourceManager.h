@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <string>
 #include <assert.h>
 #include "Resource.h"
 #include "TextureResource.h"

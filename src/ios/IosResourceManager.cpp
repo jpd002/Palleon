@@ -27,9 +27,9 @@ void CIosResourceManager::DestroyInstance()
 	delete m_instance;
 }
 
-std::string CIosResourceManager::MakeResourcePath(const char* name) const
+std::string CIosResourceManager::MakeResourcePath(const std::string& name) const
 {
 	NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
-	NSString* fullPath = [NSString stringWithFormat: @"%@/data/%s", bundlePath, name];
+	NSString* fullPath = [NSString stringWithFormat: @"%@/data/%s", bundlePath, name.c_str()];
 	return std::string([fullPath UTF8String]);
 }

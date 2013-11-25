@@ -10,7 +10,7 @@ namespace Athena
 		static void					CreateInstance();
 		static void					DestroyInstance();
 		
-		std::string					MakeResourcePath(const char*) const;
+		virtual std::string			MakeResourcePath(const std::string&) const override;
 		
 	protected:
 									CIosResourceManager();
