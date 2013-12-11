@@ -21,20 +21,57 @@ public:
 		w = cos(angle / 2);
 	}
 
+	CQuaternion(const CMatrix4& matrix)
+	{
+		float tr = matrix(0, 0) + matrix(1, 1) + matrix(2, 2);
+		if(tr > 0)
+		{
+			float s = sqrt(1 + tr) * 2.f;
+			w = s / 4.f;
+			x = (matrix(2, 1) - matrix(1, 2)) / s;
+			y = (matrix(0, 2) - matrix(2, 0)) / s;
+			z = (matrix(1, 0) - matrix(0, 1)) / s;
+		}
+		else if((matrix(0, 0) > matrix(1, 1)) && (matrix(0, 0) > matrix(2, 2)))
+		{
+			float s = sqrt(1.0f + matrix(0, 0) - matrix(1, 1) - matrix(2, 2)) * 2.f;
+			w = (matrix(2, 1) - matrix(1, 2)) / s;
+			x = s / 4.f;
+			y = (matrix(0, 1) + matrix(1, 0)) / s;
+			z = (matrix(0, 2) + matrix(2, 0)) / s;
+		}
+		else if(matrix(1, 1) > matrix(2, 2))
+		{
+			float s = sqrt(1.0f + matrix(1, 1) - matrix(0, 0) - matrix(2, 2)) * 2.f;
+			w = (matrix(0, 2) - matrix(2, 0)) / s;
+			x = (matrix(0, 1) + matrix(1, 0)) / s;
+			y = s / 4.f;
+			z = (matrix(1, 2) + matrix(2, 1)) / s;
+		}
+		else
+		{
+			float s = sqrt(1.0f + matrix(2, 2) - matrix(0, 0) - matrix(1, 1)) * 2.f;
+			w = (matrix(1, 0) - matrix(0, 1)) / s;
+			x = (matrix(0, 2) + matrix(2, 0)) / s;
+			y = (matrix(1, 2) + matrix(2, 1)) / s;
+			z = s / 4.f;
+		}
+	}
+
 	CMatrix4 ToMatrix() const
 	{
 		CMatrix4 result;
 
 		result(0, 0) = 1 - (2 * y * y) - (2 * z * z);
-		result(0, 1) = (2 * x * y) - (2 * z * w);
-		result(0, 2) = (2 * x * z) + (2 * y * w);
+		result(0, 1) =     (2 * x * y) - (2 * z * w);
+		result(0, 2) =     (2 * x * z) + (2 * y * w);
 		
-		result(1, 0) = (2 * x * y) + (2 * z * w);
+		result(1, 0) =     (2 * x * y) + (2 * z * w);
 		result(1, 1) = 1 - (2 * x * x) - (2 * z * z);
-		result(1, 2) = (2 * y * z) + (2 * x * w);
+		result(1, 2) =     (2 * y * z) - (2 * x * w);
 		
-		result(2, 0) = (2 * x * z) - (2 * y * w);
-		result(2, 1) = (2 * y * z) + (2 * x * w);
+		result(2, 0) =     (2 * x * z) - (2 * y * w);
+		result(2, 1) =     (2 * y * z) + (2 * x * w);
 		result(2, 2) = 1 - (2 * x * x) - (2 * y * y);
 
 		result(3, 3) = 1;
