@@ -941,8 +941,11 @@ CDx11GraphicDevice::EFFECTINFO* CDx11GraphicDevice::GetEffectFromMesh(CMesh* mes
 	{
 		if(material->GetTexture(i))
 		{
+			auto textureCoordSource = material->GetTextureCoordSource(i);
+			if(textureCoordSource == TEXTURE_COORD_UV0 && ((descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0) == 0)) continue;
+
 			effectCaps.setHasDiffuseMap(i, true);
-			effectCaps.setDiffuseMapCoordSrc(i, material->GetTextureCoordSource(i));
+			effectCaps.setDiffuseMapCoordSrc(i, textureCoordSource);
 			if(i != 0)
 			{
 				unsigned int combineMode = DIFFUSE_MAP_COMBINE_MODULATE;
