@@ -1,12 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Athena", "Athena.vcxproj", "{F800A366-7ACB-417C-A565-801FC00ADEA1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D} = {553CE050-A97E-4E6E-AE84-057A1F0FA45D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "..\..\Framework\build_win32\Framework.vcxproj", "{553CE050-A97E-4E6E-AE84-057A1F0FA45D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShadowMapping", "..\samples\ShadowMapping\build_win32\ShadowMapping.vcxproj", "{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{0567878D-1785-4B68-A9A4-9654996BE6D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib-1.2.8", "..\..\zlib-1.2.8\zlib-1.2.8.vcxproj", "{4A0B5134-AB23-452D-8513-8225FA178356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,8 +42,27 @@ Global
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Release|Win32.Build.0 = Release|Win32
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Release|x64.ActiveCfg = Release|x64
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D}.Release|x64.Build.0 = Release|x64
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Debug|Win32.Build.0 = Debug|Win32
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Debug|x64.ActiveCfg = Debug|Win32
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Release|Win32.ActiveCfg = Release|Win32
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Release|Win32.Build.0 = Release|Win32
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF}.Release|x64.ActiveCfg = Release|Win32
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Debug|Win32.Build.0 = Debug|Win32
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Debug|x64.ActiveCfg = Debug|x64
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Debug|x64.Build.0 = Debug|x64
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|Win32.ActiveCfg = Release|Win32
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|Win32.Build.0 = Release|Win32
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|x64.ActiveCfg = Release|x64
+		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{553CE050-A97E-4E6E-AE84-057A1F0FA45D} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
+		{4A0B5134-AB23-452D-8513-8225FA178356} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
+		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 	EndGlobalSection
 EndGlobal
