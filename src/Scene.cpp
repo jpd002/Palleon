@@ -68,6 +68,7 @@ SceneNodePtr CScene::FindNode(const std::string& name)
 			return true;
 		}
 	);
+	assert(result);
 	return result;
 }
 
