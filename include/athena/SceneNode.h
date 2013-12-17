@@ -39,6 +39,7 @@ namespace Athena
 		void							PrependChild(const SceneNodePtr&);
 		void							AppendChildAfter(const SceneNodePtr&, const SceneNodePtr&);
 		void							RemoveChild(const SceneNodePtr&);
+		void							RemoveAllChildren();
 
 		CSceneNode*						GetParent() const;
 
