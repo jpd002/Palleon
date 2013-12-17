@@ -69,7 +69,17 @@ void CSceneNode::RemoveChild(const SceneNodePtr& node)
 	assert(nodeIterator != m_children.end());
 	assert(node->m_parent == this);
 	m_children.erase(nodeIterator);
-	node->m_parent = NULL;
+	node->m_parent = nullptr;
+}
+
+void CSceneNode::RemoveAllChildren()
+{
+	for(auto& node : m_children)
+	{
+		assert(node->m_parent == this);
+		node->m_parent = nullptr;
+	}
+	m_children.clear();
 }
 
 CSceneNode* CSceneNode::GetParent() const
