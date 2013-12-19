@@ -2,30 +2,14 @@
 #include "athena/win32/Dx11GraphicDevice.h"
 #include "athena/win32/Dx11VertexBuffer.h"
 #include "athena/win32/Dx11Texture.h"
+#include "athena/win32/Dx11UberEffect.h"
+#include "athena/win32/Dx11ShadowMapEffect.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
-#include <D3Dcompiler.h>
 
 #define SHADOW_MAP_SIZE		2048
 
 using namespace Athena;
-
-struct OffsetKeeper
-{
-	OffsetKeeper()
-	{
-		currentOffset = 0;
-	}
-
-	uint32 Allocate(uint32 size)
-	{
-		uint32 result = currentOffset;
-		currentOffset += size;
-		return result;
-	}
-
-	uint32 currentOffset;
-};
 
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_parentWnd(parentWnd)
@@ -35,12 +19,13 @@ CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSiz
 
 	CreateDevice();
 	CreateShadowMap();
-	m_shadowMapEffect = GenerateShadowMapEffect();
+	m_shadowMapEffect = std::make_shared<CDx11ShadowMapEffect>(m_device, m_deviceContext);
 }
 
 CDx11GraphicDevice::~CDx11GraphicDevice()
 {
 	m_effects.clear();
+	m_shadowMapEffect.reset();
 }
 
 void CDx11GraphicDevice::CreateDevice()
@@ -255,268 +240,6 @@ CubeRenderTargetPtr CDx11GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT te
 	return CubeRenderTargetPtr();
 }
 
-CDx11GraphicDevice::D3D11InputLayoutPtr CDx11GraphicDevice::CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor, ID3DBlob* vertexShaderCode)
-{
-	typedef std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementArray;
-
-	InputElementArray inputElements;
-
-	uint32 vertexFlags = descriptor.vertexFlags;
-
-	if(vertexFlags & VERTEX_BUFFER_HAS_POS)
-	{
-		D3D11_INPUT_ELEMENT_DESC inputElement = {};
-		inputElement.SemanticName			= "POSITION";
-		inputElement.SemanticIndex			= 0;
-		inputElement.Format					= DXGI_FORMAT_R32G32B32_FLOAT;
-		inputElement.AlignedByteOffset		= descriptor.posOffset;
-		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-		inputElement.InstanceDataStepRate	= 0;
-		inputElements.push_back(inputElement);
-	}
-
-	if(vertexFlags & VERTEX_BUFFER_HAS_NRM)
-	{
-		D3D11_INPUT_ELEMENT_DESC inputElement = {};
-		inputElement.SemanticName			= "NORMAL";
-		inputElement.SemanticIndex			= 0;
-		inputElement.Format					= DXGI_FORMAT_R32G32B32_FLOAT;
-		inputElement.AlignedByteOffset		= descriptor.nrmOffset;
-		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-		inputElement.InstanceDataStepRate	= 0;
-		inputElements.push_back(inputElement);
-	}
-
-	if(vertexFlags & VERTEX_BUFFER_HAS_UV0)
-	{
-		D3D11_INPUT_ELEMENT_DESC inputElement = {};
-		inputElement.SemanticName			= "TEXCOORD";
-		inputElement.SemanticIndex			= 0;
-		inputElement.Format					= DXGI_FORMAT_R32G32_FLOAT;
-		inputElement.AlignedByteOffset		= descriptor.uv0Offset;
-		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-		inputElement.InstanceDataStepRate	= 0;
-		inputElements.push_back(inputElement);
-	}
-
-	if(vertexFlags & VERTEX_BUFFER_HAS_UV1)
-	{
-		D3D11_INPUT_ELEMENT_DESC inputElement = {};
-		inputElement.SemanticName			= "TEXCOORD";
-		inputElement.SemanticIndex			= 1;
-		inputElement.Format					= DXGI_FORMAT_R32G32_FLOAT;
-		inputElement.AlignedByteOffset		= descriptor.uv1Offset;
-		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-		inputElement.InstanceDataStepRate	= 0;
-		inputElements.push_back(inputElement);
-	}
-
-	if(vertexFlags & VERTEX_BUFFER_HAS_COLOR)
-	{
-		D3D11_INPUT_ELEMENT_DESC inputElement = {};
-		inputElement.SemanticName			= "COLOR";
-		inputElement.SemanticIndex			= 0;
-		inputElement.Format					= DXGI_FORMAT_R8G8B8A8_UNORM;
-		inputElement.AlignedByteOffset		= descriptor.colorOffset;
-		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
-		inputElement.InstanceDataStepRate	= 0;
-		inputElements.push_back(inputElement);
-	}
-
-	D3D11InputLayoutPtr inputLayout;
-	HRESULT result = m_device->CreateInputLayout(inputElements.data(), inputElements.size(), 
-		vertexShaderCode->GetBufferPointer(), vertexShaderCode->GetBufferSize(), &inputLayout);
-	assert(SUCCEEDED(result));
-
-	return inputLayout;
-}
-
-void CDx11GraphicDevice::GenerateEffect(const CDx11EffectGenerator::EFFECTCAPS& effectCaps)
-{
-	EFFECTINFO newEffect;
-	std::string vertexShaderText = CDx11EffectGenerator::GenerateVertexShader(effectCaps);
-	std::string pixelShaderText = CDx11EffectGenerator::GeneratePixelShader(effectCaps);
-
-	HRESULT result = S_OK;
-
-	{
-		Framework::Win32::CComPtr<ID3DBlob> vertexShaderCode;
-		Framework::Win32::CComPtr<ID3DBlob> vertexShaderErrors;
-
-		result = D3DCompile(vertexShaderText.c_str(), vertexShaderText.length() + 1, "vs", nullptr, nullptr, "VertexProgram", 
-			"vs_5_0", D3DCOMPILE_DEBUG, 0, &vertexShaderCode, &vertexShaderErrors);
-		if(FAILED(result))
-		{
-			if(!vertexShaderErrors.IsEmpty())
-			{
-				OutputDebugStringA(vertexShaderText.c_str());
-				OutputDebugStringA("\r\n");
-				OutputDebugStringA(reinterpret_cast<const char*>(vertexShaderErrors->GetBufferPointer()));
-			}
-			DebugBreak();
-		}
-
-		result = m_device->CreateVertexShader(vertexShaderCode->GetBufferPointer(), vertexShaderCode->GetBufferSize(), nullptr, &newEffect.vertexShader);
-		assert(SUCCEEDED(result));
-
-		newEffect.vertexShaderCode = vertexShaderCode;
-	}
-
-	{
-		Framework::Win32::CComPtr<ID3DBlob> pixelShaderCode;
-		Framework::Win32::CComPtr<ID3DBlob> pixelShaderErrors;
-
-		result = D3DCompile(pixelShaderText.c_str(), pixelShaderText.length() + 1, "ps", nullptr, nullptr, "PixelProgram",
-			"ps_5_0", D3DCOMPILE_DEBUG, 0, &pixelShaderCode, &pixelShaderErrors);
-		if(FAILED(result))
-		{
-			if(!pixelShaderErrors.IsEmpty())
-			{
-				OutputDebugStringA(pixelShaderText.c_str());
-				OutputDebugStringA("\r\n");
-				OutputDebugStringA(reinterpret_cast<const char*>(pixelShaderErrors->GetBufferPointer()));
-			}
-			DebugBreak();
-		}
-
-		result = m_device->CreatePixelShader(pixelShaderCode->GetBufferPointer(), pixelShaderCode->GetBufferSize(), nullptr, &newEffect.pixelShader);
-		assert(SUCCEEDED(result));
-	}
-
-	OffsetKeeper constantOffset;
-
-	newEffect.meshColorOffset				= constantOffset.Allocate(0x10);
-	newEffect.worldMatrixOffset				= constantOffset.Allocate(0x40);
-	newEffect.viewProjMatrixOffset			= constantOffset.Allocate(0x40);
-	
-	if(effectCaps.hasShadowMap)		newEffect.shadowViewProjMatrixOffset	= constantOffset.Allocate(0x40);
-	if(effectCaps.hasDiffuseMap0)	newEffect.diffuseTextureMatrixOffset[0] = constantOffset.Allocate(0x40);
-	if(effectCaps.hasDiffuseMap1)	newEffect.diffuseTextureMatrixOffset[1] = constantOffset.Allocate(0x40);
-	if(effectCaps.hasDiffuseMap2)	newEffect.diffuseTextureMatrixOffset[2] = constantOffset.Allocate(0x40);
-	if(effectCaps.hasDiffuseMap3)	newEffect.diffuseTextureMatrixOffset[3] = constantOffset.Allocate(0x40);
-	if(effectCaps.hasDiffuseMap4)	newEffect.diffuseTextureMatrixOffset[4] = constantOffset.Allocate(0x40);
-
-	{
-		D3D11_BUFFER_DESC bufferDesc = {};
-		bufferDesc.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
-		bufferDesc.ByteWidth		= constantOffset.currentOffset;
-		bufferDesc.Usage			= D3D11_USAGE_DYNAMIC;
-		bufferDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
-
-		result = m_device->CreateBuffer(&bufferDesc, nullptr, &newEffect.constantBuffer);
-		assert(SUCCEEDED(result));
-	}
-
-	uint32 effectKey = *reinterpret_cast<const uint32*>(&effectCaps);
-	m_effects[effectKey] = newEffect;
-}
-
-CDx11GraphicDevice::EFFECTINFO CDx11GraphicDevice::GenerateShadowMapEffect()
-{
-	static const char* g_vertexShader =
-	{
-		"cbuffer MatrixBuffer"
-		"{"
-		"matrix c_worldMatrix;"
-		"matrix c_viewProjMatrix;"
-		"};"
-		"struct VertexInputType"
-		"{"
-		"float3 position : POSITION;"
-		"};"
-		"struct PixelInputType"
-		"{"
-		"float4 position : SV_POSITION;"
-		"};"
-		"PixelInputType VertexProgram(VertexInputType input)"
-		"{"
-		"PixelInputType output;"
-		"output.position = mul(c_worldMatrix, float4(input.position, 1));"
-		"output.position = mul(c_viewProjMatrix, output.position);"
-		"return output;"
-		"}"
-	};
-
-	static const char* g_pixelShader =
-	{
-		"struct PixelInputType"
-		"{"
-		"float4 position : SV_POSITION;"
-		"};"
-		"float4 PixelProgram(PixelInputType input) : SV_TARGET"
-		"{"
-		"return float4(input.position.z, 0, 0, 0);"
-		"}"
-	};
-
-	std::string vertexShaderText = g_vertexShader;
-	std::string pixelShaderText = g_pixelShader;
-	HRESULT result = S_OK;
-	EFFECTINFO newEffect;
-
-	{
-		Framework::Win32::CComPtr<ID3DBlob> vertexShaderCode;
-		Framework::Win32::CComPtr<ID3DBlob> vertexShaderErrors;
-
-		result = D3DCompile(vertexShaderText.c_str(), vertexShaderText.length() + 1, "vs", nullptr, nullptr, "VertexProgram", 
-			"vs_5_0", D3DCOMPILE_DEBUG, 0, &vertexShaderCode, &vertexShaderErrors);
-		if(FAILED(result))
-		{
-			if(!vertexShaderErrors.IsEmpty())
-			{
-				OutputDebugStringA(vertexShaderText.c_str());
-				OutputDebugStringA("\r\n");
-				OutputDebugStringA(reinterpret_cast<const char*>(vertexShaderErrors->GetBufferPointer()));
-			}
-			DebugBreak();
-		}
-
-		result = m_device->CreateVertexShader(vertexShaderCode->GetBufferPointer(), vertexShaderCode->GetBufferSize(), nullptr, &newEffect.vertexShader);
-		assert(SUCCEEDED(result));
-
-		newEffect.vertexShaderCode = vertexShaderCode;
-	}
-
-	{
-		Framework::Win32::CComPtr<ID3DBlob> pixelShaderCode;
-		Framework::Win32::CComPtr<ID3DBlob> pixelShaderErrors;
-
-		result = D3DCompile(pixelShaderText.c_str(), pixelShaderText.length() + 1, "ps", nullptr, nullptr, "PixelProgram",
-			"ps_5_0", D3DCOMPILE_DEBUG, 0, &pixelShaderCode, &pixelShaderErrors);
-		if(FAILED(result))
-		{
-			if(!pixelShaderErrors.IsEmpty())
-			{
-				OutputDebugStringA(pixelShaderText.c_str());
-				OutputDebugStringA("\r\n");
-				OutputDebugStringA(reinterpret_cast<const char*>(pixelShaderErrors->GetBufferPointer()));
-			}
-			DebugBreak();
-		}
-
-		result = m_device->CreatePixelShader(pixelShaderCode->GetBufferPointer(), pixelShaderCode->GetBufferSize(), nullptr, &newEffect.pixelShader);
-		assert(SUCCEEDED(result));
-	}
-
-	OffsetKeeper constantOffset;
-
-	newEffect.worldMatrixOffset			= constantOffset.Allocate(0x40);
-	newEffect.viewProjMatrixOffset		= constantOffset.Allocate(0x40);
-
-	{
-		D3D11_BUFFER_DESC bufferDesc = {};
-		bufferDesc.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
-		bufferDesc.ByteWidth		= constantOffset.currentOffset;
-		bufferDesc.Usage			= D3D11_USAGE_DYNAMIC;
-		bufferDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
-
-		result = m_device->CreateBuffer(&bufferDesc, nullptr, &newEffect.constantBuffer);
-		assert(SUCCEEDED(result));
-	}
-
-	return newEffect;
-}
-
 ID3D11BlendState* CDx11GraphicDevice::GetBlendState(ALPHA_BLENDING_MODE blendingMode)
 {
 	if(m_blendStates[blendingMode].IsEmpty())
@@ -715,8 +438,8 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	for(const auto& mesh : m_renderQueue)
 	{
-		auto effectInfo = GetEffectFromMesh(mesh, shadowCamera != nullptr);
-		DrawMesh(mesh, effectInfo, viewProjMatrix, shadowViewProjMatrix);
+		auto effect = GetEffectFromMesh(mesh, shadowCamera != nullptr);
+		DrawMesh(mesh, effect, viewProjMatrix, shadowCamera != nullptr, shadowViewProjMatrix);
 	}
 }
 
@@ -765,15 +488,17 @@ void CDx11GraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
 	for(const auto& mesh : m_renderQueue)
 	{
-		DrawMesh(mesh, &m_shadowMapEffect, viewProjMatrix);
+		DrawMesh(mesh, m_shadowMapEffect, viewProjMatrix);
 	}
 }
 
-void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix)
+void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, const CMatrix4& viewProjMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 
 	HRESULT result = S_OK;
+
+	assert(effect);
 
 	auto vertexBufferGen = std::static_pointer_cast<CDx11VertexBuffer>(mesh->GetVertexBuffer());
 	assert(vertexBufferGen);
@@ -782,57 +507,14 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 	auto vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	auto indexBuffer = vertexBufferGen->GetIndexBuffer();
 
-	const auto& worldMatrix(mesh->GetWorldTransformation());
-
 	auto material = mesh->GetMaterial();
 	assert(material);
-	CColor meshColor = material->GetColor();
 
 	//Setup material
 	{
-		D3D11InputLayoutPtr inputLayout;
-		uint64 descriptorKey = descriptor.MakeKey();
-		{
-			auto inputLayoutIterator(currentEffect->inputLayouts.find(descriptorKey));
-			if(inputLayoutIterator == std::end(currentEffect->inputLayouts))
-			{
-				inputLayout = CreateInputLayout(descriptor, currentEffect->vertexShaderCode);
-				currentEffect->inputLayouts[descriptorKey] = inputLayout;
-			}
-			else
-			{
-				inputLayout = inputLayoutIterator->second;
-			}
-		}
+		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewProjMatrix, shadowViewProjMatrix);
 
-		{
-			D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-			result = m_deviceContext->Map(currentEffect->constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-			assert(SUCCEEDED(result));
-
-			auto constantBufferPtr = reinterpret_cast<uint8*>(mappedResource.pData);
-			if(currentEffect->meshColorOffset != -1)
-			{
-				*reinterpret_cast<CColor*>(constantBufferPtr + currentEffect->meshColorOffset) = meshColor;
-			}
-			*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->worldMatrixOffset) = worldMatrix;
-			*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->viewProjMatrixOffset) = viewProjMatrix;
-			if(currentEffect->shadowViewProjMatrixOffset != -1)
-			{
-				*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->shadowViewProjMatrixOffset) = shadowViewProjMatrix;
-			}
-
-			for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
-			{
-				if(currentEffect->diffuseTextureMatrixOffset[i] != -1)
-				{
-					const auto& textureMatrix = material->GetTextureMatrix(i);
-					*reinterpret_cast<CMatrix4*>(constantBufferPtr + currentEffect->diffuseTextureMatrixOffset[i]) = textureMatrix;
-				}
-			}
-
-			m_deviceContext->Unmap(currentEffect->constantBuffer, 0);
-		}
+		auto inputLayout = effect->GetInputLayout(descriptor);
 
 		unsigned int textureCount = 0;
 		ID3D11ShaderResourceView* textureViews[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
@@ -854,7 +536,7 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 			}
 		}
 
-		if(currentEffect->shadowViewProjMatrixOffset != -1)
+		if(hasShadowMap)
 		{
 			samplerStates[textureCount] = m_defaultSamplerState;
 			textureViews[textureCount] = m_shadowMapView;
@@ -862,9 +544,9 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 		}
 
 		m_deviceContext->IASetInputLayout(inputLayout);
-		m_deviceContext->VSSetConstantBuffers(0, 1, &currentEffect->constantBuffer);
-		m_deviceContext->VSSetShader(currentEffect->vertexShader, nullptr, 0);
-		m_deviceContext->PSSetShader(currentEffect->pixelShader, nullptr, 0);
+		m_deviceContext->VSSetConstantBuffers(0, 1, &effect->GetConstantBuffer());
+		m_deviceContext->VSSetShader(effect->GetVertexShader(), nullptr, 0);
+		m_deviceContext->PSSetShader(effect->GetPixelShader(), nullptr, 0);
 		m_deviceContext->PSSetShaderResources(0, textureCount, textureViews);
 		m_deviceContext->PSSetSamplers(0, textureCount, samplerStates);
 
@@ -917,7 +599,7 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, EFFECTINFO* currentEffect, const 
 	m_drawCallCount++;
 }
 
-CDx11GraphicDevice::EFFECTINFO* CDx11GraphicDevice::GetEffectFromMesh(CMesh* mesh, bool hasShadowMap)
+Dx11EffectPtr CDx11GraphicDevice::GetEffectFromMesh(CMesh* mesh, bool hasShadowMap)
 {
 	auto vertexBufferGen = std::static_pointer_cast<CDx11VertexBuffer>(mesh->GetVertexBuffer());
 	assert(vertexBufferGen);
@@ -971,11 +653,12 @@ CDx11GraphicDevice::EFFECTINFO* CDx11GraphicDevice::GetEffectFromMesh(CMesh* mes
 	auto effectIterator = m_effects.find(effectKey);
 	if(effectIterator == std::end(m_effects))
 	{
-		GenerateEffect(effectCaps);
+		auto effect = std::make_shared<CDx11UberEffect>(m_device, m_deviceContext, effectCaps);
+		m_effects.insert(std::make_pair(effectKey, effect));
 		effectIterator = m_effects.find(effectKey);
 	}
 
-	return &effectIterator->second;
+	return effectIterator->second;
 }
 
 uint32 CGraphicDevice::ConvertColorToUInt32(const CColor& color)
