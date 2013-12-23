@@ -26,6 +26,9 @@
     <Filter Include="Source Files\audio">
       <UniqueIdentifier>{6a603b3f-249e-497b-9dd4-19af939286d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\win32\UberEffect">
+      <UniqueIdentifier>{12a6ee9b-9fd4-4099-93a6-e939f3392ae3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ConfigManager.cpp">
@@ -133,9 +136,6 @@
     <ClCompile Include="..\src\win32\Dx11VertexBuffer.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx11EffectGenerator.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Dx11Texture.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
@@ -169,11 +169,17 @@
     <ClCompile Include="..\src\win32\Dx11Effect.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx11UberEffect.cpp">
-      <Filter>Source Files\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Dx11ShadowMapEffect.cpp">
       <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11UberEffect.cpp">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11UberEffectGenerator.cpp">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11UberEffectProvider.cpp">
+      <Filter>Source Files\win32\UberEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,9 +331,6 @@
     <ClInclude Include="..\include\athena\win32\Dx11VertexBuffer.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11EffectGenerator.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\win32\Dx11Texture.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
@@ -367,11 +370,23 @@
     <ClInclude Include="..\include\athena\win32\Dx11Effect.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11UberEffect.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\win32\Dx11ShadowMapEffect.h">
       <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\EffectProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\Effect.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11UberEffect.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11UberEffectGenerator.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\win32\Dx11UberEffectProvider.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

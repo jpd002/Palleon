@@ -8,13 +8,14 @@
 #include "athena/Matrix4.h"
 #include "athena/Material.h"
 #include "athena/VertexBuffer.h"
+#include "athena/Effect.h"
 
 namespace Athena
 {
 	class CDx11Effect;
 	typedef std::shared_ptr<CDx11Effect> Dx11EffectPtr;
 
-	class CDx11Effect
+	class CDx11Effect : public CEffect
 	{
 	public:
 		typedef Framework::Win32::CComPtr<ID3D11VertexShader> D3D11VertexShaderPtr;

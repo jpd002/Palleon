@@ -39,9 +39,14 @@ enum DIFFUSE_MAP_COMBINE_MODE
 
 namespace Athena
 {
-	class CDx11EffectGenerator
+	class CDx11UberEffectGenerator
 	{
 	public:
+		enum 
+		{
+			MAX_DIFFUSE_SLOTS = 5
+		};
+
 		struct EFFECTCAPS
 		{
 			unsigned int hasVertexColor		: 1;

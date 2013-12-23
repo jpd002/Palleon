@@ -2,9 +2,9 @@
 
 #include <d3d11.h>
 #include <unordered_map>
-#include "../GraphicDevice.h"
-#include "../Mesh.h"
-#include "../win32/Dx11Effect.h"
+#include "athena/GraphicDevice.h"
+#include "athena/Mesh.h"
+#include "athena/win32/Dx11Effect.h"
 #include "win32/ComPtr.h"
 
 namespace Athena
@@ -31,6 +31,8 @@ namespace Athena
 		virtual RenderTargetPtr			CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32);
 		virtual CubeRenderTargetPtr		CreateCubeRenderTarget(TEXTURE_FORMAT, uint32);
 
+		ID3D11Device*					GetDevice() const;
+		ID3D11DeviceContext*			GetDeviceContext() const;
 		HWND							GetParentWindow() const;
 
 		void							SetFrameRate(float);
@@ -71,7 +73,6 @@ namespace Athena
 		typedef std::unordered_map<uint32, D3D11SamplerStatePtr> SamplerStateMap;
 
 		typedef std::vector<CMesh*> RenderQueue;
-		typedef std::unordered_map<uint32, Dx11EffectPtr> EffectMap;
 
 										CDx11GraphicDevice(HWND, const CVector2&);
 		virtual							~CDx11GraphicDevice();
@@ -87,8 +88,6 @@ namespace Athena
 		void							DrawViewportMainMap(CViewport*);
 		void							DrawViewportShadowMap(CViewport*);
 		void							DrawMesh(CMesh*, const Dx11EffectPtr&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4::MakeIdentity());
-
-		Dx11EffectPtr					GetEffectFromMesh(CMesh*, bool);
 
 		HWND													m_parentWnd;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
@@ -109,7 +108,6 @@ namespace Athena
 		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_shadowMapRenderView;
 		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_shadowDepthMapView;
 
-		EffectMap						m_effects;
 		RenderQueue						m_renderQueue;
 
 		Dx11EffectPtr					m_shadowMapEffect;

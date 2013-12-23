@@ -1,9 +1,9 @@
-#ifndef _MESH_H_
-#define _MESH_H_
+#pragma once
 
 #include "SceneNode.h"
 #include "VertexBuffer.h"
 #include "Material.h"
+#include "EffectProvider.h"
 
 namespace Athena
 {
@@ -17,30 +17,32 @@ namespace Athena
 	class CMesh : public CSceneNode
 	{
 	public:
-		virtual				~CMesh();
+		virtual					~CMesh();
 
-		VertexBufferPtr		GetVertexBuffer() const;
+		VertexBufferPtr			GetVertexBuffer() const;
 
-		MaterialPtr			GetMaterial() const;
-		void				SetMaterial(const MaterialPtr&);
+		MaterialPtr				GetMaterial() const;
+		void					SetMaterial(const MaterialPtr&);
 
-		PRIMITIVE_TYPE		GetPrimitiveType() const;
-		uint32				GetPrimitiveCount() const;
+		EffectProviderPtr		GetEffectProvider() const;
+		void					SetEffectProvider(const EffectProviderPtr&);
 
-		bool				GetIsPeggedToOrigin() const;
-		void				SetIsPeggedToOrigin(bool);
+		PRIMITIVE_TYPE			GetPrimitiveType() const;
+		uint32					GetPrimitiveCount() const;
+
+		bool					GetIsPeggedToOrigin() const;
+		void					SetIsPeggedToOrigin(bool);
 
 	protected:
-							CMesh();
+								CMesh();
 
-		VertexBufferPtr		m_vertexBuffer;
-		MaterialPtr			m_material;
-		PRIMITIVE_TYPE		m_primitiveType;
-		uint32				m_primitiveCount;
-		bool				m_isPeggedToOrigin;
+		VertexBufferPtr			m_vertexBuffer;
+		MaterialPtr				m_material;
+		EffectProviderPtr		m_effectProvider;
+		PRIMITIVE_TYPE			m_primitiveType;
+		uint32					m_primitiveCount;
+		bool					m_isPeggedToOrigin;
 	};
 
 	typedef std::shared_ptr<CMesh> MeshPtr;
 }
-
-#endif

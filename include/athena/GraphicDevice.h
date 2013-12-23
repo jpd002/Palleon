@@ -8,6 +8,7 @@
 #include "RenderTarget.h"
 #include "CubeRenderTarget.h"
 #include "Color.h"
+#include "EffectProvider.h"
 
 namespace Athena
 {
@@ -38,6 +39,8 @@ namespace Athena
 
 		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) = 0;
 		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) = 0;
+		
+		EffectProviderPtr					GetDefaultEffectProvider() const;
 
 		void								AddViewport(CViewport*);
 		void								AddViewportAfter(CViewport*, CViewport*);
@@ -57,5 +60,7 @@ namespace Athena
 
 		uint32								m_drawCallCount;
 		float								m_frameRate;
+
+		EffectProviderPtr					m_defaultEffectProvider;
 	};
 }

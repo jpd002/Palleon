@@ -1,4 +1,4 @@
-#include "athena/win32/Dx11EffectGenerator.h"
+#include "athena/win32/Dx11UberEffectGenerator.h"
 #include <stdarg.h>
 
 using namespace Athena;
@@ -13,7 +13,7 @@ std::string PrintLine(const char* format, ...)
 	return std::string(buffer) + std::string("\r\n");
 }
 
-std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
+std::string CDx11UberEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 {
 	bool needsTexCoord0 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV0);
 	bool needsTexCoord1 = HasCoordSrc(caps, DIFFUSE_MAP_COORD_UV1);
@@ -90,7 +90,7 @@ std::string CDx11EffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps)
 	return result;
 }
 
-std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
+std::string CDx11UberEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 {
 	std::string result;
 
@@ -145,7 +145,7 @@ std::string CDx11EffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	return result;
 }
 
-bool CDx11EffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texCoordSource)
+bool CDx11UberEffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texCoordSource)
 {
 	return 
 		(caps.hasDiffuseMap0 && (caps.diffuseMap0CoordSrc == texCoordSource)) || 
@@ -155,7 +155,7 @@ bool CDx11EffectGenerator::HasCoordSrc(const EFFECTCAPS& caps, unsigned int texC
 		(caps.hasDiffuseMap4 && (caps.diffuseMap4CoordSrc == texCoordSource));
 }
 
-std::string CDx11EffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 	switch(source)
@@ -172,7 +172,7 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapCoordOutput(unsigned int ind
 	return result;
 }
 
-std::string CDx11EffectGenerator::GenerateDiffuseMapCoordComputation(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapCoordComputation(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 
@@ -195,7 +195,7 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapCoordComputation(unsigned in
 	return result;
 }
 
-std::string CDx11EffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
 {
 	std::string result;
 
@@ -205,7 +205,7 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
 	return result;
 }
 
-std::string CDx11EffectGenerator::GenerateDiffuseMapMatrix(unsigned int index)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapMatrix(unsigned int index)
 {
 	std::string result;
 
@@ -214,7 +214,7 @@ std::string CDx11EffectGenerator::GenerateDiffuseMapMatrix(unsigned int index)
 	return result;
 }
 
-std::string CDx11EffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
 {
 	std::string result;
 

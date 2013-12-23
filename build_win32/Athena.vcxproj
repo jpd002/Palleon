@@ -58,11 +58,12 @@
     <ClCompile Include="..\src\Viewport.cpp" />
     <ClCompile Include="..\src\Widget.cpp" />
     <ClCompile Include="..\src\win32\Dx11Effect.cpp" />
-    <ClCompile Include="..\src\win32\Dx11EffectGenerator.cpp" />
     <ClCompile Include="..\src\win32\Dx11GraphicDevice.cpp" />
     <ClCompile Include="..\src\win32\Dx11ShadowMapEffect.cpp" />
     <ClCompile Include="..\src\win32\Dx11Texture.cpp" />
     <ClCompile Include="..\src\win32\Dx11UberEffect.cpp" />
+    <ClCompile Include="..\src\win32\Dx11UberEffectGenerator.cpp" />
+    <ClCompile Include="..\src\win32\Dx11UberEffectProvider.cpp" />
     <ClCompile Include="..\src\win32\Dx11VertexBuffer.cpp" />
     <ClCompile Include="..\src\win32\Win32ApplicationWindow.cpp" />
     <ClCompile Include="..\src\win32\Win32AudioClip.cpp" />
@@ -84,6 +85,8 @@
     <ClInclude Include="..\include\athena\ConfigManager.h" />
     <ClInclude Include="..\include\athena\CubeMesh.h" />
     <ClInclude Include="..\include\athena\CubeRenderTarget.h" />
+    <ClInclude Include="..\include\athena\Effect.h" />
+    <ClInclude Include="..\include\athena\EffectProvider.h" />
     <ClInclude Include="..\include\athena\Emitter.h" />
     <ClInclude Include="..\include\athena\EmitterModifier.h" />
     <ClInclude Include="..\include\athena\Frustum.h" />
@@ -126,11 +129,12 @@
     <ClInclude Include="..\include\athena\Viewport.h" />
     <ClInclude Include="..\include\athena\Widget.h" />
     <ClInclude Include="..\include\athena\win32\Dx11Effect.h" />
-    <ClInclude Include="..\include\athena\win32\Dx11EffectGenerator.h" />
     <ClInclude Include="..\include\athena\win32\Dx11GraphicDevice.h" />
     <ClInclude Include="..\include\athena\win32\Dx11ShadowMapEffect.h" />
     <ClInclude Include="..\include\athena\win32\Dx11Texture.h" />
     <ClInclude Include="..\include\athena\win32\Dx11UberEffect.h" />
+    <ClInclude Include="..\include\athena\win32\Dx11UberEffectGenerator.h" />
+    <ClInclude Include="..\include\athena\win32\Dx11UberEffectProvider.h" />
     <ClInclude Include="..\include\athena\win32\Dx11VertexBuffer.h" />
     <ClInclude Include="..\include\athena\win32\Win32ApplicationWindow.h" />
     <ClInclude Include="..\include\athena\win32\Win32AudioClip.h" />

@@ -8,8 +8,8 @@ CDx11UberEffect::CDx11UberEffect(ID3D11Device* device, ID3D11DeviceContext* devi
 {
 	memset(&m_diffuseTextureMatrixOffset, -1, sizeof(m_diffuseTextureMatrixOffset));
 
-	auto vertexShaderText = CDx11EffectGenerator::GenerateVertexShader(effectCaps);
-	auto pixelShaderText = CDx11EffectGenerator::GeneratePixelShader(effectCaps);
+	auto vertexShaderText = CDx11UberEffectGenerator::GenerateVertexShader(effectCaps);
+	auto pixelShaderText = CDx11UberEffectGenerator::GeneratePixelShader(effectCaps);
 
 	CompileVertexShader(vertexShaderText);
 	CompilePixelShader(pixelShaderText);
@@ -53,7 +53,7 @@ void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix
 		*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_shadowViewProjMatrixOffset) = shadowViewProjMatrix;
 	}
 
-	for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+	for(unsigned int i = 0; i < CDx11UberEffectGenerator::MAX_DIFFUSE_SLOTS; i++)
 	{
 		if(m_diffuseTextureMatrixOffset[i] != -1)
 		{

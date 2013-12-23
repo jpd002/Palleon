@@ -42,6 +42,11 @@ float CGraphicDevice::GetFrameRate() const
 	return m_frameRate;
 }
 
+EffectProviderPtr CGraphicDevice::GetDefaultEffectProvider() const
+{
+	return m_defaultEffectProvider;
+}
+
 void CGraphicDevice::AddViewport(CViewport* viewport)
 {
 	assert(std::find(std::begin(m_viewports), std::end(m_viewports), viewport) == std::end(m_viewports));

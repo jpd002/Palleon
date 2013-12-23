@@ -1,4 +1,5 @@
 #include "athena/Mesh.h"
+#include "athena/GraphicDevice.h"
 
 using namespace Athena;
 
@@ -6,6 +7,7 @@ CMesh::CMesh()
 : m_primitiveType(PRIMITIVE_INVALID)
 , m_primitiveCount(0)
 , m_material(CMaterial::Create())
+, m_effectProvider(CGraphicDevice::GetInstance().GetDefaultEffectProvider())
 , m_isPeggedToOrigin(false)
 {
 
@@ -29,6 +31,16 @@ MaterialPtr CMesh::GetMaterial() const
 void CMesh::SetMaterial(const MaterialPtr& material)
 {
 	m_material = material;
+}
+
+EffectProviderPtr CMesh::GetEffectProvider() const
+{
+	return m_effectProvider;
+}
+
+void CMesh::SetEffectProvider(const EffectProviderPtr& effectProvider)
+{
+	m_effectProvider = effectProvider;
 }
 
 PRIMITIVE_TYPE CMesh::GetPrimitiveType() const
