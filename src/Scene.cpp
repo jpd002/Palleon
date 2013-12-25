@@ -140,7 +140,7 @@ template <typename ValueType>
 static ValueType GetValueFromItemInfo(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const ValueType& defaultValue);
 
 template <>
-static float GetValueFromItemInfo<float>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const float& defaultValue)
+float GetValueFromItemInfo<float>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const float& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
@@ -154,7 +154,7 @@ static float GetValueFromItemInfo<float>(const CSceneDescriptor::ItemInfo& itemI
 }
 
 template <>
-static CVector2 GetValueFromItemInfo<CVector2>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CVector2& defaultValue)
+CVector2 GetValueFromItemInfo<CVector2>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CVector2& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
@@ -168,7 +168,7 @@ static CVector2 GetValueFromItemInfo<CVector2>(const CSceneDescriptor::ItemInfo&
 }
 
 template <>
-static CVector3 GetValueFromItemInfo<CVector3>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CVector3& defaultValue)
+CVector3 GetValueFromItemInfo<CVector3>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CVector3& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
@@ -182,7 +182,7 @@ static CVector3 GetValueFromItemInfo<CVector3>(const CSceneDescriptor::ItemInfo&
 }
 
 template <>
-static CColor GetValueFromItemInfo<CColor>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CColor& defaultValue)
+CColor GetValueFromItemInfo<CColor>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const CColor& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
@@ -196,7 +196,7 @@ static CColor GetValueFromItemInfo<CColor>(const CSceneDescriptor::ItemInfo& ite
 }
 
 template <>
-static bool GetValueFromItemInfo<bool>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const bool& defaultValue)
+bool GetValueFromItemInfo<bool>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const bool& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
@@ -221,7 +221,7 @@ static bool GetValueFromItemInfo<bool>(const CSceneDescriptor::ItemInfo& itemInf
 }
 
 template <>
-static std::string GetValueFromItemInfo<std::string>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const std::string& defaultValue)
+std::string GetValueFromItemInfo<std::string>(const CSceneDescriptor::ItemInfo& itemInfo, const std::string& propertyName, const std::string& defaultValue)
 {
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
