@@ -4,7 +4,7 @@
 #include "OpenGlEsDefs.h"
 #include "athena/GraphicDevice.h"
 #include "athena/Mesh.h"
-#include "athena/Ios/IosEffectGenerator.h"
+#include "athena/Ios/IosUberEffectGenerator.h"
 
 namespace Athena
 {
@@ -40,42 +40,20 @@ namespace Athena
 		
 		void								SetFrameRate(float);
 		
-	protected:
-		enum
-		{
-			MAX_DIFFUSE_SLOTS = 5
-		};
-		
-		struct EFFECTINFO
-		{
-			GLuint		program;
-			
-			GLuint		viewProjMatrixHandle;
-			GLuint		worldMatrixHandle;
-			GLuint		meshColorHandle;
-			
-			GLuint		diffuseTexture[MAX_DIFFUSE_SLOTS];
-			GLuint		diffuseTextureMatrix[MAX_DIFFUSE_SLOTS];
-		};
-		
+	protected:				
 		typedef std::vector<CMesh*> RenderQueue;
-		typedef std::unordered_map<uint32, EFFECTINFO> EffectMap;
 
 											CIosGraphicDevice(bool, const CVector2&);
 		virtual								~CIosGraphicDevice();
 		
 		void								DrawViewport(CViewport*);
 
-		void								GenerateEffect(const CIosEffectGenerator::EFFECTCAPS&);
-
 		static GLuint						CompileShader(const char*, GLuint);
 		void								DumpProgramLog(GLuint);
-		GLuint								BuildProgram(const CIosEffectGenerator::EFFECTCAPS&);
 		
 		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);
 		void								DrawMesh(CMesh*);
 
-		EffectMap							m_effects;
 		RenderQueue							m_renderQueue;
 		bool								m_hasRetinaDisplay;
 		

@@ -1,6 +1,8 @@
 #include "IosGraphicDevice.h"
 #include "athena/ios/IosVertexBuffer.h"
 #include "athena/ios/IosTexture.h"
+#include "athena/ios/IosEffect.h"
+#include "athena/ios/IosUberEffectProvider.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
 
@@ -10,13 +12,6 @@ static const GLenum g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
 {
 	GL_CLAMP_TO_EDGE,
 	GL_REPEAT,
-};
-
-static const unsigned int g_textureCombineMode[TEXTURE_COMBINE_MODE_MAX] =
-{
-	DIFFUSE_MAP_COMBINE_MODULATE,
-	DIFFUSE_MAP_COMBINE_LERP,
-	DIFFUSE_MAP_COMBINE_ADD,
 };
 
 static const GLenum g_stencilOp[STENCIL_FAIL_ACTION_MAX] =
@@ -37,6 +32,7 @@ CIosGraphicDevice::CIosGraphicDevice(bool hasRetinaDisplay, const CVector2& scre
 {
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x10000);
+	m_defaultEffectProvider = std::make_shared<CIosUberEffectProvider>();
 }
 
 CIosGraphicDevice::~CIosGraphicDevice()
@@ -190,91 +186,41 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 	CIosVertexBuffer* vertexBufferGen = static_cast<CIosVertexBuffer*>(mesh->GetVertexBuffer().get());
 	assert(vertexBufferGen != NULL);
 	
-	const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
 	GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	GLuint vertexArray = vertexBufferGen->GetVertexArray();
-		
-	CMatrix4 worldMatrix = mesh->GetWorldTransformation();
-	
-	const EFFECTINFO* currentEffect(NULL);
+			
+	auto effect = std::static_pointer_cast<CIosEffect>(mesh->GetEffectProvider()->GetEffectForRenderable(mesh, false));
 	
 	//Setup material
 	{
 		auto material = mesh->GetMaterial();
 		assert(material);
-		CColor meshColor = material->GetColor();
-		
-		CIosEffectGenerator::EFFECTCAPS effectCaps;
-		memset(&effectCaps, 0, sizeof(effectCaps));
-		
-		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
-		{
-			effectCaps.hasVertexColor = true;
-		}
-		
-		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
-		{
-			if(material->GetTexture(i))
-			{
-				effectCaps.setHasDiffuseMap(i, true);
-				effectCaps.setDiffuseMapCoordSrc(i, material->GetTextureCoordSource(i));
-				if(i != 0)
-				{
-					unsigned int combineMode = g_textureCombineMode[material->GetTextureCombineMode(i)];
-					effectCaps.setDiffuseMapCombineMode(i, combineMode);
-				}
-			}
-		}
-		
-		uint32 effectKey = *reinterpret_cast<uint32*>(&effectCaps);
-		auto effectIterator = m_effects.find(effectKey);
-		if(effectIterator == std::end(m_effects))
-		{
-			GenerateEffect(effectCaps);
-			effectIterator = m_effects.find(effectKey);
-		}
-		
-		currentEffect = &effectIterator->second;
-		
-		glUseProgram(currentEffect->program);
+
+		glUseProgram(effect->GetProgram());
 		CHECKGLERROR();
 		
-		if(mesh->GetIsPeggedToOrigin())
-		{
-			glUniformMatrix4fv(currentEffect->viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&m_peggedViewProjMatrix));			
-		}
-		else
-		{
-			glUniformMatrix4fv(currentEffect->viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&m_viewProjMatrix));
-		}
-		glUniformMatrix4fv(currentEffect->worldMatrixHandle, 1, GL_FALSE, reinterpret_cast<GLfloat*>(&worldMatrix));
-		glUniform4f(currentEffect->meshColorHandle, meshColor.r, meshColor.g, meshColor.b, meshColor.a);
+		effect->UpdateConstants(material, mesh->GetWorldTransformation(), m_viewProjMatrix, CMatrix4());
 		
-		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+		for(unsigned int i = 0; i < CMaterial::MAX_TEXTURE_SLOTS; i++)
 		{
-			if(currentEffect->diffuseTexture[i] != -1)
+			const auto& texture = std::static_pointer_cast<CIosTexture>(material->GetTexture(i));
+			if(!texture) continue;
+			GLuint textureHandle = reinterpret_cast<GLuint>(texture->GetHandle());
+			glActiveTexture(GL_TEXTURE0 + i);
+			if(texture->IsCubeMap())
 			{
-				const CMatrix4& textureMatrix(material->GetTextureMatrix(i));
-				glUniform1i(currentEffect->diffuseTexture[i], i);
-				glUniformMatrix4fv(currentEffect->diffuseTextureMatrix[i], 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&textureMatrix));
-				CIosTexture* texture = static_cast<CIosTexture*>(material->GetTexture(i).get());
-				GLuint textureHandle = reinterpret_cast<GLuint>(texture->GetHandle());
-				glActiveTexture(GL_TEXTURE0 + i);
-				if(texture->IsCubeMap())
-				{
-					glBindTexture(GL_TEXTURE_CUBE_MAP, textureHandle);					
-				}
-				else
-				{
-					glBindTexture(GL_TEXTURE_2D, textureHandle);
-				}
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
-				CHECKGLERROR();
+				glBindTexture(GL_TEXTURE_CUBE_MAP, textureHandle);
 			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, textureHandle);
+			}
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
+			CHECKGLERROR();
 		}
-		
+				
 		ALPHA_BLENDING_MODE alphaBlendingMode = material->GetAlphaBlendingMode();
 		if(alphaBlendingMode == ALPHA_BLENDING_LERP)
 		{
@@ -332,126 +278,6 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 	CHECKGLERROR();
 	
 	m_drawCallCount++;
-}
-
-void CIosGraphicDevice::GenerateEffect(const CIosEffectGenerator::EFFECTCAPS& effectCaps)
-{
-	EFFECTINFO newEffect;
-	
-	newEffect.program = BuildProgram(effectCaps);
-	
-	newEffect.viewProjMatrixHandle	= glGetUniformLocation(newEffect.program, "c_viewProjMatrix");
-	newEffect.worldMatrixHandle		= glGetUniformLocation(newEffect.program, "c_worldMatrix");
-	newEffect.meshColorHandle		= glGetUniformLocation(newEffect.program, "c_meshColor");
-	
-	for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
-	{
-		{
-			char paramName[256];
-			sprintf(paramName, "c_diffuseTexture%d", i);
-			newEffect.diffuseTexture[i]	= glGetUniformLocation(newEffect.program, paramName);			
-		}
-		
-		{
-			char paramName[256];
-			sprintf(paramName, "c_diffuseTextureMatrix%d", i);
-			newEffect.diffuseTextureMatrix[i] = glGetUniformLocation(newEffect.program, paramName);
-		}
-	}
-	
-	uint32 effectKey = *reinterpret_cast<const uint32*>(&effectCaps);
-	m_effects[effectKey] = newEffect;
-}
-
-GLuint CIosGraphicDevice::CompileShader(const char* shaderSource, GLenum shaderType)
-{
-	GLuint shader = glCreateShader(shaderType);
-	glShaderSource(shader, 1, &shaderSource, NULL);
-	glCompileShader(shader);
-	
-#if defined(DEBUG)
-	GLint logLength;
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
-	if(logLength > 0)
-	{
-		GLchar *log = new GLchar[logLength];
-		glGetShaderInfoLog(shader, logLength, &logLength, log);
-		printf("Failed to compile shader:\n%s", shaderSource);
-		printf("Shader compile log:\n%s", log);
-		delete [] log;
-	}
-#endif
-	
-	GLint status;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	if (status == 0)
-	{
-		glDeleteShader(shader);
-		return -1;
-	}
-	
-	return shader;
-}
-
-void CIosGraphicDevice::DumpProgramLog(GLuint program)
-{
-#if defined(DEBUG)
-	GLint logLength;
-	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-	if (logLength > 0)
-	{
-		GLchar *log = new GLchar[logLength];
-		glGetProgramInfoLog(program, logLength, &logLength, log);
-		printf("Program link log:\n%s", log);
-		delete [] log;
-	}
-#endif	
-}
-
-GLuint CIosGraphicDevice::BuildProgram(const CIosEffectGenerator::EFFECTCAPS& effectCaps)
-{
-	std::string vertexShaderSource = CIosEffectGenerator::GenerateVertexShader(effectCaps);
-	std::string pixelShaderSource = CIosEffectGenerator::GeneratePixelShader(effectCaps);
-	
-	GLuint vertexShader = CompileShader(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
-	GLuint pixelShader = CompileShader(pixelShaderSource.c_str(), GL_FRAGMENT_SHADER);
-	
-	assert(vertexShader != -1);
-	assert(pixelShader != -1);
-	
-	GLuint program = glCreateProgram();
-	
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, pixelShader);
-	
-	glBindAttribLocation(program, VERTEX_ATTRIB_POSITION, "a_position");
-	glBindAttribLocation(program, VERTEX_ATTRIB_TEXCOORD0, "a_texCoord0");
-	glBindAttribLocation(program, VERTEX_ATTRIB_COLOR, "a_color");
-	
-	glLinkProgram(program);
-	DumpProgramLog(program);
-	
-	{
-		GLint status = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, &status);
-		assert(status != 0);
-	}
-	
-	glValidateProgram(program);
-	DumpProgramLog(program);
-	
-	{
-		GLint status = 0;
-		glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
-		assert(status != 0);
-	}
-		
-	glDeleteShader(vertexShader);
-	glDeleteShader(pixelShader);
-	
-	CHECKGLERROR();
-	
-	return program;
 }
 
 void CIosGraphicDevice::SetFrameRate(float frameRate)

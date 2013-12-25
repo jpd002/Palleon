@@ -39,7 +39,7 @@ enum DIFFUSE_MAP_COMBINE_MODE
 
 namespace Athena
 {
-	class CIosEffectGenerator
+	class CIosUberEffectGenerator
 	{
 	public:
 		struct EFFECTCAPS

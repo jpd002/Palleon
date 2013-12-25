@@ -13,11 +13,15 @@
 		70104E63167409F500807647 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E61167409F500807647 /* AudioManager.h */; };
 		7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93717166B530092A5CF /* EmitterModifier.cpp */; };
 		7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93B17166B630092A5CF /* EmitterModifier.h */; };
+		704885BF1868B4C700EB75D7 /* IosUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704885BD1868B4C700EB75D7 /* IosUberEffect.cpp */; };
+		704885C21868B5AC00EB75D7 /* IosUberEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 704885C11868B5AC00EB75D7 /* IosUberEffect.h */; };
+		704885C51868B6B500EB75D7 /* IosEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704885C31868B6B500EB75D7 /* IosEffect.cpp */; };
+		704885CA1868B9BD00EB75D7 /* IosUberEffectProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704885C81868B9BD00EB75D7 /* IosUberEffectProvider.cpp */; };
 		707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F216E45BAF00CFCE67 /* EAGLView.mm */; };
 		707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */; };
 		707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */; };
 		707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */; };
-		7078960016E45BAF00CFCE67 /* IosEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */; };
+		7078960016E45BAF00CFCE67 /* IosUberEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F616E45BAF00CFCE67 /* IosUberEffectGenerator.cpp */; };
 		7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */; };
 		7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */; };
 		7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707895F916E45BAF00CFCE67 /* IosTexture.cpp */; };
@@ -27,7 +31,7 @@
 		7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960716E45BBA00CFCE67 /* IosAppDelegate.h */; };
 		7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960816E45BBA00CFCE67 /* IosAudioClip.h */; };
 		7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960916E45BBA00CFCE67 /* IosAudioManager.h */; };
-		7078961516E45BBA00CFCE67 /* IosEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */; };
+		7078961516E45BBA00CFCE67 /* IosUberEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960A16E45BBA00CFCE67 /* IosUberEffectGenerator.h */; };
 		7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */; };
 		7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960C16E45BBA00CFCE67 /* IosResourceManager.h */; };
 		7078961816E45BBA00CFCE67 /* IosTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960D16E45BBA00CFCE67 /* IosTexture.h */; };
@@ -53,6 +57,11 @@
 		709C28F71822088E00B6B2D0 /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28ED1822088E00B6B2D0 /* TgaImage.h */; };
 		709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28FC182209A000B6B2D0 /* Scene.cpp */; };
 		709C28FF182209B200B6B2D0 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28FE182209B200B6B2D0 /* Scene.h */; };
+		709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */; };
+		709E16EA186A689B00AEA8C7 /* Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E5186A689B00AEA8C7 /* Effect.h */; };
+		709E16EB186A689B00AEA8C7 /* EffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E6186A689B00AEA8C7 /* EffectProvider.h */; };
+		709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E7186A689B00AEA8C7 /* IAnimation.h */; };
+		709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E8186A689B00AEA8C7 /* RenderTarget.h */; };
 		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
 		70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824B1635215200C40F25 /* TextureAnimation.cpp */; };
 		70B582531635216800C40F25 /* AnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B5824F1635216800C40F25 /* AnimationController.h */; };
@@ -127,11 +136,17 @@
 		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../../include/athena/AudioManager.h; sourceTree = "<group>"; };
 		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../../src/EmitterModifier.cpp; sourceTree = "<group>"; };
 		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../../include/athena/EmitterModifier.h; sourceTree = "<group>"; };
+		704885BD1868B4C700EB75D7 /* IosUberEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosUberEffect.cpp; path = ../../src/ios/IosUberEffect.cpp; sourceTree = "<group>"; };
+		704885C11868B5AC00EB75D7 /* IosUberEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosUberEffect.h; path = ../../include/athena/ios/IosUberEffect.h; sourceTree = "<group>"; };
+		704885C31868B6B500EB75D7 /* IosEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosEffect.cpp; path = ../../src/ios/IosEffect.cpp; sourceTree = "<group>"; };
+		704885C71868B6DF00EB75D7 /* IosEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IosEffect.h; path = ../../include/athena/ios/IosEffect.h; sourceTree = "<group>"; };
+		704885C81868B9BD00EB75D7 /* IosUberEffectProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosUberEffectProvider.cpp; path = ../../src/ios/IosUberEffectProvider.cpp; sourceTree = "<group>"; };
+		704885CC1868B9DA00EB75D7 /* IosUberEffectProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IosUberEffectProvider.h; path = ../../include/athena/ios/IosUberEffectProvider.h; sourceTree = "<group>"; };
 		707895F216E45BAF00CFCE67 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../src/ios/EAGLView.mm; sourceTree = "<group>"; };
 		707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosAppDelegate.mm; path = ../../src/ios/IosAppDelegate.mm; sourceTree = "<group>"; };
 		707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioClip.cpp; path = ../../src/ios/IosAudioClip.cpp; sourceTree = "<group>"; };
 		707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioManager.cpp; path = ../../src/ios/IosAudioManager.cpp; sourceTree = "<group>"; };
-		707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosEffectGenerator.cpp; path = ../../src/ios/IosEffectGenerator.cpp; sourceTree = "<group>"; };
+		707895F616E45BAF00CFCE67 /* IosUberEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosUberEffectGenerator.cpp; path = ../../src/ios/IosUberEffectGenerator.cpp; sourceTree = "<group>"; };
 		707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosGraphicDevice.cpp; path = ../../src/ios/IosGraphicDevice.cpp; sourceTree = "<group>"; };
 		707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosResourceManager.cpp; path = ../../src/ios/IosResourceManager.cpp; sourceTree = "<group>"; };
 		707895F916E45BAF00CFCE67 /* IosTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosTexture.cpp; path = ../../src/ios/IosTexture.cpp; sourceTree = "<group>"; };
@@ -141,7 +156,7 @@
 		7078960716E45BBA00CFCE67 /* IosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAppDelegate.h; path = ../../include/athena/ios/IosAppDelegate.h; sourceTree = "<group>"; };
 		7078960816E45BBA00CFCE67 /* IosAudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioClip.h; path = ../../include/athena/ios/IosAudioClip.h; sourceTree = "<group>"; };
 		7078960916E45BBA00CFCE67 /* IosAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioManager.h; path = ../../include/athena/ios/IosAudioManager.h; sourceTree = "<group>"; };
-		7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosEffectGenerator.h; path = ../../include/athena/ios/IosEffectGenerator.h; sourceTree = "<group>"; };
+		7078960A16E45BBA00CFCE67 /* IosUberEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosUberEffectGenerator.h; path = ../../include/athena/ios/IosUberEffectGenerator.h; sourceTree = "<group>"; };
 		7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosGraphicDevice.h; path = ../../include/athena/ios/IosGraphicDevice.h; sourceTree = "<group>"; };
 		7078960C16E45BBA00CFCE67 /* IosResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosResourceManager.h; path = ../../include/athena/ios/IosResourceManager.h; sourceTree = "<group>"; };
 		7078960D16E45BBA00CFCE67 /* IosTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosTexture.h; path = ../../include/athena/ios/IosTexture.h; sourceTree = "<group>"; };
@@ -167,6 +182,11 @@
 		709C28ED1822088E00B6B2D0 /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../../include/athena/resources/TgaImage.h; sourceTree = "<group>"; };
 		709C28FC182209A000B6B2D0 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../../src/Scene.cpp; sourceTree = "<group>"; };
 		709C28FE182209B200B6B2D0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../../include/athena/Scene.h; sourceTree = "<group>"; };
+		709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeRenderTarget.h; path = ../../include/athena/CubeRenderTarget.h; sourceTree = "<group>"; };
+		709E16E5186A689B00AEA8C7 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../../include/athena/Effect.h; sourceTree = "<group>"; };
+		709E16E6186A689B00AEA8C7 /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../../include/athena/EffectProvider.h; sourceTree = "<group>"; };
+		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../../include/athena/IAnimation.h; sourceTree = "<group>"; };
+		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../../include/athena/RenderTarget.h; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../../src/TextureAnimation.cpp; sourceTree = "<group>"; };
 		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../../include/athena/AnimationController.h; sourceTree = "<group>"; };
@@ -259,6 +279,19 @@
 			name = audio;
 			sourceTree = "<group>";
 		};
+		704885BC1868B3B500EB75D7 /* UberEffect */ = {
+			isa = PBXGroup;
+			children = (
+				707895F616E45BAF00CFCE67 /* IosUberEffectGenerator.cpp */,
+				7078960A16E45BBA00CFCE67 /* IosUberEffectGenerator.h */,
+				704885BD1868B4C700EB75D7 /* IosUberEffect.cpp */,
+				704885C11868B5AC00EB75D7 /* IosUberEffect.h */,
+				704885C81868B9BD00EB75D7 /* IosUberEffectProvider.cpp */,
+				704885CC1868B9DA00EB75D7 /* IosUberEffectProvider.h */,
+			);
+			name = UberEffect;
+			sourceTree = "<group>";
+		};
 		70B582481635214200C40F25 /* animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,8 +316,8 @@
 				7078960816E45BBA00CFCE67 /* IosAudioClip.h */,
 				707895F516E45BAF00CFCE67 /* IosAudioManager.cpp */,
 				7078960916E45BBA00CFCE67 /* IosAudioManager.h */,
-				707895F616E45BAF00CFCE67 /* IosEffectGenerator.cpp */,
-				7078960A16E45BBA00CFCE67 /* IosEffectGenerator.h */,
+				704885C31868B6B500EB75D7 /* IosEffect.cpp */,
+				704885C71868B6DF00EB75D7 /* IosEffect.h */,
 				707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */,
 				7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */,
 				707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */,
@@ -296,6 +329,7 @@
 				7078960F16E45BBA00CFCE67 /* IosViewController.h */,
 				707895FB16E45BAF00CFCE67 /* IosViewController.mm */,
 				7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */,
+				704885BC1868B3B500EB75D7 /* UberEffect */,
 			);
 			name = ios;
 			sourceTree = "<group>";
@@ -328,12 +362,16 @@
 				7E7D877813F71AD900AD9F7F /* Color.h */,
 				7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */,
 				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
+				709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */,
+				709E16E5186A689B00AEA8C7 /* Effect.h */,
+				709E16E6186A689B00AEA8C7 /* EffectProvider.h */,
 				70C6E54C1685709E001544EB /* Emitter.cpp */,
 				70C6E54F168570A8001544EB /* Emitter.h */,
 				7035A93717166B530092A5CF /* EmitterModifier.cpp */,
 				7035A93B17166B630092A5CF /* EmitterModifier.h */,
 				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
 				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
+				709E16E7186A689B00AEA8C7 /* IAnimation.h */,
 				7E7D875613F71AC300AD9F7F /* Label.cpp */,
 				7E7D877D13F71AD900AD9F7F /* Label.h */,
 				7E7D875713F71AC300AD9F7F /* Material.cpp */,
@@ -343,6 +381,7 @@
 				7E407F891401F8F300431963 /* MeshProvider.h */,
 				7E5C121E14F19EF700292DD3 /* NinePatch.cpp */,
 				7E5C122E14F19F0800292DD3 /* NinePatch.h */,
+				709E16E8186A689B00AEA8C7 /* RenderTarget.h */,
 				709C28FC182209A000B6B2D0 /* Scene.cpp */,
 				709C28FE182209B200B6B2D0 /* Scene.h */,
 				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
@@ -470,8 +509,10 @@
 				7E7D879213F71AD900AD9F7F /* CubeMesh.h in Headers */,
 				709C28F61822088E00B6B2D0 /* TextureResource.h in Headers */,
 				7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */,
+				709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */,
 				7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */,
 				7E7D879613F71AD900AD9F7F /* Label.h in Headers */,
+				709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */,
 				7E7D879713F71AD900AD9F7F /* Material.h in Headers */,
 				709C28FF182209B200B6B2D0 /* Scene.h in Headers */,
 				7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */,
@@ -497,6 +538,7 @@
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
+				709E16EA186A689B00AEA8C7 /* Effect.h in Headers */,
 				709C28F31822088E00B6B2D0 /* Resource.h in Headers */,
 				7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */,
 				709C28F21822088E00B6B2D0 /* PvrImage.h in Headers */,
@@ -511,20 +553,23 @@
 				70B582561635216800C40F25 /* TextureAnimation.h in Headers */,
 				70104E62167409F500807647 /* AudioClip.h in Headers */,
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
+				704885C21868B5AC00EB75D7 /* IosUberEffect.h in Headers */,
 				70C6E550168570A8001544EB /* Emitter.h in Headers */,
 				7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */,
 				7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */,
 				7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */,
 				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
-				7078961516E45BBA00CFCE67 /* IosEffectGenerator.h in Headers */,
+				7078961516E45BBA00CFCE67 /* IosUberEffectGenerator.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
+				709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */,
 				7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */,
 				7078961816E45BBA00CFCE67 /* IosTexture.h in Headers */,
 				7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */,
 				709C28F01822088E00B6B2D0 /* NinePatchDescriptor.h in Headers */,
 				7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */,
 				7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */,
+				709E16EB186A689B00AEA8C7 /* EffectProvider.h in Headers */,
 				7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -585,6 +630,7 @@
 				7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */,
 				7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */,
 				7E7D876713F71AC300AD9F7F /* InputManager.cpp in Sources */,
+				704885C51868B6B500EB75D7 /* IosEffect.cpp in Sources */,
 				7E7D876813F71AC300AD9F7F /* Label.cpp in Sources */,
 				7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */,
 				7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */,
@@ -593,6 +639,7 @@
 				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
 				7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */,
 				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
+				704885BF1868B4C700EB75D7 /* IosUberEffect.cpp in Sources */,
 				7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */,
 				7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */,
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
@@ -607,6 +654,7 @@
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				709C28E11822088000B6B2D0 /* ResourceManager.cpp in Sources */,
+				704885CA1868B9BD00EB75D7 /* IosUberEffectProvider.cpp in Sources */,
 				709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
@@ -618,7 +666,7 @@
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
 				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
 				709C28E01822088000B6B2D0 /* Package.cpp in Sources */,
-				7078960016E45BAF00CFCE67 /* IosEffectGenerator.cpp in Sources */,
+				7078960016E45BAF00CFCE67 /* IosUberEffectGenerator.cpp in Sources */,
 				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,
 				7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */,
 				7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */,
