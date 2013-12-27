@@ -373,7 +373,7 @@ void CIosGraphicDevice::CreateShadowMap()
 	glGenTextures(1, &m_shadowMapTexture);
 	
 	glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RGBA, GL_HALF_FLOAT_OES, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RED_EXT, GL_HALF_FLOAT_OES, nullptr);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	CHECKGLERROR();
 	
