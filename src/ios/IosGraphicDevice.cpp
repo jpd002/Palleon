@@ -263,8 +263,6 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 	CIosVertexBuffer* vertexBufferGen = static_cast<CIosVertexBuffer*>(mesh->GetVertexBuffer().get());
 	assert(vertexBufferGen != NULL);
 	
-	GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
-	uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	GLuint vertexArray = vertexBufferGen->GetVertexArray();
 
 	//Setup material
@@ -342,10 +340,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 		
 		glDepthMask(mesh->GetIsPeggedToOrigin() ? GL_FALSE : GL_TRUE);
 	}
-	
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	CHECKGLERROR();
-	
+			
 	glBindVertexArrayOES(vertexArray);
 	CHECKGLERROR();
 	
@@ -367,7 +362,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 			break;
 	}
 	
-	glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, indexBuffer);
+	glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, nullptr);
 	CHECKGLERROR();
 	
 	m_drawCallCount++;

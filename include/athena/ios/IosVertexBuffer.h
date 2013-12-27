@@ -18,14 +18,15 @@ namespace Athena
 		virtual void							UnlockIndices();
 		
 		GLuint									GetVertexBuffer() const;
-		uint16*									GetIndexBuffer() const;
+		GLuint									GetIndexBuffer() const;
 		GLuint									GetVertexArray() const;
 		
 	protected:
 		GLuint									m_vertexBuffer;
+		GLuint									m_indexBuffer;
 		GLuint									m_vertexArray;
 		
 		uint8*									m_shadowVertexBuffer;
-		uint16*									m_indexBuffer;
+		uint16*									m_shadowIndexBuffer;
 	};
 }

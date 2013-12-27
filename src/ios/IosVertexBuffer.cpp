@@ -7,14 +7,15 @@ using namespace Athena;
 
 CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)
-, m_vertexBuffer(NULL)
-, m_vertexArray(NULL)
-, m_shadowVertexBuffer(NULL)
-, m_indexBuffer(NULL)
+, m_vertexBuffer(0)
+, m_indexBuffer(0)
+, m_vertexArray(0)
+, m_shadowVertexBuffer(nullptr)
+, m_shadowIndexBuffer(nullptr)
 {
 	uint32 vertexBufferSize = descriptor.GetVertexSize() * descriptor.vertexCount;
 	m_shadowVertexBuffer = new uint8[vertexBufferSize];
-	m_indexBuffer = new uint16[descriptor.indexCount];
+	m_shadowIndexBuffer = new uint16[descriptor.indexCount];
 
 	//Create vertex buffer
 	{
@@ -24,22 +25,38 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 		CHECKGLERROR();
 		
-		glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, NULL, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, NULL, GL_DYNAMIC_DRAW);
 		CHECKGLERROR();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		CHECKGLERROR();
 	}
 	
+	//Create index buffer
+	{
+		glGenBuffers(1, &m_indexBuffer);
+		CHECKGLERROR();
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+		CHECKGLERROR();
+		
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16) * descriptor.indexCount, NULL, GL_DYNAMIC_DRAW);
+		CHECKGLERROR();
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		CHECKGLERROR();
+	}
+	
 	//Create vertex array
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-		
 		glGenVertexArraysOES(1, &m_vertexArray);
 		CHECKGLERROR();
 		
 		glBindVertexArrayOES(m_vertexArray);
 		CHECKGLERROR();
+		
+		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 		
 		uint32 vertexSize = descriptor.GetVertexSize();
 		
@@ -81,18 +98,18 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
 		}
 		CHECKGLERROR();
-
+		
 		glBindVertexArrayOES(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }
 
 CIosVertexBuffer::~CIosVertexBuffer()
 {
 	delete [] m_shadowVertexBuffer;
-	delete [] m_indexBuffer;
+	delete [] m_shadowIndexBuffer;
 	glDeleteVertexArraysOES(1, &m_vertexArray);
 	glDeleteBuffers(1, &m_vertexBuffer);
+	glDeleteBuffers(1, &m_indexBuffer);
 }
 
 void* CIosVertexBuffer::LockVertices()
@@ -102,7 +119,7 @@ void* CIosVertexBuffer::LockVertices()
 
 void CIosVertexBuffer::UnlockVertices(uint32 sizeHint)
 {
-	const VERTEX_BUFFER_DESCRIPTOR& descriptor(GetDescriptor());
+	const auto& descriptor(GetDescriptor());
 	
 	if(sizeHint == 0)
 	{
@@ -123,12 +140,21 @@ void CIosVertexBuffer::UnlockVertices(uint32 sizeHint)
 
 uint16* CIosVertexBuffer::LockIndices()
 {
-	return m_indexBuffer;
+	return m_shadowIndexBuffer;
 }
 
 void CIosVertexBuffer::UnlockIndices()
 {
+	const auto& descriptor = GetDescriptor();
 	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+	CHECKGLERROR();
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, descriptor.indexCount * sizeof(uint16) ,m_shadowIndexBuffer, GL_DYNAMIC_DRAW);
+	CHECKGLERROR();
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	CHECKGLERROR();
 }
 
 GLuint CIosVertexBuffer::GetVertexBuffer() const
@@ -136,7 +162,7 @@ GLuint CIosVertexBuffer::GetVertexBuffer() const
 	return m_vertexBuffer;
 }
 
-uint16* CIosVertexBuffer::GetIndexBuffer() const
+GLuint CIosVertexBuffer::GetIndexBuffer() const
 {
 	return m_indexBuffer;
 }
