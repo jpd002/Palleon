@@ -11,6 +11,8 @@
 		70104E5F167409EB00807647 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E5D167409EB00807647 /* AudioManager.cpp */; };
 		70104E62167409F500807647 /* AudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E60167409F500807647 /* AudioClip.h */; };
 		70104E63167409F500807647 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E61167409F500807647 /* AudioManager.h */; };
+		7020B058186B5141008F12B4 /* IosShadowMapEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7020B056186B5141008F12B4 /* IosShadowMapEffect.cpp */; };
+		7020B05F186B51F6008F12B4 /* IosShadowMapEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 7020B05E186B51F6008F12B4 /* IosShadowMapEffect.h */; };
 		7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93717166B530092A5CF /* EmitterModifier.cpp */; };
 		7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93B17166B630092A5CF /* EmitterModifier.h */; };
 		704885BF1868B4C700EB75D7 /* IosUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704885BD1868B4C700EB75D7 /* IosUberEffect.cpp */; };
@@ -129,11 +131,37 @@
 		7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878B13F71AD900AD9F7F /* Widget.h */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		709E174F186A739B00AEA8C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 709E16F7186A721100AEA8C7;
+			remoteInfo = ShadowMapping;
+		};
+		709E1763186A7B1B00AEA8C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = Framework;
+		};
+		709E1769186A7B2A00AEA8C7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7EA960EE134D72490099591E;
+			remoteInfo = boost;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		70104E5C167409EB00807647 /* AudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioClip.cpp; path = ../../src/AudioClip.cpp; sourceTree = "<group>"; };
 		70104E5D167409EB00807647 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = ../../src/AudioManager.cpp; sourceTree = "<group>"; };
 		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../../include/athena/AudioClip.h; sourceTree = "<group>"; };
 		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../../include/athena/AudioManager.h; sourceTree = "<group>"; };
+		7020B056186B5141008F12B4 /* IosShadowMapEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosShadowMapEffect.cpp; path = ../../src/ios/IosShadowMapEffect.cpp; sourceTree = "<group>"; };
+		7020B05E186B51F6008F12B4 /* IosShadowMapEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosShadowMapEffect.h; path = ../../include/athena/ios/IosShadowMapEffect.h; sourceTree = "<group>"; };
 		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../../src/EmitterModifier.cpp; sourceTree = "<group>"; };
 		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../../include/athena/EmitterModifier.h; sourceTree = "<group>"; };
 		704885BD1868B4C700EB75D7 /* IosUberEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosUberEffect.cpp; path = ../../src/ios/IosUberEffect.cpp; sourceTree = "<group>"; };
@@ -187,6 +215,9 @@
 		709E16E6186A689B00AEA8C7 /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../../include/athena/EffectProvider.h; sourceTree = "<group>"; };
 		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../../include/athena/IAnimation.h; sourceTree = "<group>"; };
 		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../../include/athena/RenderTarget.h; sourceTree = "<group>"; };
+		709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowMapping.xcodeproj; path = ../samples/ShadowMapping/build_ios/ShadowMapping.xcodeproj; sourceTree = "<group>"; };
+		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_iphone/Framework.xcodeproj; sourceTree = "<group>"; };
+		709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boost.xcodeproj; path = ../../boost/build_iphone/boost.xcodeproj; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../../src/TextureAnimation.cpp; sourceTree = "<group>"; };
 		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../../include/athena/AnimationController.h; sourceTree = "<group>"; };
@@ -292,6 +323,47 @@
 			name = UberEffect;
 			sourceTree = "<group>";
 		};
+		709E1743186A724B00AEA8C7 /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */,
+			);
+			name = Samples;
+			sourceTree = "<group>";
+		};
+		709E174C186A739B00AEA8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709E1750186A739B00AEA8C7 /* ShadowMapping.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		709E175E186A7B0B00AEA8C7 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */,
+				709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		709E1760186A7B1B00AEA8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709E1764186A7B1B00AEA8C7 /* libFramework.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		709E1766186A7B2A00AEA8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709E176A186A7B2A00AEA8C7 /* libboost.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		70B582481635214200C40F25 /* animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +394,8 @@
 				7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */,
 				707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */,
 				7078960C16E45BBA00CFCE67 /* IosResourceManager.h */,
+				7020B056186B5141008F12B4 /* IosShadowMapEffect.cpp */,
+				7020B05E186B51F6008F12B4 /* IosShadowMapEffect.h */,
 				707895F916E45BAF00CFCE67 /* IosTexture.cpp */,
 				7078960D16E45BBA00CFCE67 /* IosTexture.h */,
 				707895FA16E45BAF00CFCE67 /* IosVertexBuffer.cpp */,
@@ -445,6 +519,8 @@
 		7E7D873013F719E400AD9F7F = {
 			isa = PBXGroup;
 			children = (
+				709E175E186A7B0B00AEA8C7 /* Dependencies */,
+				709E1743186A724B00AEA8C7 /* Samples */,
 				7E7D874013F719E500AD9F7F /* Athena */,
 				7E7D873D13F719E500AD9F7F /* Frameworks */,
 				7E7D873C13F719E500AD9F7F /* Products */,
@@ -562,6 +638,7 @@
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
 				7078961516E45BBA00CFCE67 /* IosUberEffectGenerator.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
+				7020B05F186B51F6008F12B4 /* IosShadowMapEffect.h in Headers */,
 				709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */,
 				7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */,
 				7078961816E45BBA00CFCE67 /* IosTexture.h in Headers */,
@@ -612,12 +689,50 @@
 			mainGroup = 7E7D873013F719E400AD9F7F;
 			productRefGroup = 7E7D873C13F719E500AD9F7F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 709E1766186A7B2A00AEA8C7 /* Products */;
+					ProjectRef = 709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */;
+				},
+				{
+					ProductGroup = 709E1760186A7B1B00AEA8C7 /* Products */;
+					ProjectRef = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
+				},
+				{
+					ProductGroup = 709E174C186A739B00AEA8C7 /* Products */;
+					ProjectRef = 709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				7E7D873A13F719E500AD9F7F /* Athena */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		709E1750186A739B00AEA8C7 /* ShadowMapping.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShadowMapping.app;
+			remoteRef = 709E174F186A739B00AEA8C7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		709E1764186A7B1B00AEA8C7 /* libFramework.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFramework.a;
+			remoteRef = 709E1763186A7B1B00AEA8C7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		709E176A186A7B2A00AEA8C7 /* libboost.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libboost.a;
+			remoteRef = 709E1769186A7B2A00AEA8C7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7E7D873713F719E500AD9F7F /* Sources */ = {
@@ -661,6 +776,7 @@
 				709C28E21822088000B6B2D0 /* SceneDescriptor.cpp in Sources */,
 				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
 				709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */,
+				7020B058186B5141008F12B4 /* IosShadowMapEffect.cpp in Sources */,
 				707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */,
 				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
@@ -682,12 +798,10 @@
 		7E7D874313F719E600AD9F7F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -695,7 +809,6 @@
 					/Users/jpd002/Libraries/boost_1_50_0/,
 					../include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -703,9 +816,7 @@
 		7E7D874413F719E600AD9F7F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -713,7 +824,6 @@
 					/Users/jpd002/Libraries/boost_1_50_0/,
 					../include/,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -729,8 +839,6 @@
 				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -748,8 +856,6 @@
 				GCC_PREFIX_HEADER = "Athena/Athena-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

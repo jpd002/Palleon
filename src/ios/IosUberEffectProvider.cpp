@@ -37,6 +37,8 @@ EffectPtr CIosUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasSh
 		effectCaps.hasVertexColor = true;
 	}
 	
+	effectCaps.hasShadowMap = hasShadowMap && material->GetShadowReceiving();
+	
 	for(unsigned int i = 0; i < CIosUberEffect::MAX_DIFFUSE_SLOTS; i++)
 	{
 		if(material->GetTexture(i))

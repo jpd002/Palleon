@@ -23,9 +23,11 @@ namespace Athena
 	private:
 		GLuint			m_viewProjMatrixHandle = -1;
 		GLuint			m_worldMatrixHandle = -1;
+		GLuint			m_shadowViewProjMatrixHandle = -1;
 		GLuint			m_meshColorHandle = -1;
 			
-		GLuint			m_diffuseTexture[MAX_DIFFUSE_SLOTS];
-		GLuint			m_diffuseTextureMatrix[MAX_DIFFUSE_SLOTS];
+		GLuint			m_diffuseTextureHandle[MAX_DIFFUSE_SLOTS];
+		GLuint			m_diffuseTextureMatrixHandle[MAX_DIFFUSE_SLOTS];
+		GLuint			m_shadowTextureHandle = -1;
 	};
 }

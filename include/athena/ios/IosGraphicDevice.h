@@ -5,6 +5,7 @@
 #include "athena/GraphicDevice.h"
 #include "athena/Mesh.h"
 #include "athena/Ios/IosUberEffectGenerator.h"
+#include "athena/Ios/IosEffect.h"
 
 namespace Athena
 {
@@ -22,21 +23,23 @@ namespace Athena
 		static void							CreateInstance(bool, const CVector2&);
 		static void							DestroyInstance();
 
-		virtual void						Draw();
+		void								SetMainFramebuffer(GLuint);
 		
-		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
+		virtual void						Draw() override;
 		
-		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32);
-		virtual TexturePtr					CreateTextureFromFile(const char*);
-		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32);
-		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32);
+		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 		
-		virtual void						UpdateTexture(const TexturePtr&, const void*);
+		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32) override;
+		virtual TexturePtr					CreateTextureFromFile(const char*) override;
+		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) override;
+		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) override;
 		
-		virtual TexturePtr					CreateCubeTextureFromFile(const char*);
+		virtual void						UpdateTexture(const TexturePtr&, const void*) override;
 		
-		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32);
-		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32);
+		virtual TexturePtr					CreateCubeTextureFromFile(const char*) override;
+		
+		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) override;
+		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) override;
 		
 		void								SetFrameRate(float);
 		
@@ -45,19 +48,26 @@ namespace Athena
 
 											CIosGraphicDevice(bool, const CVector2&);
 		virtual								~CIosGraphicDevice();
-		
+				
 		void								DrawViewport(CViewport*);
-
-		static GLuint						CompileShader(const char*, GLuint);
-		void								DumpProgramLog(GLuint);
+		
+		void								DrawViewportMainMap(CViewport*);
+		void								DrawViewportShadowMap(CViewport*);
 		
 		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);
-		void								DrawMesh(CMesh*);
+		void								DrawMesh(CMesh*, const IosEffectPtr&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4());
 
+		void								CreateShadowMap();
+		
+		IosEffectPtr						m_shadowMapEffect;
+		
 		RenderQueue							m_renderQueue;
 		bool								m_hasRetinaDisplay;
+				
+		GLuint								m_mainFramebuffer = 0;
 		
-		CMatrix4							m_viewProjMatrix;
-		CMatrix4							m_peggedViewProjMatrix;
+		GLuint								m_shadowMapTexture = 0;
+		GLuint								m_shadowMapDepthbuffer = 0;
+		GLuint								m_shadowMapFramebuffer = 0;
 	};
 }

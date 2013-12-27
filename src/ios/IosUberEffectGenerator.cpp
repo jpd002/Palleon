@@ -26,6 +26,7 @@ std::string CIosUberEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps
 	if(needsTexCoord1)		result += PrintLine("attribute vec2 a_texCoord1;");
 	
 	//Varyings
+	if(caps.hasShadowMap)	result += PrintLine("varying vec4 v_shadowPosition;");
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapCoordOutput(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
 	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapCoordOutput(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
@@ -38,6 +39,8 @@ std::string CIosUberEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps
 	result += PrintLine("uniform mat4 c_worldMatrix;");
 	
 	result += PrintLine("uniform vec4 c_meshColor;");
+
+	result += PrintLine("uniform mat4 c_shadowViewProjMatrix;");
 	
 	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapMatrixUniform(0);
 	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapMatrixUniform(1);
@@ -62,6 +65,8 @@ std::string CIosUberEffectGenerator::GenerateVertexShader(const EFFECTCAPS& caps
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapCoordComputation(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapCoordComputation(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
 	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapCoordComputation(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
+	if(caps.hasShadowMap)	result += PrintLine("v_shadowPosition = c_shadowViewProjMatrix * worldPos;");
+	
 	result += PrintLine("}");
 	
 	return result;
@@ -77,6 +82,7 @@ std::string CIosUberEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap2) { result += GenerateDiffuseMapSampler(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); result += GenerateDiffuseMapCoordOutput(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc)); }
 	if(caps.hasDiffuseMap3) { result += GenerateDiffuseMapSampler(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); result += GenerateDiffuseMapCoordOutput(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc)); }
 	if(caps.hasDiffuseMap4) { result += GenerateDiffuseMapSampler(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); result += GenerateDiffuseMapCoordOutput(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc)); }
+	if(caps.hasShadowMap) { result += PrintLine("varying highp vec4 v_shadowPosition;"); result += PrintLine("uniform sampler2D c_shadowTexture;"); }
 	
 	result += PrintLine("void main()");
 	result += PrintLine("{");
@@ -85,7 +91,18 @@ std::string CIosUberEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps)
 	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampling(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap1CombineMode));
 	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
 	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
-	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));	
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));
+	if(caps.hasShadowMap)
+	{
+		result += PrintLine("mediump vec2 shadowMapCoord = 0.5 * (v_shadowPosition.xy / v_shadowPosition.w) + vec2(0.5, 0.5);");
+		result += PrintLine("mediump float pixelZ = v_shadowPosition.z / v_shadowPosition.w;");
+		result += PrintLine("mediump float shadowZ = texture2D(c_shadowTexture, shadowMapCoord).r;");
+		result += PrintLine("mediump float shadowBias = 0.03;");
+		result += PrintLine("if(shadowZ < pixelZ - shadowBias)");
+		result += PrintLine("{");
+		result += PrintLine("	diffuseColor.xyz *= 0.25;");
+		result += PrintLine("}");
+	}
 	result += PrintLine("	gl_FragColor = diffuseColor;");
 	result += PrintLine("}");
 	

@@ -194,13 +194,18 @@
 
 -(BOOL)hasRetinaDisplay
 {
-    return hasRetinaDisplay;
+	return hasRetinaDisplay;
+}
+
+-(GLint)getFramebuffer
+{
+	return defaultFramebuffer;
 }
 
 -(void)layoutSubviews
 {
-    // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
-    [self deleteFramebuffer];
+	// The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
+	[self deleteFramebuffer];
 }
 
 @end

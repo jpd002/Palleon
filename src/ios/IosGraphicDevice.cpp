@@ -3,8 +3,11 @@
 #include "athena/ios/IosTexture.h"
 #include "athena/ios/IosEffect.h"
 #include "athena/ios/IosUberEffectProvider.h"
+#include "athena/ios/IosShadowMapEffect.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
+
+#define SHADOW_MAP_SIZE (1024)
 
 using namespace Athena;
 
@@ -33,6 +36,7 @@ CIosGraphicDevice::CIosGraphicDevice(bool hasRetinaDisplay, const CVector2& scre
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x10000);
 	m_defaultEffectProvider = std::make_shared<CIosUberEffectProvider>();
+	CreateShadowMap();
 }
 
 CIosGraphicDevice::~CIosGraphicDevice()
@@ -54,6 +58,11 @@ void CIosGraphicDevice::DestroyInstance()
 	delete m_instance;
 }
 
+void CIosGraphicDevice::SetMainFramebuffer(GLuint mainFramebuffer)
+{
+	m_mainFramebuffer = mainFramebuffer;
+}
+
 void CIosGraphicDevice::Draw()
 {
 	if(m_hasRetinaDisplay)
@@ -68,11 +77,14 @@ void CIosGraphicDevice::Draw()
 	}
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearDepthf(1.0f);
+	glClearStencil(0xFF);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
 	//Reset metrics
 	m_drawCallCount = 0;
 	
+	//TODO: Move these state changes in material setup before drawing
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	//glDisable(GL_CULL_FACE);
@@ -83,37 +95,102 @@ void CIosGraphicDevice::Draw()
 		DrawViewport(viewport);
 	}
 	
-	CHECKGLERROR();	
+	CHECKGLERROR();
 }
 
 void CIosGraphicDevice::DrawViewport(CViewport* viewport)
 {
+	DrawViewportShadowMap(viewport);
+	DrawViewportMainMap(viewport);
+}
+
+void CIosGraphicDevice::DrawViewportMainMap(CViewport* viewport)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
+
+	if(m_hasRetinaDisplay)
+	{
+		glViewport(0, 0, m_screenSize.x * 2, m_screenSize.y * 2);
+		glScissor(0, 0, m_screenSize.x * 2, m_screenSize.y * 2);
+	}
+	else
+	{
+		glViewport(0, 0, m_screenSize.x, m_screenSize.y);
+		glScissor(0, 0, m_screenSize.x, m_screenSize.y);
+	}
+	
+	glDepthMask(GL_TRUE);
 	glClearDepthf(1.0f);
 	glClearStencil(0);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	CHECKGLERROR();
 	
-	CameraPtr camera = viewport->GetCamera();
+	auto camera = viewport->GetCamera();
+	auto shadowCamera = viewport->GetShadowCamera();
+			
+//	viewMatrix(3, 0) = 0;
+//	viewMatrix(3, 1) = 0;
+//	viewMatrix(3, 2) = 0;
 	
-	CMatrix4 projMatrix = camera->GetProjectionMatrix();
-	CMatrix4 viewMatrix = camera->GetViewMatrix();
-	
-	m_viewProjMatrix = viewMatrix * projMatrix;
-	
-	viewMatrix(3, 0) = 0;
-	viewMatrix(3, 1) = 0;
-	viewMatrix(3, 2) = 0;
-	
-	m_peggedViewProjMatrix = viewMatrix * projMatrix;
+//	m_peggedViewProjMatrix = viewMatrix * projMatrix;
 	
 	m_renderQueue.clear();
 	
 	const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
 	sceneRoot->TraverseNodes(std::bind(&CIosGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 	
+	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
+	bool hasShadowMap = shadowCamera != nullptr;
 	for(CMesh* mesh : m_renderQueue)
 	{
-		DrawMesh(mesh);
+		auto effectProvider = mesh->GetEffectProvider();
+		auto effect = std::static_pointer_cast<CIosEffect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
+		DrawMesh(mesh, effect, viewProjMatrix, hasShadowMap, shadowViewProjMatrix);
+	}
+}
+
+void CIosGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
+{
+	auto camera = viewport->GetShadowCamera();
+	if(!camera) return;
+		
+	glBindFramebuffer(GL_FRAMEBUFFER, m_shadowMapFramebuffer);
+	
+	if(!m_shadowMapEffect)
+	{
+		m_shadowMapEffect = std::make_shared<CIosShadowMapEffect>();
+	}
+	
+	glViewport(0, 0, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
+	glScissor(0, 0, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearDepthf(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	m_renderQueue.clear();
+	
+	const auto& sceneRoot = viewport->GetSceneRoot();
+	sceneRoot->TraverseNodes(
+		[&](const SceneNodePtr& node)
+		{
+			if(!node->GetVisible()) return false;
+
+			if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
+			{
+				if(mesh->GetMaterial()->GetShadowCasting())
+				{
+					m_renderQueue.push_back(mesh.get());
+				}
+			}
+			return true;
+		}
+	);
+	
+	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	for(const auto& mesh : m_renderQueue)
+	{
+		DrawMesh(mesh, m_shadowMapEffect, viewProjMatrix);
 	}
 }
 
@@ -179,7 +256,7 @@ bool CIosGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* camer
 	return true;
 }
 
-void CIosGraphicDevice::DrawMesh(CMesh* mesh)
+void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const CMatrix4& viewProjMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	
@@ -189,9 +266,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 	GLuint vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	uint16* indexBuffer = vertexBufferGen->GetIndexBuffer();
 	GLuint vertexArray = vertexBufferGen->GetVertexArray();
-			
-	auto effect = std::static_pointer_cast<CIosEffect>(mesh->GetEffectProvider()->GetEffectForRenderable(mesh, false));
-	
+
 	//Setup material
 	{
 		auto material = mesh->GetMaterial();
@@ -200,13 +275,15 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 		glUseProgram(effect->GetProgram());
 		CHECKGLERROR();
 		
-		effect->UpdateConstants(material, mesh->GetWorldTransformation(), m_viewProjMatrix, CMatrix4());
-		
+		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewProjMatrix, shadowViewProjMatrix);
+		CHECKGLERROR();
+
+		unsigned int textureCount = 0;
 		for(unsigned int i = 0; i < CMaterial::MAX_TEXTURE_SLOTS; i++)
 		{
 			const auto& texture = std::static_pointer_cast<CIosTexture>(material->GetTexture(i));
-			if(!texture) continue;
-			GLuint textureHandle = reinterpret_cast<GLuint>(texture->GetHandle());
+			if(!texture) break;
+			GLuint textureHandle = static_cast<GLuint>(reinterpret_cast<size_t>(texture->GetHandle()));
 			glActiveTexture(GL_TEXTURE0 + i);
 			if(texture->IsCubeMap())
 			{
@@ -219,6 +296,19 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
 			CHECKGLERROR();
+			textureCount++;
+		}
+		
+		if(hasShadowMap)
+		{
+			glActiveTexture(GL_TEXTURE0 + textureCount);
+			glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			CHECKGLERROR();			
+			textureCount++;
 		}
 				
 		ALPHA_BLENDING_MODE alphaBlendingMode = material->GetAlphaBlendingMode();
@@ -272,12 +362,65 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh)
 			primitiveType = GL_TRIANGLES;
 			vertexCount = (primitiveCount * 3);
 			break;
+		default:
+			assert(0);
+			break;
 	}
 	
 	glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, indexBuffer);
 	CHECKGLERROR();
 	
 	m_drawCallCount++;
+}
+
+void CIosGraphicDevice::CreateShadowMap()
+{
+	glGenTextures(1, &m_shadowMapTexture);
+	
+	glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RGBA, GL_HALF_FLOAT_OES, nullptr);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	CHECKGLERROR();
+	
+	glGenRenderbuffers(1, &m_shadowMapDepthbuffer);
+
+	glBindRenderbuffer(GL_RENDERBUFFER, m_shadowMapDepthbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	CHECKGLERROR();
+
+	glGenFramebuffers(1, &m_shadowMapFramebuffer);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, m_shadowMapFramebuffer);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_shadowMapTexture, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_shadowMapDepthbuffer);
+	CHECKGLERROR();
+	
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(status != GL_FRAMEBUFFER_COMPLETE)
+	{
+		switch(status)
+		{
+			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+				NSLog(@"Failed to build framebuffer: Incomplete Attachment.");
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+				NSLog(@"Failed to build framebuffer: Incomplete Dimensions.");
+				break;
+			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+				NSLog(@"Failed to build framebuffer: Missing Attachment.");
+				break;
+			case GL_FRAMEBUFFER_UNSUPPORTED:
+				NSLog(@"Failed to build framebuffer: Unsupported.");
+				break;
+			default:
+				NSLog(@"Failed to build framebuffer: Unknown Status(0x%x).", status);
+				break;
+		}
+		assert(0);
+	}
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void CIosGraphicDevice::SetFrameRate(float frameRate)

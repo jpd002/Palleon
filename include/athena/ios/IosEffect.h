@@ -26,4 +26,6 @@ namespace Athena
 		GLuint			CompileShader(const char*, GLenum);
 		void			DumpProgramLog(GLuint);
 	};
+	
+	typedef std::shared_ptr<CIosEffect> IosEffectPtr;
 }

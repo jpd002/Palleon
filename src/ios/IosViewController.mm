@@ -151,10 +151,13 @@ using namespace Athena;
 	CFAbsoluteTime nextTime = CFAbsoluteTimeGetCurrent();
 	CFAbsoluteTime deltaTime = nextTime - m_currentTime;
 	m_currentTime = nextTime;
-	[(EAGLView *)self.view setFramebuffer];
+	
+	EAGLView* glView = (EAGLView*)self.view;
+	[glView setFramebuffer];
 	m_application->Update(static_cast<float>(deltaTime));
+	static_cast<CIosGraphicDevice&>(CGraphicDevice::GetInstance()).SetMainFramebuffer([glView getFramebuffer]);
 	CGraphicDevice::GetInstance().Draw();
-	[(EAGLView *)self.view presentFramebuffer];
+	[glView presentFramebuffer];
 	
 	m_currentFrameCount++;
 	m_frameCounterTime += deltaTime;
