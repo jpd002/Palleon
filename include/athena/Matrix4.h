@@ -42,6 +42,19 @@ public:
 		return result;
 	}
 
+	CMatrix4 Transpose() const
+	{
+		CMatrix4 result;
+		for(unsigned int i = 0; i < 4; i++)
+		{
+			for(unsigned int j = 0; j < 4; j++)
+			{
+				result(i, j) = (*this)(j, i);
+			}
+		}
+		return result;
+	}
+
 	CMatrix4 Inverse() const
 	{
 		float a0 = coeff[ 0]*coeff[ 5] - coeff[ 1]*coeff[ 4];
