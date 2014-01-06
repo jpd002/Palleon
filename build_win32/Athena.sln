@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib-1.2.8", "..\..\zlib-1.2.8\zlib-1.2.8.vcxproj", "{4A0B5134-AB23-452D-8513-8225FA178356}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuakeViewer", "..\samples\QuakeViewer\build_win32\QuakeViewer.vcxproj", "{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -56,6 +58,14 @@ Global
 		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|Win32.Build.0 = Release|Win32
 		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|x64.ActiveCfg = Release|x64
 		{4A0B5134-AB23-452D-8513-8225FA178356}.Release|x64.Build.0 = Release|x64
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Debug|Win32.Build.0 = Debug|Win32
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Debug|x64.ActiveCfg = Debug|x64
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Debug|x64.Build.0 = Debug|x64
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Release|Win32.ActiveCfg = Release|Win32
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Release|Win32.Build.0 = Release|Win32
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Release|x64.ActiveCfg = Release|x64
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +74,6 @@ Global
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
 		{4A0B5134-AB23-452D-8513-8225FA178356} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
 		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
+		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 	EndGlobalSection
 EndGlobal

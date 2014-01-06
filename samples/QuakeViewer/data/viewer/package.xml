@@ -1,0 +1,4 @@
+<Package>
+	<Texture Source="backward.png" />
+	<Texture Source="forward.png" />
+</Package>

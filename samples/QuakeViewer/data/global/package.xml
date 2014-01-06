@@ -1,0 +1,4 @@
+<Package>
+	<Texture Source="font_0.png" />
+	<FontDescriptor Source="font.fnt" />
+</Package>
