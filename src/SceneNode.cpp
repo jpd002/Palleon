@@ -184,7 +184,7 @@ void CSceneNode::UpdateTransformations()
 	CMatrix4 localRotation(m_rotation.ToMatrix());
 	CMatrix4 localScale(CMatrix4::MakeScale(m_scale.x, m_scale.y, m_scale.z));
 	CMatrix4 localPosition(CMatrix4::MakeTranslation(m_position.x, m_position.y, m_position.z));
-	CMatrix4 localTransformation(applyHotspotTransformation * localRotation * localScale * localPosition * removeHotspotTransformation);
+	CMatrix4 localTransformation(applyHotspotTransformation * localScale * localRotation * localPosition * removeHotspotTransformation);
 
 	if(m_parent == NULL)
 	{
