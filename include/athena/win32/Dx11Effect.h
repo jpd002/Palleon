@@ -30,7 +30,8 @@ namespace Athena
 		D3D11VertexShaderPtr	GetVertexShader() const;
 		D3D11PixelShaderPtr		GetPixelShader() const;
 		D3DBlobPtr				GetVertexShaderCode() const;
-		D3D11BufferPtr			GetConstantBuffer() const;
+		D3D11BufferPtr			GetVertexConstantBuffer() const;
+		D3D11BufferPtr			GetPixelConstantBuffer() const;
 		D3D11InputLayoutPtr		GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
 
 		virtual void			UpdateConstants(const MaterialPtr&, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix) = 0;
@@ -52,7 +53,8 @@ namespace Athena
 
 		void					CompileVertexShader(const std::string&);
 		void					CompilePixelShader(const std::string&);
-		void					CreateConstantBuffer(uint32);
+		void					CreateVertexConstantBuffer(uint32);
+		void					CreatePixelConstantBuffer(uint32);
 		D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
 
 		ID3D11Device*			m_device;
@@ -60,8 +62,8 @@ namespace Athena
 		D3D11VertexShaderPtr	m_vertexShader;
 		D3DBlobPtr				m_vertexShaderCode;
 		D3D11PixelShaderPtr		m_pixelShader;
-		D3D11BufferPtr			m_constantBuffer;
-
+		D3D11BufferPtr			m_vertexConstantBuffer;
+		D3D11BufferPtr			m_pixelConstantBuffer;
 		InputLayoutMap			m_inputLayouts;
 	};
 }

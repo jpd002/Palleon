@@ -111,6 +111,7 @@ void CDx11GraphicDevice::CreateDevice()
 		samplerDesc.AddressV	= D3D11_TEXTURE_ADDRESS_CLAMP;
 		samplerDesc.AddressW	= D3D11_TEXTURE_ADDRESS_CLAMP;
 		samplerDesc.Filter		= D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		samplerDesc.MaxLOD		= FLT_MAX;
 		
 		result = m_device->CreateSamplerState(&samplerDesc, &m_defaultSamplerState);
 		assert(SUCCEEDED(result));
@@ -557,8 +558,9 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 		}
 
 		m_deviceContext->IASetInputLayout(inputLayout);
-		m_deviceContext->VSSetConstantBuffers(0, 1, &effect->GetConstantBuffer());
+		m_deviceContext->VSSetConstantBuffers(0, 1, &effect->GetVertexConstantBuffer());
 		m_deviceContext->VSSetShader(effect->GetVertexShader(), nullptr, 0);
+		m_deviceContext->PSSetConstantBuffers(0, 1, &effect->GetPixelConstantBuffer());
 		m_deviceContext->PSSetShader(effect->GetPixelShader(), nullptr, 0);
 		m_deviceContext->PSSetShaderResources(0, textureCount, textureViews);
 		m_deviceContext->PSSetSamplers(0, textureCount, samplerStates);

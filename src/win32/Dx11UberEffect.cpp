@@ -27,7 +27,7 @@ CDx11UberEffect::CDx11UberEffect(ID3D11Device* device, ID3D11DeviceContext* devi
 	if(effectCaps.hasDiffuseMap3)	m_diffuseTextureMatrixOffset[3] = constantOffset.Allocate(0x40);
 	if(effectCaps.hasDiffuseMap4)	m_diffuseTextureMatrixOffset[4] = constantOffset.Allocate(0x40);
 
-	CreateConstantBuffer(constantOffset.currentOffset);
+	CreateVertexConstantBuffer(constantOffset.currentOffset);
 }
 
 CDx11UberEffect::~CDx11UberEffect()
@@ -38,7 +38,7 @@ CDx11UberEffect::~CDx11UberEffect()
 void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-	HRESULT result = m_deviceContext->Map(m_constantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	HRESULT result = m_deviceContext->Map(m_vertexConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
 
 	auto constantBufferPtr = reinterpret_cast<uint8*>(mappedResource.pData);
@@ -62,5 +62,5 @@ void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix
 		}
 	}
 
-	m_deviceContext->Unmap(m_constantBuffer, 0);
+	m_deviceContext->Unmap(m_vertexConstantBuffer, 0);
 }

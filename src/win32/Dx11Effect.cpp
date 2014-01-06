@@ -26,9 +26,14 @@ CDx11Effect::D3D11PixelShaderPtr CDx11Effect::GetPixelShader() const
 	return m_pixelShader;
 }
 
-CDx11Effect::D3D11BufferPtr CDx11Effect::GetConstantBuffer() const
+CDx11Effect::D3D11BufferPtr CDx11Effect::GetVertexConstantBuffer() const
 {
-	return m_constantBuffer;
+	return m_vertexConstantBuffer;
+}
+
+CDx11Effect::D3D11BufferPtr CDx11Effect::GetPixelConstantBuffer() const
+{
+	return m_pixelConstantBuffer;
 }
 
 CDx11Effect::D3D11InputLayoutPtr CDx11Effect::GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
@@ -98,7 +103,7 @@ void CDx11Effect::CompilePixelShader(const std::string& shaderText)
 	assert(SUCCEEDED(result));
 }
 
-void CDx11Effect::CreateConstantBuffer(uint32 size)
+void CDx11Effect::CreateVertexConstantBuffer(uint32 size)
 {
 	D3D11_BUFFER_DESC bufferDesc = {};
 	bufferDesc.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
@@ -106,7 +111,19 @@ void CDx11Effect::CreateConstantBuffer(uint32 size)
 	bufferDesc.Usage			= D3D11_USAGE_DYNAMIC;
 	bufferDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
 
-	HRESULT result = m_device->CreateBuffer(&bufferDesc, nullptr, &m_constantBuffer);
+	HRESULT result = m_device->CreateBuffer(&bufferDesc, nullptr, &m_vertexConstantBuffer);
+	assert(SUCCEEDED(result));
+}
+
+void CDx11Effect::CreatePixelConstantBuffer(uint32 size)
+{
+	D3D11_BUFFER_DESC bufferDesc = {};
+	bufferDesc.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.ByteWidth		= size;
+	bufferDesc.Usage			= D3D11_USAGE_DYNAMIC;
+	bufferDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_WRITE;
+
+	HRESULT result = m_device->CreateBuffer(&bufferDesc, nullptr, &m_pixelConstantBuffer);
 	assert(SUCCEEDED(result));
 }
 
