@@ -84,11 +84,11 @@ void CLevelViewContext::InitializeMapViewport()
 
 	Athena::CGraphicDevice::GetInstance().AddViewport(m_mapViewport.get());
 
-	Athena::SceneNodePtr sceneRoot = m_mapViewport->GetSceneRoot();
+	auto sceneRoot = m_mapViewport->GetSceneRoot();
 
 	//Create skybox
 	{
-		Athena::MeshPtr skyBox = Athena::CCubeMesh::Create();
+		auto skyBox = Athena::CCubeMesh::Create();
 		skyBox->SetIsPeggedToOrigin(true);
 		skyBox->SetScale(CVector3(50, 50, 50));
 		skyBox->GetMaterial()->SetCullingMode(Athena::CULLING_CW);
@@ -101,7 +101,7 @@ void CLevelViewContext::InitializeMapViewport()
 
 	//Create reflective sphere
 	{
-		Athena::MeshPtr sphere = Athena::CSphereMesh::Create();
+		auto sphere = Athena::CSphereMesh::Create();
 		sphere->SetPosition(m_sphereBasePosition);
 		sphere->SetScale(CVector3(25, 25, 25));
 		sphere->GetMaterial()->SetTexture(0, m_reflectionRenderTarget);
