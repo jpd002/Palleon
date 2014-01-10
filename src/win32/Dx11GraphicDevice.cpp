@@ -94,18 +94,6 @@ void CDx11GraphicDevice::CreateDevice()
 	}
 
 	{
-		D3D11_RASTERIZER_DESC rasterDesc = {};
-
-		rasterDesc.CullMode					= D3D11_CULL_BACK;
-		rasterDesc.FrontCounterClockwise	= false;
-		rasterDesc.FillMode					= D3D11_FILL_SOLID;
-		rasterDesc.DepthClipEnable			= true;
-
-		result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
-		assert(SUCCEEDED(result));
-	}
-
-	{
 		D3D11_SAMPLER_DESC samplerDesc = {};
 		samplerDesc.AddressU	= D3D11_TEXTURE_ADDRESS_CLAMP;
 		samplerDesc.AddressV	= D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -116,8 +104,6 @@ void CDx11GraphicDevice::CreateDevice()
 		result = m_device->CreateSamplerState(&samplerDesc, &m_defaultSamplerState);
 		assert(SUCCEEDED(result));
 	}
-
-	m_deviceContext->RSSetState(m_rasterState);
 }
 
 void CDx11GraphicDevice::CreateShadowMap()
@@ -287,6 +273,41 @@ ID3D11BlendState* CDx11GraphicDevice::GetBlendState(ALPHA_BLENDING_MODE blending
 	return m_blendStates[blendingMode];
 }
 
+ID3D11RasterizerState* CDx11GraphicDevice::GetRasterizerState(const RASTERIZER_STATE_INFO& stateInfo)
+{
+	D3D11RasterizerStatePtr state;
+
+	uint32 stateKey = *reinterpret_cast<const uint32*>(&stateInfo);
+	auto stateIterator = m_rasterizerStates.find(stateKey);
+	if(stateIterator == std::end(m_rasterizerStates))
+	{
+		static const D3D11_CULL_MODE c_cullModes[CULLING_MODE_MAX] =
+		{
+			D3D11_CULL_NONE,
+			D3D11_CULL_BACK,
+			D3D11_CULL_FRONT
+		};
+
+		D3D11_RASTERIZER_DESC rasterDesc = {};
+
+		rasterDesc.CullMode					= c_cullModes[stateInfo.cullMode];
+		rasterDesc.FrontCounterClockwise	= false;
+		rasterDesc.FillMode					= D3D11_FILL_SOLID;
+		rasterDesc.DepthClipEnable			= true;
+
+		HRESULT result = m_device->CreateRasterizerState(&rasterDesc, &state);
+		assert(SUCCEEDED(result));
+
+		m_rasterizerStates.insert(std::make_pair(stateKey, state));
+	}
+	else
+	{
+		state = stateIterator->second;
+	}
+
+	return state;
+}
+
 ID3D11DepthStencilState* CDx11GraphicDevice::GetDepthStencilState(const DEPTHSTENCIL_STATE_INFO& stateInfo)
 {
 	D3D11DepthStencilStatePtr state;
@@ -449,11 +470,19 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	bool hasShadowMap = shadowCamera != nullptr;
+
+	auto peggedViewMatrix = camera->GetViewMatrix();
+	peggedViewMatrix(3, 0) = 0;
+	peggedViewMatrix(3, 1) = 0;
+	peggedViewMatrix(3, 2) = 0;
+	auto peggedViewProjMatrix = peggedViewMatrix * camera->GetProjectionMatrix();
+
 	for(const auto& mesh : m_renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CDx11Effect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
-		DrawMesh(mesh, effect, viewProjMatrix, hasShadowMap, shadowViewProjMatrix);
+		bool isPeggedToOrigin = mesh->GetIsPeggedToOrigin();
+		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewProjMatrix : viewProjMatrix, hasShadowMap, shadowViewProjMatrix);
 	}
 }
 
@@ -575,15 +604,17 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 			depthStencilStateInfo.stencilTestEnabled	= material->GetStencilEnabled();
 			depthStencilStateInfo.stencilFunction		= material->GetStencilFunction();
 			depthStencilStateInfo.stencilFailAction		= material->GetStencilFailAction();
-			depthStencilStateInfo.depthWriteEnabled		= (material->GetAlphaBlendingMode() == ALPHA_BLENDING_NONE);
+			depthStencilStateInfo.depthWriteEnabled		= (material->GetAlphaBlendingMode() == ALPHA_BLENDING_NONE) && !mesh->GetIsPeggedToOrigin();
 			auto depthStencilState = GetDepthStencilState(depthStencilStateInfo);
 			m_deviceContext->OMSetDepthStencilState(depthStencilState, material->GetStencilValue());
 		}
 
-/*
-		CULLING_MODE cullingMode = material->GetCullingMode();
-		m_device->SetRenderState(D3DRS_CULLMODE, g_cullingModes[cullingMode]);
-*/
+		{
+			RASTERIZER_STATE_INFO rasterizerStateInfo = {};
+			rasterizerStateInfo.cullMode = material->GetCullingMode();
+			auto rasterizerState = GetRasterizerState(rasterizerStateInfo);
+			m_deviceContext->RSSetState(rasterizerState);
+		}
 	}
 
 	UINT vertexStride = vertexBufferGen->GetDescriptor().GetVertexSize();

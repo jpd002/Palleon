@@ -48,6 +48,15 @@ namespace Athena
 			MAX_PIXEL_SHADER_RESOURCE_SLOTS = MAX_DIFFUSE_SLOTS + 1
 		};
 
+		struct RASTERIZER_STATE_INFO
+		{
+			unsigned int		cullMode				: 2;
+		};
+		static_assert(sizeof(RASTERIZER_STATE_INFO) == 4, "RASTERIZER_STATE_INFO's size must be 4 bytes.");
+
+		typedef Framework::Win32::CComPtr<ID3D11RasterizerState> D3D11RasterizerStatePtr;
+		typedef std::unordered_map<uint32, D3D11RasterizerStatePtr> RasterizerStateMap;
+
 		struct DEPTHSTENCIL_STATE_INFO
 		{
 			unsigned int		depthWriteEnabled		: 1;
@@ -81,6 +90,7 @@ namespace Athena
 		void							CreateShadowMap();
 
 		ID3D11BlendState*				GetBlendState(ALPHA_BLENDING_MODE);
+		ID3D11RasterizerState*			GetRasterizerState(const RASTERIZER_STATE_INFO&);
 		ID3D11DepthStencilState*		GetDepthStencilState(const DEPTHSTENCIL_STATE_INFO&);
 		ID3D11SamplerState*				GetSamplerState(const SAMPLER_STATE_INFO&);
 
@@ -96,9 +106,9 @@ namespace Athena
 		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_renderTargetView;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_depthBuffer;
 		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_depthBufferView;
-		Framework::Win32::CComPtr<ID3D11RasterizerState>		m_rasterState;
 		Framework::Win32::CComPtr<ID3D11SamplerState>			m_defaultSamplerState;
 		Framework::Win32::CComPtr<ID3D11BlendState>				m_blendStates[ALPHA_BLENDING_MODE_MAX];
+		RasterizerStateMap										m_rasterizerStates;
 		DepthStencilStateMap									m_depthStencilStates;
 		SamplerStateMap											m_samplerStates;
 
