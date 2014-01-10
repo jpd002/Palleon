@@ -181,6 +181,9 @@
     <ClCompile Include="..\src\win32\Dx11UberEffectProvider.cpp">
       <Filter>Source Files\win32\UberEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\resources\DdsImage.cpp">
+      <Filter>Source Files\resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -387,6 +390,9 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\win32\Dx11UberEffectProvider.h">
       <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\resources\DdsImage.h">
+      <Filter>Source Files\resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

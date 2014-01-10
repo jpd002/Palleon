@@ -220,7 +220,7 @@ TexturePtr CDx11GraphicDevice::CreateTextureFromRawData(const void* data, TEXTUR
 
 TexturePtr CDx11GraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
-	return TexturePtr();
+	return CDx11Texture::CreateCubeFromFile(m_device, m_deviceContext, path);
 }
 
 RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)

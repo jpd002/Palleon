@@ -1,4 +1,5 @@
 #include "athena/win32/Dx11Texture.h"
+#include "athena/resources/DdsImage.h"
 #include <assert.h>
 #include "bitmap/Bitmap.h"
 #include "bitmap/PNG.h"
@@ -78,13 +79,9 @@ TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, ID3D11DeviceCont
 	return CreateFromStream(device, deviceContext, Framework::CPtrStream(data, dataSize));
 }
 
-TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, const char* path)
+TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* path)
 {
-//	IDirect3DCubeTexture9* texture(NULL);
-//	HRESULT result = D3DXCreateCubeTextureFromFileA(device, path, &texture);
-//	assert(SUCCEEDED(result));
-//	return std::make_shared<CDx11Texture>(texture);
-	return TexturePtr();
+	return CreateCubeFromStream(device, deviceContext, Framework::CStdStream(path, "rb"));
 }
 
 TexturePtr CDx11Texture::CreateFromStream(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Framework::CStream& stream)
@@ -145,6 +142,45 @@ TexturePtr CDx11Texture::CreateFromStream(ID3D11Device* device, ID3D11DeviceCont
 		textureDesc.SampleDesc.Count	= 1;
 		textureDesc.SampleDesc.Quality	= 0;
 		HRESULT result = device->CreateTexture2D(&textureDesc, &subResourceData, &texture);
+		assert(SUCCEEDED(result));
+	}
+
+	return std::make_shared<CDx11Texture>(device, deviceContext, texture);
+}
+
+TexturePtr CDx11Texture::CreateCubeFromStream(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Framework::CStream& stream)
+{
+	CDdsImage image(stream);
+	assert(image.IsCubeMap());
+	if(!image.IsCubeMap()) return TexturePtr();
+
+	const auto& surfaces(image.GetSurfaces());
+
+	ID3D11Texture2D* texture(nullptr);
+
+	{
+		D3D11_SUBRESOURCE_DATA subResourceData[6];
+		memset(subResourceData, 0, sizeof(subResourceData));
+		for(unsigned int i = 0; i < 6; i++)
+		{
+			auto& faceSubResourceData(subResourceData[i]);
+			faceSubResourceData.pSysMem				= surfaces[i].data();
+			faceSubResourceData.SysMemPitch			= image.GetPitch();
+			faceSubResourceData.SysMemSlicePitch	= 0;
+		}
+
+		D3D11_TEXTURE2D_DESC textureDesc = {};
+		textureDesc.Width				= image.GetWidth();
+		textureDesc.Height				= image.GetHeight();
+		textureDesc.MipLevels			= 1;
+		textureDesc.ArraySize			= 6;
+		textureDesc.Format				= DXGI_FORMAT_B8G8R8A8_UNORM;
+		textureDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
+		textureDesc.MiscFlags			= D3D11_RESOURCE_MISC_TEXTURECUBE;
+		textureDesc.SampleDesc.Count	= 1;
+		textureDesc.SampleDesc.Quality	= 0;
+
+		HRESULT result = device->CreateTexture2D(&textureDesc, subResourceData, &texture);
 		assert(SUCCEEDED(result));
 	}
 

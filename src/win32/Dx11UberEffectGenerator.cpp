@@ -94,14 +94,14 @@ std::string CDx11UberEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps
 {
 	std::string result;
 
-	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampler(0);
-	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampler(1);
-	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampler(2);
-	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampler(3);
-	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampler(4);
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampler(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampler(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampler(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampler(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampler(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc));
 	if(caps.hasShadowMap)
 	{
-		result += PrintLine("texture2D c_shadowTexture;");
+		result += PrintLine("Texture2D c_shadowTexture;");
 		result += PrintLine("SamplerState c_shadowSampler;");
 	}
 	
@@ -120,11 +120,11 @@ std::string CDx11UberEffectGenerator::GeneratePixelShader(const EFFECTCAPS& caps
 	result += PrintLine("float4 PixelProgram(PixelInputType input) : SV_TARGET");
 	result += PrintLine("{");
 	result += PrintLine("	float4 diffuseColor = input.color;");
-	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampling(0, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap0CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap0CombineMode));
-	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampling(1, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap1CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap1CombineMode));
-	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap2CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
-	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap3CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
-	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COORD_SOURCE>(caps.diffuseMap4CoordSrc), static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));
+	if(caps.hasDiffuseMap0) result += GenerateDiffuseMapSampling(0, static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap0CombineMode));
+	if(caps.hasDiffuseMap1) result += GenerateDiffuseMapSampling(1, static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap1CombineMode));
+	if(caps.hasDiffuseMap2) result += GenerateDiffuseMapSampling(2, static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap2CombineMode));
+	if(caps.hasDiffuseMap3) result += GenerateDiffuseMapSampling(3, static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap3CombineMode));
+	if(caps.hasDiffuseMap4) result += GenerateDiffuseMapSampling(4, static_cast<DIFFUSE_MAP_COMBINE_MODE>(caps.diffuseMap4CombineMode));
 
 	if(caps.hasShadowMap) 
 	{
@@ -185,7 +185,7 @@ std::string CDx11UberEffectGenerator::GenerateDiffuseMapCoordComputation(unsigne
 		result += PrintLine("	output.diffuseCoord%d = mul(float4(input.texCoord1, 0, 1), c_diffuse%dTextureMatrix);", index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
-		result += PrintLine("	output.diffuseCoord%d = normalize(worldPos).xyz;", index);
+		result += PrintLine("	output.diffuseCoord%d = normalize(worldPosition).xyz;", index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
 		result += PrintLine("	output.diffuseCoord%d = reflect(viewDir, worldNrm);", index);
@@ -195,11 +195,22 @@ std::string CDx11UberEffectGenerator::GenerateDiffuseMapCoordComputation(unsigne
 	return result;
 }
 
-std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampler(unsigned int index)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampler(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source)
 {
 	std::string result;
 
-	result += PrintLine("texture2D c_diffuse%dTexture;", index);
+	switch(source)
+	{
+	case DIFFUSE_MAP_COORD_UV0:
+	case DIFFUSE_MAP_COORD_UV1:
+		result += PrintLine("Texture2D c_diffuse%dTexture;", index);
+		break;
+	case DIFFUSE_MAP_COORD_CUBE_POS:
+	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
+		result += PrintLine("TextureCube c_diffuse%dTexture;", index);
+		break;
+	}
+
 	result += PrintLine("SamplerState c_diffuse%dSampler;", index);
 
 	return result;
@@ -214,21 +225,11 @@ std::string CDx11UberEffectGenerator::GenerateDiffuseMapMatrix(unsigned int inde
 	return result;
 }
 
-std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COORD_SOURCE source, DIFFUSE_MAP_COMBINE_MODE combineMode)
+std::string CDx11UberEffectGenerator::GenerateDiffuseMapSampling(unsigned int index, DIFFUSE_MAP_COMBINE_MODE combineMode)
 {
 	std::string result;
 
-	switch(source)
-	{
-	case DIFFUSE_MAP_COORD_UV0:
-	case DIFFUSE_MAP_COORD_UV1:
-		result += PrintLine("	float4 diffuseColor%d = c_diffuse%dTexture.Sample(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index, index);
-		break;
-	case DIFFUSE_MAP_COORD_CUBE_POS:
-	case DIFFUSE_MAP_COORD_CUBE_REFLECT:
-		result += PrintLine("	float4 diffuseColor%d = texCUBE(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index);
-		break;
-	}
+	result += PrintLine("	float4 diffuseColor%d = c_diffuse%dTexture.Sample(c_diffuse%dSampler, input.diffuseCoord%d);", index, index, index, index);
 
 	switch(combineMode)
 	{
