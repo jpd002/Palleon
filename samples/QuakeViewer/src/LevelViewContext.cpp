@@ -121,7 +121,7 @@ void CLevelViewContext::InitializeHudViewport()
 	m_hudViewport = Athena::CViewport::Create();
 
 	{
-		Athena::CameraPtr camera = Athena::CCamera::Create();
+		auto camera = Athena::CCamera::Create();
 		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_hudViewport->SetCamera(camera);
 	}
@@ -129,7 +129,7 @@ void CLevelViewContext::InitializeHudViewport()
 
 	//Create hud elements
 	{
-		Athena::SceneNodePtr sceneRoot = m_hudViewport->GetSceneRoot();
+		auto sceneRoot = m_hudViewport->GetSceneRoot();
 
 		{
 			Athena::LabelPtr label = Athena::CLabel::Create();
