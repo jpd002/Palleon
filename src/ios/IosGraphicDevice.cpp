@@ -94,7 +94,10 @@ void CIosGraphicDevice::Draw()
 	{
 		DrawViewport(viewport);
 	}
+	CHECKGLERROR();
 	
+	//Make sure VAO doesn't binding doesn't leak somewhere else
+	glBindVertexArrayOES(0);
 	CHECKGLERROR();
 }
 
@@ -217,18 +220,18 @@ TexturePtr CIosGraphicDevice::CreateTextureFromMemory(const void* data, uint32 s
 TexturePtr CIosGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	auto texture = CIosTexture::Create(textureFormat, width, height);
-	std::static_pointer_cast<CIosTexture>(texture)->Update(data);
+	texture->Update(data);
 	return texture;
+}
+
+TexturePtr CIosGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
+{
+	return TexturePtr();
 }
 
 TexturePtr CIosGraphicDevice::CreateCubeTextureFromFile(const char* path)
 {
 	return CIosTexture::CreateCubeFromFile(path);
-}
-
-void CIosGraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
-{
-	std::static_pointer_cast<CIosTexture>(texture)->Update(data);	
 }
 
 RenderTargetPtr CIosGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -247,7 +250,10 @@ bool CIosGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* camer
 	
 	if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
 	{
-		m_renderQueue.push_back(mesh.get());
+		if(mesh->GetPrimitiveCount() != 0)
+		{
+			m_renderQueue.push_back(mesh.get());
+		}
 	}
 	else if(auto meshProvider = std::dynamic_pointer_cast<CMeshProvider>(node))
 	{
