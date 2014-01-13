@@ -33,8 +33,7 @@ namespace Athena
 		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) = 0;
 		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) = 0;
 
-		virtual void						UpdateTexture(const TexturePtr&, const void*) = 0;
-
+		virtual TexturePtr					CreateCubeTexture(TEXTURE_FORMAT, uint32) = 0;
 		virtual TexturePtr					CreateCubeTextureFromFile(const char*) = 0;
 
 		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) = 0;

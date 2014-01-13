@@ -201,6 +201,11 @@ TexturePtr CDx11GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint3
 	return CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
 }
 
+TexturePtr CDx11GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
+{
+	return CDx11Texture::CreateCube(m_device, m_deviceContext, textureFormat, size);
+}
+
 TexturePtr CDx11GraphicDevice::CreateTextureFromFile(const char* path)
 {
 	return CDx11Texture::CreateFromFile(m_device, m_deviceContext, path);
@@ -214,7 +219,7 @@ TexturePtr CDx11GraphicDevice::CreateTextureFromMemory(const void* data, uint32 
 TexturePtr CDx11GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	auto texture = CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
-	std::static_pointer_cast<CDx11Texture>(texture)->Update(data);
+	texture->Update(data);
 	return texture;
 }
 
@@ -226,11 +231,6 @@ TexturePtr CDx11GraphicDevice::CreateCubeTextureFromFile(const char* path)
 RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	return RenderTargetPtr();
-}
-
-void CDx11GraphicDevice::UpdateTexture(const TexturePtr& texture, const void* data)
-{
-	std::static_pointer_cast<CDx11Texture>(texture)->Update(data);
 }
 
 CubeRenderTargetPtr CDx11GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)

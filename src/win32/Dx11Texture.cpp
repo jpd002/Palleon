@@ -16,6 +16,8 @@ static const DXGI_FORMAT g_textureFormats[TEXTURE_FORMAT_MAX] =
 	DXGI_FORMAT_R8G8B8A8_UNORM,
 	DXGI_FORMAT_R8G8B8A8_UNORM,
 	DXGI_FORMAT_BC1_UNORM,
+	DXGI_FORMAT_BC2_UNORM,
+	DXGI_FORMAT_BC3_UNORM
 };
 
 CDx11Texture::CDx11Texture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11Texture2D* texture)
@@ -54,8 +56,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 		textureDesc.ArraySize			= 1;
 		textureDesc.Format				= specTextureFormat;
 		textureDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
-		textureDesc.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
-		textureDesc.Usage				= D3D11_USAGE_DYNAMIC;
+		textureDesc.Usage				= D3D11_USAGE_DEFAULT;
 		textureDesc.SampleDesc.Count	= 1;
 		textureDesc.SampleDesc.Quality	= 0;
 		HRESULT result = device->CreateTexture2D(&textureDesc, nullptr, &texture);
@@ -66,6 +67,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 	result->m_format = textureFormat;
 	result->m_width = width;
 	result->m_height = height;
+	result->m_mipCount = 1;
 	return result;
 }
 
@@ -77,6 +79,37 @@ TexturePtr CDx11Texture::CreateFromFile(ID3D11Device* device, ID3D11DeviceContex
 TexturePtr CDx11Texture::CreateFromMemory(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const void* data, uint32 dataSize)
 {
 	return CreateFromStream(device, deviceContext, Framework::CPtrStream(data, dataSize));
+}
+
+TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 size)
+{
+	auto specTextureFormat = g_textureFormats[textureFormat];
+
+	ID3D11Texture2D* texture(nullptr);
+
+	{
+		D3D11_TEXTURE2D_DESC textureDesc = {};
+		textureDesc.Width				= size;
+		textureDesc.Height				= size;
+		textureDesc.MipLevels			= 1;
+		textureDesc.ArraySize			= 6;
+		textureDesc.Format				= specTextureFormat;
+		textureDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
+		textureDesc.Usage				= D3D11_USAGE_DEFAULT;
+		textureDesc.MiscFlags			= D3D11_RESOURCE_MISC_TEXTURECUBE;
+		textureDesc.SampleDesc.Count	= 1;
+		textureDesc.SampleDesc.Quality	= 0;
+		HRESULT result = device->CreateTexture2D(&textureDesc, nullptr, &texture);
+		assert(SUCCEEDED(result));
+	}
+
+	auto result = std::make_shared<CDx11Texture>(device, deviceContext, texture);
+	result->m_format = textureFormat;
+	result->m_width = size;
+	result->m_height = size;
+	result->m_mipCount = 1;
+	result->m_isCube = true;
+	return result;
 }
 
 TexturePtr CDx11Texture::CreateCubeFromFile(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* path)
@@ -199,17 +232,40 @@ ID3D11ShaderResourceView* CDx11Texture::GetTextureView() const
 
 void CDx11Texture::Update(const void* data)
 {
-	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-	HRESULT result = m_deviceContext->Map(m_texture, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	assert(SUCCEEDED(result));
+	assert(!m_isCube);
+	UpdateSurface(0, data);
+}
 
-	uint32 srcPitch = (c_textureFormatSize[m_format] * m_width) / 8;
-	const uint8* srcPtr = reinterpret_cast<const uint8*>(data);
-	uint8* dstPtr = reinterpret_cast<uint8*>(mappedResource.pData);
+void CDx11Texture::UpdateCubeFace(TEXTURE_CUBE_FACE face, const void* data)
+{
+	static const D3D11_TEXTURECUBE_FACE c_cubeFaces[TEXTURE_CUBE_FACE_MAX] =
+	{
+		D3D11_TEXTURECUBE_FACE_POSITIVE_X,
+		D3D11_TEXTURECUBE_FACE_NEGATIVE_X,
+		D3D11_TEXTURECUBE_FACE_POSITIVE_Y,
+		D3D11_TEXTURECUBE_FACE_NEGATIVE_Y,
+		D3D11_TEXTURECUBE_FACE_POSITIVE_Z,
+		D3D11_TEXTURECUBE_FACE_NEGATIVE_Z
+	};
+
+	assert(m_mipCount != 0);
+	assert(m_isCube);
+	auto subresourceIndex = D3D11CalcSubresource(0, c_cubeFaces[face], m_mipCount);
+	UpdateSurface(subresourceIndex, data);
+}
+
+void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, const void* data)
+{
+	auto srcPitches = GetTexturePitches();
 
 	if(m_format == TEXTURE_FORMAT_RGB888)
 	{
 		//Conversion needed
+		const uint32 cvtPitch = m_width * 4;
+		const uint32 cvtDepthPitch = cvtPitch * m_height;
+		std::vector<uint8> conversionBuffer(cvtDepthPitch);
+		const uint8* srcPtr = reinterpret_cast<const uint8*>(data);
+		uint8* dstPtr = conversionBuffer.data();
 		for(uint32 y = 0; y < m_height; y++)
 		{
 			const uint8* srcLinePtr = srcPtr;
@@ -226,24 +282,30 @@ void CDx11Texture::Update(const void* data)
 				srcLinePtr += 3;
 				dstLinePtr += 4;
 			}
-			srcPtr += srcPitch;
-			dstPtr += mappedResource.RowPitch;
+			srcPtr += srcPitches.first;
+			dstPtr += cvtPitch;
 		}
-	}
-	else if(m_format == TEXTURE_FORMAT_DXT1)
-	{
-		assert(mappedResource.DepthPitch == (m_width * m_height * 4 / 8));
-		memcpy(dstPtr, data, mappedResource.DepthPitch);
+		m_deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, conversionBuffer.data(), cvtPitch, cvtDepthPitch);
 	}
 	else
 	{
-		for(uint32 y = 0; y < m_height; y++)
-		{
-			memcpy(dstPtr, srcPtr, srcPitch);
-			srcPtr += srcPitch;
-			dstPtr += mappedResource.RowPitch;
-		}
+		m_deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, data, srcPitches.first, srcPitches.second);
 	}
+}
 
-	m_deviceContext->Unmap(m_texture, 0);
+std::pair<uint32, uint32> CDx11Texture::GetTexturePitches() const
+{
+	if(m_format == TEXTURE_FORMAT_DXT1 || m_format == TEXTURE_FORMAT_DXT3 || m_format == TEXTURE_FORMAT_DXT5)
+	{
+		uint32 blockSize = c_textureFormatSize[m_format];
+		uint32 srcPitch = max(1, (m_width + 3) / 4) * blockSize;
+		uint32 srcDepthPitch = srcPitch * ((m_height + 3) / 4);
+		return std::make_pair(srcPitch, srcDepthPitch);
+	}
+	else
+	{
+		uint32 srcPitch = (c_textureFormatSize[m_format] * m_width) / 8;
+		uint32 srcDepthPitch = srcPitch * m_height;
+		return std::make_pair(srcPitch, srcDepthPitch);
+	}
 }

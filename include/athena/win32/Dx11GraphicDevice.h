@@ -15,21 +15,20 @@ namespace Athena
 		static void						CreateInstance(HWND, const CVector2&);
 		static void						DestroyInstance();
 
-		virtual void					Draw();
+		virtual void					Draw() override;
 
-		virtual VertexBufferPtr			CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
+		virtual VertexBufferPtr			CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 
-		virtual TexturePtr				CreateTexture(TEXTURE_FORMAT, uint32, uint32);
-		virtual TexturePtr				CreateTextureFromFile(const char*);
-		virtual TexturePtr				CreateTextureFromMemory(const void*, uint32);
-		virtual TexturePtr				CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32);
+		virtual TexturePtr				CreateTexture(TEXTURE_FORMAT, uint32, uint32) override;
+		virtual TexturePtr				CreateTextureFromFile(const char*) override;
+		virtual TexturePtr				CreateTextureFromMemory(const void*, uint32) override;
+		virtual TexturePtr				CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) override;
 
-		virtual void					UpdateTexture(const TexturePtr&, const void*);
+		virtual TexturePtr				CreateCubeTexture(TEXTURE_FORMAT, uint32) override;
+		virtual TexturePtr				CreateCubeTextureFromFile(const char*) override;
 
-		virtual TexturePtr				CreateCubeTextureFromFile(const char*);
-
-		virtual RenderTargetPtr			CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32);
-		virtual CubeRenderTargetPtr		CreateCubeRenderTarget(TEXTURE_FORMAT, uint32);
+		virtual RenderTargetPtr			CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) override;
+		virtual CubeRenderTargetPtr		CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) override;
 
 		ID3D11Device*					GetDevice() const;
 		ID3D11DeviceContext*			GetDeviceContext() const;

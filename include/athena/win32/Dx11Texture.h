@@ -17,16 +17,21 @@ namespace Athena
 		static TexturePtr			CreateFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
 		static TexturePtr			CreateFromMemory(ID3D11Device*, ID3D11DeviceContext*, const void*, uint32);
 	
+		static TexturePtr			CreateCube(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32);
 		static TexturePtr			CreateCubeFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
 
 		virtual void*				GetHandle() const override;
 		ID3D11ShaderResourceView*	GetTextureView() const;
 
-		void						Update(const void*);
+		virtual void				Update(const void*) override;
+		virtual void				UpdateCubeFace(TEXTURE_CUBE_FACE, const void*) override;
 
 	protected:
 		static TexturePtr			CreateFromStream(ID3D11Device*, ID3D11DeviceContext*, Framework::CStream&);
 		static TexturePtr			CreateCubeFromStream(ID3D11Device*, ID3D11DeviceContext*, Framework::CStream&);
+
+		void						UpdateSurface(unsigned int, const void*);
+		std::pair<uint32, uint32>	GetTexturePitches() const;
 
 		ID3D11Device*				m_device;
 		ID3D11DeviceContext*		m_deviceContext;
