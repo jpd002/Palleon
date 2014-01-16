@@ -467,7 +467,8 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 		}
 	);
 
-	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	auto viewMatrix = camera->GetViewMatrix();
+	auto projMatrix = camera->GetProjectionMatrix();
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	bool hasShadowMap = shadowCamera != nullptr;
 
@@ -475,14 +476,13 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	peggedViewMatrix(3, 0) = 0;
 	peggedViewMatrix(3, 1) = 0;
 	peggedViewMatrix(3, 2) = 0;
-	auto peggedViewProjMatrix = peggedViewMatrix * camera->GetProjectionMatrix();
 
 	for(const auto& mesh : m_renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CDx11Effect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
 		bool isPeggedToOrigin = mesh->GetIsPeggedToOrigin();
-		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewProjMatrix : viewProjMatrix, hasShadowMap, shadowViewProjMatrix);
+		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewMatrix : viewMatrix, projMatrix, hasShadowMap, shadowViewProjMatrix);
 	}
 }
 
@@ -528,14 +528,16 @@ void CDx11GraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 
-	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	auto viewMatrix = camera->GetViewMatrix();
+	auto projMatrix = camera->GetProjectionMatrix();
 	for(const auto& mesh : m_renderQueue)
 	{
-		DrawMesh(mesh, m_shadowMapEffect, viewProjMatrix);
+		DrawMesh(mesh, m_shadowMapEffect, viewMatrix, projMatrix);
 	}
 }
 
-void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, const CMatrix4& viewProjMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
+void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, const CMatrix4& viewMatrix, const CMatrix4& projMatrix,
+	bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 
@@ -549,20 +551,20 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 	const auto& descriptor = vertexBufferGen->GetDescriptor();
 	auto vertexBuffer = vertexBufferGen->GetVertexBuffer();
 	auto indexBuffer = vertexBufferGen->GetIndexBuffer();
+	auto inputLayout = effect->GetInputLayout(descriptor);
 
 	auto material = mesh->GetMaterial();
 	assert(material);
 
 	//Setup material
 	{
-		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewProjMatrix, shadowViewProjMatrix);
+		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewMatrix, projMatrix, shadowViewProjMatrix);
 
-		auto inputLayout = effect->GetInputLayout(descriptor);
-
+		//TODO: This needs to be moved in the effect class
 		unsigned int textureCount = 0;
 		ID3D11ShaderResourceView* textureViews[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
 		ID3D11SamplerState* samplerStates[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
-		for(unsigned int i = 0; i < MAX_DIFFUSE_SLOTS; i++)
+		for(unsigned int i = 0; i < CMaterial::MAX_TEXTURE_SLOTS; i++)
 		{
 			auto texture = material->GetTexture(i);
 			if(texture)
@@ -573,14 +575,21 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 				auto samplerState = GetSamplerState(samplerStateInfo);
 
 				auto specTexture = std::static_pointer_cast<CDx11Texture>(texture);
-				samplerStates[textureCount] = samplerState;
-				textureViews[textureCount] = specTexture->GetTextureView();
+				samplerStates[i] = samplerState;
+				textureViews[i] = specTexture->GetTextureView();
 				textureCount++;
+			}
+			else
+			{
+				samplerStates[i] = nullptr;
+				textureViews[i] = nullptr;
 			}
 		}
 
 		if(hasShadowMap)
 		{
+			assert(samplerStates[textureCount] == nullptr);
+			assert(textureViews[textureCount] == nullptr);
 			samplerStates[textureCount] = m_defaultSamplerState;
 			textureViews[textureCount] = m_shadowMapView;
 			textureCount++;
@@ -591,8 +600,8 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 		m_deviceContext->VSSetShader(effect->GetVertexShader(), nullptr, 0);
 		m_deviceContext->PSSetConstantBuffers(0, 1, &effect->GetPixelConstantBuffer());
 		m_deviceContext->PSSetShader(effect->GetPixelShader(), nullptr, 0);
-		m_deviceContext->PSSetShaderResources(0, textureCount, textureViews);
-		m_deviceContext->PSSetSamplers(0, textureCount, samplerStates);
+		m_deviceContext->PSSetShaderResources(0, MAX_PIXEL_SHADER_RESOURCE_SLOTS, textureViews);
+		m_deviceContext->PSSetSamplers(0, MAX_PIXEL_SHADER_RESOURCE_SLOTS, samplerStates);
 
 		{
 			auto blendState = GetBlendState(material->GetAlphaBlendingMode());

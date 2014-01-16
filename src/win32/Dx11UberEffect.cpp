@@ -35,7 +35,8 @@ CDx11UberEffect::~CDx11UberEffect()
 
 }
 
-void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix)
+void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewMatrix, const CMatrix4& projMatrix,
+	const CMatrix4& shadowViewProjMatrix)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 	HRESULT result = m_deviceContext->Map(m_vertexConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -47,7 +48,7 @@ void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix
 		*reinterpret_cast<CColor*>(constantBufferPtr + m_meshColorOffset) = material->GetColor();
 	}
 	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_worldMatrixOffset) = worldMatrix;
-	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_viewProjMatrixOffset) = viewProjMatrix;
+	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_viewProjMatrixOffset) = viewMatrix * projMatrix;
 	if(m_shadowViewProjMatrixOffset != -1)
 	{
 		*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_shadowViewProjMatrixOffset) = shadowViewProjMatrix;

@@ -39,12 +39,7 @@ namespace Athena
 	protected:
 		enum
 		{
-			MAX_DIFFUSE_SLOTS = 5,
-		};
-
-		enum
-		{
-			MAX_PIXEL_SHADER_RESOURCE_SLOTS = MAX_DIFFUSE_SLOTS + 1
+			MAX_PIXEL_SHADER_RESOURCE_SLOTS = CMaterial::MAX_TEXTURE_SLOTS + 1
 		};
 
 		struct RASTERIZER_STATE_INFO
@@ -96,7 +91,7 @@ namespace Athena
 		void							DrawViewport(CViewport*);
 		void							DrawViewportMainMap(CViewport*);
 		void							DrawViewportShadowMap(CViewport*);
-		void							DrawMesh(CMesh*, const Dx11EffectPtr&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4::MakeIdentity());
+		void							DrawMesh(CMesh*, const Dx11EffectPtr&, const CMatrix4&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4::MakeIdentity());
 
 		HWND													m_parentWnd;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;

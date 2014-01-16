@@ -34,7 +34,7 @@ namespace Athena
 		D3D11BufferPtr			GetPixelConstantBuffer() const;
 		D3D11InputLayoutPtr		GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
 
-		virtual void			UpdateConstants(const MaterialPtr&, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix) = 0;
+		virtual void			UpdateConstants(const MaterialPtr&, const CMatrix4& worldMatrix, const CMatrix4& viewMatrix, const CMatrix4& projMatrix, const CMatrix4& shadowViewProjMatrix) = 0;
 
 	protected:
 		struct OffsetKeeper

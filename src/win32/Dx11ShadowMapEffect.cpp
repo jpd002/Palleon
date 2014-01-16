@@ -57,7 +57,8 @@ CDx11ShadowMapEffect::~CDx11ShadowMapEffect()
 
 }
 
-void CDx11ShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix)
+void CDx11ShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewMatrix, const CMatrix4& projMatrix,
+	const CMatrix4& shadowViewProjMatrix)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 	HRESULT result = m_deviceContext->Map(m_vertexConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -65,7 +66,7 @@ void CDx11ShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CM
 
 	auto constantBufferPtr = reinterpret_cast<uint8*>(mappedResource.pData);
 	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_worldMatrixOffset) = worldMatrix;
-	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_viewProjMatrixOffset) = viewProjMatrix;
+	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_viewProjMatrixOffset) = viewMatrix * projMatrix;
 
 	m_deviceContext->Unmap(m_vertexConstantBuffer, 0);
 }
