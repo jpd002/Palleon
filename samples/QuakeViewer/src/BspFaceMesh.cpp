@@ -67,6 +67,10 @@ void CBspFaceMesh::BuildMeshOrPolygon(const CBspFile& bspFile, unsigned int face
 
 	Athena::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Athena::GenerateVertexBufferDescriptor(0, 0, 
 		Athena::VERTEX_BUFFER_HAS_POS | Athena::VERTEX_BUFFER_HAS_UV0 | Athena::VERTEX_BUFFER_HAS_UV1 | Athena::VERTEX_BUFFER_HAS_COLOR);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV0);
+	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV1);
+	const auto& colorVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_COLOR);
 
 	m_vertices = new uint8[bufferDesc.GetVertexSize() * m_vertexCount];
 	m_indices = new uint16[m_indexCount];
@@ -93,10 +97,10 @@ void CBspFaceMesh::BuildMeshOrPolygon(const CBspFile& bspFile, unsigned int face
 			{
 				color = CColor(1.0f, 1.0f, 1.0f, 1.0f);
 			}
-			*reinterpret_cast<CVector3*>(vertexPtr + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector2*>(vertexPtr + bufferDesc.uv0Offset) = texCoord0;
-			*reinterpret_cast<CVector2*>(vertexPtr + bufferDesc.uv1Offset) = texCoord1;
-			*reinterpret_cast<uint32*>(vertexPtr + bufferDesc.colorOffset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
+			*reinterpret_cast<CVector3*>(vertexPtr + posVertexItem->offset) = position;
+			*reinterpret_cast<CVector2*>(vertexPtr + uv0VertexItem->offset) = texCoord0;
+			*reinterpret_cast<CVector2*>(vertexPtr + uv1VertexItem->offset) = texCoord1;
+			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
 			vertexPtr += bufferDesc.GetVertexSize();
 		}
 	}
@@ -180,6 +184,10 @@ void CBspFaceMesh::BuildPatch(const CBspFile& bspFile, unsigned int faceIndex)
 
 	Athena::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Athena::GenerateVertexBufferDescriptor(vertexCount, indexCount, 
 		Athena::VERTEX_BUFFER_HAS_POS | Athena::VERTEX_BUFFER_HAS_UV0 | Athena::VERTEX_BUFFER_HAS_UV1 | Athena::VERTEX_BUFFER_HAS_COLOR);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV0);
+	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV1);
+	const auto& colorVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_COLOR);
 
 	m_vertices = new uint8[bufferDesc.GetVertexSize() * m_vertexCount];
 	m_indices = new uint16[m_indexCount];
@@ -201,10 +209,10 @@ void CBspFaceMesh::BuildPatch(const CBspFile& bspFile, unsigned int faceIndex)
 			{
 				color = CColor(1.0f, 1.0f, 1.0f, 1.0f);
 			}
-			*reinterpret_cast<CVector3*>(vertexPtr + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector2*>(vertexPtr + bufferDesc.uv0Offset) = texCoord0;
-			*reinterpret_cast<CVector2*>(vertexPtr + bufferDesc.uv1Offset) = texCoord1;
-			*reinterpret_cast<uint32*>(vertexPtr + bufferDesc.colorOffset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
+			*reinterpret_cast<CVector3*>(vertexPtr + posVertexItem->offset) = position;
+			*reinterpret_cast<CVector2*>(vertexPtr + uv0VertexItem->offset) = texCoord0;
+			*reinterpret_cast<CVector2*>(vertexPtr + uv1VertexItem->offset) = texCoord1;
+			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
 			vertexPtr += bufferDesc.GetVertexSize();
 		}
 	}
