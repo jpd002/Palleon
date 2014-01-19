@@ -95,6 +95,8 @@ void CNinePatch::UpdateVertices()
 	}
 
 	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc(m_vertexBuffer->GetDescriptor());
+	const auto& posVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_UV0);
 
 	float posX[4] =
 	{
@@ -138,8 +140,8 @@ void CNinePatch::UpdateVertices()
 				texU[x] / static_cast<float>(m_descriptor->GetWidth()), 
 				texV[y] / static_cast<float>(m_descriptor->GetHeight())
 				);
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = texCoord;
+			*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = position;
+			*reinterpret_cast<CVector2*>(vertices + uv0VertexItem->offset) = texCoord;
 			vertices += bufferDesc.GetVertexSize();
 		}
 	}

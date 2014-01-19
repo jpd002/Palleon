@@ -70,3 +70,31 @@ void CDx11ShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CM
 
 	m_deviceContext->Unmap(m_vertexConstantBuffer, 0);
 }
+
+CDx11Effect::D3D11InputLayoutPtr CDx11ShadowMapEffect::CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+{
+	const auto& posVertexItem = descriptor.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	assert(posVertexItem != nullptr);
+
+	typedef std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementArray;
+
+	InputElementArray inputElements;
+
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "POSITION";
+		inputElement.SemanticIndex			= 0;
+		inputElement.Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElement.AlignedByteOffset		= posVertexItem->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	D3D11InputLayoutPtr inputLayout;
+	HRESULT result = m_device->CreateInputLayout(inputElements.data(), inputElements.size(), 
+		m_vertexShaderCode->GetBufferPointer(), m_vertexShaderCode->GetBufferSize(), &inputLayout);
+	assert(SUCCEEDED(result));
+
+	return inputLayout;
+}

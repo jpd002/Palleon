@@ -23,7 +23,7 @@ EffectPtr CDx11UberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasS
 	auto vertexBufferGen = std::static_pointer_cast<CDx11VertexBuffer>(mesh->GetVertexBuffer());
 	assert(vertexBufferGen);
 
-	const VERTEX_BUFFER_DESCRIPTOR& descriptor = vertexBufferGen->GetDescriptor();
+	const auto& descriptor = vertexBufferGen->GetDescriptor();
 
 	auto material = mesh->GetMaterial();
 	assert(material != NULL);
@@ -31,7 +31,7 @@ EffectPtr CDx11UberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasS
 	CDx11UberEffectGenerator::EFFECTCAPS effectCaps;
 	memset(&effectCaps, 0, sizeof(effectCaps));
 
-	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
+	if(descriptor.HasVertexItem(VERTEX_ITEM_ID_COLOR))
 	{
 		effectCaps.hasVertexColor = true;
 	}
@@ -43,7 +43,7 @@ EffectPtr CDx11UberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasS
 		if(material->GetTexture(i))
 		{
 			auto textureCoordSource = material->GetTextureCoordSource(i);
-			if(textureCoordSource == TEXTURE_COORD_UV0 && ((descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0) == 0)) continue;
+			if(textureCoordSource == TEXTURE_COORD_UV0 && ((descriptor.HasVertexItem(VERTEX_ITEM_ID_UV0)) == 0)) continue;
 
 			effectCaps.setHasDiffuseMap(i, true);
 			effectCaps.setDiffuseMapCoordSrc(i, textureCoordSource);

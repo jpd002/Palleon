@@ -65,3 +65,77 @@ void CDx11UberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix
 
 	m_deviceContext->Unmap(m_vertexConstantBuffer, 0);
 }
+
+CDx11Effect::D3D11InputLayoutPtr CDx11UberEffect::CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+{
+	typedef std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementArray;
+
+	InputElementArray inputElements;
+
+	if(const auto& item = descriptor.GetVertexItem(VERTEX_ITEM_ID_POSITION))
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "POSITION";
+		inputElement.SemanticIndex			= 0;
+		inputElement.Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElement.AlignedByteOffset		= item->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	if(const auto& item = descriptor.GetVertexItem(VERTEX_ITEM_ID_NORMAL))
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "NORMAL";
+		inputElement.SemanticIndex			= 0;
+		inputElement.Format					= DXGI_FORMAT_R32G32B32_FLOAT;
+		inputElement.AlignedByteOffset		= item->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	if(const auto& item = descriptor.GetVertexItem(VERTEX_ITEM_ID_UV0))
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "TEXCOORD";
+		inputElement.SemanticIndex			= 0;
+		inputElement.Format					= DXGI_FORMAT_R32G32_FLOAT;
+		inputElement.AlignedByteOffset		= item->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	if(const auto& item = descriptor.GetVertexItem(VERTEX_ITEM_ID_UV1))
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "TEXCOORD";
+		inputElement.SemanticIndex			= 1;
+		inputElement.Format					= DXGI_FORMAT_R32G32_FLOAT;
+		inputElement.AlignedByteOffset		= item->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	if(const auto& item = descriptor.GetVertexItem(VERTEX_ITEM_ID_COLOR))
+	{
+		D3D11_INPUT_ELEMENT_DESC inputElement = {};
+		inputElement.SemanticName			= "COLOR";
+		inputElement.SemanticIndex			= 0;
+		inputElement.Format					= DXGI_FORMAT_R8G8B8A8_UNORM;
+		inputElement.AlignedByteOffset		= item->offset;
+		inputElement.InputSlotClass			= D3D11_INPUT_PER_VERTEX_DATA;
+		inputElement.InstanceDataStepRate	= 0;
+		inputElements.push_back(inputElement);
+	}
+
+	D3D11InputLayoutPtr inputLayout;
+	HRESULT result = m_device->CreateInputLayout(inputElements.data(), inputElements.size(), 
+		m_vertexShaderCode->GetBufferPointer(), m_vertexShaderCode->GetBufferSize(), &inputLayout);
+	assert(SUCCEEDED(result));
+
+	return inputLayout;
+}

@@ -49,21 +49,21 @@ namespace Athena
 			uint32 currentOffset = 0;
 		};
 
-		typedef std::unordered_map<uint64, D3D11InputLayoutPtr> InputLayoutMap;
+		typedef std::unordered_map<Athena::VERTEX_ITEMS_KEY, D3D11InputLayoutPtr> InputLayoutMap;
 
-		void					CompileVertexShader(const std::string&);
-		void					CompilePixelShader(const std::string&);
-		void					CreateVertexConstantBuffer(uint32);
-		void					CreatePixelConstantBuffer(uint32);
-		D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
+		void							CompileVertexShader(const std::string&);
+		void							CompilePixelShader(const std::string&);
+		void							CreateVertexConstantBuffer(uint32);
+		void							CreatePixelConstantBuffer(uint32);
+		virtual D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&) = 0;
 
-		ID3D11Device*			m_device;
-		ID3D11DeviceContext*	m_deviceContext;
-		D3D11VertexShaderPtr	m_vertexShader;
-		D3DBlobPtr				m_vertexShaderCode;
-		D3D11PixelShaderPtr		m_pixelShader;
-		D3D11BufferPtr			m_vertexConstantBuffer;
-		D3D11BufferPtr			m_pixelConstantBuffer;
-		InputLayoutMap			m_inputLayouts;
+		ID3D11Device*					m_device;
+		ID3D11DeviceContext*			m_deviceContext;
+		D3D11VertexShaderPtr			m_vertexShader;
+		D3DBlobPtr						m_vertexShaderCode;
+		D3D11PixelShaderPtr				m_pixelShader;
+		D3D11BufferPtr					m_vertexConstantBuffer;
+		D3D11BufferPtr					m_pixelConstantBuffer;
+		InputLayoutMap					m_inputLayouts;
 	};
 }

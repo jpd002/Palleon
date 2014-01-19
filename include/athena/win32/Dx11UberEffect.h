@@ -10,18 +10,20 @@ namespace Athena
 	public:
 		typedef CDx11UberEffectGenerator::EFFECTCAPS EFFECTCAPS;
 
-						CDx11UberEffect(ID3D11Device*, ID3D11DeviceContext*, const EFFECTCAPS&);
-		virtual			~CDx11UberEffect();
+										CDx11UberEffect(ID3D11Device*, ID3D11DeviceContext*, const EFFECTCAPS&);
+		virtual							~CDx11UberEffect();
 
-		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
+		virtual void					UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
 
 	private:
-		uint32			m_meshColorOffset = -1;
-		uint32			m_worldMatrixOffset = -1;
-		uint32			m_viewProjMatrixOffset = -1;
-		uint32			m_shadowViewProjMatrixOffset = -1;
-		uint32			m_diffuseTextureMatrixOffset[CDx11UberEffectGenerator::MAX_DIFFUSE_SLOTS];
+		virtual D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&) override;
 
-		EFFECTCAPS		m_effectCaps;
+		uint32							m_meshColorOffset = -1;
+		uint32							m_worldMatrixOffset = -1;
+		uint32							m_viewProjMatrixOffset = -1;
+		uint32							m_shadowViewProjMatrixOffset = -1;
+		uint32							m_diffuseTextureMatrixOffset[CDx11UberEffectGenerator::MAX_DIFFUSE_SLOTS];
+
+		EFFECTCAPS						m_effectCaps;
 	};
 };

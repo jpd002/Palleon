@@ -75,6 +75,8 @@ CCubeMesh::CCubeMesh()
 {
 	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(24, 36, 
 		VERTEX_BUFFER_HAS_POS | VERTEX_BUFFER_HAS_UV0);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_UV0);
 
 	m_primitiveType = PRIMITIVE_TRIANGLE_LIST;
 	m_primitiveCount = 12;
@@ -83,8 +85,8 @@ CCubeMesh::CCubeMesh()
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
 	for(unsigned int i = 0; i < 24; i++)
 	{
-		*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = CVector3(&s_positions[i * 3]);
-		*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = CVector2(&s_texCoords[i * 2]);
+		*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = CVector3(&s_positions[i * 3]);
+		*reinterpret_cast<CVector2*>(vertices + uv0VertexItem->offset) = CVector2(&s_texCoords[i * 2]);
 		vertices += bufferDesc.GetVertexSize();
 	}
 	m_vertexBuffer->UnlockVertices();

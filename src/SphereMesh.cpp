@@ -15,6 +15,8 @@ CSphereMesh::CSphereMesh()
 
 	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(vertexCount, indexCount, 
 		VERTEX_BUFFER_HAS_POS | VERTEX_BUFFER_HAS_NRM);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	const auto& nrmVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_NORMAL);
 
 	m_primitiveType = PRIMITIVE_TRIANGLE_LIST;
 	m_primitiveCount = triangleCount;
@@ -34,8 +36,8 @@ CSphereMesh::CSphereMesh()
 				position.y =  cos(theta);
 				position.z = -sin(theta) * sin(phi);
 
-				*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-				*reinterpret_cast<CVector3*>(vertices + bufferDesc.nrmOffset) = position;
+				*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = position;
+				*reinterpret_cast<CVector3*>(vertices + nrmVertexItem->offset) = position;
 
 				vertices += bufferDesc.GetVertexSize();
 			}
@@ -43,15 +45,15 @@ CSphereMesh::CSphereMesh()
 
 		{
 			CVector3 position(0, 1, 0);
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.nrmOffset) = position;
+			*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = position;
+			*reinterpret_cast<CVector3*>(vertices + nrmVertexItem->offset) = position;
 			vertices += bufferDesc.GetVertexSize();
 		}
 
 		{
 			CVector3 position(0, -1, 0);
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.nrmOffset) = position;
+			*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = position;
+			*reinterpret_cast<CVector3*>(vertices + nrmVertexItem->offset) = position;
 			vertices += bufferDesc.GetVertexSize();
 		}
 	}

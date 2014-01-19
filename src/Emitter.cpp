@@ -124,6 +124,9 @@ void CEmitter::UpdateParticles(float dt)
 void CEmitter::UpdateVertexBuffer()
 {
 	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc(m_vertexBuffer->GetDescriptor());
+	const auto& posVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_UV0);
+	const auto& colorVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_COLOR);
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
 	uint16* indices = m_vertexBuffer->LockIndices();
@@ -151,9 +154,9 @@ void CEmitter::UpdateVertexBuffer()
 
 		for(unsigned int i = 0; i < 4; i++)
 		{
-			*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = positions[i];
-			*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = CVector2(&s_texCoords[i * 2]);
-			*reinterpret_cast<uint32*>(vertices + bufferDesc.colorOffset) = color;
+			*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = positions[i];
+			*reinterpret_cast<CVector2*>(vertices + uv0VertexItem->offset) = CVector2(&s_texCoords[i * 2]);
+			*reinterpret_cast<uint32*>(vertices + colorVertexItem->offset) = color;
 			vertices += bufferDesc.GetVertexSize();
 		}
 

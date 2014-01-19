@@ -128,6 +128,8 @@ void CLabel::BuildVertexBuffer()
 	float posY = textPosInfo.posY;
 
 	const VERTEX_BUFFER_DESCRIPTOR& bufferDesc = m_vertexBuffer->GetDescriptor();
+	const auto& posVertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(VERTEX_ITEM_ID_UV0);
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());
 	uint8* verticesEnd = vertices + (bufferDesc.GetVertexSize() * m_charCount * 4);
@@ -155,8 +157,8 @@ void CLabel::BuildVertexBuffer()
 				texCoord.x += glyphInfo.x / textureWidth;
 				texCoord.y += glyphInfo.y / textureHeight;
 
-				*reinterpret_cast<CVector3*>(vertices + bufferDesc.posOffset) = position;
-				*reinterpret_cast<CVector2*>(vertices + bufferDesc.uv0Offset) = texCoord;
+				*reinterpret_cast<CVector3*>(vertices + posVertexItem->offset) = position;
+				*reinterpret_cast<CVector2*>(vertices + uv0VertexItem->offset) = texCoord;
 				vertices += bufferDesc.GetVertexSize();
 			}
 
