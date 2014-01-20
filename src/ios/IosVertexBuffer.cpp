@@ -59,45 +59,42 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 		
 		uint32 vertexSize = descriptor.GetVertexSize();
-		
-		assert(descriptor.vertexFlags & VERTEX_BUFFER_HAS_POS);
-		
-		glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_POSITION);
-		glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.posOffset));
-		CHECKGLERROR();
-		
-		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
+
+		for(const auto& vertexItem : descriptor.vertexItems)
 		{
-			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_COLOR);
-			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.colorOffset));
+			if(vertexItem.id == VERTEX_ITEM_ID_NONE) continue;
+			
+			GLuint size = 0;
+			GLenum type = GL_FLOAT;
+			GLboolean normalized = GL_FALSE;
+			switch(vertexItem.id)
+			{
+			case VERTEX_ITEM_ID_POSITION:
+			case VERTEX_ITEM_ID_NORMAL:
+				size = 3;
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
+				break;
+			case VERTEX_ITEM_ID_UV0:
+			case VERTEX_ITEM_ID_UV1:
+				size = 2;
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
+				break;
+			case VERTEX_ITEM_ID_COLOR:
+				size = 4;
+				type = GL_UNSIGNED_BYTE;
+				normalized = GL_TRUE;
+				break;
+			default:
+				assert(0);
+				break;
+			}
+			
+			glEnableVertexAttribArray(vertexItem.id);
+			glVertexAttribPointer(vertexItem.id, size, type, normalized, vertexSize, reinterpret_cast<const GLvoid*>(vertexItem.offset));
+			CHECKGLERROR();
 		}
-		else
-		{
-			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_COLOR);
-		}
-		CHECKGLERROR();
-		
-		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV0)
-		{
-			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
-			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv0Offset));		
-		}
-		else
-		{
-			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0);
-		}
-		CHECKGLERROR();
-		
-		if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_UV1)
-		{
-			glEnableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
-			glVertexAttribPointer(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1, 2, GL_FLOAT, GL_FALSE, vertexSize, reinterpret_cast<const GLvoid*>(descriptor.uv1Offset));
-		}
-		else
-		{
-			glDisableVertexAttribArray(CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD1);
-		}
-		CHECKGLERROR();
 		
 		glBindVertexArrayOES(0);
 	}

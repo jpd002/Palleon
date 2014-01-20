@@ -1,5 +1,5 @@
-#include "IosEffect.h"
-#include "IosGraphicDevice.h"
+#include "athena/ios/IosEffect.h"
+#include "athena/VertexBuffer.h"
 
 using namespace Athena;
 
@@ -34,9 +34,9 @@ void CIosEffect::BuildProgram(const std::string& vertexShaderSource, const std::
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, pixelShader);
 	
-	glBindAttribLocation(program, CIosGraphicDevice::VERTEX_ATTRIB_POSITION, "a_position");
-	glBindAttribLocation(program, CIosGraphicDevice::VERTEX_ATTRIB_TEXCOORD0, "a_texCoord0");
-	glBindAttribLocation(program, CIosGraphicDevice::VERTEX_ATTRIB_COLOR, "a_color");
+	glBindAttribLocation(program, VERTEX_ITEM_ID_POSITION, "a_position");
+	glBindAttribLocation(program, VERTEX_ITEM_ID_UV0, "a_texCoord0");
+	glBindAttribLocation(program, VERTEX_ITEM_ID_COLOR, "a_color");
 	
 	glLinkProgram(program);
 	DumpProgramLog(program);

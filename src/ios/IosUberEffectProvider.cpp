@@ -32,7 +32,7 @@ EffectPtr CIosUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasSh
 	CIosUberEffectGenerator::EFFECTCAPS effectCaps;
 	memset(&effectCaps, 0, sizeof(effectCaps));
 	
-	if(descriptor.vertexFlags & VERTEX_BUFFER_HAS_COLOR)
+	if(descriptor.HasVertexItem(VERTEX_ITEM_ID_COLOR))
 	{
 		effectCaps.hasVertexColor = true;
 	}
