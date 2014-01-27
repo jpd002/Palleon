@@ -1,5 +1,4 @@
-#ifndef _VECTOR2_H_
-#define _VECTOR2_H_
+#pragma once
 
 #include <math.h>
 
@@ -110,5 +109,3 @@ static CVector2 operator *(float lhs, const CVector2& rhs)
 {
 	return CVector2(lhs * rhs.x, lhs * rhs.y);
 }
-
-#endif

@@ -172,6 +172,9 @@
     <ClCompile Include="..\src\win32\Dx11ShadowMapEffect.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EffectParameter.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\win32\Dx11UberEffect.cpp">
       <Filter>Source Files\win32\UberEffect</Filter>
     </ClCompile>
@@ -376,6 +379,9 @@
     <ClInclude Include="..\include\athena\win32\Dx11ShadowMapEffect.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\athena\EffectParameter.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\athena\EffectProvider.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
@@ -393,6 +399,9 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\resources\DdsImage.h">
       <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\Vector4.h">
+      <Filter>Source Files\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

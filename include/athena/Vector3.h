@@ -1,5 +1,4 @@
-#ifndef _VECTOR3_H_
-#define _VECTOR3_H_
+#pragma once
 
 #include <math.h>
 #include <algorithm>
@@ -157,5 +156,3 @@ static CVector3 operator *(float lhs, const CVector3& rhs)
 		lhs * rhs.y, 
 		lhs * rhs.z);
 }
-
-#endif
