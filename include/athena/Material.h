@@ -4,6 +4,7 @@
 #include "athena/resources/ResourceManager.h"
 #include "athena/Color.h"
 #include "athena/Matrix4.h"
+#include "athena/EffectParameter.h"
 
 namespace Athena
 {
@@ -73,57 +74,60 @@ namespace Athena
 			MAX_TEXTURE_SLOTS = 8,
 		};
 
-								CMaterial();
-		virtual					~CMaterial();
+									CMaterial();
+		virtual						~CMaterial();
 
-		static MaterialPtr		Create();
+		static MaterialPtr			Create();
 
-		bool					operator <(const CMaterial&) const;
+		bool						operator <(const CMaterial&) const;
 
-		ALPHA_BLENDING_MODE		GetAlphaBlendingMode() const;
-		void					SetAlphaBlendingMode(ALPHA_BLENDING_MODE);
+		CEffectParameter			GetEffectParameter(const std::string&) const;
+		void						SetEffectParameter(const std::string&, const CEffectParameter&);
 
-		CULLING_MODE			GetCullingMode() const;
-		void					SetCullingMode(CULLING_MODE);
+		ALPHA_BLENDING_MODE			GetAlphaBlendingMode() const;
+		void						SetAlphaBlendingMode(ALPHA_BLENDING_MODE);
 
-		CColor					GetColor() const;
-		void					SetColor(const CColor&);
+		CULLING_MODE				GetCullingMode() const;
+		void						SetCullingMode(CULLING_MODE);
 
-		TexturePtr				GetTexture(unsigned int) const;
-		void					SetTexture(unsigned int, const TexturePtr&);
+		CColor						GetColor() const;
+		void						SetColor(const CColor&);
 
-		const CMatrix4&			GetTextureMatrix(unsigned int) const;
-		void					SetTextureMatrix(unsigned int, const CMatrix4&);
+		TexturePtr					GetTexture(unsigned int) const;
+		void						SetTexture(unsigned int, const TexturePtr&);
 
-		TEXTURE_COORD_SOURCE	GetTextureCoordSource(unsigned int) const;
-		void					SetTextureCoordSource(unsigned int, TEXTURE_COORD_SOURCE);
+		const CMatrix4&				GetTextureMatrix(unsigned int) const;
+		void						SetTextureMatrix(unsigned int, const CMatrix4&);
 
-		TEXTURE_COMBINE_MODE	GetTextureCombineMode(unsigned int) const;
-		void					SetTextureCombineMode(unsigned int, TEXTURE_COMBINE_MODE);
+		TEXTURE_COORD_SOURCE		GetTextureCoordSource(unsigned int) const;
+		void						SetTextureCoordSource(unsigned int, TEXTURE_COORD_SOURCE);
 
-		TEXTURE_ADDRESS_MODE	GetTextureAddressModeU(unsigned int) const;
-		void					SetTextureAddressModeU(unsigned int, TEXTURE_ADDRESS_MODE);
+		TEXTURE_COMBINE_MODE		GetTextureCombineMode(unsigned int) const;
+		void						SetTextureCombineMode(unsigned int, TEXTURE_COMBINE_MODE);
 
-		TEXTURE_ADDRESS_MODE	GetTextureAddressModeV(unsigned int) const;
-		void					SetTextureAddressModeV(unsigned int, TEXTURE_ADDRESS_MODE);
+		TEXTURE_ADDRESS_MODE		GetTextureAddressModeU(unsigned int) const;
+		void						SetTextureAddressModeU(unsigned int, TEXTURE_ADDRESS_MODE);
 
-		bool					GetShadowCasting() const;
-		void					SetShadowCasting(bool);
+		TEXTURE_ADDRESS_MODE		GetTextureAddressModeV(unsigned int) const;
+		void						SetTextureAddressModeV(unsigned int, TEXTURE_ADDRESS_MODE);
 
-		bool					GetShadowReceiving() const;
-		void					SetShadowReceiving(bool);
+		bool						GetShadowCasting() const;
+		void						SetShadowCasting(bool);
 
-		bool					GetStencilEnabled() const;
-		void					SetStencilEnabled(bool);
+		bool						GetShadowReceiving() const;
+		void						SetShadowReceiving(bool);
 
-		STENCIL_FUNCTION		GetStencilFunction() const;
-		void					SetStencilFunction(STENCIL_FUNCTION);
+		bool						GetStencilEnabled() const;
+		void						SetStencilEnabled(bool);
 
-		STENCIL_FAIL_ACTION		GetStencilFailAction() const;
-		void					SetStencilFailAction(STENCIL_FAIL_ACTION);
+		STENCIL_FUNCTION			GetStencilFunction() const;
+		void						SetStencilFunction(STENCIL_FUNCTION);
 
-		uint8					GetStencilValue() const;
-		void					SetStencilValue(uint8);
+		STENCIL_FAIL_ACTION			GetStencilFailAction() const;
+		void						SetStencilFailAction(STENCIL_FAIL_ACTION);
+
+		uint8						GetStencilValue() const;
+		void						SetStencilValue(uint8);
 
 	protected:
 		struct TEXTURE_SLOT
@@ -136,18 +140,22 @@ namespace Athena
 			TEXTURE_ADDRESS_MODE	addressModeV;
 		};
 
-		ALPHA_BLENDING_MODE		m_alphaBlendingMode;
-		CULLING_MODE			m_cullingMode;
-		CColor					m_color;
+		typedef std::unordered_map<std::string, CEffectParameter> EffectParameterMap;
 
-		bool					m_shadowCasting;
-		bool					m_shadowReceiving;
+		ALPHA_BLENDING_MODE			m_alphaBlendingMode;
+		CULLING_MODE				m_cullingMode;
+		CColor						m_color;
 
-		bool					m_stencilEnabled;
-		STENCIL_FUNCTION		m_stencilFunction;
-		STENCIL_FAIL_ACTION		m_stencilFailAction;
-		uint8					m_stencilValue;
+		bool						m_shadowCasting;
+		bool						m_shadowReceiving;
 
-		TEXTURE_SLOT			m_textureSlots[MAX_TEXTURE_SLOTS];
+		bool						m_stencilEnabled;
+		STENCIL_FUNCTION			m_stencilFunction;
+		STENCIL_FAIL_ACTION			m_stencilFailAction;
+		uint8						m_stencilValue;
+
+		TEXTURE_SLOT				m_textureSlots[MAX_TEXTURE_SLOTS];
+
+		EffectParameterMap			m_effectParameters;
 	};
 };
