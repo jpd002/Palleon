@@ -196,9 +196,9 @@ VertexBufferPtr CDx11GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCR
 	return std::make_shared<CDx11VertexBuffer>(m_device, m_deviceContext, bufferDesc);
 }
 
-TexturePtr CDx11GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CDx11GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
-	return CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
+	return CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height, mipCount);
 }
 
 TexturePtr CDx11GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
@@ -214,13 +214,6 @@ TexturePtr CDx11GraphicDevice::CreateTextureFromFile(const char* path)
 TexturePtr CDx11GraphicDevice::CreateTextureFromMemory(const void* data, uint32 dataSize)
 {
 	return CDx11Texture::CreateFromMemory(m_device, m_deviceContext, data, dataSize);
-}
-
-TexturePtr CDx11GraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
-{
-	auto texture = CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height);
-	texture->Update(data);
-	return texture;
 }
 
 TexturePtr CDx11GraphicDevice::CreateCubeTextureFromFile(const char* path)
@@ -381,6 +374,8 @@ ID3D11SamplerState* CDx11GraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO
 		samplerDesc.AddressV	= c_addressMode[stateInfo.addressV];
 		samplerDesc.AddressW	= D3D11_TEXTURE_ADDRESS_CLAMP;
 		samplerDesc.Filter		= D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		samplerDesc.MinLOD		= 0;
+		samplerDesc.MaxLOD		= D3D11_FLOAT32_MAX;
 		
 		HRESULT result = m_device->CreateSamplerState(&samplerDesc, &state);
 		assert(SUCCEEDED(result));

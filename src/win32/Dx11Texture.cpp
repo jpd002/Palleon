@@ -42,8 +42,10 @@ CDx11Texture::~CDx11Texture()
 	}
 }
 
-TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
+	assert(mipCount > 0);
+
 	auto specTextureFormat = g_textureFormats[textureFormat];
 
 	ID3D11Texture2D* texture(nullptr);
@@ -52,7 +54,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 		D3D11_TEXTURE2D_DESC textureDesc = {};
 		textureDesc.Width				= width;
 		textureDesc.Height				= height;
-		textureDesc.MipLevels			= 1;
+		textureDesc.MipLevels			= mipCount;
 		textureDesc.ArraySize			= 1;
 		textureDesc.Format				= specTextureFormat;
 		textureDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
@@ -67,7 +69,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 	result->m_format = textureFormat;
 	result->m_width = width;
 	result->m_height = height;
-	result->m_mipCount = 1;
+	result->m_mipCount = mipCount;
 	return result;
 }
 
@@ -230,10 +232,16 @@ ID3D11ShaderResourceView* CDx11Texture::GetTextureView() const
 	return m_textureView;
 }
 
-void CDx11Texture::Update(const void* data)
+void CDx11Texture::Update(uint32 mipLevel, const void* data)
 {
 	assert(!m_isCube);
-	UpdateSurface(0, data);
+	assert(mipLevel < m_mipCount);
+	uint32 actualWidth = m_width >> mipLevel;
+	uint32 actualHeight = m_height >> mipLevel;
+	assert(actualWidth != 0);
+	assert(actualHeight != 0);
+	auto subresourceIndex = D3D11CalcSubresource(mipLevel, 0, m_mipCount);
+	UpdateSurface(subresourceIndex, actualWidth, actualHeight, data);
 }
 
 void CDx11Texture::UpdateCubeFace(TEXTURE_CUBE_FACE face, const void* data)
@@ -251,12 +259,12 @@ void CDx11Texture::UpdateCubeFace(TEXTURE_CUBE_FACE face, const void* data)
 	assert(m_mipCount != 0);
 	assert(m_isCube);
 	auto subresourceIndex = D3D11CalcSubresource(0, c_cubeFaces[face], m_mipCount);
-	UpdateSurface(subresourceIndex, data);
+	UpdateSurface(subresourceIndex, m_width, m_height, data);
 }
 
-void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, const void* data)
+void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, unsigned int width, unsigned int height, const void* data)
 {
-	auto srcPitches = GetTexturePitches();
+	auto srcPitches = GetTexturePitches(m_format, width, height);
 
 	if(m_format == TEXTURE_FORMAT_RGB888)
 	{
@@ -293,19 +301,19 @@ void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, const void* data
 	}
 }
 
-std::pair<uint32, uint32> CDx11Texture::GetTexturePitches() const
+CDx11Texture::PitchPair CDx11Texture::GetTexturePitches(TEXTURE_FORMAT format, unsigned int width, unsigned int height)
 {
-	if(m_format == TEXTURE_FORMAT_DXT1 || m_format == TEXTURE_FORMAT_DXT3 || m_format == TEXTURE_FORMAT_DXT5)
+	if(format == TEXTURE_FORMAT_DXT1 || format == TEXTURE_FORMAT_DXT3 || format == TEXTURE_FORMAT_DXT5)
 	{
-		uint32 blockSize = c_textureFormatSize[m_format];
-		uint32 srcPitch = max(1, (m_width + 3) / 4) * blockSize;
-		uint32 srcDepthPitch = srcPitch * ((m_height + 3) / 4);
+		uint32 blockSize = c_textureFormatSize[format];
+		uint32 srcPitch = max(1, (width + 3) / 4) * blockSize;
+		uint32 srcDepthPitch = srcPitch * ((height + 3) / 4);
 		return std::make_pair(srcPitch, srcDepthPitch);
 	}
 	else
 	{
-		uint32 srcPitch = (c_textureFormatSize[m_format] * m_width) / 8;
-		uint32 srcDepthPitch = srcPitch * m_height;
+		uint32 srcPitch = (c_textureFormatSize[format] * width) / 8;
+		uint32 srcDepthPitch = srcPitch * height;
 		return std::make_pair(srcPitch, srcDepthPitch);
 	}
 }

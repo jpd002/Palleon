@@ -37,7 +37,7 @@ namespace Athena
 
 		bool				IsCube() const;
 
-		virtual void		Update(const void*) = 0;
+		virtual void		Update(uint32, const void*) = 0;
 		virtual void		UpdateCubeFace(TEXTURE_CUBE_FACE, const void*) = 0;
 		virtual void*		GetHandle() const = 0;
 

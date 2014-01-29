@@ -28,10 +28,9 @@ namespace Athena
 
 		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) = 0;
 
-		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32) = 0;
+		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT format, uint32 width, uint32 height, uint32 mipCount) = 0;
 		virtual TexturePtr					CreateTextureFromFile(const char*) = 0;
 		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) = 0;
-		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) = 0;
 
 		virtual TexturePtr					CreateCubeTexture(TEXTURE_FORMAT, uint32) = 0;
 		virtual TexturePtr					CreateCubeTextureFromFile(const char*) = 0;

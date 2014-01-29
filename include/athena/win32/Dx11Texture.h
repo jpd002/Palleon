@@ -13,7 +13,7 @@ namespace Athena
 									CDx11Texture(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D*);
 		virtual						~CDx11Texture();
 
-		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32);
+		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32, uint32);
 		static TexturePtr			CreateFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
 		static TexturePtr			CreateFromMemory(ID3D11Device*, ID3D11DeviceContext*, const void*, uint32);
 	
@@ -23,15 +23,17 @@ namespace Athena
 		virtual void*				GetHandle() const override;
 		ID3D11ShaderResourceView*	GetTextureView() const;
 
-		virtual void				Update(const void*) override;
+		virtual void				Update(uint32, const void*) override;
 		virtual void				UpdateCubeFace(TEXTURE_CUBE_FACE, const void*) override;
 
 	protected:
+		typedef std::pair<uint32, uint32> PitchPair;
+
 		static TexturePtr			CreateFromStream(ID3D11Device*, ID3D11DeviceContext*, Framework::CStream&);
 		static TexturePtr			CreateCubeFromStream(ID3D11Device*, ID3D11DeviceContext*, Framework::CStream&);
 
-		void						UpdateSurface(unsigned int, const void*);
-		std::pair<uint32, uint32>	GetTexturePitches() const;
+		void						UpdateSurface(unsigned int, unsigned int, unsigned int, const void*);
+		static PitchPair			GetTexturePitches(TEXTURE_FORMAT, unsigned int, unsigned int);
 
 		ID3D11Device*				m_device;
 		ID3D11DeviceContext*		m_deviceContext;

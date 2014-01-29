@@ -222,7 +222,8 @@ void CBspMapResourceProvider::LoadLightMaps(const CBspFile& bspFile)
 	for(uint32 i = 0; i < lightMaps.size(); i++)
 	{
 		const auto& lightMap(lightMaps[i]);
-		auto result = Athena::CGraphicDevice::GetInstance().CreateTextureFromRawData(lightMap.colors, Athena::TEXTURE_FORMAT_RGB888, 128, 128);
+		auto result = Athena::CGraphicDevice::GetInstance().CreateTexture(Athena::TEXTURE_FORMAT_RGB888, 128, 128, 1);
+		result->Update(0, lightMap.colors);
 		m_lightMaps[i] = result;
 	}
 }
