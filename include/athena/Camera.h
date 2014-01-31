@@ -11,6 +11,12 @@ namespace Athena
 	class CCamera;
 	typedef std::shared_ptr<CCamera> CameraPtr;
 
+	enum HANDEDNESS
+	{
+		HANDEDNESS_LEFTHANDED,
+		HANDEDNESS_RIGHTHANDED,
+	};
+
 	class CCamera
 	{
 	public:
@@ -22,7 +28,7 @@ namespace Athena
 		void				SetupOrthoCamera(float, float);
 
 		void				SetOrthoProjection(float width, float height, float near, float far);
-		void				SetPerspectiveProjection(float fovY, float aspectRatio, float near, float far);
+		void				SetPerspectiveProjection(float fovY, float aspectRatio, float near, float far, HANDEDNESS = HANDEDNESS_LEFTHANDED);
 
 		void				LookAt(const CVector3& eye, const CVector3& target, const CVector3& up);
 		void				SetViewMatrix(const CMatrix4&);

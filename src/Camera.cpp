@@ -42,7 +42,7 @@ void CCamera::SetOrthoProjection(float width, float height, float near, float fa
 	m_projMatrix = proj;
 }
 
-void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near, float far)
+void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near, float far, HANDEDNESS handedness)
 {
 	float yScale = 1 / tan(fovY / 2);
 	float xScale = yScale / aspectRatio;
@@ -50,13 +50,26 @@ void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near
 	CMatrix4 proj;
 	proj.Clear();
 
-	proj(0, 0) = xScale;
-	proj(1, 1) = yScale;
-	proj(2, 2) = far / (far - near);
-	proj(3, 3) = 0;
+	if(handedness == HANDEDNESS_LEFTHANDED)
+	{
+		proj(0, 0) = xScale;
+		proj(1, 1) = yScale;
+		proj(2, 2) = far / (far - near);
+		proj(3, 3) = 0;
 
-	proj(3, 2) = -near * far / (far - near);
-	proj(2, 3) = 1;
+		proj(3, 2) = -near * far / (far - near);
+		proj(2, 3) = 1;
+	}
+	else
+	{
+		proj(0, 0) = xScale;
+		proj(1, 1) = yScale;
+		proj(2, 2) = far / (near - far);
+		proj(3, 3) = 0;
+
+		proj(3, 2) = near * far / (near - far);
+		proj(2, 3) = -1;
+	}
 
 	m_projMatrix = proj;
 }
