@@ -1,6 +1,7 @@
 #include "athena/win32/Dx11Texture.h"
 #include "athena/resources/DdsImage.h"
 #include <assert.h>
+#include <algorithm>
 #include "bitmap/Bitmap.h"
 #include "bitmap/PNG.h"
 #include "bitmap/JPEG.h"
@@ -236,10 +237,8 @@ void CDx11Texture::Update(uint32 mipLevel, const void* data)
 {
 	assert(!m_isCube);
 	assert(mipLevel < m_mipCount);
-	uint32 actualWidth = m_width >> mipLevel;
-	uint32 actualHeight = m_height >> mipLevel;
-	assert(actualWidth != 0);
-	assert(actualHeight != 0);
+	uint32 actualWidth = std::max<uint32>(m_width >> mipLevel, 1);
+	uint32 actualHeight = std::max<uint32>(m_height >> mipLevel, 1);
 	auto subresourceIndex = D3D11CalcSubresource(mipLevel, 0, m_mipCount);
 	UpdateSurface(subresourceIndex, actualWidth, actualHeight, data);
 }
