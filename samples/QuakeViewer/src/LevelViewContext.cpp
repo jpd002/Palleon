@@ -4,6 +4,7 @@
 #include "PtrStream.h"
 #include "QuakeEntityParser.h"
 #include "QuakeViewerDefs.h"
+#include "string_format.h"
 
 CLevelViewContext::CLevelViewContext(CPakFile* pakFile, const char* levelPath)
 : CContextBase(pakFile)
@@ -206,14 +207,12 @@ void CLevelViewContext::Update(float dt)
 	UpdateCamera();
 
 	{
-		char positionText[512];
-		sprintf(positionText, "Pos = (X: %0.2f, Y: %0.2f, Z: %0.2f)", m_cameraPosition.x, m_cameraPosition.y, m_cameraPosition.z);
+		auto positionText = string_format("Pos = (X: %0.2f, Y: %0.2f, Z: %0.2f)", m_cameraPosition.x, m_cameraPosition.y, m_cameraPosition.z);
 		m_positionLabel->SetText(positionText);
 	}
 
 	{
-		char metricsText[512];
-		sprintf(metricsText, "Draw Calls = %d - FPS = %d", 
+		auto metricsText = string_format("Draw Calls = %d - FPS = %d", 
 			Athena::CGraphicDevice::GetInstance().GetDrawCallCount(),
 			static_cast<int>(Athena::CGraphicDevice::GetInstance().GetFrameRate()));
 		m_metricsLabel->SetText(metricsText);

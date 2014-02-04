@@ -13,7 +13,7 @@ public:
 								CBspMapMeshProvider(CBspFile*, CBspMapResourceProvider*);
 	virtual						~CBspMapMeshProvider();
 
-	void						GetMeshes(Athena::MeshArray&, const Athena::CCamera*);
+	void						GetMeshes(Athena::MeshArray&, const Athena::CCamera*) override;
 
 private:
 	typedef std::vector<BspFaceMeshPtr> FaceMeshArray;
