@@ -9,6 +9,7 @@
 #include "athena/MathOps.h"
 
 #define SHADOW_MAP_SIZE		2048
+#define SAMPLE_COUNT		1
 
 using namespace Athena;
 
@@ -46,7 +47,7 @@ void CDx11GraphicDevice::CreateDevice()
 	swapChainDesc.BufferDesc.Scaling					= DXGI_MODE_SCALING_UNSPECIFIED;
 	swapChainDesc.BufferUsage							= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow							= m_parentWnd;
-	swapChainDesc.SampleDesc.Count						= 1;
+	swapChainDesc.SampleDesc.Count						= SAMPLE_COUNT;
 	swapChainDesc.SampleDesc.Quality					= 0;
 	swapChainDesc.Windowed								= true;
 	swapChainDesc.SwapEffect							= DXGI_SWAP_EFFECT_DISCARD;
@@ -80,7 +81,7 @@ void CDx11GraphicDevice::CreateDevice()
 		depthBufferDesc.MipLevels			= 1;
 		depthBufferDesc.ArraySize			= 1;
 		depthBufferDesc.Format				= DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthBufferDesc.SampleDesc.Count	= 1;
+		depthBufferDesc.SampleDesc.Count	= SAMPLE_COUNT;
 		depthBufferDesc.SampleDesc.Quality	= 0;
 		depthBufferDesc.Usage				= D3D11_USAGE_DEFAULT;
 		depthBufferDesc.BindFlags			= D3D11_BIND_DEPTH_STENCIL;
