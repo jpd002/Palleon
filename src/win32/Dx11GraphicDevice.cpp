@@ -6,6 +6,7 @@
 #include "athena/win32/Dx11ShadowMapEffect.h"
 #include "athena/Mesh.h"
 #include "athena/MeshProvider.h"
+#include "athena/MathOps.h"
 
 #define SHADOW_MAP_SIZE		2048
 
@@ -437,6 +438,7 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 
 	auto camera = viewport->GetCamera();
 	assert(camera);
+	auto cameraFrustum = camera->GetFrustum();
 	auto shadowCamera = viewport->GetShadowCamera();
 
 	m_renderQueue.clear();
@@ -451,7 +453,17 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 			{
 				if(mesh->GetPrimitiveCount() != 0)
 				{
-					m_renderQueue.push_back(mesh.get());
+					bool render = true;
+					auto boundingSphere = mesh->GetBoundingSphere();
+					if(boundingSphere.radius != 0)
+					{
+						auto worldBoundingSphere = mesh->GetWorldBoundingSphere();
+						render = cameraFrustum.Intersects(worldBoundingSphere);
+					}
+					if(render)
+					{
+						m_renderQueue.push_back(mesh.get());
+					}
 				}
 			}
 			else if(auto meshProvider = std::dynamic_pointer_cast<CMeshProvider>(node))
