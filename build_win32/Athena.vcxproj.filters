@@ -403,5 +403,11 @@
     <ClInclude Include="..\include\athena\Vector4.h">
       <Filter>Source Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\athena\Sphere.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\MathOps.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

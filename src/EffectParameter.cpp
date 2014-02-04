@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "athena/EffectParameter.h"
 
 using namespace Athena;

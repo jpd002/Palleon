@@ -9,6 +9,7 @@
 #include "athena/Quaternion.h"
 #include "athena/Box2.h"
 #include "athena/Tween.h"
+#include "athena/MathOps.h"
 
 //Resources
 #include "athena/resources/ResourceManager.h"

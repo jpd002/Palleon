@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3.h"
+#include "MathOps.h"
 #include "IAnimation.h"
 #include "SceneNode.h"
 #include "Mesh.h"

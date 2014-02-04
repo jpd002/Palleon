@@ -1,5 +1,4 @@
-#ifndef _MESHPROVIDER_H_
-#define _MESHPROVIDER_H_
+#pragma once
 
 #include "Mesh.h"
 #include "Camera.h"
@@ -19,5 +18,3 @@ namespace Athena
 
 	};
 }
-
-#endif

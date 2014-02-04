@@ -1,5 +1,7 @@
+#include <assert.h>
 #include "athena/RumbleAnimation.h"
 #include "athena/SceneNode.h"
+#include "athena/MathOps.h"
 
 using namespace Athena;
 

@@ -4,6 +4,7 @@
 #include "VertexBuffer.h"
 #include "Material.h"
 #include "EffectProvider.h"
+#include "Sphere.h"
 
 namespace Athena
 {
@@ -30,6 +31,11 @@ namespace Athena
 		PRIMITIVE_TYPE			GetPrimitiveType() const;
 		uint32					GetPrimitiveCount() const;
 
+		CSphere					GetBoundingSphere() const;
+		void					SetBoundingSphere(const CSphere&);
+
+		CSphere					GetWorldBoundingSphere() const;
+
 		bool					GetIsPeggedToOrigin() const;
 		void					SetIsPeggedToOrigin(bool);
 
@@ -41,6 +47,7 @@ namespace Athena
 		EffectProviderPtr		m_effectProvider;
 		PRIMITIVE_TYPE			m_primitiveType;
 		uint32					m_primitiveCount;
+		CSphere					m_boundingSphere;
 		bool					m_isPeggedToOrigin;
 	};
 

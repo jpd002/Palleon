@@ -20,6 +20,8 @@ CSphereMesh::CSphereMesh()
 
 	m_primitiveType = PRIMITIVE_TRIANGLE_LIST;
 	m_primitiveCount = triangleCount;
+	m_boundingSphere.radius = 1;
+
 	m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 
 	uint8* vertices = reinterpret_cast<uint8*>(m_vertexBuffer->LockVertices());

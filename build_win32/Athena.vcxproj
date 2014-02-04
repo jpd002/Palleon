@@ -99,6 +99,7 @@
     <ClInclude Include="..\include\athena\Label.h" />
     <ClInclude Include="..\include\athena\Material.h" />
     <ClInclude Include="..\include\athena\MathDef.h" />
+    <ClInclude Include="..\include\athena\MathOps.h" />
     <ClInclude Include="..\include\athena\Matrix4.h" />
     <ClInclude Include="..\include\athena\Mesh.h" />
     <ClInclude Include="..\include\athena\MeshProvider.h" />
@@ -121,6 +122,7 @@
     <ClInclude Include="..\include\athena\RumbleAnimation.h" />
     <ClInclude Include="..\include\athena\Scene.h" />
     <ClInclude Include="..\include\athena\SceneNode.h" />
+    <ClInclude Include="..\include\athena\Sphere.h" />
     <ClInclude Include="..\include\athena\SphereMesh.h" />
     <ClInclude Include="..\include\athena\Sprite.h" />
     <ClInclude Include="..\include\athena\SpriteButton.h" />

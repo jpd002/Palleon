@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include <algorithm>
-#include "Matrix4.h"
 #include "Vector2.h"
 
 class CVector3
@@ -66,15 +65,6 @@ public:
 	CVector3 operator *(float value) const
 	{
 		return CVector3(x * value, y * value, z * value);
-	}
-
-	CVector3 operator *(const CMatrix4& rhs) const
-	{
-		CVector3 result;
-		result.x = rhs(0, 0) * x + rhs(0, 1) * y + rhs(0, 2) * z;
-		result.y = rhs(1, 0) * x + rhs(1, 1) * y + rhs(1, 2) * z;
-		result.z = rhs(2, 0) * x + rhs(2, 1) * y + rhs(2, 2) * z;
-		return result;
 	}
 
 	CVector3 operator /(float value) const
@@ -148,11 +138,3 @@ public:
 	float		z;
 
 };
-
-static CVector3 operator *(float lhs, const CVector3& rhs)
-{
-	return CVector3(
-		lhs * rhs.x, 
-		lhs * rhs.y, 
-		lhs * rhs.z);
-}
