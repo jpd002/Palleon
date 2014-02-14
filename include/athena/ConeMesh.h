@@ -4,11 +4,11 @@
 
 namespace Athena
 {
-	class CCubeMesh : public CMesh
+	class CConeMesh : public CMesh
 	{
 	public:
-							CCubeMesh();
-		virtual				~CCubeMesh();
+							CConeMesh();
+		virtual				~CConeMesh();
 
 		static MeshPtr		Create();
 	};

@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\src\AudioClip.cpp" />
     <ClCompile Include="..\src\AudioManager.cpp" />
+    <ClCompile Include="..\src\AxisMesh.cpp" />
     <ClCompile Include="..\src\Box2.cpp" />
     <ClCompile Include="..\src\ButtonBase.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
     <ClCompile Include="..\src\CatmullRom.cpp" />
+    <ClCompile Include="..\src\ConeMesh.cpp" />
     <ClCompile Include="..\src\ConfigManager.cpp" />
     <ClCompile Include="..\src\CubeMesh.cpp" />
     <ClCompile Include="..\src\CubeRenderTarget.cpp" />
@@ -79,11 +81,13 @@
     <ClInclude Include="..\include\athena\Application.h" />
     <ClInclude Include="..\include\athena\AudioClip.h" />
     <ClInclude Include="..\include\athena\AudioManager.h" />
+    <ClInclude Include="..\include\athena\AxisMesh.h" />
     <ClInclude Include="..\include\athena\Box2.h" />
     <ClInclude Include="..\include\athena\ButtonBase.h" />
     <ClInclude Include="..\include\athena\Camera.h" />
     <ClInclude Include="..\include\athena\CatmullRom.h" />
     <ClInclude Include="..\include\athena\Color.h" />
+    <ClInclude Include="..\include\athena\ConeMesh.h" />
     <ClInclude Include="..\include\athena\ConfigManager.h" />
     <ClInclude Include="..\include\athena\CubeMesh.h" />
     <ClInclude Include="..\include\athena\CubeRenderTarget.h" />

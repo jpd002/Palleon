@@ -29,6 +29,9 @@
     <Filter Include="Source Files\win32\UberEffect">
       <UniqueIdentifier>{12a6ee9b-9fd4-4099-93a6-e939f3392ae3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\graphics\Basic Meshes">
+      <UniqueIdentifier>{d7aea279-37a5-4bf6-85a1-75a2e19ec897}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ConfigManager.cpp">
@@ -55,13 +58,7 @@
     <ClCompile Include="..\src\Mesh.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SphereMesh.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Sprite.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\CubeMesh.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\SceneNode.cpp">
@@ -187,6 +184,18 @@
     <ClCompile Include="..\src\resources\DdsImage.cpp">
       <Filter>Source Files\resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\CubeMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SphereMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ConeMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\AxisMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -241,13 +250,7 @@
     <ClInclude Include="..\include\athena\MeshProvider.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\SphereMesh.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\athena\Sprite.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\CubeMesh.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\athena\SceneNode.h">
@@ -408,6 +411,18 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\MathOps.h">
       <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\CubeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\SphereMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\ConeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\AxisMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

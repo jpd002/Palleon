@@ -20,6 +20,12 @@ public:
 		
 	}
 	
+	explicit CColor(const float* elements)
+	: r(elements[0]), g(elements[1]), b(elements[2]), a(elements[3])
+	{
+
+	}
+
 	CColor operator +(const CColor& rhs) const
 	{
 		return CColor(

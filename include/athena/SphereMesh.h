@@ -1,5 +1,4 @@
-#ifndef _SPHEREMESH_H_
-#define _SPHEREMESH_H_
+#pragma once
 
 #include "Mesh.h"
 
@@ -14,5 +13,3 @@ namespace Athena
 		static MeshPtr		Create();
 	};
 }
-
-#endif

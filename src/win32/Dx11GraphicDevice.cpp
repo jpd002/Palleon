@@ -644,6 +644,10 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 	UINT indexCount = 0;
 	switch(mesh->GetPrimitiveType())
 	{
+	case PRIMITIVE_LINE_LIST:
+		m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		indexCount = primCount * 2;
+		break;
 	case PRIMITIVE_TRIANGLE_STRIP:
 		m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		indexCount = (primCount + 2);

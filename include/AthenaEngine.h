@@ -27,6 +27,8 @@
 #include "athena/MeshProvider.h"
 #include "athena/CubeMesh.h"
 #include "athena/SphereMesh.h"
+#include "athena/ConeMesh.h"
+#include "athena/AxisMesh.h"
 
 #include "athena/Label.h"
 #include "athena/Sprite.h"
