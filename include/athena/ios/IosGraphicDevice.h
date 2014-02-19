@@ -21,10 +21,9 @@ namespace Athena
 		
 		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 		
-		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32) override;
+		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32) override;
 		virtual TexturePtr					CreateTextureFromFile(const char*) override;
 		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) override;
-		virtual TexturePtr					CreateTextureFromRawData(const void*, TEXTURE_FORMAT, uint32, uint32) override;
 		
 		virtual TexturePtr					CreateCubeTexture(TEXTURE_FORMAT, uint32) override;
 		virtual TexturePtr					CreateCubeTextureFromFile(const char*) override;

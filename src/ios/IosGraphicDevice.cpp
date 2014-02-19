@@ -202,7 +202,7 @@ VertexBufferPtr CIosGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRI
 	return VertexBufferPtr(new CIosVertexBuffer(bufferDesc));
 }
 
-TexturePtr CIosGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
+TexturePtr CIosGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
 	return CIosTexture::Create(textureFormat, width, height);
 }
@@ -215,13 +215,6 @@ TexturePtr CIosGraphicDevice::CreateTextureFromFile(const char* path)
 TexturePtr CIosGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
 {
 	return CIosTexture::CreateFromMemory(data, size);
-}
-
-TexturePtr CIosGraphicDevice::CreateTextureFromRawData(const void* data, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
-{
-	auto texture = CIosTexture::Create(textureFormat, width, height);
-	texture->Update(data);
-	return texture;
 }
 
 TexturePtr CIosGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
