@@ -5,7 +5,7 @@
 #import "athena/ios/IosResourceManager.h"
 #import "athena/ios/IosAudioManager.h"
 #import "athena/ConfigManager.h"
-#import "EAGLView.h"
+#import "athena/ios/EAGLView.h"
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 #include <MobileCoreServices/MobileCoreServices.h>

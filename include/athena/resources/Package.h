@@ -1,6 +1,6 @@
-#ifndef _ATHENA_PACKAGE_H_
-#define _ATHENA_PACKAGE_H_
+#pragma once
 
+#include <string>
 #include <vector>
 #include <memory>
 
@@ -45,5 +45,3 @@ namespace Athena
 		ItemArray				m_items;
 	};
 };
-
-#endif

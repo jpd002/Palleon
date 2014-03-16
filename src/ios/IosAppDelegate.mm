@@ -1,4 +1,4 @@
-#import "IosAppDelegate.h"
+#import "athena/ios/IosAppDelegate.h"
 
 @implementation IosAppDelegate
 

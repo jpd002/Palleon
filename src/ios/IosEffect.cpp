@@ -70,7 +70,7 @@ GLuint CIosEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 	glShaderSource(shader, 1, &shaderSource, NULL);
 	glCompileShader(shader);
 	
-#if defined(DEBUG)
+#if defined(_DEBUG)
 	GLint logLength;
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
 	if(logLength > 0)
@@ -96,7 +96,7 @@ GLuint CIosEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 
 void CIosEffect::DumpProgramLog(GLuint program)
 {
-#if defined(DEBUG)
+#if defined(_DEBUG)
 	GLint logLength;
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
 	if (logLength > 0)

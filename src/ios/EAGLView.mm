@@ -1,5 +1,5 @@
 #import <QuartzCore/QuartzCore.h>
-#import "EAGLView.h"
+#import "athena/ios/EAGLView.h"
 
 @interface EAGLView (PrivateMethods)
 - (void)createFramebuffer;

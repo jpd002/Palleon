@@ -1,6 +1,6 @@
 #pragma once
 
-#include "athena/ResourceManager.h"
+#include "athena/resources/ResourceManager.h"
 
 namespace Athena
 {
