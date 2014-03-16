@@ -1,5 +1,5 @@
-#include "IosVertexBuffer.h"
-#include "IosGraphicDevice.h"
+#include "athena/ios/IosVertexBuffer.h"
+#include "athena/ios/IosGraphicDevice.h"
 #include <assert.h>
 #include <vector>
 
