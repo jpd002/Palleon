@@ -1,4 +1,5 @@
-#include "IosResourceManager.h"
+#import <UIKit/UIKit.h>
+#include "athena/ios/IosResourceManager.h"
 #include "athena/GraphicDevice.h"
 
 using namespace Athena;
