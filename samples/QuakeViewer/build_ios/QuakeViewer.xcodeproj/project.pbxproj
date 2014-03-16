@@ -1,0 +1,375 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		70271A9318D4D96100777C53 /* BatchMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A6C18D4D96100777C53 /* BatchMesh.cpp */; };
+		70271A9418D4D96100777C53 /* BspFaceMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A6F18D4D96100777C53 /* BspFaceMesh.cpp */; };
+		70271A9518D4D96100777C53 /* BspFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7118D4D96100777C53 /* BspFile.cpp */; };
+		70271A9618D4D96100777C53 /* BspMapMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7318D4D96100777C53 /* BspMapMaterial.cpp */; };
+		70271A9718D4D96100777C53 /* BspMapMeshProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7518D4D96100777C53 /* BspMapMeshProvider.cpp */; };
+		70271A9818D4D96100777C53 /* BspMapPass.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7718D4D96100777C53 /* BspMapPass.cpp */; };
+		70271A9918D4D96100777C53 /* BspMapResourceProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7918D4D96100777C53 /* BspMapResourceProvider.cpp */; };
+		70271A9A18D4D96100777C53 /* BspMapTcMod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7B18D4D96100777C53 /* BspMapTcMod.cpp */; };
+		70271A9C18D4D96100777C53 /* ContextBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A7F18D4D96100777C53 /* ContextBase.cpp */; };
+		70271A9D18D4D96100777C53 /* LevelSelectionContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8118D4D96100777C53 /* LevelSelectionContext.cpp */; };
+		70271A9E18D4D96100777C53 /* LevelViewContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8318D4D96100777C53 /* LevelViewContext.cpp */; };
+		70271A9F18D4D96100777C53 /* PakFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8518D4D96100777C53 /* PakFile.cpp */; };
+		70271AA018D4D96100777C53 /* QuakeEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8718D4D96100777C53 /* QuakeEntity.cpp */; };
+		70271AA118D4D96100777C53 /* QuakeEntityParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8918D4D96100777C53 /* QuakeEntityParser.cpp */; };
+		70271AA218D4D96100777C53 /* QuakeShaderParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8C18D4D96100777C53 /* QuakeShaderParser.cpp */; };
+		70271AA418D4D96100777C53 /* QuakeShaderTokenizer.yy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A8F18D4D96100777C53 /* QuakeShaderTokenizer.yy.cpp */; };
+		70271AA518D4D96100777C53 /* QuakeViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271A9018D4D96100777C53 /* QuakeViewer.cpp */; };
+		709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FA186A721100AEA8C7 /* Foundation.framework */; };
+		709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FC186A721100AEA8C7 /* CoreGraphics.framework */; };
+		709E16FF186A721100AEA8C7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FE186A721100AEA8C7 /* UIKit.framework */; };
+		709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1700186A721100AEA8C7 /* GLKit.framework */; };
+		709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1702186A721100AEA8C7 /* OpenGLES.framework */; };
+		709E175B186A755100AEA8C7 /* libAthena.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175A186A755100AEA8C7 /* libAthena.a */; };
+		709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175C186A779800AEA8C7 /* AVFoundation.framework */; };
+		709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176B186A7B3500AEA8C7 /* libboost.a */; };
+		709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176C186A7B3500AEA8C7 /* libFramework.a */; };
+		709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176F186A7BAC00AEA8C7 /* libz.dylib */; };
+		709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1771186A7C9100AEA8C7 /* QuartzCore.framework */; };
+		709E177A186A7D5B00AEA8C7 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 709E1779186A7D5B00AEA8C7 /* data */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		70271A6C18D4D96100777C53 /* BatchMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BatchMesh.cpp; path = ../src/BatchMesh.cpp; sourceTree = "<group>"; };
+		70271A6D18D4D96100777C53 /* BatchMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BatchMesh.h; path = ../src/BatchMesh.h; sourceTree = "<group>"; };
+		70271A6E18D4D96100777C53 /* BspDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspDefs.h; path = ../src/BspDefs.h; sourceTree = "<group>"; };
+		70271A6F18D4D96100777C53 /* BspFaceMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspFaceMesh.cpp; path = ../src/BspFaceMesh.cpp; sourceTree = "<group>"; };
+		70271A7018D4D96100777C53 /* BspFaceMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspFaceMesh.h; path = ../src/BspFaceMesh.h; sourceTree = "<group>"; };
+		70271A7118D4D96100777C53 /* BspFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspFile.cpp; path = ../src/BspFile.cpp; sourceTree = "<group>"; };
+		70271A7218D4D96100777C53 /* BspFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspFile.h; path = ../src/BspFile.h; sourceTree = "<group>"; };
+		70271A7318D4D96100777C53 /* BspMapMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspMapMaterial.cpp; path = ../src/BspMapMaterial.cpp; sourceTree = "<group>"; };
+		70271A7418D4D96100777C53 /* BspMapMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspMapMaterial.h; path = ../src/BspMapMaterial.h; sourceTree = "<group>"; };
+		70271A7518D4D96100777C53 /* BspMapMeshProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspMapMeshProvider.cpp; path = ../src/BspMapMeshProvider.cpp; sourceTree = "<group>"; };
+		70271A7618D4D96100777C53 /* BspMapMeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspMapMeshProvider.h; path = ../src/BspMapMeshProvider.h; sourceTree = "<group>"; };
+		70271A7718D4D96100777C53 /* BspMapPass.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspMapPass.cpp; path = ../src/BspMapPass.cpp; sourceTree = "<group>"; };
+		70271A7818D4D96100777C53 /* BspMapPass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspMapPass.h; path = ../src/BspMapPass.h; sourceTree = "<group>"; };
+		70271A7918D4D96100777C53 /* BspMapResourceProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspMapResourceProvider.cpp; path = ../src/BspMapResourceProvider.cpp; sourceTree = "<group>"; };
+		70271A7A18D4D96100777C53 /* BspMapResourceProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspMapResourceProvider.h; path = ../src/BspMapResourceProvider.h; sourceTree = "<group>"; };
+		70271A7B18D4D96100777C53 /* BspMapTcMod.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BspMapTcMod.cpp; path = ../src/BspMapTcMod.cpp; sourceTree = "<group>"; };
+		70271A7C18D4D96100777C53 /* BspMapTcMod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspMapTcMod.h; path = ../src/BspMapTcMod.h; sourceTree = "<group>"; };
+		70271A7D18D4D96100777C53 /* BspUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BspUtils.h; path = ../src/BspUtils.h; sourceTree = "<group>"; };
+		70271A7F18D4D96100777C53 /* ContextBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ContextBase.cpp; path = ../src/ContextBase.cpp; sourceTree = "<group>"; };
+		70271A8018D4D96100777C53 /* ContextBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextBase.h; path = ../src/ContextBase.h; sourceTree = "<group>"; };
+		70271A8118D4D96100777C53 /* LevelSelectionContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelSelectionContext.cpp; path = ../src/LevelSelectionContext.cpp; sourceTree = "<group>"; };
+		70271A8218D4D96100777C53 /* LevelSelectionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelSelectionContext.h; path = ../src/LevelSelectionContext.h; sourceTree = "<group>"; };
+		70271A8318D4D96100777C53 /* LevelViewContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LevelViewContext.cpp; path = ../src/LevelViewContext.cpp; sourceTree = "<group>"; };
+		70271A8418D4D96100777C53 /* LevelViewContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelViewContext.h; path = ../src/LevelViewContext.h; sourceTree = "<group>"; };
+		70271A8518D4D96100777C53 /* PakFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PakFile.cpp; path = ../src/PakFile.cpp; sourceTree = "<group>"; };
+		70271A8618D4D96100777C53 /* PakFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PakFile.h; path = ../src/PakFile.h; sourceTree = "<group>"; };
+		70271A8718D4D96100777C53 /* QuakeEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuakeEntity.cpp; path = ../src/QuakeEntity.cpp; sourceTree = "<group>"; };
+		70271A8818D4D96100777C53 /* QuakeEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeEntity.h; path = ../src/QuakeEntity.h; sourceTree = "<group>"; };
+		70271A8918D4D96100777C53 /* QuakeEntityParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuakeEntityParser.cpp; path = ../src/QuakeEntityParser.cpp; sourceTree = "<group>"; };
+		70271A8A18D4D96100777C53 /* QuakeEntityParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeEntityParser.h; path = ../src/QuakeEntityParser.h; sourceTree = "<group>"; };
+		70271A8B18D4D96100777C53 /* QuakeShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeShader.h; path = ../src/QuakeShader.h; sourceTree = "<group>"; };
+		70271A8C18D4D96100777C53 /* QuakeShaderParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuakeShaderParser.cpp; path = ../src/QuakeShaderParser.cpp; sourceTree = "<group>"; };
+		70271A8D18D4D96100777C53 /* QuakeShaderParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeShaderParser.h; path = ../src/QuakeShaderParser.h; sourceTree = "<group>"; };
+		70271A8F18D4D96100777C53 /* QuakeShaderTokenizer.yy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuakeShaderTokenizer.yy.cpp; path = ../src/QuakeShaderTokenizer.yy.cpp; sourceTree = "<group>"; };
+		70271A9018D4D96100777C53 /* QuakeViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuakeViewer.cpp; path = ../src/QuakeViewer.cpp; sourceTree = "<group>"; };
+		70271A9118D4D96100777C53 /* QuakeViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeViewer.h; path = ../src/QuakeViewer.h; sourceTree = "<group>"; };
+		70271A9218D4D96100777C53 /* QuakeViewerDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QuakeViewerDefs.h; path = ../src/QuakeViewerDefs.h; sourceTree = "<group>"; };
+		709E16F7186A721100AEA8C7 /* QuakeViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuakeViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		709E16FA186A721100AEA8C7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		709E16FC186A721100AEA8C7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		709E16FE186A721100AEA8C7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		709E1700186A721100AEA8C7 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		709E1702186A721100AEA8C7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		709E1706186A721100AEA8C7 /* QuakeViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QuakeViewer-Info.plist"; sourceTree = "<group>"; };
+		709E170C186A721100AEA8C7 /* QuakeViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuakeViewer-Prefix.pch"; sourceTree = "<group>"; };
+		709E1724186A721100AEA8C7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		709E175A186A755100AEA8C7 /* libAthena.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAthena.a; path = "../../../../../Library/Developer/Xcode/DerivedData/Athena-cqrzgjojsxrjapdxjjvcfeijgrqv/Build/Products/Debug-iphoneos/libAthena.a"; sourceTree = "<group>"; };
+		709E175C186A779800AEA8C7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		709E176B186A7B3500AEA8C7 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = "../../../../boost/build_iphone/build/Debug-iphoneos/libboost.a"; sourceTree = "<group>"; };
+		709E176C186A7B3500AEA8C7 /* libFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFramework.a; path = "../../../../Framework/build_iphone/build/Debug-iphoneos/libFramework.a"; sourceTree = "<group>"; };
+		709E176F186A7BAC00AEA8C7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		709E1771186A7C9100AEA8C7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		709E1779186A7D5B00AEA8C7 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Athena.Samples.Common.Debug.xcconfig; path = ../../Athena.Samples.Common.Debug.xcconfig; sourceTree = "<group>"; };
+		70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Athena.Samples.Common.xcconfig; path = ../../Athena.Samples.Common.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		709E16F4186A721100AEA8C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */,
+				709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */,
+				709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */,
+				709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */,
+				709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */,
+				709E175B186A755100AEA8C7 /* libAthena.a in Frameworks */,
+				709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */,
+				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
+				709E16FF186A721100AEA8C7 /* UIKit.framework in Frameworks */,
+				709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */,
+				709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		709E16EE186A721100AEA8C7 = {
+			isa = PBXGroup;
+			children = (
+				709E1704186A721100AEA8C7 /* Source */,
+				709E16F9186A721100AEA8C7 /* Frameworks */,
+				709E16F8186A721100AEA8C7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		709E16F8186A721100AEA8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709E16F7186A721100AEA8C7 /* QuakeViewer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		709E16F9186A721100AEA8C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				709E1771186A7C9100AEA8C7 /* QuartzCore.framework */,
+				709E176F186A7BAC00AEA8C7 /* libz.dylib */,
+				709E176B186A7B3500AEA8C7 /* libboost.a */,
+				709E176C186A7B3500AEA8C7 /* libFramework.a */,
+				709E175C186A779800AEA8C7 /* AVFoundation.framework */,
+				709E175A186A755100AEA8C7 /* libAthena.a */,
+				709E16FA186A721100AEA8C7 /* Foundation.framework */,
+				709E16FC186A721100AEA8C7 /* CoreGraphics.framework */,
+				709E16FE186A721100AEA8C7 /* UIKit.framework */,
+				709E1700186A721100AEA8C7 /* GLKit.framework */,
+				709E1702186A721100AEA8C7 /* OpenGLES.framework */,
+				709E1724186A721100AEA8C7 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		709E1704186A721100AEA8C7 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */,
+				70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */,
+				70271A6C18D4D96100777C53 /* BatchMesh.cpp */,
+				70271A6D18D4D96100777C53 /* BatchMesh.h */,
+				70271A6E18D4D96100777C53 /* BspDefs.h */,
+				70271A6F18D4D96100777C53 /* BspFaceMesh.cpp */,
+				70271A7018D4D96100777C53 /* BspFaceMesh.h */,
+				70271A7118D4D96100777C53 /* BspFile.cpp */,
+				70271A7218D4D96100777C53 /* BspFile.h */,
+				70271A7318D4D96100777C53 /* BspMapMaterial.cpp */,
+				70271A7418D4D96100777C53 /* BspMapMaterial.h */,
+				70271A7518D4D96100777C53 /* BspMapMeshProvider.cpp */,
+				70271A7618D4D96100777C53 /* BspMapMeshProvider.h */,
+				70271A7718D4D96100777C53 /* BspMapPass.cpp */,
+				70271A7818D4D96100777C53 /* BspMapPass.h */,
+				70271A7918D4D96100777C53 /* BspMapResourceProvider.cpp */,
+				70271A7A18D4D96100777C53 /* BspMapResourceProvider.h */,
+				70271A7B18D4D96100777C53 /* BspMapTcMod.cpp */,
+				70271A7C18D4D96100777C53 /* BspMapTcMod.h */,
+				70271A7D18D4D96100777C53 /* BspUtils.h */,
+				70271A7F18D4D96100777C53 /* ContextBase.cpp */,
+				70271A8018D4D96100777C53 /* ContextBase.h */,
+				70271A8118D4D96100777C53 /* LevelSelectionContext.cpp */,
+				70271A8218D4D96100777C53 /* LevelSelectionContext.h */,
+				70271A8318D4D96100777C53 /* LevelViewContext.cpp */,
+				70271A8418D4D96100777C53 /* LevelViewContext.h */,
+				70271A8518D4D96100777C53 /* PakFile.cpp */,
+				70271A8618D4D96100777C53 /* PakFile.h */,
+				70271A8718D4D96100777C53 /* QuakeEntity.cpp */,
+				70271A8818D4D96100777C53 /* QuakeEntity.h */,
+				70271A8918D4D96100777C53 /* QuakeEntityParser.cpp */,
+				70271A8A18D4D96100777C53 /* QuakeEntityParser.h */,
+				70271A8B18D4D96100777C53 /* QuakeShader.h */,
+				70271A8C18D4D96100777C53 /* QuakeShaderParser.cpp */,
+				70271A8D18D4D96100777C53 /* QuakeShaderParser.h */,
+				70271A8F18D4D96100777C53 /* QuakeShaderTokenizer.yy.cpp */,
+				70271A9018D4D96100777C53 /* QuakeViewer.cpp */,
+				70271A9118D4D96100777C53 /* QuakeViewer.h */,
+				70271A9218D4D96100777C53 /* QuakeViewerDefs.h */,
+				709E1705186A721100AEA8C7 /* Supporting Files */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		709E1705186A721100AEA8C7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				709E1779186A7D5B00AEA8C7 /* data */,
+				709E1706186A721100AEA8C7 /* QuakeViewer-Info.plist */,
+				709E170C186A721100AEA8C7 /* QuakeViewer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		709E16F6186A721100AEA8C7 /* QuakeViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 709E1734186A721200AEA8C7 /* Build configuration list for PBXNativeTarget "QuakeViewer" */;
+			buildPhases = (
+				709E16F3186A721100AEA8C7 /* Sources */,
+				709E16F4186A721100AEA8C7 /* Frameworks */,
+				709E16F5186A721100AEA8C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuakeViewer;
+			productName = QuakeViewer;
+			productReference = 709E16F7186A721100AEA8C7 /* QuakeViewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		709E16EF186A721100AEA8C7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Virtual Applications";
+				TargetAttributes = {
+					709E16F6186A721100AEA8C7 = {
+						DevelopmentTeam = AGRWZ43CQ9;
+					};
+				};
+			};
+			buildConfigurationList = 709E16F2186A721100AEA8C7 /* Build configuration list for PBXProject "QuakeViewer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 709E16EE186A721100AEA8C7;
+			productRefGroup = 709E16F8186A721100AEA8C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				709E16F6186A721100AEA8C7 /* QuakeViewer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		709E16F5186A721100AEA8C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709E177A186A7D5B00AEA8C7 /* data in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		709E16F3186A721100AEA8C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70271AA418D4D96100777C53 /* QuakeShaderTokenizer.yy.cpp in Sources */,
+				70271A9318D4D96100777C53 /* BatchMesh.cpp in Sources */,
+				70271A9718D4D96100777C53 /* BspMapMeshProvider.cpp in Sources */,
+				70271A9A18D4D96100777C53 /* BspMapTcMod.cpp in Sources */,
+				70271A9618D4D96100777C53 /* BspMapMaterial.cpp in Sources */,
+				70271AA518D4D96100777C53 /* QuakeViewer.cpp in Sources */,
+				70271A9C18D4D96100777C53 /* ContextBase.cpp in Sources */,
+				70271AA018D4D96100777C53 /* QuakeEntity.cpp in Sources */,
+				70271A9818D4D96100777C53 /* BspMapPass.cpp in Sources */,
+				70271A9918D4D96100777C53 /* BspMapResourceProvider.cpp in Sources */,
+				70271A9518D4D96100777C53 /* BspFile.cpp in Sources */,
+				70271A9F18D4D96100777C53 /* PakFile.cpp in Sources */,
+				70271A9418D4D96100777C53 /* BspFaceMesh.cpp in Sources */,
+				70271AA218D4D96100777C53 /* QuakeShaderParser.cpp in Sources */,
+				70271AA118D4D96100777C53 /* QuakeEntityParser.cpp in Sources */,
+				70271A9E18D4D96100777C53 /* LevelViewContext.cpp in Sources */,
+				70271A9D18D4D96100777C53 /* LevelSelectionContext.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		709E1732186A721200AEA8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+			};
+			name = Debug;
+		};
+		709E1733186A721200AEA8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+			};
+			name = Release;
+		};
+		709E1735186A721200AEA8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QuakeViewer-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/QuakeViewer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		709E1736186A721200AEA8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "QuakeViewer-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/QuakeViewer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		709E16F2186A721100AEA8C7 /* Build configuration list for PBXProject "QuakeViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709E1732186A721200AEA8C7 /* Debug */,
+				709E1733186A721200AEA8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		709E1734186A721200AEA8C7 /* Build configuration list for PBXNativeTarget "QuakeViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709E1735186A721200AEA8C7 /* Debug */,
+				709E1736186A721200AEA8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 709E16EF186A721100AEA8C7 /* Project object */;
+}
