@@ -22,11 +22,7 @@ namespace Athena
 		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 		
 		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32) override;
-		virtual TexturePtr					CreateTextureFromFile(const char*) override;
-		virtual TexturePtr					CreateTextureFromMemory(const void*, uint32) override;
-		
 		virtual TexturePtr					CreateCubeTexture(TEXTURE_FORMAT, uint32) override;
-		virtual TexturePtr					CreateCubeTextureFromFile(const char*) override;
 		
 		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) override;
 		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) override;
@@ -45,7 +41,7 @@ namespace Athena
 		void								DrawViewportShadowMap(CViewport*);
 		
 		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);
-		void								DrawMesh(CMesh*, const IosEffectPtr&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4());
+		void								DrawMesh(CMesh*, const IosEffectPtr&, const CMatrix4&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4());
 
 		void								CreateShadowMap();
 		

@@ -1,4 +1,5 @@
-#include "IosGraphicDevice.h"
+#include <UIKit/UIKit.h>
+#include "athena/ios/IosGraphicDevice.h"
 #include "athena/ios/IosVertexBuffer.h"
 #include "athena/ios/IosTexture.h"
 #include "athena/ios/IosEffect.h"
@@ -96,7 +97,7 @@ void CIosGraphicDevice::Draw()
 	}
 	CHECKGLERROR();
 	
-	//Make sure VAO doesn't binding doesn't leak somewhere else
+	//Make sure VAO doesn't leak somewhere else
 	glBindVertexArrayOES(0);
 	CHECKGLERROR();
 }
@@ -130,26 +131,28 @@ void CIosGraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	
 	auto camera = viewport->GetCamera();
 	auto shadowCamera = viewport->GetShadowCamera();
-			
-//	viewMatrix(3, 0) = 0;
-//	viewMatrix(3, 1) = 0;
-//	viewMatrix(3, 2) = 0;
-	
-//	m_peggedViewProjMatrix = viewMatrix * projMatrix;
 	
 	m_renderQueue.clear();
 	
 	const SceneNodePtr& sceneRoot = viewport->GetSceneRoot();
 	sceneRoot->TraverseNodes(std::bind(&CIosGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 	
-	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	auto viewMatrix = camera->GetViewMatrix();
+	auto projMatrix = camera->GetProjectionMatrix();
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	bool hasShadowMap = shadowCamera != nullptr;
-	for(CMesh* mesh : m_renderQueue)
+	
+	auto peggedViewMatrix = camera->GetViewMatrix();
+	peggedViewMatrix(3, 0) = 0;
+	peggedViewMatrix(3, 1) = 0;
+	peggedViewMatrix(3, 2) = 0;
+	
+	for(const auto& mesh : m_renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CIosEffect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
-		DrawMesh(mesh, effect, viewProjMatrix, hasShadowMap, shadowViewProjMatrix);
+		bool isPeggedToOrigin = mesh->GetIsPeggedToOrigin();
+		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewMatrix : viewMatrix, projMatrix, hasShadowMap, shadowViewProjMatrix);
 	}
 }
 
@@ -190,10 +193,11 @@ void CIosGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 	
-	auto viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	auto viewMatrix = camera->GetViewMatrix();
+	auto projMatrix = camera->GetProjectionMatrix();
 	for(const auto& mesh : m_renderQueue)
 	{
-		DrawMesh(mesh, m_shadowMapEffect, viewProjMatrix);
+		DrawMesh(mesh, m_shadowMapEffect, viewMatrix, projMatrix);
 	}
 }
 
@@ -207,24 +211,9 @@ TexturePtr CIosGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32
 	return CIosTexture::Create(textureFormat, width, height);
 }
 
-TexturePtr CIosGraphicDevice::CreateTextureFromFile(const char* path)
-{
-	return CIosTexture::CreateFromFile(path);
-}
-
-TexturePtr CIosGraphicDevice::CreateTextureFromMemory(const void* data, uint32 size)
-{
-	return CIosTexture::CreateFromMemory(data, size);
-}
-
 TexturePtr CIosGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
 {
-	return TexturePtr();
-}
-
-TexturePtr CIosGraphicDevice::CreateCubeTextureFromFile(const char* path)
-{
-	return CIosTexture::CreateCubeFromFile(path);
+	return CIosTexture::CreateCube(textureFormat, size);
 }
 
 RenderTargetPtr CIosGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -255,7 +244,7 @@ bool CIosGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* camer
 	return true;
 }
 
-void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const CMatrix4& viewProjMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
+void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const CMatrix4& viewMatrix, const CMatrix4& projMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	
@@ -272,6 +261,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 		glUseProgram(effect->GetProgram());
 		CHECKGLERROR();
 		
+		auto viewProjMatrix = viewMatrix * projMatrix;
 		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewProjMatrix, shadowViewProjMatrix);
 		CHECKGLERROR();
 
@@ -282,16 +272,10 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 			if(!texture) break;
 			GLuint textureHandle = static_cast<GLuint>(reinterpret_cast<size_t>(texture->GetHandle()));
 			glActiveTexture(GL_TEXTURE0 + i);
-			if(texture->IsCubeMap())
-			{
-				glBindTexture(GL_TEXTURE_CUBE_MAP, textureHandle);
-			}
-			else
-			{
-				glBindTexture(GL_TEXTURE_2D, textureHandle);
-			}
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
+			GLenum target = texture->IsCube() ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D;
+			glBindTexture(target, textureHandle);
+			glTexParameteri(target, GL_TEXTURE_WRAP_S, g_textureAddressModes[material->GetTextureAddressModeU(i)]);
+			glTexParameteri(target, GL_TEXTURE_WRAP_T, g_textureAddressModes[material->GetTextureAddressModeV(i)]);
 			CHECKGLERROR();
 			textureCount++;
 		}
@@ -355,6 +339,10 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 		case PRIMITIVE_TRIANGLE_LIST:
 			primitiveType = GL_TRIANGLES;
 			vertexCount = (primitiveCount * 3);
+			break;
+		case PRIMITIVE_LINE_LIST:
+			primitiveType = GL_LINES;
+			vertexCount = (primitiveCount * 2);
 			break;
 		default:
 			assert(0);

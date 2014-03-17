@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Types.h"
 #include "athena/Texture.h"
 #include "OpenGlEsDefs.h"
@@ -9,27 +10,18 @@ namespace Athena
 	class CIosTexture : public CTexture
 	{
 	public:
-												CIosTexture(GLuint, bool = false);
+												CIosTexture(GLuint);
 		virtual									~CIosTexture();
 		
 		static TexturePtr						Create(TEXTURE_FORMAT, uint32, uint32);
-		static TexturePtr						CreateFromFile(const char*);
-		static TexturePtr						CreateFromMemory(const void*, uint32);
-		
-		static TexturePtr						CreateCubeFromFile(const char*);
-				
-		void									Update(const void*);
+		static TexturePtr						CreateCube(TEXTURE_FORMAT, uint32);
+
+		void									Update(uint32, const void*) override;
+		void									UpdateCubeFace(TEXTURE_CUBE_FACE, const void*) override;
 		
 		void*									GetHandle() const override;
-		bool									IsCubeMap() const;
 		
-	protected:
-		static GLuint							LoadFromData(void*);
-		static GLuint							TryLoadTGA(void*);
-
-		static GLuint							LoadCubeFromPVR(void*);
-		
+	protected:		
 		GLuint									m_texture;
-		bool									m_isCubeMap;
 	};
 }
