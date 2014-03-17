@@ -36,6 +36,7 @@ void CIosEffect::BuildProgram(const std::string& vertexShaderSource, const std::
 	
 	glBindAttribLocation(program, VERTEX_ITEM_ID_POSITION, "a_position");
 	glBindAttribLocation(program, VERTEX_ITEM_ID_UV0, "a_texCoord0");
+	glBindAttribLocation(program, VERTEX_ITEM_ID_UV1, "a_texCoord1");
 	glBindAttribLocation(program, VERTEX_ITEM_ID_COLOR, "a_color");
 	
 	glLinkProgram(program);
