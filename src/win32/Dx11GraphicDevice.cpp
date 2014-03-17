@@ -208,21 +208,6 @@ TexturePtr CDx11GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, u
 	return CDx11Texture::CreateCube(m_device, m_deviceContext, textureFormat, size);
 }
 
-TexturePtr CDx11GraphicDevice::CreateTextureFromFile(const char* path)
-{
-	return CDx11Texture::CreateFromFile(m_device, m_deviceContext, path);
-}
-
-TexturePtr CDx11GraphicDevice::CreateTextureFromMemory(const void* data, uint32 dataSize)
-{
-	return CDx11Texture::CreateFromMemory(m_device, m_deviceContext, data, dataSize);
-}
-
-TexturePtr CDx11GraphicDevice::CreateCubeTextureFromFile(const char* path)
-{
-	return CDx11Texture::CreateCubeFromFile(m_device, m_deviceContext, path);
-}
-
 RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
 	return RenderTargetPtr();

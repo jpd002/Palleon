@@ -109,7 +109,7 @@ Athena::TexturePtr CLevelSelectionContext::LoadTexture(const char* texturePath)
 		return Athena::TexturePtr();
 	}
 
-	Athena::TexturePtr result = Athena::CGraphicDevice::GetInstance().CreateTextureFromMemory(fileData, fileSize);
+	auto result = Athena::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
 	delete fileData;
 
 	return result;

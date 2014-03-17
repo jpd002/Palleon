@@ -13,12 +13,8 @@ namespace Athena
 									CDx11Texture(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D*);
 		virtual						~CDx11Texture();
 
-		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32, uint32);
-		static TexturePtr			CreateFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
-		static TexturePtr			CreateFromMemory(ID3D11Device*, ID3D11DeviceContext*, const void*, uint32);
-	
+		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32, uint32);	
 		static TexturePtr			CreateCube(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32);
-		static TexturePtr			CreateCubeFromFile(ID3D11Device*, ID3D11DeviceContext*, const char*);
 
 		virtual void*				GetHandle() const override;
 		ID3D11ShaderResourceView*	GetTextureView() const;

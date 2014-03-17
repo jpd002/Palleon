@@ -58,6 +58,7 @@
     <ClCompile Include="..\src\SpriteButton.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\TextureAnimation.cpp" />
+    <ClCompile Include="..\src\TextureLoader.cpp" />
     <ClCompile Include="..\src\VertexBuffer.cpp" />
     <ClCompile Include="..\src\Viewport.cpp" />
     <ClCompile Include="..\src\Widget.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="..\include\athena\SpriteButton.h" />
     <ClInclude Include="..\include\athena\Texture.h" />
     <ClInclude Include="..\include\athena\TextureAnimation.h" />
+    <ClInclude Include="..\include\athena\TextureLoader.h" />
     <ClInclude Include="..\include\athena\Tween.h" />
     <ClInclude Include="..\include\athena\Vector2.h" />
     <ClInclude Include="..\include\athena\Vector3.h" />

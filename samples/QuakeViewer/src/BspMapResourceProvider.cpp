@@ -210,7 +210,7 @@ void CBspMapResourceProvider::LoadTexture(const char* texturePath, CPakFile& pak
 		return;
 	}
 
-	Athena::TexturePtr result = Athena::CGraphicDevice::GetInstance().CreateTextureFromMemory(fileData, fileSize);
+	auto result = Athena::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
 	delete fileData;
 
 	m_textures[texturePath] = result;

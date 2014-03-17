@@ -36,6 +36,8 @@
 #include "athena/Emitter.h"
 #include "athena/EmitterModifier.h"
 
+#include "athena/TextureLoader.h"
+
 //Animation
 #include "athena/IAnimation.h"
 #include "athena/AnimationController.h"

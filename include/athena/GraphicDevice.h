@@ -3,7 +3,6 @@
 #include <list>
 #include <string>
 #include "Types.h"
-#include "Stream.h"
 #include "Viewport.h"
 #include "VertexBuffer.h"
 #include "Texture.h"
@@ -31,13 +30,7 @@ namespace Athena
 		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) = 0;
 
 		virtual TexturePtr					CreateTexture(TEXTURE_FORMAT format, uint32 width, uint32 height, uint32 mipCount) = 0;
-		TexturePtr							CreateTextureFromStream(Framework::CStream&);
-		TexturePtr							CreateTextureFromFile(const std::string&);
-		TexturePtr							CreateTextureFromMemory(const void*, uint32);
-
 		virtual TexturePtr					CreateCubeTexture(TEXTURE_FORMAT, uint32) = 0;
-		TexturePtr							CreateCubeTextureFromStream(Framework::CStream&);
-		TexturePtr							CreateCubeTextureFromFile(const std::string&);
 
 		virtual RenderTargetPtr				CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) = 0;
 		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) = 0;

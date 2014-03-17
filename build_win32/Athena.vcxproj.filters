@@ -196,6 +196,9 @@
     <ClCompile Include="..\src\AxisMesh.cpp">
       <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\TextureLoader.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -423,6 +426,9 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\AxisMesh.h">
       <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\TextureLoader.h">
+      <Filter>Source Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

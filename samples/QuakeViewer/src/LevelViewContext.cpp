@@ -21,7 +21,8 @@ CLevelViewContext::CLevelViewContext(CPakFile* pakFile, const char* levelPath)
 {
 	m_viewerPackage = Athena::CPackage::Create("viewer");
 
-	m_skyTexture = Athena::CGraphicDevice::GetInstance().CreateCubeTextureFromFile("./data/viewer/skybox.dds");
+	auto skyTexturePath = Athena::CResourceManager::GetInstance().MakeResourcePath("viewer/skybox.dds");
+	m_skyTexture = Athena::CTextureLoader::CreateCubeTextureFromFile(skyTexturePath);
 
 	{
 		uint8* fileData = NULL;
