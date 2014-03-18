@@ -18,7 +18,7 @@ namespace Athena
 						CIosUberEffect(const EFFECTCAPS&);
 		virtual			~CIosUberEffect();
 
-		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
+		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
 				
 	private:
 		GLuint			m_viewProjMatrixHandle = -1;

@@ -13,7 +13,7 @@ namespace Athena
 						CIosEffect();
 		virtual			~CIosEffect();
 		
-		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&) = 0;
+		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) = 0;
 		
 		GLuint			GetProgram() const;
 				

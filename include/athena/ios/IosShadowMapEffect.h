@@ -10,7 +10,7 @@ namespace Athena
 						CIosShadowMapEffect();
 		virtual			~CIosShadowMapEffect();
 		
-		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
+		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
 		
 	private:
 		GLuint			m_viewProjMatrixHandle = -1;

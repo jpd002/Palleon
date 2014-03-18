@@ -261,8 +261,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 		glUseProgram(effect->GetProgram());
 		CHECKGLERROR();
 		
-		auto viewProjMatrix = viewMatrix * projMatrix;
-		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewProjMatrix, shadowViewProjMatrix);
+		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewMatrix, projMatrix, shadowViewProjMatrix);
 		CHECKGLERROR();
 
 		unsigned int textureCount = 0;

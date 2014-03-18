@@ -34,8 +34,9 @@ CIosShadowMapEffect::~CIosShadowMapEffect()
 	
 }
 
-void CIosShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewProjMatrix, const CMatrix4& shadowViewProjMatrix)
+void CIosShadowMapEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewMatrix, const CMatrix4& projMatrix, const CMatrix4& shadowViewProjMatrix)
 {
+	auto viewProjMatrix = viewMatrix * projMatrix;
 	glUniformMatrix4fv(m_viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&viewProjMatrix));
 	glUniformMatrix4fv(m_worldMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&worldMatrix));
 }
