@@ -46,6 +46,10 @@
 		7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */; };
 		7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960F16E45BBA00CFCE67 /* IosViewController.h */; };
 		7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */; };
+		70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7118D76D2100FA2ABE /* TextureLoader.cpp */; };
+		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
+		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
+		70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7B18D76DA400FA2ABE /* DdsImage.h */; };
 		709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */; };
 		709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D71822088000B6B2D0 /* FontDescriptor.cpp */; };
 		709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */; };
@@ -212,6 +216,10 @@
 		7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosVertexBuffer.h; path = ../include/athena/ios/IosVertexBuffer.h; sourceTree = "<group>"; };
 		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../include/athena/ios/IosViewController.h; sourceTree = "<group>"; };
 		7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../include/athena/ios/OpenGlEsDefs.h; sourceTree = "<group>"; };
+		70983A7118D76D2100FA2ABE /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/TextureLoader.cpp; sourceTree = "<group>"; };
+		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/athena/TextureLoader.h; sourceTree = "<group>"; };
+		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
+		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/athena/resources/DdsImage.h; sourceTree = "<group>"; };
 		709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../src/resources/EmitterDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D71822088000B6B2D0 /* FontDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FontDescriptor.cpp; path = ../src/resources/FontDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchDescriptor.cpp; path = ../src/resources/NinePatchDescriptor.cpp; sourceTree = "<group>"; };
@@ -503,6 +511,8 @@
 				7E7D878513F71AD900AD9F7F /* Sprite.h */,
 				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
 				7E7D878613F71AD900AD9F7F /* Texture.h */,
+				70983A7118D76D2100FA2ABE /* TextureLoader.cpp */,
+				70983A7718D76D3400FA2ABE /* TextureLoader.h */,
 				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
 				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
 				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
@@ -532,6 +542,8 @@
 		7E5C123F14F1A01000292DD3 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				70983A7918D76D8600FA2ABE /* DdsImage.cpp */,
+				70983A7B18D76DA400FA2ABE /* DdsImage.h */,
 				709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */,
 				709C28E41822088E00B6B2D0 /* EmitterDescriptor.h */,
 				709C28D71822088000B6B2D0 /* FontDescriptor.cpp */,
@@ -609,6 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E7D878C13F71AD900AD9F7F /* Application.h in Headers */,
+				70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */,
 				7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */,
 				7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */,
 				7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */,
@@ -645,6 +658,7 @@
 				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
+				70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
 				709E16EA186A689B00AEA8C7 /* Effect.h in Headers */,
@@ -812,6 +826,7 @@
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
+				70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */,
 				709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */,
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
@@ -822,6 +837,7 @@
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
 				709C28E21822088000B6B2D0 /* SceneDescriptor.cpp in Sources */,
 				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
+				70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */,
 				709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */,
 				7020B058186B5141008F12B4 /* IosShadowMapEffect.cpp in Sources */,
 				707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */,
