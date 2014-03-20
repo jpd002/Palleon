@@ -1,4 +1,5 @@
 #include "athena/ios/IosUberEffect.h"
+#include "athena/VertexBuffer.h"
 
 using namespace Athena;
 
@@ -9,8 +10,14 @@ CIosUberEffect::CIosUberEffect(const EFFECTCAPS& effectCaps)
 	
 	auto vertexShaderSource = CIosUberEffectGenerator::GenerateVertexShader(effectCaps);
 	auto pixelShaderSource = CIosUberEffectGenerator::GeneratePixelShader(effectCaps);
+		
+	AttributeBindingArray attributeBindings;
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV0, "a_texCoord0"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV1, "a_texCoord1"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_COLOR, "a_color"));
 	
-	BuildProgram(vertexShaderSource, pixelShaderSource);
+	BuildProgram(vertexShaderSource, pixelShaderSource, attributeBindings);
 	
 	m_viewProjMatrixHandle			= glGetUniformLocation(m_program, "c_viewProjMatrix");
 	m_worldMatrixHandle				= glGetUniformLocation(m_program, "c_worldMatrix");

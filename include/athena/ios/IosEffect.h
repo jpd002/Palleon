@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "athena/Effect.h"
 #include "athena/Matrix4.h"
 #include "athena/Material.h"
@@ -18,7 +19,10 @@ namespace Athena
 		GLuint			GetProgram() const;
 				
 	protected:
-		void			BuildProgram(const std::string&, const std::string&);
+		typedef std::pair<uint32, std::string> AttributeBinding;
+		typedef std::vector<AttributeBinding> AttributeBindingArray;
+		
+		void			BuildProgram(const std::string&, const std::string&, const AttributeBindingArray&);
 		
 		GLuint			m_program = -1;
 		

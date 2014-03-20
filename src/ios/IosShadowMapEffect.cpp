@@ -1,4 +1,5 @@
 #include "athena/ios/IosShadowMapEffect.h"
+#include "athena/VertexBuffer.h"
 
 using namespace Athena;
 
@@ -23,7 +24,10 @@ CIosShadowMapEffect::CIosShadowMapEffect()
 		"gl_FragColor = vec4(v_position.z / v_position.w, 1, 1, 1);"
 		"}";
 	
-	BuildProgram(g_vertexShader, g_pixelShader);
+	AttributeBindingArray attributeBindings;
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position"));
+	
+	BuildProgram(g_vertexShader, g_pixelShader, attributeBindings);
 	
 	m_viewProjMatrixHandle	= glGetUniformLocation(m_program, "c_viewProjMatrix");
 	m_worldMatrixHandle		= glGetUniformLocation(m_program, "c_worldMatrix");

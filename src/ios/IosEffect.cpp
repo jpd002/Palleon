@@ -21,7 +21,7 @@ GLuint CIosEffect::GetProgram() const
 	return m_program;
 }
 
-void CIosEffect::BuildProgram(const std::string& vertexShaderSource, const std::string& pixelShaderSource)
+void CIosEffect::BuildProgram(const std::string& vertexShaderSource, const std::string& pixelShaderSource, const AttributeBindingArray& attributeBindings)
 {	
 	GLuint vertexShader = CompileShader(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
 	GLuint pixelShader = CompileShader(pixelShaderSource.c_str(), GL_FRAGMENT_SHADER);
@@ -33,11 +33,11 @@ void CIosEffect::BuildProgram(const std::string& vertexShaderSource, const std::
 	
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, pixelShader);
-	
-	glBindAttribLocation(program, VERTEX_ITEM_ID_POSITION, "a_position");
-	glBindAttribLocation(program, VERTEX_ITEM_ID_UV0, "a_texCoord0");
-	glBindAttribLocation(program, VERTEX_ITEM_ID_UV1, "a_texCoord1");
-	glBindAttribLocation(program, VERTEX_ITEM_ID_COLOR, "a_color");
+
+	for(const auto& attributeBinding : attributeBindings)
+	{
+		glBindAttribLocation(program, attributeBinding.first, attributeBinding.second.c_str());
+	}
 	
 	glLinkProgram(program);
 	DumpProgramLog(program);
