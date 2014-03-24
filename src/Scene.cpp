@@ -1,4 +1,4 @@
-#include <sstream>
+#include <boost/algorithm/string.hpp>
 #include "athena/Scene.h"
 #include "athena/resources/ResourceManager.h"
 #include "athena/Sprite.h"
@@ -6,7 +6,7 @@
 #include "athena/SpriteButton.h"
 #include "athena/NinePatchButton.h"
 #include "athena/AnimationCurve.h"
-#include <boost/algorithm/string.hpp>
+#include "athena/ParseUtils.h"
 
 using namespace Athena;
 
@@ -88,52 +88,6 @@ void CScene::CreateScene(const CSceneDescriptor* descriptor)
 	CreateAnimations(descriptor);
 	auto rootNodeInfo = descriptor->GetRootNode();
 	CreateNodes(this, rootNodeInfo.children);
-}
-
-static float ParseFloat(const std::string& valueString)
-{
-	float result = 0;
-	std::stringstream ss;
-	ss.imbue(std::locale::classic());
-	ss << valueString;
-	ss >> result;
-	return result;
-}
-
-static CVector2 ParseVector2(const std::string& vectorString)
-{
-	std::vector<std::string> components;
-	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);
-	CVector2 result(0, 0);
-	if(components.size() != 2) return result;
-	result.x = ParseFloat(components[0]);
-	result.y = ParseFloat(components[1]);
-	return result;
-}
-
-static CVector3 ParseVector3(const std::string& vectorString)
-{
-	std::vector<std::string> components;
-	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);
-	CVector3 result(0, 0, 0);
-	if(components.size() != 3) return result;
-	result.x = ParseFloat(components[0]);
-	result.y = ParseFloat(components[1]);
-	result.z = ParseFloat(components[2]);
-	return result;
-}
-
-static CColor ParseColor(const std::string& vectorString)
-{
-	std::vector<std::string> components;
-	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);
-	CColor result(0, 0, 0, 0);
-	if(components.size() != 4) return result;
-	result.r = ParseFloat(components[0]);
-	result.g = ParseFloat(components[1]);
-	result.b = ParseFloat(components[2]);
-	result.a = ParseFloat(components[3]);
-	return result;
 }
 
 template <typename ValueType>

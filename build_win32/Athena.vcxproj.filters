@@ -199,6 +199,9 @@
     <ClCompile Include="..\src\TextureLoader.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ParseUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AthenaEngine.h" />
@@ -429,6 +432,9 @@
     </ClInclude>
     <ClInclude Include="..\include\athena\TextureLoader.h">
       <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\athena\ParseUtils.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

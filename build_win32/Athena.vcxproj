@@ -41,6 +41,7 @@
     <ClCompile Include="..\src\NinePatch.cpp" />
     <ClCompile Include="..\src\NinePatchButton.cpp" />
     <ClCompile Include="..\src\EffectParameter.cpp" />
+    <ClCompile Include="..\src\ParseUtils.cpp" />
     <ClCompile Include="..\src\RenderTarget.cpp" />
     <ClCompile Include="..\src\resources\DdsImage.cpp" />
     <ClCompile Include="..\src\resources\EmitterDescriptor.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="..\include\athena\MeshProvider.h" />
     <ClInclude Include="..\include\athena\NinePatch.h" />
     <ClInclude Include="..\include\athena\NinePatchButton.h" />
+    <ClInclude Include="..\include\athena\ParseUtils.h" />
     <ClInclude Include="..\include\athena\Plane.h" />
     <ClInclude Include="..\include\athena\Quaternion.h" />
     <ClInclude Include="..\include\athena\EffectParameter.h" />

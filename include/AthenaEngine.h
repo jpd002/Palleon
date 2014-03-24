@@ -55,5 +55,7 @@
 
 //Scene
 #include "athena/Scene.h"
+#include "athena/ParseUtils.h"
 
 #include "athena/Application.h"
+
