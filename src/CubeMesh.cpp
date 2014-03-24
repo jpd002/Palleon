@@ -71,6 +71,18 @@ static const float s_texCoords[24 * 2] =
 	1,  1,
 };
 
+#define GENERATE_FACE_INDICES(i) (i * 4) + 1, (i * 4) + 0, (i * 4) + 2, (i * 4) + 1, (i * 4) + 2, (i * 4) + 3
+
+static const uint16 s_indices[36] =
+{
+	GENERATE_FACE_INDICES(0),
+	GENERATE_FACE_INDICES(1),
+	GENERATE_FACE_INDICES(2),
+	GENERATE_FACE_INDICES(3),
+	GENERATE_FACE_INDICES(4),
+	GENERATE_FACE_INDICES(5)
+};
+
 CCubeMesh::CCubeMesh()
 {
 	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(24, 36, 
@@ -92,15 +104,7 @@ CCubeMesh::CCubeMesh()
 	m_vertexBuffer->UnlockVertices();
 
 	uint16* indices = m_vertexBuffer->LockIndices();
-	for(unsigned int i = 0; i < 6; i++)
-	{
-		indices[(i * 6) + 0] = (i * 4) + 1;
-		indices[(i * 6) + 1] = (i * 4) + 0;
-		indices[(i * 6) + 2] = (i * 4) + 2;
-		indices[(i * 6) + 3] = (i * 4) + 1;
-		indices[(i * 6) + 4] = (i * 4) + 2;
-		indices[(i * 6) + 5] = (i * 4) + 3;
-	}
+	memcpy(indices, s_indices, sizeof(s_indices));
 	m_vertexBuffer->UnlockIndices();
 }
 
