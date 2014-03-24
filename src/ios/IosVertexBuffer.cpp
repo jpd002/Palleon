@@ -101,11 +101,6 @@ CIosVertexBuffer::~CIosVertexBuffer()
 	glDeleteBuffers(1, &m_indexBuffer);
 }
 
-void* CIosVertexBuffer::LockVertices()
-{
-	return m_shadowVertexBuffer;
-}
-
 void CIosVertexBuffer::UnlockVertices(uint32 sizeHint)
 {
 	const auto& descriptor(GetDescriptor());
@@ -125,11 +120,6 @@ void CIosVertexBuffer::UnlockVertices(uint32 sizeHint)
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	CHECKGLERROR();
-}
-
-uint16* CIosVertexBuffer::LockIndices()
-{
-	return m_shadowIndexBuffer;
 }
 
 void CIosVertexBuffer::UnlockIndices()
