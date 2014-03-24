@@ -67,6 +67,7 @@ namespace Athena
 		bool				HasVertexItem(uint32) const;
 		const VERTEX_ITEM*	GetVertexItem(uint32) const;
 		uint32				GetVertexSize() const;
+		uint32				GetVertexBufferSize() const;
 	};
 
 	VERTEX_BUFFER_DESCRIPTOR				GenerateVertexBufferDescriptor(uint32 vertexCount, uint32 indexCount, uint32);
@@ -78,15 +79,19 @@ namespace Athena
 		virtual								~CVertexBuffer();
 
 		const VERTEX_BUFFER_DESCRIPTOR&		GetDescriptor() const;
+		const void*							GetShadowVertexBuffer() const;
+		const uint16*						GetShadowIndexBuffer() const;
 
-		virtual void*						LockVertices() = 0;
+		void*								LockVertices();
 		virtual void						UnlockVertices(uint32 = 0) = 0;
 
-		virtual uint16*						LockIndices() = 0;
+		uint16*								LockIndices();
 		virtual void						UnlockIndices() = 0;
 
-	private:
+	protected:
 		VERTEX_BUFFER_DESCRIPTOR			m_descriptor;
+		uint8*								m_shadowVertexBuffer = nullptr;
+		uint16*								m_shadowIndexBuffer = nullptr;
 	};
 
 	typedef std::shared_ptr<CVertexBuffer> VertexBufferPtr;

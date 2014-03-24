@@ -11,11 +11,8 @@ namespace Athena
 												CDx11VertexBuffer(ID3D11Device*, ID3D11DeviceContext*, const VERTEX_BUFFER_DESCRIPTOR&);
 		virtual									~CDx11VertexBuffer();
 
-		virtual void*							LockVertices();
-		virtual void							UnlockVertices(uint32);
-
-		virtual uint16*							LockIndices();
-		virtual void							UnlockIndices();
+		virtual void							UnlockVertices(uint32) override;
+		virtual void							UnlockIndices() override;
 
 		ID3D11Buffer*							GetVertexBuffer() const;
 		ID3D11Buffer*							GetIndexBuffer() const;

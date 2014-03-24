@@ -43,29 +43,21 @@ CDx11VertexBuffer::~CDx11VertexBuffer()
 	m_indexBuffer->Release();
 }
 
-void* CDx11VertexBuffer::LockVertices()
+void CDx11VertexBuffer::UnlockVertices(uint32)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 	HRESULT result = m_deviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
-	return mappedResource.pData;
-}
-
-void CDx11VertexBuffer::UnlockVertices(uint32)
-{
+	memcpy(mappedResource.pData, m_shadowVertexBuffer, m_descriptor.GetVertexBufferSize());
 	m_deviceContext->Unmap(m_vertexBuffer, 0);
-}
-
-uint16* CDx11VertexBuffer::LockIndices()
-{
-	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-	HRESULT result = m_deviceContext->Map(m_indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	assert(SUCCEEDED(result));
-	return reinterpret_cast<uint16*>(mappedResource.pData);
 }
 
 void CDx11VertexBuffer::UnlockIndices()
 {
+	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
+	HRESULT result = m_deviceContext->Map(m_indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	assert(SUCCEEDED(result));
+	memcpy(mappedResource.pData, m_shadowIndexBuffer, m_descriptor.indexCount * sizeof(uint16));
 	m_deviceContext->Unmap(m_indexBuffer, 0);
 }
 

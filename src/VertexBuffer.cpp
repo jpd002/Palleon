@@ -6,17 +6,39 @@ using namespace Athena;
 CVertexBuffer::CVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : m_descriptor(descriptor)
 {
-
+	m_shadowVertexBuffer = new uint8[descriptor.GetVertexBufferSize()];
+	m_shadowIndexBuffer = new uint16[descriptor.indexCount];
 }
 
 CVertexBuffer::~CVertexBuffer()
 {
-
+	delete [] m_shadowVertexBuffer;
+	delete [] m_shadowIndexBuffer;
 }
 
 const VERTEX_BUFFER_DESCRIPTOR& CVertexBuffer::GetDescriptor() const
 {
 	return m_descriptor;
+}
+
+const void* CVertexBuffer::GetShadowVertexBuffer() const
+{
+	return m_shadowVertexBuffer;
+}
+
+const uint16* CVertexBuffer::GetShadowIndexBuffer() const
+{
+	return m_shadowIndexBuffer;
+}
+
+void* CVertexBuffer::LockVertices()
+{
+	return m_shadowVertexBuffer;
+}
+
+uint16* CVertexBuffer::LockIndices()
+{
+	return m_shadowIndexBuffer;
 }
 
 VERTEX_BUFFER_DESCRIPTOR Athena::GenerateVertexBufferDescriptor(uint32 vertexCount, uint32 indexCount, uint32 vertexFlags)
@@ -101,4 +123,9 @@ uint32 Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexSize() const
 		size += vertexItem.size;
 	}
 	return size;
+}
+
+uint32 Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexBufferSize() const
+{
+	return GetVertexSize() * vertexCount;
 }

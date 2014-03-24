@@ -11,11 +11,11 @@ namespace Athena
 												CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
 		virtual									~CIosVertexBuffer();
 
-		virtual void*							LockVertices();
-		virtual void							UnlockVertices(uint32);
+		virtual void*							LockVertices() override;
+		virtual void							UnlockVertices(uint32) override;
 		
-		virtual uint16*							LockIndices();
-		virtual void							UnlockIndices();
+		virtual uint16*							LockIndices() override;
+		virtual void							UnlockIndices() override;
 		
 		GLuint									GetVertexBuffer() const;
 		GLuint									GetIndexBuffer() const;
@@ -25,8 +25,5 @@ namespace Athena
 		GLuint									m_vertexBuffer;
 		GLuint									m_indexBuffer;
 		GLuint									m_vertexArray;
-		
-		uint8*									m_shadowVertexBuffer;
-		uint16*									m_shadowIndexBuffer;
 	};
 }

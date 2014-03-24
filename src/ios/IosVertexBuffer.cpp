@@ -10,13 +10,7 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 , m_vertexBuffer(0)
 , m_indexBuffer(0)
 , m_vertexArray(0)
-, m_shadowVertexBuffer(nullptr)
-, m_shadowIndexBuffer(nullptr)
 {
-	uint32 vertexBufferSize = descriptor.GetVertexSize() * descriptor.vertexCount;
-	m_shadowVertexBuffer = new uint8[vertexBufferSize];
-	m_shadowIndexBuffer = new uint16[descriptor.indexCount];
-
 	//Create vertex buffer
 	{
 		glGenBuffers(1, &m_vertexBuffer);
@@ -25,7 +19,7 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 		CHECKGLERROR();
 		
-		glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, descriptor.GetVertexBufferSize(), NULL, GL_DYNAMIC_DRAW);
 		CHECKGLERROR();
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -102,8 +96,6 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 
 CIosVertexBuffer::~CIosVertexBuffer()
 {
-	delete [] m_shadowVertexBuffer;
-	delete [] m_shadowIndexBuffer;
 	glDeleteVertexArraysOES(1, &m_vertexArray);
 	glDeleteBuffers(1, &m_vertexBuffer);
 	glDeleteBuffers(1, &m_indexBuffer);
@@ -147,7 +139,7 @@ void CIosVertexBuffer::UnlockIndices()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
 	CHECKGLERROR();
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, descriptor.indexCount * sizeof(uint16) ,m_shadowIndexBuffer, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, descriptor.indexCount * sizeof(uint16), m_shadowIndexBuffer, GL_DYNAMIC_DRAW);
 	CHECKGLERROR();
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
