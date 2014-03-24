@@ -12,7 +12,7 @@ public:
 
 	void					Update(float);
 
-	void					NotifyMouseMove(unsigned int, unsigned int);
+	void					NotifyMouseMove(int, int) override;
 	void					NotifyMouseDown();
 	void					NotifyMouseUp();
 

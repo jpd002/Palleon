@@ -13,7 +13,7 @@ public:
 
 	virtual void				Update(float);
 
-	virtual void				NotifyMouseMove(unsigned int, unsigned int);
+	virtual void				NotifyMouseMove(int, int) override;
 	virtual void				NotifyMouseDown();
 	virtual void				NotifyMouseUp();
 

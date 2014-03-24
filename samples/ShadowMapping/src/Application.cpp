@@ -169,7 +169,7 @@ void CApplication::UpdateShadowCamera()
 	m_shadowCameraSphere->SetPosition(shadowCameraPosition);
 }
 
-void CApplication::NotifyMouseMove(unsigned int x, unsigned int y)
+void CApplication::NotifyMouseMove(int x, int y)
 {
 	m_mousePosition = CVector2(x, y);
 	m_mainCamera->NotifyMouseMove(x, y);

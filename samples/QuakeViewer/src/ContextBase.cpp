@@ -16,7 +16,7 @@ void CContextBase::Update(float dt)
 
 }
 
-void CContextBase::NotifyMouseMove(unsigned int, unsigned int)
+void CContextBase::NotifyMouseMove(int, int)
 {
 
 }

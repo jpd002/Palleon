@@ -13,7 +13,7 @@ namespace ShadowMapping
 
 		virtual void			Update(float) override;
 
-		virtual void			NotifyMouseMove(unsigned int, unsigned int) override;
+		virtual void			NotifyMouseMove(int, int) override;
 		virtual void			NotifyMouseDown() override;
 		virtual void			NotifyMouseUp() override;
 

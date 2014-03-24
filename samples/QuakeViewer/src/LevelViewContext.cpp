@@ -277,7 +277,7 @@ void CLevelViewContext::UpdateReflectionMap()
 	m_sphere->SetVisible(true);
 }
 
-void CLevelViewContext::NotifyMouseMove(unsigned int x, unsigned int y)
+void CLevelViewContext::NotifyMouseMove(int x, int y)
 {
 	m_mousePosition = CVector2(x, y);
 }

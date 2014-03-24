@@ -85,7 +85,7 @@ void CLevelSelectionContext::Update(float dt)
 	m_viewport->GetSceneRoot()->UpdateTransformations();
 }
 
-void CLevelSelectionContext::NotifyMouseMove(unsigned int x, unsigned int y)
+void CLevelSelectionContext::NotifyMouseMove(int x, int y)
 {
 	m_mousePosition = CVector2(x, y);
 }

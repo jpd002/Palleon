@@ -18,13 +18,6 @@
 using namespace Athena;
 
 CWin32ApplicationWindow::CWin32ApplicationWindow()
-: m_mouseX(0)
-, m_mouseY(0)
-, m_mouseDownPending(false)
-, m_mouseUpPending(false)
-, m_application(NULL)
-, m_frameCounterTime(0)
-, m_currentFrameCount(0)
 {
 	if(!DoesWindowClassExist(CLSNAME))
 	{
@@ -69,12 +62,7 @@ CWin32ApplicationWindow::CWin32ApplicationWindow()
 
 CWin32ApplicationWindow::~CWin32ApplicationWindow()
 {
-	if(m_application != NULL)
-	{
-		delete m_application;
-		m_application = NULL;
-	}
-
+	delete m_application;
 	CWin32ResourceManager::DestroyInstance();
 	CDx11GraphicDevice::DestroyInstance();
 }
@@ -121,6 +109,33 @@ void CWin32ApplicationWindow::UpdateApplication()
 	}
 }
 
+KEY_CODE CWin32ApplicationWindow::TranslateKeyCode(unsigned int keyCode)
+{
+	switch(keyCode)
+	{
+	case 'W':		return KEY_CODE_W;
+	case 'A':		return KEY_CODE_A;
+	case 'S':		return KEY_CODE_S;
+	case 'D':		return KEY_CODE_D;
+	case VK_DOWN:	return KEY_CODE_ARROW_DOWN;
+	case VK_UP:		return KEY_CODE_ARROW_UP;
+	case VK_LEFT:	return KEY_CODE_ARROW_LEFT;
+	case VK_RIGHT:	return KEY_CODE_ARROW_RIGHT;
+	default:		return KEY_CODE_NONE;
+	}
+}
+
+long CWin32ApplicationWindow::OnActivate(unsigned int activeState, bool, HWND)
+{
+	if(activeState == WA_INACTIVE)
+	{
+		m_application->NotifyInputCancelled();
+		m_mouseDownPending = false;
+		m_mouseUpPending = false;
+	}
+	return FALSE;
+}
+
 long CWin32ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
 {
 	m_mouseX = x;
@@ -128,15 +143,50 @@ long CWin32ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
 	return TRUE;
 }
 
+long CWin32ApplicationWindow::OnMouseLeave()
+{
+	m_application->NotifyInputCancelled();
+	m_mouseDownPending = false;
+	m_mouseUpPending = false;
+	m_mouseTrackingEnabled = false;
+	return TRUE;
+}
+
 long CWin32ApplicationWindow::OnLeftButtonDown(int, int)
 {
+	SetCapture(m_hWnd);
 	m_mouseDownPending = true;
 	return TRUE;
 }
 
 long CWin32ApplicationWindow::OnLeftButtonUp(int, int)
 {
+	ReleaseCapture();
 	m_mouseUpPending = true;
+	return TRUE;
+}
+
+long CWin32ApplicationWindow::OnKeyDown(WPARAM keyCode, LPARAM flags)
+{
+	//Check repeat flag
+	if((flags & 0x40000000) == 0)
+	{
+		auto translatedKeyCode = TranslateKeyCode(keyCode);
+		if(translatedKeyCode != KEY_CODE_NONE)
+		{
+			m_application->NotifyKeyDown(translatedKeyCode);
+		}
+	}
+	return TRUE;
+}
+
+long CWin32ApplicationWindow::OnKeyUp(WPARAM keyCode, LPARAM flags)
+{
+	auto translatedKeyCode = TranslateKeyCode(keyCode);
+	if(translatedKeyCode != KEY_CODE_NONE)
+	{
+		m_application->NotifyKeyUp(translatedKeyCode);
+	}
 	return TRUE;
 }
 

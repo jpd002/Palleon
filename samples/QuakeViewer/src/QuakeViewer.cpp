@@ -74,7 +74,7 @@ void CQuakeViewer::Update(float dt)
 	}
 }
 
-void CQuakeViewer::NotifyMouseMove(unsigned int x, unsigned int y)
+void CQuakeViewer::NotifyMouseMove(int x, int y)
 {
 	if(m_currentContext)
 	{
