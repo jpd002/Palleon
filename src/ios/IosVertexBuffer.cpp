@@ -81,7 +81,9 @@ CIosVertexBuffer::CIosVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 				normalized = GL_TRUE;
 				break;
 			default:
-				assert(0);
+				size = vertexItem.size / sizeof(float);
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
 				break;
 			}
 			
