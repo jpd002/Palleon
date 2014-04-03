@@ -268,7 +268,7 @@ void CIosGraphicDevice::DrawMesh(CMesh* mesh, const IosEffectPtr& effect, const 
 		for(unsigned int i = 0; i < CMaterial::MAX_TEXTURE_SLOTS; i++)
 		{
 			const auto& texture = std::static_pointer_cast<CIosTexture>(material->GetTexture(i));
-			if(!texture) break;
+			if(!texture) continue;
 			GLuint textureHandle = static_cast<GLuint>(reinterpret_cast<size_t>(texture->GetHandle()));
 			glActiveTexture(GL_TEXTURE0 + i);
 			GLenum target = texture->IsCube() ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D;
