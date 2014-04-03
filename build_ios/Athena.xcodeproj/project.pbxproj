@@ -46,6 +46,8 @@
 		7078961916E45BBA00CFCE67 /* IosVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */; };
 		7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078960F16E45BBA00CFCE67 /* IosViewController.h */; };
 		7078961B16E45BBA00CFCE67 /* OpenGlEsDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */; };
+		7096E31418E015960068769A /* ParseUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7096E31318E015960068769A /* ParseUtils.cpp */; };
+		7096E31A18E015A00068769A /* ParseUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7096E31918E015A00068769A /* ParseUtils.h */; };
 		70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7118D76D2100FA2ABE /* TextureLoader.cpp */; };
 		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
 		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
@@ -216,6 +218,8 @@
 		7078960E16E45BBA00CFCE67 /* IosVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosVertexBuffer.h; path = ../include/athena/ios/IosVertexBuffer.h; sourceTree = "<group>"; };
 		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../include/athena/ios/IosViewController.h; sourceTree = "<group>"; };
 		7078961016E45BBA00CFCE67 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../include/athena/ios/OpenGlEsDefs.h; sourceTree = "<group>"; };
+		7096E31318E015960068769A /* ParseUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParseUtils.cpp; path = ../src/ParseUtils.cpp; sourceTree = "<group>"; };
+		7096E31918E015A00068769A /* ParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseUtils.h; path = ../include/athena/ParseUtils.h; sourceTree = "<group>"; };
 		70983A7118D76D2100FA2ABE /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/TextureLoader.cpp; sourceTree = "<group>"; };
 		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/athena/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
@@ -595,8 +599,6 @@
 		7E7D874013F719E500AD9F7F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */,
-				702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */,
 				70B582481635214200C40F25 /* animation */,
 				7E7D877313F71AD900AD9F7F /* Application.h */,
 				709C3B1A18D4BC8A006DAF2C /* Athena-Prefix.pch */,
@@ -604,9 +606,13 @@
 				70104E5A167409D300807647 /* audio */,
 				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
 				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
+				702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */,
+				702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */,
 				7E5C123D14F19F1200292DD3 /* graphics */,
 				7E2885B813F862F800F606EB /* ios */,
 				7E407F811401F88700431963 /* math */,
+				7096E31318E015960068769A /* ParseUtils.cpp */,
+				7096E31918E015A00068769A /* ParseUtils.h */,
 				7E5C123F14F1A01000292DD3 /* resources */,
 				7E5C123E14F19FB600292DD3 /* widgets */,
 			);
@@ -683,6 +689,7 @@
 				7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */,
 				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
+				7096E31A18E015A00068769A /* ParseUtils.h in Headers */,
 				7078961516E45BBA00CFCE67 /* IosUberEffectGenerator.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
 				7020B05F186B51F6008F12B4 /* IosShadowMapEffect.h in Headers */,
@@ -849,6 +856,7 @@
 				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,
 				7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */,
 				70271B9418D522E400777C53 /* AxisMesh.cpp in Sources */,
+				7096E31418E015960068769A /* ParseUtils.cpp in Sources */,
 				7078960316E45BAF00CFCE67 /* IosTexture.cpp in Sources */,
 				7078960416E45BAF00CFCE67 /* IosVertexBuffer.cpp in Sources */,
 				7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */,
