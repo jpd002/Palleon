@@ -76,9 +76,6 @@ using namespace Athena;
 		CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.height, screenBounds.size.width));
 	}
 
-	assert(m_application == NULL);
-	m_application = CreateApplication();
-
 	animating = FALSE;
 	animationFrameInterval = 1;
 	self.displayLink = nil;
@@ -86,6 +83,17 @@ using namespace Athena;
 	[self startAnimation];
 	
 	[super viewWillAppear:animated];
+}
+
+-(void)viewDidAppear: (BOOL)animated
+{
+	EAGLView* glView = (EAGLView*)self.view;
+	[glView setFramebuffer];
+	
+	if(!m_application)
+	{
+		m_application = CreateApplication();
+	}
 }
 
 -(void)dealloc
