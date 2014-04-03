@@ -21,7 +21,9 @@ namespace Athena
 		
 		void*									GetHandle() const override;
 		
-	protected:		
+	protected:
+		void									UpdateTarget(GLenum, GLenum, const void*);
+		
 		GLuint									m_texture;
 	};
 }

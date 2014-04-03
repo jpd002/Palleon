@@ -154,33 +154,7 @@ std::vector<uint8> Dxt1ToRgb(uint32 width, uint32 height, const void* data)
 void CIosTexture::Update(uint32 mipLevel, const void* data)
 {
 	assert(m_isCube == false);
-	
-	GLenum internalFormat = GL_RGB;
-
-	switch(m_format)
-	{
-		case TEXTURE_FORMAT_RGB888:
-			internalFormat = GL_RGB;
-			break;
-		case TEXTURE_FORMAT_RGBA8888:
-			internalFormat = GL_RGBA;
-			break;
-		case TEXTURE_FORMAT_DXT1:
-			{
-				auto decodedTexture = Dxt1ToRgb(m_width, m_height, data);
-				glBindTexture(GL_TEXTURE_2D, m_texture);
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, decodedTexture.data());
-				return;
-				break;
-			}
-		default:
-			assert(0);
-			break;
-	}
-	
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_width, m_height, 0, internalFormat, GL_UNSIGNED_BYTE, data);
-	CHECKGLERROR();
+	UpdateTarget(GL_TEXTURE_2D, GL_TEXTURE_2D, data);
 }
 
 void CIosTexture::UpdateCubeFace(Athena::TEXTURE_CUBE_FACE face, const void* data)
@@ -196,8 +170,19 @@ void CIosTexture::UpdateCubeFace(Athena::TEXTURE_CUBE_FACE face, const void* dat
 		GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
 		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
 	};
-	
+
+	UpdateTarget(GL_TEXTURE_CUBE_MAP, c_cubeFaces[face], data);
+}
+
+void* CIosTexture::GetHandle() const
+{
+	return reinterpret_cast<void*>(m_texture);
+}
+
+void CIosTexture::UpdateTarget(GLenum bindTarget, GLenum texImageTarget, const void* data)
+{
 	GLenum internalFormat = GL_RGB;
+	GLenum format = GL_RGB;
 	bool useCompressed = false;
 	GLsizei imageSize = 0;
 	
@@ -205,33 +190,43 @@ void CIosTexture::UpdateCubeFace(Athena::TEXTURE_CUBE_FACE face, const void* dat
 	{
 		case TEXTURE_FORMAT_RGB888:
 			internalFormat = GL_RGB;
+			format = GL_RGB;
 			break;
 		case TEXTURE_FORMAT_RGBA8888:
 			internalFormat = GL_RGBA;
+			format = GL_RGBA;
+			break;
+		case TEXTURE_FORMAT_BGRA8888:
+			internalFormat = GL_RGBA;
+			format = GL_BGRA;
 			break;
 		case TEXTURE_FORMAT_PVRTC4:
 			internalFormat = GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
 			useCompressed = true;
 			imageSize = (m_width * m_height) / 2;
 			break;
+		case TEXTURE_FORMAT_DXT1:
+			//This is quite dirty
+			{
+				auto decodedTexture = Dxt1ToRgb(m_width, m_height, data);
+				glBindTexture(bindTarget, m_texture);
+				glTexImage2D(texImageTarget, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, decodedTexture.data());
+				return;
+			}
+			break;
 		default:
 			assert(0);
 			break;
 	}
-		
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+	
+	glBindTexture(bindTarget, m_texture);
 	if(useCompressed)
 	{
-		glCompressedTexImage2D(c_cubeFaces[face], 0, internalFormat, m_width, m_height, 0, imageSize, data);
+		glCompressedTexImage2D(texImageTarget, 0, internalFormat, m_width, m_height, 0, imageSize, data);
 	}
 	else
 	{
-		glTexImage2D(c_cubeFaces[face], 0, internalFormat, m_width, m_height, 0, internalFormat, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(texImageTarget, 0, internalFormat, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, data);
 	}
 	CHECKGLERROR();
-}
-
-void* CIosTexture::GetHandle() const
-{
-	return reinterpret_cast<void*>(m_texture);
 }
