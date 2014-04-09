@@ -333,8 +333,11 @@ void CGlEsGraphicDevice::CreateShadowMap()
 	
 	glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
 
-	//TODO: Find a way to make this compile
+#ifdef GL_RED_EXT		//Only works on iOS
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RED_EXT, GL_HALF_FLOAT_OES, nullptr);
+#else
+	glTexImage2D(GL_TEXTURE_2D, 0 ,GL_RGBA, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RGBA, GL_FLOAT, nullptr);
+#endif
 	glBindTexture(GL_TEXTURE_2D, 0);
 	CHECKGLERROR();
 	

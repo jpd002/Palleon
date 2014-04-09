@@ -196,11 +196,12 @@ void CGlEsTexture::UpdateTarget(GLenum bindTarget, GLenum texImageTarget, const 
 			internalFormat = GL_RGBA;
 			format = GL_RGBA;
 			break;
-		//TODO: Find a good way to make this work on WebGL and iOS
+#ifdef GL_BGRA		//Only supported on iOS
 		case TEXTURE_FORMAT_BGRA8888:
 			internalFormat = GL_RGBA;
 			format = GL_BGRA;
 			break;
+#endif
 		case TEXTURE_FORMAT_PVRTC4:
 			internalFormat = GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
 			useCompressed = true;

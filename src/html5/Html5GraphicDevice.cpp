@@ -12,7 +12,7 @@ using namespace Athena;
 //#endif
 
 CHtml5GraphicDevice::CHtml5GraphicDevice()
-: CGlEsGraphicDevice(CVector2(640, 480))
+: CGlEsGraphicDevice(CVector2(640, 480), 1)
 {
 	static const EGLint configAttribs[] =
 	{
