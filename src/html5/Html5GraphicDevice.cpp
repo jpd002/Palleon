@@ -12,6 +12,7 @@ using namespace Athena;
 //#endif
 
 CHtml5GraphicDevice::CHtml5GraphicDevice()
+: CGlEsGraphicDevice(CVector2(640, 480))
 {
 	static const EGLint configAttribs[] =
 	{
@@ -70,6 +71,8 @@ CHtml5GraphicDevice::CHtml5GraphicDevice()
 	result = eglMakeCurrent(display, surface, surface, context);
 	CHECKEGLERROR();
 	assert(result == EGL_TRUE);
+	
+	Initialize();
 }
 
 CHtml5GraphicDevice::~CHtml5GraphicDevice()
@@ -83,34 +86,3 @@ void CHtml5GraphicDevice::CreateInstance()
 	if(m_instance != nullptr) return;
 	m_instance = new CHtml5GraphicDevice();
 }
-
-void CHtml5GraphicDevice::Draw()
-{
-	
-}
-
-VertexBufferPtr CHtml5GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
-{
-	return std::make_shared<CGlEsVertexBuffer>(descriptor);
-}
-
-TexturePtr CHtml5GraphicDevice::CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32)
-{
-	return TexturePtr();
-}
-
-TexturePtr CHtml5GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT, uint32)
-{
-	return TexturePtr();
-}
-
-RenderTargetPtr CHtml5GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32)
-{
-	return RenderTargetPtr();
-}
-
-CubeRenderTargetPtr CHtml5GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT, uint32)
-{
-	return CubeRenderTargetPtr();
-}
-

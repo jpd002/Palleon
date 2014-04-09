@@ -21,10 +21,17 @@ add_library(Meleon
 	../src/Box2.cpp
 	../src/Camera.cpp
 	../src/CubeMesh.cpp
+	../src/gles/GlEsEffect.cpp
+	../src/gles/GlEsGraphicDevice.cpp
+	../src/gles/GlEsShadowMapEffect.cpp
+	../src/gles/GlEsTexture.cpp
+	../src/gles/GlEsUberEffect.cpp
+	../src/gles/GlEsUberEffectGenerator.cpp
+	../src/gles/GlEsUberEffectProvider.cpp
 	../src/gles/GlEsVertexBuffer.cpp
 	../src/GraphicDevice.cpp
+	../src/html5/Html5Canvas.cpp
 	../src/html5/Html5GraphicDevice.cpp
-	../src/html5/Html5Main.cpp
 	../src/InputManager.cpp
 	../src/Material.cpp
 	../src/Mesh.cpp
@@ -32,6 +39,7 @@ add_library(Meleon
 	../src/resources/ResourceManager.cpp
 	../src/SceneNode.cpp
 	../src/SphereMesh.cpp
+	../src/Texture.cpp
 	../src/VertexBuffer.cpp
 	../src/Viewport.cpp
 	../src/Widget.cpp
