@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.6)
 project(Meleon)
 
 set (CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ -Wno-warn-absolute-paths")
+set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
+set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
+
 set (FRAMEWORK_ROOT ../../Framework/)
 
 include_directories(
