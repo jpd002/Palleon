@@ -30,7 +30,8 @@ static const GLenum g_stencilFunc[STENCIL_FUNCTION_MAX] =
 	GL_EQUAL
 };
 
-CGlEsGraphicDevice::CGlEsGraphicDevice(const CVector2& screenSize)
+CGlEsGraphicDevice::CGlEsGraphicDevice(const CVector2& screenSize, float dpiScale)
+: m_scaledScreenSize(screenSize * dpiScale)
 {
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x10000);
@@ -44,7 +45,7 @@ CGlEsGraphicDevice::~CGlEsGraphicDevice()
 
 void CGlEsGraphicDevice::Initialize()
 {
-//	CreateShadowMap();
+	CreateShadowMap();
 }
 
 void CGlEsGraphicDevice::SetMainFramebuffer(GLuint mainFramebuffer)
@@ -54,8 +55,8 @@ void CGlEsGraphicDevice::SetMainFramebuffer(GLuint mainFramebuffer)
 
 void CGlEsGraphicDevice::Draw()
 {
-	glViewport(0, 0, m_screenSize.x, m_screenSize.y);
-	glScissor(0, 0, m_screenSize.x, m_screenSize.y);
+	glViewport(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
+	glScissor(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearDepthf(1.0f);
@@ -90,10 +91,10 @@ void CGlEsGraphicDevice::DrawViewport(CViewport* viewport)
 
 void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport)
 {
-	//glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
 
-	glViewport(0, 0, m_screenSize.x, m_screenSize.y);
-	glScissor(0, 0, m_screenSize.x, m_screenSize.y);
+	glViewport(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
+	glScissor(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
 	
 	glDepthMask(GL_TRUE);
 	glClearDepthf(1.0f);
@@ -333,9 +334,7 @@ void CGlEsGraphicDevice::CreateShadowMap()
 	glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
 
 	//TODO: Find a way to make this compile
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RED_EXT, GL_HALF_FLOAT_OES, nullptr);
-	assert(false);
-
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED_EXT, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE, 0, GL_RED_EXT, GL_HALF_FLOAT_OES, nullptr);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	CHECKGLERROR();
 	

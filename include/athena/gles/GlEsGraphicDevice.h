@@ -28,7 +28,7 @@ namespace Athena
 	protected:				
 		typedef std::vector<CMesh*> RenderQueue;
 				
-											CGlEsGraphicDevice(const CVector2&);
+											CGlEsGraphicDevice(const CVector2&, float);
 		virtual								~CGlEsGraphicDevice();
 		
 		void								Initialize();
@@ -43,6 +43,7 @@ namespace Athena
 
 		void								CreateShadowMap();
 		
+		CVector2							m_scaledScreenSize = CVector2(0, 0);
 		GlEsEffectPtr						m_shadowMapEffect;
 		
 		RenderQueue							m_renderQueue;

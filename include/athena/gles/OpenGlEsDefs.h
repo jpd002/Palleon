@@ -9,8 +9,8 @@
 #include <GLES2/gl2ext.h>
 #endif
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
 #define CHECKGLERROR() { assert(glGetError() == GL_NO_ERROR); }
-//#else
-//#define CHECKGLERROR()
-//#endif
+#else
+#define CHECKGLERROR()
+#endif

@@ -163,7 +163,7 @@ using namespace Athena;
 	EAGLView* glView = (EAGLView*)self.view;
 	[glView setFramebuffer];
 	m_application->Update(static_cast<float>(deltaTime));
-	static_cast<CIosGraphicDevice&>(CGraphicDevice::GetInstance()).SetMainFramebuffer([glView getFramebuffer]);
+	static_cast<CGlEsGraphicDevice&>(CGraphicDevice::GetInstance()).SetMainFramebuffer([glView getFramebuffer]);
 	CGraphicDevice::GetInstance().Draw();
 	[glView presentFramebuffer];
 	
@@ -174,7 +174,7 @@ using namespace Athena;
 		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
 		m_frameCounterTime = 0;
 		m_currentFrameCount = 0;
-		static_cast<CIosGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
+		static_cast<CGlEsGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
 	}
 	
 }
