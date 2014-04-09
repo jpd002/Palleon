@@ -1,0 +1,116 @@
+#include <iostream>
+#include <emscripten.h>
+#include "athena/html5/Html5GraphicDevice.h"
+#include "athena/gles/GlEsVertexBuffer.h"
+
+using namespace Athena;
+
+//#ifdef _DEBUG
+#define CHECKEGLERROR() { assert(eglGetError() == EGL_SUCCESS); }
+//#else
+//#define CHECKEGLERROR()
+//#endif
+
+CHtml5GraphicDevice::CHtml5GraphicDevice()
+{
+	static const EGLint configAttribs[] =
+	{
+		EGL_RED_SIZE, 8,
+		EGL_GREEN_SIZE, 8,
+		EGL_BLUE_SIZE, 8,
+		EGL_ALPHA_SIZE, 8,
+		EGL_DEPTH_SIZE, 24,
+		EGL_STENCIL_SIZE, 8,
+		EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+		EGL_NONE
+	};
+	
+	static const EGLint surfaceAttribs[] =
+	{
+		EGL_RENDER_BUFFER, EGL_BACK_BUFFER,
+		EGL_NONE
+	};
+	
+	static const EGLint contextAttribs[] =
+	{
+		EGL_CONTEXT_CLIENT_VERSION, 2,
+		EGL_NONE
+	};
+
+	emscripten_set_canvas_size(640, 480);
+	
+	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+	CHECKEGLERROR();
+	assert(display != EGL_NO_DISPLAY);
+	
+	EGLint majorVersion = 0, minorVersion = 0;
+	EGLBoolean result = eglInitialize(display, &majorVersion, &minorVersion);
+	CHECKEGLERROR();
+	assert(result == EGL_TRUE);
+	std::cout << "EGL initialized (major: " << majorVersion << ", minor: " << minorVersion << ")" << std::endl;
+	
+	EGLConfig config = 0;
+	EGLint numConfig = 0;
+	result = eglChooseConfig(display, configAttribs, &config, 1, &numConfig);
+	CHECKEGLERROR();
+	assert(result == EGL_TRUE);
+	assert(numConfig == 1);
+	std::cout << "Created EGL config." << std::endl;
+	
+	EGLSurface surface = eglCreateWindowSurface(display, config, 0, surfaceAttribs);
+	CHECKEGLERROR();
+	assert(surface != EGL_NO_SURFACE);
+	std::cout << "Created EGL surface." << std::endl;
+
+	EGLContext context = eglCreateContext(display, config, EGL_NO_CONTEXT, contextAttribs);
+	CHECKEGLERROR();
+	assert(context != EGL_NO_CONTEXT);
+	
+	result = eglMakeCurrent(display, surface, surface, context);
+	CHECKEGLERROR();
+	assert(result == EGL_TRUE);
+}
+
+CHtml5GraphicDevice::~CHtml5GraphicDevice()
+{
+
+}
+
+void CHtml5GraphicDevice::CreateInstance()
+{
+	assert(m_instance == nullptr);
+	if(m_instance != nullptr) return;
+	m_instance = new CHtml5GraphicDevice();
+}
+
+void CHtml5GraphicDevice::Draw()
+{
+	
+}
+
+VertexBufferPtr CHtml5GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+{
+	return std::make_shared<CGlEsVertexBuffer>(descriptor);
+}
+
+TexturePtr CHtml5GraphicDevice::CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32)
+{
+	return TexturePtr();
+}
+
+TexturePtr CHtml5GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT, uint32)
+{
+	return TexturePtr();
+}
+
+RenderTargetPtr CHtml5GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32)
+{
+	return RenderTargetPtr();
+}
+
+CubeRenderTargetPtr CHtml5GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT, uint32)
+{
+	return CubeRenderTargetPtr();
+}
+
