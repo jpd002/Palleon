@@ -92,7 +92,7 @@
 		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
 		7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F891401F8F300431963 /* MeshProvider.h */; };
-		7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F8B1401F90500431963 /* AthenaEngine.h */; };
+		7E407F8C1401F90600431963 /* PalleonEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F8B1401F90500431963 /* PalleonEngine.h */; };
 		7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */; };
 		7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */; };
 		7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121E14F19EF700292DD3 /* NinePatch.cpp */; };
@@ -181,18 +181,18 @@
 /* Begin PBXFileReference section */
 		70104E5C167409EB00807647 /* AudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioClip.cpp; path = ../src/AudioClip.cpp; sourceTree = "<group>"; };
 		70104E5D167409EB00807647 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = ../src/AudioManager.cpp; sourceTree = "<group>"; };
-		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../include/athena/AudioClip.h; sourceTree = "<group>"; };
-		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../include/athena/AudioManager.h; sourceTree = "<group>"; };
+		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../include/palleon/AudioClip.h; sourceTree = "<group>"; };
+		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../include/palleon/AudioManager.h; sourceTree = "<group>"; };
 		70271B7618D5037B00777C53 /* EffectParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameter.cpp; path = ../src/EffectParameter.cpp; sourceTree = "<group>"; };
-		70271B7C18D5039000777C53 /* EffectParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameter.h; path = ../include/athena/EffectParameter.h; sourceTree = "<group>"; };
+		70271B7C18D5039000777C53 /* EffectParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameter.h; path = ../include/palleon/EffectParameter.h; sourceTree = "<group>"; };
 		70271B9218D522E400777C53 /* AxisMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AxisMesh.cpp; path = ../src/AxisMesh.cpp; sourceTree = "<group>"; };
 		70271B9318D522E400777C53 /* ConeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConeMesh.cpp; path = ../src/ConeMesh.cpp; sourceTree = "<group>"; };
-		70271B9618D522F500777C53 /* AxisMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AxisMesh.h; path = ../include/athena/AxisMesh.h; sourceTree = "<group>"; };
-		70271B9718D522F500777C53 /* ConeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConeMesh.h; path = ../include/athena/ConeMesh.h; sourceTree = "<group>"; };
+		70271B9618D522F500777C53 /* AxisMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AxisMesh.h; path = ../include/palleon/AxisMesh.h; sourceTree = "<group>"; };
+		70271B9718D522F500777C53 /* ConeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConeMesh.h; path = ../include/palleon/ConeMesh.h; sourceTree = "<group>"; };
 		702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GeneralSettings.xcconfig; sourceTree = SOURCE_ROOT; };
 		702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GeneralSettingsDebug.xcconfig; sourceTree = SOURCE_ROOT; };
 		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../src/EmitterModifier.cpp; sourceTree = "<group>"; };
-		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../include/athena/EmitterModifier.h; sourceTree = "<group>"; };
+		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../include/palleon/EmitterModifier.h; sourceTree = "<group>"; };
 		706F71AC18F5D35F00224718 /* GlEsEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsEffect.cpp; path = ../src/gles/GlEsEffect.cpp; sourceTree = "<group>"; };
 		706F71AD18F5D35F00224718 /* GlEsGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsGraphicDevice.cpp; path = ../src/gles/GlEsGraphicDevice.cpp; sourceTree = "<group>"; };
 		706F71AE18F5D35F00224718 /* GlEsShadowMapEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsShadowMapEffect.cpp; path = ../src/gles/GlEsShadowMapEffect.cpp; sourceTree = "<group>"; };
@@ -201,15 +201,15 @@
 		706F71B118F5D35F00224718 /* GlEsUberEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsUberEffectGenerator.cpp; path = ../src/gles/GlEsUberEffectGenerator.cpp; sourceTree = "<group>"; };
 		706F71B218F5D35F00224718 /* GlEsUberEffectProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsUberEffectProvider.cpp; path = ../src/gles/GlEsUberEffectProvider.cpp; sourceTree = "<group>"; };
 		706F71B318F5D35F00224718 /* GlEsVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsVertexBuffer.cpp; path = ../src/gles/GlEsVertexBuffer.cpp; sourceTree = "<group>"; };
-		706F71BC18F5D37400224718 /* GlEsEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsEffect.h; path = ../include/athena/gles/GlEsEffect.h; sourceTree = "<group>"; };
-		706F71BD18F5D37400224718 /* GlEsGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsGraphicDevice.h; path = ../include/athena/gles/GlEsGraphicDevice.h; sourceTree = "<group>"; };
-		706F71BE18F5D37400224718 /* GlEsShadowMapEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsShadowMapEffect.h; path = ../include/athena/gles/GlEsShadowMapEffect.h; sourceTree = "<group>"; };
-		706F71BF18F5D37400224718 /* GlEsTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsTexture.h; path = ../include/athena/gles/GlEsTexture.h; sourceTree = "<group>"; };
-		706F71C018F5D37400224718 /* GlEsUberEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffect.h; path = ../include/athena/gles/GlEsUberEffect.h; sourceTree = "<group>"; };
-		706F71C118F5D37400224718 /* GlEsUberEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffectGenerator.h; path = ../include/athena/gles/GlEsUberEffectGenerator.h; sourceTree = "<group>"; };
-		706F71C218F5D37400224718 /* GlEsUberEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffectProvider.h; path = ../include/athena/gles/GlEsUberEffectProvider.h; sourceTree = "<group>"; };
-		706F71C318F5D37400224718 /* GlEsVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsVertexBuffer.h; path = ../include/athena/gles/GlEsVertexBuffer.h; sourceTree = "<group>"; };
-		706F71C418F5D37400224718 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../include/athena/gles/OpenGlEsDefs.h; sourceTree = "<group>"; };
+		706F71BC18F5D37400224718 /* GlEsEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsEffect.h; path = ../include/palleon/gles/GlEsEffect.h; sourceTree = "<group>"; };
+		706F71BD18F5D37400224718 /* GlEsGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsGraphicDevice.h; path = ../include/palleon/gles/GlEsGraphicDevice.h; sourceTree = "<group>"; };
+		706F71BE18F5D37400224718 /* GlEsShadowMapEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsShadowMapEffect.h; path = ../include/palleon/gles/GlEsShadowMapEffect.h; sourceTree = "<group>"; };
+		706F71BF18F5D37400224718 /* GlEsTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsTexture.h; path = ../include/palleon/gles/GlEsTexture.h; sourceTree = "<group>"; };
+		706F71C018F5D37400224718 /* GlEsUberEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffect.h; path = ../include/palleon/gles/GlEsUberEffect.h; sourceTree = "<group>"; };
+		706F71C118F5D37400224718 /* GlEsUberEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffectGenerator.h; path = ../include/palleon/gles/GlEsUberEffectGenerator.h; sourceTree = "<group>"; };
+		706F71C218F5D37400224718 /* GlEsUberEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsUberEffectProvider.h; path = ../include/palleon/gles/GlEsUberEffectProvider.h; sourceTree = "<group>"; };
+		706F71C318F5D37400224718 /* GlEsVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsVertexBuffer.h; path = ../include/palleon/gles/GlEsVertexBuffer.h; sourceTree = "<group>"; };
+		706F71C418F5D37400224718 /* OpenGlEsDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGlEsDefs.h; path = ../include/palleon/gles/OpenGlEsDefs.h; sourceTree = "<group>"; };
 		707895F216E45BAF00CFCE67 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../src/ios/EAGLView.mm; sourceTree = "<group>"; };
 		707895F316E45BAF00CFCE67 /* IosAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosAppDelegate.mm; path = ../src/ios/IosAppDelegate.mm; sourceTree = "<group>"; };
 		707895F416E45BAF00CFCE67 /* IosAudioClip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosAudioClip.cpp; path = ../src/ios/IosAudioClip.cpp; sourceTree = "<group>"; };
@@ -217,19 +217,19 @@
 		707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosGraphicDevice.cpp; path = ../src/ios/IosGraphicDevice.cpp; sourceTree = "<group>"; };
 		707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosResourceManager.cpp; path = ../src/ios/IosResourceManager.cpp; sourceTree = "<group>"; };
 		707895FB16E45BAF00CFCE67 /* IosViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IosViewController.mm; path = ../src/ios/IosViewController.mm; sourceTree = "<group>"; };
-		7078960616E45BBA00CFCE67 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../include/athena/ios/EAGLView.h; sourceTree = "<group>"; };
-		7078960716E45BBA00CFCE67 /* IosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAppDelegate.h; path = ../include/athena/ios/IosAppDelegate.h; sourceTree = "<group>"; };
-		7078960816E45BBA00CFCE67 /* IosAudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioClip.h; path = ../include/athena/ios/IosAudioClip.h; sourceTree = "<group>"; };
-		7078960916E45BBA00CFCE67 /* IosAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioManager.h; path = ../include/athena/ios/IosAudioManager.h; sourceTree = "<group>"; };
-		7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosGraphicDevice.h; path = ../include/athena/ios/IosGraphicDevice.h; sourceTree = "<group>"; };
-		7078960C16E45BBA00CFCE67 /* IosResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosResourceManager.h; path = ../include/athena/ios/IosResourceManager.h; sourceTree = "<group>"; };
-		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../include/athena/ios/IosViewController.h; sourceTree = "<group>"; };
+		7078960616E45BBA00CFCE67 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../include/palleon/ios/EAGLView.h; sourceTree = "<group>"; };
+		7078960716E45BBA00CFCE67 /* IosAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAppDelegate.h; path = ../include/palleon/ios/IosAppDelegate.h; sourceTree = "<group>"; };
+		7078960816E45BBA00CFCE67 /* IosAudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioClip.h; path = ../include/palleon/ios/IosAudioClip.h; sourceTree = "<group>"; };
+		7078960916E45BBA00CFCE67 /* IosAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosAudioManager.h; path = ../include/palleon/ios/IosAudioManager.h; sourceTree = "<group>"; };
+		7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosGraphicDevice.h; path = ../include/palleon/ios/IosGraphicDevice.h; sourceTree = "<group>"; };
+		7078960C16E45BBA00CFCE67 /* IosResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosResourceManager.h; path = ../include/palleon/ios/IosResourceManager.h; sourceTree = "<group>"; };
+		7078960F16E45BBA00CFCE67 /* IosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosViewController.h; path = ../include/palleon/ios/IosViewController.h; sourceTree = "<group>"; };
 		7096E31318E015960068769A /* ParseUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParseUtils.cpp; path = ../src/ParseUtils.cpp; sourceTree = "<group>"; };
-		7096E31918E015A00068769A /* ParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseUtils.h; path = ../include/athena/ParseUtils.h; sourceTree = "<group>"; };
+		7096E31918E015A00068769A /* ParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseUtils.h; path = ../include/palleon/ParseUtils.h; sourceTree = "<group>"; };
 		70983A7118D76D2100FA2ABE /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/TextureLoader.cpp; sourceTree = "<group>"; };
-		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/athena/TextureLoader.h; sourceTree = "<group>"; };
+		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
-		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/athena/resources/DdsImage.h; sourceTree = "<group>"; };
+		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/palleon/resources/DdsImage.h; sourceTree = "<group>"; };
 		709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../src/resources/EmitterDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D71822088000B6B2D0 /* FontDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FontDescriptor.cpp; path = ../src/resources/FontDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchDescriptor.cpp; path = ../src/resources/NinePatchDescriptor.cpp; sourceTree = "<group>"; };
@@ -237,56 +237,56 @@
 		709C28DA1822088000B6B2D0 /* ResourceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ResourceManager.cpp; path = ../src/resources/ResourceManager.cpp; sourceTree = "<group>"; };
 		709C28DB1822088000B6B2D0 /* SceneDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneDescriptor.cpp; path = ../src/resources/SceneDescriptor.cpp; sourceTree = "<group>"; };
 		709C28DC1822088000B6B2D0 /* TextureResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureResource.cpp; path = ../src/resources/TextureResource.cpp; sourceTree = "<group>"; };
-		709C28E41822088E00B6B2D0 /* EmitterDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterDescriptor.h; path = ../include/athena/resources/EmitterDescriptor.h; sourceTree = "<group>"; };
-		709C28E51822088E00B6B2D0 /* FontDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDescriptor.h; path = ../include/athena/resources/FontDescriptor.h; sourceTree = "<group>"; };
-		709C28E61822088E00B6B2D0 /* NinePatchDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchDescriptor.h; path = ../include/athena/resources/NinePatchDescriptor.h; sourceTree = "<group>"; };
-		709C28E71822088E00B6B2D0 /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../include/athena/resources/Package.h; sourceTree = "<group>"; };
-		709C28E81822088E00B6B2D0 /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../include/athena/resources/PvrImage.h; sourceTree = "<group>"; };
-		709C28E91822088E00B6B2D0 /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resource.h; path = ../include/athena/resources/Resource.h; sourceTree = "<group>"; };
-		709C28EA1822088E00B6B2D0 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../include/athena/resources/ResourceManager.h; sourceTree = "<group>"; };
-		709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneDescriptor.h; path = ../include/athena/resources/SceneDescriptor.h; sourceTree = "<group>"; };
-		709C28EC1822088E00B6B2D0 /* TextureResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureResource.h; path = ../include/athena/resources/TextureResource.h; sourceTree = "<group>"; };
-		709C28ED1822088E00B6B2D0 /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../include/athena/resources/TgaImage.h; sourceTree = "<group>"; };
+		709C28E41822088E00B6B2D0 /* EmitterDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterDescriptor.h; path = ../include/palleon/resources/EmitterDescriptor.h; sourceTree = "<group>"; };
+		709C28E51822088E00B6B2D0 /* FontDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDescriptor.h; path = ../include/palleon/resources/FontDescriptor.h; sourceTree = "<group>"; };
+		709C28E61822088E00B6B2D0 /* NinePatchDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchDescriptor.h; path = ../include/palleon/resources/NinePatchDescriptor.h; sourceTree = "<group>"; };
+		709C28E71822088E00B6B2D0 /* Package.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Package.h; path = ../include/palleon/resources/Package.h; sourceTree = "<group>"; };
+		709C28E81822088E00B6B2D0 /* PvrImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PvrImage.h; path = ../include/palleon/resources/PvrImage.h; sourceTree = "<group>"; };
+		709C28E91822088E00B6B2D0 /* Resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Resource.h; path = ../include/palleon/resources/Resource.h; sourceTree = "<group>"; };
+		709C28EA1822088E00B6B2D0 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../include/palleon/resources/ResourceManager.h; sourceTree = "<group>"; };
+		709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneDescriptor.h; path = ../include/palleon/resources/SceneDescriptor.h; sourceTree = "<group>"; };
+		709C28EC1822088E00B6B2D0 /* TextureResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureResource.h; path = ../include/palleon/resources/TextureResource.h; sourceTree = "<group>"; };
+		709C28ED1822088E00B6B2D0 /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../include/palleon/resources/TgaImage.h; sourceTree = "<group>"; };
 		709C28FC182209A000B6B2D0 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../src/Scene.cpp; sourceTree = "<group>"; };
-		709C28FE182209B200B6B2D0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../include/athena/Scene.h; sourceTree = "<group>"; };
-		709C3B1A18D4BC8A006DAF2C /* Athena-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Athena-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeRenderTarget.h; path = ../include/athena/CubeRenderTarget.h; sourceTree = "<group>"; };
-		709E16E5186A689B00AEA8C7 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../include/athena/Effect.h; sourceTree = "<group>"; };
-		709E16E6186A689B00AEA8C7 /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../include/athena/EffectProvider.h; sourceTree = "<group>"; };
-		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../include/athena/IAnimation.h; sourceTree = "<group>"; };
-		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../include/athena/RenderTarget.h; sourceTree = "<group>"; };
+		709C28FE182209B200B6B2D0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../include/palleon/Scene.h; sourceTree = "<group>"; };
+		709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Palleon-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeRenderTarget.h; path = ../include/palleon/CubeRenderTarget.h; sourceTree = "<group>"; };
+		709E16E5186A689B00AEA8C7 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../include/palleon/Effect.h; sourceTree = "<group>"; };
+		709E16E6186A689B00AEA8C7 /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../include/palleon/EffectProvider.h; sourceTree = "<group>"; };
+		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../include/palleon/IAnimation.h; sourceTree = "<group>"; };
+		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../include/palleon/RenderTarget.h; sourceTree = "<group>"; };
 		709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowMapping.xcodeproj; path = ../samples/ShadowMapping/build_ios/ShadowMapping.xcodeproj; sourceTree = "<group>"; };
 		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_iphone/Framework.xcodeproj; sourceTree = "<group>"; };
 		709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boost.xcodeproj; path = ../../boost/build_iphone/boost.xcodeproj; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../src/TextureAnimation.cpp; sourceTree = "<group>"; };
-		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../include/athena/AnimationController.h; sourceTree = "<group>"; };
-		70B582501635216800C40F25 /* AnimationCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationCurve.h; path = ../include/athena/AnimationCurve.h; sourceTree = "<group>"; };
-		70B582511635216800C40F25 /* RumbleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RumbleAnimation.h; path = ../include/athena/RumbleAnimation.h; sourceTree = "<group>"; };
-		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../include/athena/TextureAnimation.h; sourceTree = "<group>"; };
+		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../include/palleon/AnimationController.h; sourceTree = "<group>"; };
+		70B582501635216800C40F25 /* AnimationCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationCurve.h; path = ../include/palleon/AnimationCurve.h; sourceTree = "<group>"; };
+		70B582511635216800C40F25 /* RumbleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RumbleAnimation.h; path = ../include/palleon/RumbleAnimation.h; sourceTree = "<group>"; };
+		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../include/palleon/TextureAnimation.h; sourceTree = "<group>"; };
 		70C6E54C1685709E001544EB /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../src/Emitter.cpp; sourceTree = "<group>"; };
-		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/athena/Emitter.h; sourceTree = "<group>"; };
+		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/palleon/Emitter.h; sourceTree = "<group>"; };
 		70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuakeViewer.xcodeproj; path = ../samples/QuakeViewer/build_ios/QuakeViewer.xcodeproj; sourceTree = "<group>"; };
-		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../include/athena/Frustum.h; sourceTree = "<group>"; };
-		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/athena/Plane.h; sourceTree = "<group>"; };
+		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../include/palleon/Frustum.h; sourceTree = "<group>"; };
+		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/palleon/Plane.h; sourceTree = "<group>"; };
 		7E407F871401F8C000431963 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Frustum.cpp; path = ../src/Frustum.cpp; sourceTree = "<group>"; };
-		7E407F891401F8F300431963 /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../include/athena/MeshProvider.h; sourceTree = "<group>"; };
-		7E407F8B1401F90500431963 /* AthenaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AthenaEngine.h; path = ../include/AthenaEngine.h; sourceTree = "<group>"; };
+		7E407F891401F8F300431963 /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../include/palleon/MeshProvider.h; sourceTree = "<group>"; };
+		7E407F8B1401F90500431963 /* PalleonEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PalleonEngine.h; path = ../include/PalleonEngine.h; sourceTree = "<group>"; };
 		7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonBase.cpp; path = ../src/ButtonBase.cpp; sourceTree = "<group>"; };
 		7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigManager.cpp; path = ../src/ConfigManager.cpp; sourceTree = "<group>"; };
 		7E5C121E14F19EF700292DD3 /* NinePatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatch.cpp; path = ../src/NinePatch.cpp; sourceTree = "<group>"; };
 		7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchButton.cpp; path = ../src/NinePatchButton.cpp; sourceTree = "<group>"; };
 		7E5C122114F19EF700292DD3 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SphereMesh.cpp; path = ../src/SphereMesh.cpp; sourceTree = "<group>"; };
 		7E5C122214F19EF700292DD3 /* SpriteButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteButton.cpp; path = ../src/SpriteButton.cpp; sourceTree = "<group>"; };
-		7E5C122B14F19F0800292DD3 /* ButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonBase.h; path = ../include/athena/ButtonBase.h; sourceTree = "<group>"; };
-		7E5C122C14F19F0800292DD3 /* ConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigManager.h; path = ../include/athena/ConfigManager.h; sourceTree = "<group>"; };
-		7E5C122D14F19F0800292DD3 /* ILayoutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILayoutable.h; path = ../include/athena/ILayoutable.h; sourceTree = "<group>"; };
-		7E5C122E14F19F0800292DD3 /* NinePatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatch.h; path = ../include/athena/NinePatch.h; sourceTree = "<group>"; };
-		7E5C122F14F19F0800292DD3 /* NinePatchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchButton.h; path = ../include/athena/NinePatchButton.h; sourceTree = "<group>"; };
-		7E5C123114F19F0800292DD3 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../include/athena/SphereMesh.h; sourceTree = "<group>"; };
-		7E5C123214F19F0800292DD3 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteButton.h; path = ../include/athena/SpriteButton.h; sourceTree = "<group>"; };
-		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../include/athena/Tween.h; sourceTree = "<group>"; };
-		7E7D873B13F719E500AD9F7F /* libAthena.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAthena.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E5C122B14F19F0800292DD3 /* ButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonBase.h; path = ../include/palleon/ButtonBase.h; sourceTree = "<group>"; };
+		7E5C122C14F19F0800292DD3 /* ConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigManager.h; path = ../include/palleon/ConfigManager.h; sourceTree = "<group>"; };
+		7E5C122D14F19F0800292DD3 /* ILayoutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILayoutable.h; path = ../include/palleon/ILayoutable.h; sourceTree = "<group>"; };
+		7E5C122E14F19F0800292DD3 /* NinePatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatch.h; path = ../include/palleon/NinePatch.h; sourceTree = "<group>"; };
+		7E5C122F14F19F0800292DD3 /* NinePatchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchButton.h; path = ../include/palleon/NinePatchButton.h; sourceTree = "<group>"; };
+		7E5C123114F19F0800292DD3 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../include/palleon/SphereMesh.h; sourceTree = "<group>"; };
+		7E5C123214F19F0800292DD3 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteButton.h; path = ../include/palleon/SpriteButton.h; sourceTree = "<group>"; };
+		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../include/palleon/Tween.h; sourceTree = "<group>"; };
+		7E7D873B13F719E500AD9F7F /* libPalleon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPalleon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874E13F71AC300AD9F7F /* Box2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2.cpp; path = ../src/Box2.cpp; sourceTree = "<group>"; };
 		7E7D875013F71AC300AD9F7F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../src/Camera.cpp; sourceTree = "<group>"; };
@@ -303,28 +303,28 @@
 		7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../src/VertexBuffer.cpp; sourceTree = "<group>"; };
 		7E7D875E13F71AC300AD9F7F /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Viewport.cpp; path = ../src/Viewport.cpp; sourceTree = "<group>"; };
 		7E7D875F13F71AC300AD9F7F /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../src/Widget.cpp; sourceTree = "<group>"; };
-		7E7D877313F71AD900AD9F7F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../include/athena/Application.h; sourceTree = "<group>"; };
-		7E7D877413F71AD900AD9F7F /* Box2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2.h; path = ../include/athena/Box2.h; sourceTree = "<group>"; };
-		7E7D877613F71AD900AD9F7F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../include/athena/Camera.h; sourceTree = "<group>"; };
-		7E7D877713F71AD900AD9F7F /* CatmullRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatmullRom.h; path = ../include/athena/CatmullRom.h; sourceTree = "<group>"; };
-		7E7D877813F71AD900AD9F7F /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../include/athena/Color.h; sourceTree = "<group>"; };
-		7E7D877913F71AD900AD9F7F /* CubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeMesh.h; path = ../include/athena/CubeMesh.h; sourceTree = "<group>"; };
-		7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphicDevice.h; path = ../include/athena/GraphicDevice.h; sourceTree = "<group>"; };
-		7E7D877C13F71AD900AD9F7F /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../include/athena/InputManager.h; sourceTree = "<group>"; };
-		7E7D877D13F71AD900AD9F7F /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../include/athena/Label.h; sourceTree = "<group>"; };
-		7E7D877E13F71AD900AD9F7F /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../include/athena/Material.h; sourceTree = "<group>"; };
-		7E7D877F13F71AD900AD9F7F /* MathDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathDef.h; path = ../include/athena/MathDef.h; sourceTree = "<group>"; };
-		7E7D878013F71AD900AD9F7F /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = ../include/athena/Matrix4.h; sourceTree = "<group>"; };
-		7E7D878113F71AD900AD9F7F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = ../include/athena/Mesh.h; sourceTree = "<group>"; };
-		7E7D878213F71AD900AD9F7F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../include/athena/Quaternion.h; sourceTree = "<group>"; };
-		7E7D878413F71AD900AD9F7F /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../include/athena/SceneNode.h; sourceTree = "<group>"; };
-		7E7D878513F71AD900AD9F7F /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../include/athena/Sprite.h; sourceTree = "<group>"; };
-		7E7D878613F71AD900AD9F7F /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../include/athena/Texture.h; sourceTree = "<group>"; };
-		7E7D878713F71AD900AD9F7F /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../include/athena/Vector2.h; sourceTree = "<group>"; };
-		7E7D878813F71AD900AD9F7F /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../include/athena/Vector3.h; sourceTree = "<group>"; };
-		7E7D878913F71AD900AD9F7F /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../include/athena/VertexBuffer.h; sourceTree = "<group>"; };
-		7E7D878A13F71AD900AD9F7F /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../include/athena/Viewport.h; sourceTree = "<group>"; };
-		7E7D878B13F71AD900AD9F7F /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../include/athena/Widget.h; sourceTree = "<group>"; };
+		7E7D877313F71AD900AD9F7F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../include/palleon/Application.h; sourceTree = "<group>"; };
+		7E7D877413F71AD900AD9F7F /* Box2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2.h; path = ../include/palleon/Box2.h; sourceTree = "<group>"; };
+		7E7D877613F71AD900AD9F7F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../include/palleon/Camera.h; sourceTree = "<group>"; };
+		7E7D877713F71AD900AD9F7F /* CatmullRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatmullRom.h; path = ../include/palleon/CatmullRom.h; sourceTree = "<group>"; };
+		7E7D877813F71AD900AD9F7F /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../include/palleon/Color.h; sourceTree = "<group>"; };
+		7E7D877913F71AD900AD9F7F /* CubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeMesh.h; path = ../include/palleon/CubeMesh.h; sourceTree = "<group>"; };
+		7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphicDevice.h; path = ../include/palleon/GraphicDevice.h; sourceTree = "<group>"; };
+		7E7D877C13F71AD900AD9F7F /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../include/palleon/InputManager.h; sourceTree = "<group>"; };
+		7E7D877D13F71AD900AD9F7F /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../include/palleon/Label.h; sourceTree = "<group>"; };
+		7E7D877E13F71AD900AD9F7F /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../include/palleon/Material.h; sourceTree = "<group>"; };
+		7E7D877F13F71AD900AD9F7F /* MathDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathDef.h; path = ../include/palleon/MathDef.h; sourceTree = "<group>"; };
+		7E7D878013F71AD900AD9F7F /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = ../include/palleon/Matrix4.h; sourceTree = "<group>"; };
+		7E7D878113F71AD900AD9F7F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = ../include/palleon/Mesh.h; sourceTree = "<group>"; };
+		7E7D878213F71AD900AD9F7F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../include/palleon/Quaternion.h; sourceTree = "<group>"; };
+		7E7D878413F71AD900AD9F7F /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../include/palleon/SceneNode.h; sourceTree = "<group>"; };
+		7E7D878513F71AD900AD9F7F /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../include/palleon/Sprite.h; sourceTree = "<group>"; };
+		7E7D878613F71AD900AD9F7F /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../include/palleon/Texture.h; sourceTree = "<group>"; };
+		7E7D878713F71AD900AD9F7F /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../include/palleon/Vector2.h; sourceTree = "<group>"; };
+		7E7D878813F71AD900AD9F7F /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../include/palleon/Vector3.h; sourceTree = "<group>"; };
+		7E7D878913F71AD900AD9F7F /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../include/palleon/VertexBuffer.h; sourceTree = "<group>"; };
+		7E7D878A13F71AD900AD9F7F /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../include/palleon/Viewport.h; sourceTree = "<group>"; };
+		7E7D878B13F71AD900AD9F7F /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../include/palleon/Widget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -590,7 +590,7 @@
 		7E7D873C13F719E500AD9F7F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7E7D873B13F719E500AD9F7F /* libAthena.a */,
+				7E7D873B13F719E500AD9F7F /* libPalleon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -609,8 +609,8 @@
 				706F71A718F5D35000224718 /* gles */,
 				70B582481635214200C40F25 /* animation */,
 				7E7D877313F71AD900AD9F7F /* Application.h */,
-				709C3B1A18D4BC8A006DAF2C /* Athena-Prefix.pch */,
-				7E407F8B1401F90500431963 /* AthenaEngine.h */,
+				709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */,
+				7E407F8B1401F90500431963 /* PalleonEngine.h */,
 				70104E5A167409D300807647 /* audio */,
 				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
 				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
@@ -672,7 +672,7 @@
 				70271B7D18D5039000777C53 /* EffectParameter.h in Headers */,
 				7E407F861401F8AD00431963 /* Plane.h in Headers */,
 				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
-				7E407F8C1401F90600431963 /* AthenaEngine.h in Headers */,
+				7E407F8C1401F90600431963 /* PalleonEngine.h in Headers */,
 				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
@@ -720,9 +720,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7E7D873A13F719E500AD9F7F /* Athena */ = {
+		7E7D873A13F719E500AD9F7F /* Palleon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Athena" */;
+			buildConfigurationList = 7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Palleon" */;
 			buildPhases = (
 				7E7D873713F719E500AD9F7F /* Sources */,
 				7E7D873813F719E500AD9F7F /* Frameworks */,
@@ -732,9 +732,9 @@
 			);
 			dependencies = (
 			);
-			name = Athena;
-			productName = Athena;
-			productReference = 7E7D873B13F719E500AD9F7F /* libAthena.a */;
+			name = Palleon;
+			productName = Palleon;
+			productReference = 7E7D873B13F719E500AD9F7F /* libPalleon.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -745,7 +745,7 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = 7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Athena" */;
+			buildConfigurationList = 7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Palleon" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -775,7 +775,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				7E7D873A13F719E500AD9F7F /* Athena */,
+				7E7D873A13F719E500AD9F7F /* Palleon */,
 			);
 		};
 /* End PBXProject section */
@@ -895,7 +895,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */;
 			buildSettings = {
-				DSTROOT = /tmp/Athena.dst;
+				DSTROOT = /tmp/Palleon.dst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -905,7 +905,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */;
 			buildSettings = {
-				DSTROOT = /tmp/Athena.dst;
+				DSTROOT = /tmp/Palleon.dst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -914,7 +914,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Athena" */ = {
+		7E7D873513F719E400AD9F7F /* Build configuration list for PBXProject "Palleon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E7D874313F719E600AD9F7F /* Debug */,
@@ -923,7 +923,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Athena" */ = {
+		7E7D874513F719E600AD9F7F /* Build configuration list for PBXNativeTarget "Palleon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E7D874613F719E600AD9F7F /* Debug */,
