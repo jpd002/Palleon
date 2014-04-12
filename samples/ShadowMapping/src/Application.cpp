@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "Application.h"
 
 using namespace ShadowMapping;
