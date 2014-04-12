@@ -37,7 +37,7 @@ enum DIFFUSE_MAP_COMBINE_MODE
 		diffuseMap##i##CombineMode = value;			\
 		break;
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsUberEffectGenerator
 	{

@@ -1,8 +1,8 @@
-#include "athena/ios/IosAudioManager.h"
-#include "athena/ios/IosAudioClip.h"
+#include "palleon/ios/IosAudioManager.h"
+#include "palleon/ios/IosAudioClip.h"
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CIosAudioManager::CIosAudioManager()
 {

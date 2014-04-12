@@ -1,5 +1,4 @@
-#ifndef _ATHENA_TWEEN_H_
-#define _ATHENA_TWEEN_H_
+#pragma once
 
 //Based on http://jstween.sourceforge.net/Tween.js
 
@@ -49,5 +48,3 @@ namespace Palleon
 		}
 	};
 };
-
-#endif

@@ -1,15 +1,15 @@
-#include "athena/gles/GlEsGraphicDevice.h"
-#include "athena/gles/GlEsVertexBuffer.h"
-#include "athena/gles/GlEsTexture.h"
-#include "athena/gles/GlEsEffect.h"
-#include "athena/gles/GlEsUberEffectProvider.h"
-#include "athena/gles/GlEsShadowMapEffect.h"
-#include "athena/Mesh.h"
-#include "athena/MeshProvider.h"
+#include "palleon/gles/GlEsGraphicDevice.h"
+#include "palleon/gles/GlEsVertexBuffer.h"
+#include "palleon/gles/GlEsTexture.h"
+#include "palleon/gles/GlEsEffect.h"
+#include "palleon/gles/GlEsUberEffectProvider.h"
+#include "palleon/gles/GlEsShadowMapEffect.h"
+#include "palleon/Mesh.h"
+#include "palleon/MeshProvider.h"
 
 #define SHADOW_MAP_SIZE (1024)
 
-using namespace Athena;
+using namespace Palleon;
 
 static const GLenum g_textureAddressModes[TEXTURE_ADDRESS_MODE_MAX] =
 {

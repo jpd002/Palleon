@@ -1,12 +1,12 @@
 #pragma once
 
 #include <vector>
-#include "athena/Effect.h"
-#include "athena/Matrix4.h"
-#include "athena/Material.h"
-#include "athena/gles/OpenGlEsDefs.h"
+#include "palleon/Effect.h"
+#include "palleon/Matrix4.h"
+#include "palleon/Material.h"
+#include "palleon/gles/OpenGlEsDefs.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsEffect : public CEffect
 	{

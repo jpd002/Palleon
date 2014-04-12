@@ -1,7 +1,7 @@
-#include "athena/gles/GlEsEffect.h"
-#include "athena/VertexBuffer.h"
+#include "palleon/gles/GlEsEffect.h"
+#include "palleon/VertexBuffer.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CGlEsEffect::CGlEsEffect()
 {

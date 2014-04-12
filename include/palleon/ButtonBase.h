@@ -1,5 +1,4 @@
-#ifndef _ATHENA_BUTTONBASE_H_
-#define _ATHENA_BUTTONBASE_H_
+#pragma once
 
 #include "Widget.h"
 #include "Label.h"
@@ -42,5 +41,3 @@ namespace Palleon
 		BUTTON_STATE		m_state;
 	};
 }
-
-#endif

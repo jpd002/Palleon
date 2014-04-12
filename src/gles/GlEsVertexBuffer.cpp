@@ -1,8 +1,8 @@
-#include "athena/GlEs/GlEsVertexBuffer.h"
+#include "palleon/GlEs/GlEsVertexBuffer.h"
 #include <assert.h>
 #include <vector>
 
-using namespace Athena;
+using namespace Palleon;
 
 CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)

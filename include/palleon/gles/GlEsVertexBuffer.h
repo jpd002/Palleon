@@ -1,9 +1,9 @@
 #pragma once
 
-#include "athena/VertexBuffer.h"
+#include "palleon/VertexBuffer.h"
 #include "OpenGlEsDefs.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsVertexBuffer : public CVertexBuffer
 	{

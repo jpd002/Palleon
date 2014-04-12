@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "athena/Application.h"
+#import "palleon/Application.h"
 
 @interface IosViewController : UIViewController
 {
@@ -9,7 +9,7 @@
 
 	UIActivityIndicatorView*	m_spinner;
 	
-	Athena::CApplication*		m_application;
+	Palleon::CApplication*		m_application;
 	
 	CFAbsoluteTime				m_currentTime;
 	float						m_frameCounterTime;

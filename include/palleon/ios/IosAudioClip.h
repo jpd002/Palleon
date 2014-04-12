@@ -3,7 +3,7 @@
 #include "../AudioClip.h"
 #include <AVFoundation/AVFoundation.h>
 
-namespace Athena
+namespace Palleon
 {
 	class CIosAudioClip : public CAudioClip
 	{

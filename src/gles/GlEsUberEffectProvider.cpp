@@ -1,8 +1,8 @@
-#include "athena/Mesh.h"
-#include "athena/gles/GlEsUberEffectProvider.h"
-#include "athena/gles/GlEsUberEffect.h"
+#include "palleon/Mesh.h"
+#include "palleon/gles/GlEsUberEffectProvider.h"
+#include "palleon/gles/GlEsUberEffect.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 static const unsigned int g_textureCombineMode[TEXTURE_COMBINE_MODE_MAX] =
 {

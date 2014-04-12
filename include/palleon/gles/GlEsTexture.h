@@ -2,10 +2,10 @@
 
 #include <string>
 #include "Types.h"
-#include "athena/Texture.h"
+#include "palleon/Texture.h"
 #include "OpenGlEsDefs.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsTexture : public CTexture
 	{

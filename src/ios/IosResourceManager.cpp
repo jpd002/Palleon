@@ -1,8 +1,8 @@
 #import <UIKit/UIKit.h>
-#include "athena/ios/IosResourceManager.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/ios/IosResourceManager.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CIosResourceManager::CIosResourceManager()
 {

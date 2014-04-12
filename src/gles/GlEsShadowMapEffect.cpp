@@ -1,7 +1,7 @@
-#include "athena/gles/GlEsShadowMapEffect.h"
-#include "athena/VertexBuffer.h"
+#include "palleon/gles/GlEsShadowMapEffect.h"
+#include "palleon/VertexBuffer.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CGlEsShadowMapEffect::CGlEsShadowMapEffect()
 {

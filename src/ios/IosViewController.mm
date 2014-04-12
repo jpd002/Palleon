@@ -1,18 +1,18 @@
 #import <QuartzCore/QuartzCore.h>
 
-#import "athena/ios/IosViewController.h"
-#import "athena/ios/IosGraphicDevice.h"
-#import "athena/ios/IosResourceManager.h"
-#import "athena/ios/IosAudioManager.h"
-#import "athena/ConfigManager.h"
-#import "athena/ios/EAGLView.h"
+#import "palleon/ios/IosViewController.h"
+#import "palleon/ios/IosGraphicDevice.h"
+#import "palleon/ios/IosResourceManager.h"
+#import "palleon/ios/IosAudioManager.h"
+#import "palleon/ConfigManager.h"
+#import "palleon/ios/EAGLView.h"
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 #include <MobileCoreServices/MobileCoreServices.h>
 
 #define PREFERENCE_SCREEN_ORIENTATION_PORTRAIT	("screen.orientation.portrait")
 
-using namespace Athena;
+using namespace Palleon;
 
 @interface IosViewController ()
 @property (nonatomic, assign) CADisplayLink *displayLink;

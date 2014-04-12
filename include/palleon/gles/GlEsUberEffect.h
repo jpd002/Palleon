@@ -1,9 +1,9 @@
 #pragma once
 
-#include "athena/gles/GlEsEffect.h"
-#include "athena/gles/GlEsUberEffectGenerator.h"
+#include "palleon/gles/GlEsEffect.h"
+#include "palleon/gles/GlEsUberEffectGenerator.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsUberEffect : public CGlEsEffect
 	{

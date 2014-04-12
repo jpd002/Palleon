@@ -2,11 +2,11 @@
 
 #include <vector>
 #include "OpenGlEsDefs.h"
-#include "athena/GraphicDevice.h"
-#include "athena/Mesh.h"
-#include "athena/gles/GlEsEffect.h"
+#include "palleon/GraphicDevice.h"
+#include "palleon/Mesh.h"
+#include "palleon/gles/GlEsEffect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsGraphicDevice : public CGraphicDevice
 	{

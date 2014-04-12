@@ -1,5 +1,4 @@
-#ifndef _ATHENA_NINEPATCHBUTTON_H_
-#define _ATHENA_NINEPATCHBUTTON_H_
+#pragma once
 
 #include "ButtonBase.h"
 #include "NinePatch.h"
@@ -32,5 +31,3 @@ namespace Palleon
 		const CNinePatchDescriptor*	m_pressedDescriptor;
 	};
 }
-
-#endif

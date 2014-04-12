@@ -1,8 +1,8 @@
 #pragma once
 
-#include "athena/gles/GlEsEffect.h"
+#include "palleon/gles/GlEsEffect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsShadowMapEffect : public CGlEsEffect
 	{

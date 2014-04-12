@@ -1,8 +1,8 @@
 #pragma once
 
-#include "athena/EffectProvider.h"
+#include "palleon/EffectProvider.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGlEsUberEffectProvider : public CEffectProvider
 	{

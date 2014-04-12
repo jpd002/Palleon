@@ -1,6 +1,6 @@
-#include "athena/ios/IosAudioClip.h"
+#include "palleon/ios/IosAudioClip.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CIosAudioClip::CIosAudioClip(const char* path)
 : m_player(nil)

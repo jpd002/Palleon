@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <vector>
-#include "athena/gles/GlEsTexture.h"
+#include "palleon/gles/GlEsTexture.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 uint32 GetNextPowerOfTwo(uint32 number)
 {
@@ -157,7 +157,7 @@ void CGlEsTexture::Update(uint32 mipLevel, const void* data)
 	UpdateTarget(GL_TEXTURE_2D, GL_TEXTURE_2D, data);
 }
 
-void CGlEsTexture::UpdateCubeFace(Athena::TEXTURE_CUBE_FACE face, const void* data)
+void CGlEsTexture::UpdateCubeFace(Palleon::TEXTURE_CUBE_FACE face, const void* data)
 {
 	assert(m_isCube == true);
 	

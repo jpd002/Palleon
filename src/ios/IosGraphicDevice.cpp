@@ -1,7 +1,7 @@
 #include <UIKit/UIKit.h>
-#include "athena/ios/IosGraphicDevice.h"
+#include "palleon/ios/IosGraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CIosGraphicDevice::CIosGraphicDevice(bool hasRetinaDisplay, const CVector2& screenSize)
 : CGlEsGraphicDevice(screenSize, hasRetinaDisplay ? 2.f : 1.f)

@@ -1,7 +1,7 @@
 #include <cstdarg>
-#include "athena/gles/GlEsUberEffectGenerator.h"
+#include "palleon/gles/GlEsUberEffectGenerator.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 std::string PrintLine(const char* format, ...)
 {

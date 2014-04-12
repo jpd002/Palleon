@@ -1,9 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "athena/gles/GlEsGraphicDevice.h"
+#include "palleon/gles/GlEsGraphicDevice.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CIosGraphicDevice : public CGlEsGraphicDevice
 	{

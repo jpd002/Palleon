@@ -1,5 +1,4 @@
-#ifndef _ATHENA_SPRITEBUTTON_H_
-#define _ATHENA_SPRITEBUTTON_H_
+#pragma once
 
 #include "ButtonBase.h"
 #include "Sprite.h"
@@ -34,5 +33,3 @@ namespace Palleon
 		TexturePtr				m_pressedTexture;
 	};
 }
-
-#endif

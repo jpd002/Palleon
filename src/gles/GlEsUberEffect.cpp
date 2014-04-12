@@ -1,7 +1,7 @@
-#include "athena/gles/GlEsUberEffect.h"
-#include "athena/VertexBuffer.h"
+#include "palleon/gles/GlEsUberEffect.h"
+#include "palleon/VertexBuffer.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CGlEsUberEffect::CGlEsUberEffect(const EFFECTCAPS& effectCaps)
 {
