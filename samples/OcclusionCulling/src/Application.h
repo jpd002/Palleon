@@ -1,13 +1,13 @@
 #pragma once
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "TouchFreeCamera.h"
 #include "OcclusionBuffer.h"
 #include <deque>
 
 namespace OcclusionCulling
 {
-	class CApplication : public Athena::CApplication
+	class CApplication : public Palleon::CApplication
 	{
 	public:
 								CApplication();
@@ -20,7 +20,7 @@ namespace OcclusionCulling
 		virtual void			NotifyMouseUp() override;
 
 	private:
-		typedef std::vector<Athena::MeshPtr> MeshArray;
+		typedef std::vector<Palleon::MeshPtr> MeshArray;
 
 		void					CreateScene();
 		void					CreateUi();
@@ -28,18 +28,18 @@ namespace OcclusionCulling
 
 		COcclusionBuffer		m_occlusionBuffer;
 
-		Athena::PackagePtr		m_globalPackage;
+		Palleon::PackagePtr		m_globalPackage;
 
-		Athena::ViewportPtr		m_mainViewport;
+		Palleon::ViewportPtr	m_mainViewport;
 		TouchFreeCameraPtr		m_mainCamera;
 
 		MeshArray				m_occluders;
 		MeshArray				m_occludees;
 
-		Athena::ViewportPtr		m_uiViewport;
+		Palleon::ViewportPtr	m_uiViewport;
 
-		Athena::LabelPtr		m_timeMetricLabel;
-		Athena::LabelPtr		m_passCountMetricLabel;
+		Palleon::LabelPtr		m_timeMetricLabel;
+		Palleon::LabelPtr		m_passCountMetricLabel;
 		CBox2					m_forwardButtonBoundingBox;
 		CBox2					m_backwardButtonBoundingBox;
 

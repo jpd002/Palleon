@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "bitmap/Bitmap.h"
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 
 class COcclusionBuffer
 {
@@ -12,11 +12,11 @@ public:
 
 	Framework::CBitmap		MakeBufferBitmap() const;
 
-	void					SetCamera(const Athena::CameraPtr&);
+	void					SetCamera(const Palleon::CameraPtr&);
 
 	void					Clear(float);
-	void					DrawMesh(const Athena::MeshPtr&);
-	bool					TestMesh(const Athena::MeshPtr&);
+	void					DrawMesh(const Palleon::MeshPtr&);
+	bool					TestMesh(const Palleon::MeshPtr&);
 
 private:
 	enum
@@ -60,5 +60,5 @@ private:
 	bool					DrawSpan(int, const SPAN&, DRAW_MODE);
 
 	std::vector<float>		m_buffer;
-	Athena::CameraPtr		m_camera;
+	Palleon::CameraPtr		m_camera;
 };

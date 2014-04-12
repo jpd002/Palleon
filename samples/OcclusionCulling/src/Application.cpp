@@ -12,26 +12,26 @@ CApplication::CApplication()
 {
 	m_renderTimes.resize(10);
 
-	m_globalPackage = Athena::CPackage::Create("global");
+	m_globalPackage = Palleon::CPackage::Create("global");
 
 	CreateScene();
 	CreateUi();
 
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
 }
 
 CApplication::~CApplication()
 {
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
 }
 
 void CApplication::CreateScene()
 {
-	auto screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_mainViewport = Athena::CViewport::Create();
+	m_mainViewport = Palleon::CViewport::Create();
 
 	{
 		auto camera = CTouchFreeCamera::Create();
@@ -46,7 +46,7 @@ void CApplication::CreateScene()
 
 	for(int i = 0; i < 5; i++)
 	{
-		auto cube = Athena::CCubeMesh::Create();
+		auto cube = Palleon::CCubeMesh::Create();
 		cube->SetPosition(CVector3(-80 + (i * 40), 0, 0));
 		cube->SetScale(CVector3(15, 40, 10));
 		cube->GetMaterial()->SetColor(CColor(1, 0, 0, 1));
@@ -61,7 +61,7 @@ void CApplication::CreateScene()
 	for(int i = 0; i < sphereCount; i++)
 	{
 		float angle = angleStep * i;
-		auto sphere = Athena::CSphereMesh::Create();
+		auto sphere = Palleon::CSphereMesh::Create();
 		sphere->SetPosition(CVector3(ringRadius * sin(angle), 0, ringPosition + ringRadius * cos(angle)));
 		sphere->SetScale(CVector3(3, 3, 3));
 		sphere->GetMaterial()->SetColor(CColor(0, 1, 0, 1));
@@ -72,12 +72,12 @@ void CApplication::CreateScene()
 
 void CApplication::CreateUi()
 {
-	auto screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_uiViewport = Athena::CViewport::Create();
+	m_uiViewport = Palleon::CViewport::Create();
 
 	{
-		auto camera = Athena::CCamera::Create();
+		auto camera = Palleon::CCamera::Create();
 		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_uiViewport->SetCamera(camera);
 	}
@@ -86,19 +86,19 @@ void CApplication::CreateUi()
 		auto sceneRoot = m_uiViewport->GetSceneRoot();
 
 		{
-			auto scene = Athena::CScene::Create(Athena::CResourceManager::GetInstance().GetResource<Athena::CSceneDescriptor>("main_scene.xml"));
+			auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
 
-			m_timeMetricLabel = scene->FindNode<Athena::CLabel>("TimeMetricLabel");
-			m_passCountMetricLabel = scene->FindNode<Athena::CLabel>("PassCountMetricLabel");
+			m_timeMetricLabel = scene->FindNode<Palleon::CLabel>("TimeMetricLabel");
+			m_passCountMetricLabel = scene->FindNode<Palleon::CLabel>("PassCountMetricLabel");
 
 			{
-				auto sprite = scene->FindNode<Athena::CSprite>("BackwardSprite");
+				auto sprite = scene->FindNode<Palleon::CSprite>("BackwardSprite");
 				m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
 				m_backwardButtonBoundingBox.size = sprite->GetSize();
 			}
 
 			{
-				auto sprite = scene->FindNode<Athena::CSprite>("ForwardSprite");
+				auto sprite = scene->FindNode<Palleon::CSprite>("ForwardSprite");
 				m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
 				m_forwardButtonBoundingBox.size = sprite->GetSize();
 			}
@@ -170,7 +170,7 @@ void CApplication::NotifyMouseMove(int x, int y)
 
 void CApplication::NotifyMouseDown()
 {
-	Athena::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_PRESSED);
+	Palleon::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_PRESSED);
 	if(m_forwardButtonBoundingBox.Intersects(CBox2(m_mousePosition.x, m_mousePosition.y, 4, 4)))
 	{
 		m_mainCamera->NotifyMouseDown_MoveForward();
@@ -187,11 +187,11 @@ void CApplication::NotifyMouseDown()
 
 void CApplication::NotifyMouseUp()
 {
-	Athena::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_RELEASED);
+	Palleon::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_RELEASED);
 	m_mainCamera->NotifyMouseUp();
 }
 
-Athena::CApplication* CreateApplication()
+Palleon::CApplication* CreateApplication()
 {
 	return new CApplication();
 }

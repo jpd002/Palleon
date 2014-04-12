@@ -77,7 +77,7 @@ Framework::CBitmap COcclusionBuffer::MakeBufferBitmap() const
 	return bitmap;
 }
 
-void COcclusionBuffer::SetCamera(const Athena::CameraPtr& camera)
+void COcclusionBuffer::SetCamera(const Palleon::CameraPtr& camera)
 {
 	m_camera = camera;
 }
@@ -87,16 +87,16 @@ void COcclusionBuffer::Clear(float value)
 	std::fill(std::begin(m_buffer), std::end(m_buffer), value);
 }
 
-void COcclusionBuffer::DrawMesh(const Athena::MeshPtr& mesh)
+void COcclusionBuffer::DrawMesh(const Palleon::MeshPtr& mesh)
 {
 	auto worldViewProjMatrix = mesh->GetWorldTransformation() * m_camera->GetViewMatrix() * m_camera->GetProjectionMatrix();
-	assert(mesh->GetPrimitiveType() == Athena::PRIMITIVE_TRIANGLE_LIST);
-	assert(mesh->GetMaterial()->GetCullingMode() == Athena::CULLING_CCW);
+	assert(mesh->GetPrimitiveType() == Palleon::PRIMITIVE_TRIANGLE_LIST);
+	assert(mesh->GetMaterial()->GetCullingMode() == Palleon::CULLING_CCW);
 	auto vertexBuffer = reinterpret_cast<const uint8*>(mesh->GetVertexBuffer()->GetShadowVertexBuffer());
 	auto indexBuffer = mesh->GetVertexBuffer()->GetShadowIndexBuffer();
 	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
 	size_t vertexSize = vertexBufferDescriptor.GetVertexSize();
-	const auto& posVertexItem = vertexBufferDescriptor.GetVertexItem(Athena::VERTEX_ITEM_ID_POSITION);
+	const auto& posVertexItem = vertexBufferDescriptor.GetVertexItem(Palleon::VERTEX_ITEM_ID_POSITION);
 	for(unsigned int i = 0; i < mesh->GetPrimitiveCount(); i++)
 	{
 		auto vertexPtr1 = vertexBuffer + (indexBuffer[0] * vertexSize);
@@ -111,7 +111,7 @@ void COcclusionBuffer::DrawMesh(const Athena::MeshPtr& mesh)
 	}
 }
 
-bool COcclusionBuffer::TestMesh(const Athena::MeshPtr& mesh)
+bool COcclusionBuffer::TestMesh(const Palleon::MeshPtr& mesh)
 {
 	auto worldViewProjMatrix = mesh->GetWorldTransformation() * m_camera->GetViewMatrix() * m_camera->GetProjectionMatrix();
 	auto boundingSphere = mesh->GetBoundingSphere();
