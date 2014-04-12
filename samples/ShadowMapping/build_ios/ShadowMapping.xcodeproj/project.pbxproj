@@ -14,7 +14,7 @@
 		709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1702186A721100AEA8C7 /* OpenGLES.framework */; };
 		709E1758186A74BE00AEA8C7 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1754186A74BE00AEA8C7 /* Application.cpp */; };
 		709E1759186A74BE00AEA8C7 /* TouchFreeCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */; };
-		709E175B186A755100AEA8C7 /* libAthena.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175A186A755100AEA8C7 /* libAthena.a */; };
+		709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175A186A755100AEA8C7 /* libPalleon.a */; };
 		709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175C186A779800AEA8C7 /* AVFoundation.framework */; };
 		709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176B186A7B3500AEA8C7 /* libboost.a */; };
 		709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176C186A7B3500AEA8C7 /* libFramework.a */; };
@@ -37,15 +37,15 @@
 		709E1755186A74BE00AEA8C7 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../src/Application.h; sourceTree = "<group>"; };
 		709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchFreeCamera.cpp; path = ../src/TouchFreeCamera.cpp; sourceTree = "<group>"; };
 		709E1757186A74BE00AEA8C7 /* TouchFreeCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchFreeCamera.h; path = ../src/TouchFreeCamera.h; sourceTree = "<group>"; };
-		709E175A186A755100AEA8C7 /* libAthena.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAthena.a; path = "../../../../../Library/Developer/Xcode/DerivedData/Athena-cqrzgjojsxrjapdxjjvcfeijgrqv/Build/Products/Debug-iphoneos/libAthena.a"; sourceTree = "<group>"; };
+		709E175A186A755100AEA8C7 /* libPalleon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPalleon.a; path = "../../../../../Library/Developer/Xcode/DerivedData/Palleon-cqrzgjojsxrjapdxjjvcfeijgrqv/Build/Products/Debug-iphoneos/libPalleon.a"; sourceTree = "<group>"; };
 		709E175C186A779800AEA8C7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		709E176B186A7B3500AEA8C7 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = "../../../../boost/build_iphone/build/Debug-iphoneos/libboost.a"; sourceTree = "<group>"; };
 		709E176C186A7B3500AEA8C7 /* libFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFramework.a; path = "../../../../Framework/build_iphone/build/Debug-iphoneos/libFramework.a"; sourceTree = "<group>"; };
 		709E176F186A7BAC00AEA8C7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		709E1771186A7C9100AEA8C7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		709E1779186A7D5B00AEA8C7 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
-		70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Athena.Samples.Common.Debug.xcconfig; path = ../../Athena.Samples.Common.Debug.xcconfig; sourceTree = "<group>"; };
-		70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Athena.Samples.Common.xcconfig; path = ../../Athena.Samples.Common.xcconfig; sourceTree = "<group>"; };
+		70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Palleon.Samples.Common.Debug.xcconfig; path = ../../Palleon.Samples.Common.Debug.xcconfig; sourceTree = "<group>"; };
+		70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Palleon.Samples.Common.xcconfig; path = ../../Palleon.Samples.Common.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 				709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */,
 				709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */,
 				709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */,
-				709E175B186A755100AEA8C7 /* libAthena.a in Frameworks */,
+				709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */,
 				709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */,
 				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
 				709E16FF186A721100AEA8C7 /* UIKit.framework in Frameworks */,
@@ -95,7 +95,7 @@
 				709E176B186A7B3500AEA8C7 /* libboost.a */,
 				709E176C186A7B3500AEA8C7 /* libFramework.a */,
 				709E175C186A779800AEA8C7 /* AVFoundation.framework */,
-				709E175A186A755100AEA8C7 /* libAthena.a */,
+				709E175A186A755100AEA8C7 /* libPalleon.a */,
 				709E16FA186A721100AEA8C7 /* Foundation.framework */,
 				709E16FC186A721100AEA8C7 /* CoreGraphics.framework */,
 				709E16FE186A721100AEA8C7 /* UIKit.framework */,
@@ -109,8 +109,8 @@
 		709E1704186A721100AEA8C7 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */,
-				70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */,
+				70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */,
+				70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */,
 				709E1754186A74BE00AEA8C7 /* Application.cpp */,
 				709E1755186A74BE00AEA8C7 /* Application.h */,
 				709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */,
@@ -222,7 +222,7 @@
 		};
 		709E1735186A721200AEA8C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70FB856A18D4C84B0023A3C4 /* Athena.Samples.Common.Debug.xcconfig */;
+			baseConfigurationReference = 70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -238,7 +238,7 @@
 		};
 		709E1736186A721200AEA8C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70FB856B18D4C84B0023A3C4 /* Athena.Samples.Common.xcconfig */;
+			baseConfigurationReference = 70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
