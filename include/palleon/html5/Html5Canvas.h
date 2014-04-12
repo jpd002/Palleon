@@ -2,7 +2,7 @@
 
 #include "../Application.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CHtml5Canvas
 	{

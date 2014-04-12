@@ -1,8 +1,8 @@
 #pragma once
 
-#include "athena/resources/ResourceManager.h"
+#include "../resources/ResourceManager.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CHtml5ResourceManager : public CResourceManager
 	{

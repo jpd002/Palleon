@@ -1,10 +1,10 @@
 #include <iostream>
 #include <emscripten.h>
-#include "athena/html5/Html5Canvas.h"
-#include "athena/html5/Html5GraphicDevice.h"
-#include "athena/html5/Html5ResourceManager.h"
+#include "palleon/html5/Html5Canvas.h"
+#include "palleon/html5/Html5GraphicDevice.h"
+#include "palleon/html5/Html5ResourceManager.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CHtml5Canvas::CHtml5Canvas()
 {
@@ -38,7 +38,7 @@ void CHtml5Canvas::MainLoopProc()
 
 int main(int argc, char** argv)
 {
-	std::cout << "Starting Meleon HTML5..." << std::endl;
+	std::cout << "Starting Palleon HTML5..." << std::endl;
 	CHtml5Canvas canvas;
 	canvas.StartMainLoop();
 	return 0;

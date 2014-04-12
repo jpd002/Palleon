@@ -1,9 +1,9 @@
 #include <iostream>
 #include <emscripten.h>
-#include "athena/html5/Html5GraphicDevice.h"
-#include "athena/gles/GlEsVertexBuffer.h"
+#include "palleon/html5/Html5GraphicDevice.h"
+#include "palleon/gles/GlEsVertexBuffer.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 //#ifdef _DEBUG
 #define CHECKEGLERROR() { assert(eglGetError() == EGL_SUCCESS); }

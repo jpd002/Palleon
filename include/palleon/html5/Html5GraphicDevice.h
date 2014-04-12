@@ -3,7 +3,7 @@
 #include <EGL/EGL.h>
 #include "../gles/GlEsGraphicDevice.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CHtml5GraphicDevice : public CGlEsGraphicDevice
 	{

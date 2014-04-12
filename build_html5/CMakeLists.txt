@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(Meleon)
+project(Palleon)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++ -Wno-warn-absolute-paths")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
@@ -22,7 +22,7 @@ link_directories(
 	../${ZLIB_LIB_ROOT}/build_html5/build/
 )
 
-add_library(Meleon
+add_library(Palleon
 	../src/Box2.cpp
 	../src/ButtonBase.cpp
 	../src/Camera.cpp
@@ -72,5 +72,5 @@ add_executable(ShadowMapping.html
 
 set_target_properties(ShadowMapping.html PROPERTIES LINK_FLAGS "--embed-file ../../samples/ShadowMapping/data@/")
 
-target_link_libraries(ShadowMapping.html Framework Meleon z)
+target_link_libraries(ShadowMapping.html Palleon Framework z)
 

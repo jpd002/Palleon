@@ -1,6 +1,6 @@
-#include "athena/html5/Html5ResourceManager.h"
+#include "palleon/html5/Html5ResourceManager.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CHtml5ResourceManager::CHtml5ResourceManager()
 {
