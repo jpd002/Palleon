@@ -2,7 +2,7 @@
 
 #include "Dx11Effect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CDx11ShadowMapEffect : public CDx11Effect
 	{

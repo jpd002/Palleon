@@ -1,6 +1,6 @@
-#include "athena/NinePatchButton.h"
+#include "palleon/NinePatchButton.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CNinePatchButton::CNinePatchButton()
 : m_releasedDescriptor(NULL)

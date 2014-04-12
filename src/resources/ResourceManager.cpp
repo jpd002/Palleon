@@ -1,8 +1,8 @@
-#include "athena/resources/ResourceManager.h"
+#include "palleon/resources/ResourceManager.h"
 #include <zlib.h>
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CResourceManager* CResourceManager::m_instance = nullptr;
 

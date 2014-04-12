@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace Athena
+namespace Palleon
 {
 	class CSceneDescriptor : public CResource
 	{

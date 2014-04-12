@@ -2,7 +2,7 @@
 
 #include "Effect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CMesh;
 

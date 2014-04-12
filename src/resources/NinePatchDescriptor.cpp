@@ -1,12 +1,12 @@
 #include <assert.h>
 #include <memory>
-#include "athena/resources/NinePatchDescriptor.h"
+#include "palleon/resources/NinePatchDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include "StdStream.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CNinePatchDescriptor::CNinePatchDescriptor()
 : m_width(0)

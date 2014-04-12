@@ -1,61 +1,61 @@
 #pragma once
 
 //Maths
-#include "athena/MathDef.h"
-#include "athena/Vector2.h"
-#include "athena/Vector3.h"
-#include "athena/Vector4.h"
-#include "athena/Matrix4.h"
-#include "athena/Quaternion.h"
-#include "athena/Box2.h"
-#include "athena/Tween.h"
-#include "athena/MathOps.h"
+#include "palleon/MathDef.h"
+#include "palleon/Vector2.h"
+#include "palleon/Vector3.h"
+#include "palleon/Vector4.h"
+#include "palleon/Matrix4.h"
+#include "palleon/Quaternion.h"
+#include "palleon/Box2.h"
+#include "palleon/Tween.h"
+#include "palleon/MathOps.h"
 
 //Resources
-#include "athena/resources/ResourceManager.h"
-#include "athena/resources/FontDescriptor.h"
-#include "athena/resources/NinePatchDescriptor.h"
-#include "athena/resources/EmitterDescriptor.h"
-#include "athena/resources/SceneDescriptor.h"
-#include "athena/resources/Package.h"
-#include "athena/resources/PvrImage.h"
+#include "palleon/resources/ResourceManager.h"
+#include "palleon/resources/FontDescriptor.h"
+#include "palleon/resources/NinePatchDescriptor.h"
+#include "palleon/resources/EmitterDescriptor.h"
+#include "palleon/resources/SceneDescriptor.h"
+#include "palleon/resources/Package.h"
+#include "palleon/resources/PvrImage.h"
 
 //Graphics
-#include "athena/GraphicDevice.h"
+#include "palleon/GraphicDevice.h"
 
-#include "athena/Mesh.h"
-#include "athena/MeshProvider.h"
-#include "athena/CubeMesh.h"
-#include "athena/SphereMesh.h"
-#include "athena/ConeMesh.h"
-#include "athena/AxisMesh.h"
+#include "palleon/Mesh.h"
+#include "palleon/MeshProvider.h"
+#include "palleon/CubeMesh.h"
+#include "palleon/SphereMesh.h"
+#include "palleon/ConeMesh.h"
+#include "palleon/AxisMesh.h"
 
-#include "athena/Label.h"
-#include "athena/Sprite.h"
-#include "athena/NinePatch.h"
-#include "athena/Emitter.h"
-#include "athena/EmitterModifier.h"
+#include "palleon/Label.h"
+#include "palleon/Sprite.h"
+#include "palleon/NinePatch.h"
+#include "palleon/Emitter.h"
+#include "palleon/EmitterModifier.h"
 
-#include "athena/TextureLoader.h"
+#include "palleon/TextureLoader.h"
 
 //Animation
-#include "athena/IAnimation.h"
-#include "athena/AnimationController.h"
-#include "athena/AnimationCurve.h"
-#include "athena/TextureAnimation.h"
-#include "athena/RumbleAnimation.h"
+#include "palleon/IAnimation.h"
+#include "palleon/AnimationController.h"
+#include "palleon/AnimationCurve.h"
+#include "palleon/TextureAnimation.h"
+#include "palleon/RumbleAnimation.h"
 
 //Widgets
-#include "athena/InputManager.h"
-#include "athena/SpriteButton.h"
-#include "athena/NinePatchButton.h"
+#include "palleon/InputManager.h"
+#include "palleon/SpriteButton.h"
+#include "palleon/NinePatchButton.h"
 
 //Audio
-#include "athena/AudioManager.h"
+#include "palleon/AudioManager.h"
 
 //Scene
-#include "athena/Scene.h"
-#include "athena/ParseUtils.h"
+#include "palleon/Scene.h"
+#include "palleon/ParseUtils.h"
 
-#include "athena/Application.h"
+#include "palleon/Application.h"
 

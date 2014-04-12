@@ -5,12 +5,12 @@
 #include <string>
 #include "Types.h"
 #include "win32/ComPtr.h"
-#include "athena/Matrix4.h"
-#include "athena/Material.h"
-#include "athena/VertexBuffer.h"
-#include "athena/Effect.h"
+#include "palleon/Matrix4.h"
+#include "palleon/Material.h"
+#include "palleon/VertexBuffer.h"
+#include "palleon/Effect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CDx11Effect;
 	typedef std::shared_ptr<CDx11Effect> Dx11EffectPtr;
@@ -49,7 +49,7 @@ namespace Athena
 			uint32 currentOffset = 0;
 		};
 
-		typedef std::unordered_map<Athena::VERTEX_ITEMS_KEY, D3D11InputLayoutPtr> InputLayoutMap;
+		typedef std::unordered_map<Palleon::VERTEX_ITEMS_KEY, D3D11InputLayoutPtr> InputLayoutMap;
 
 		void							CompileVertexShader(const std::string&);
 		void							CompilePixelShader(const std::string&);

@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include <vector>
 
-namespace Athena
+namespace Palleon
 {
 	class CSceneNode;
 

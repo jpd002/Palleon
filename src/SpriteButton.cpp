@@ -1,6 +1,6 @@
-#include "athena/SpriteButton.h"
+#include "palleon/SpriteButton.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CSpriteButton::CSpriteButton()
 {

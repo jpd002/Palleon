@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-namespace Athena
+namespace Palleon
 {
 	class CPackage;
 	typedef std::shared_ptr<CPackage> PackagePtr;

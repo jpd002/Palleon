@@ -4,7 +4,7 @@
 #include "Resource.h"
 #include <algorithm>
 
-namespace Athena
+namespace Palleon
 {
 	enum EMITTER_SOURCE_TYPE
 	{

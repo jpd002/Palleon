@@ -1,6 +1,6 @@
-#include "athena/EmitterModifier.h"
+#include "palleon/EmitterModifier.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CEmitterModifier::CEmitterModifier()
 {

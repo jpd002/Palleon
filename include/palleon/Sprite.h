@@ -2,7 +2,7 @@
 
 #include "Mesh.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CSprite;
 	typedef std::shared_ptr<CSprite> SpritePtr;

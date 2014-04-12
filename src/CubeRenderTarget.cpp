@@ -1,6 +1,6 @@
-#include "athena/CubeRenderTarget.h"
+#include "palleon/CubeRenderTarget.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CCubeRenderTarget::~CCubeRenderTarget()
 {

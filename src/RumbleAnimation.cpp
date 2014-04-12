@@ -1,9 +1,9 @@
 #include <assert.h>
-#include "athena/RumbleAnimation.h"
-#include "athena/SceneNode.h"
-#include "athena/MathOps.h"
+#include "palleon/RumbleAnimation.h"
+#include "palleon/SceneNode.h"
+#include "palleon/MathOps.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CRumbleAnimation::CRumbleAnimation(const CVector3& minPosition, const CVector3& maxPosition, float frequency, float damping, float length)
 : m_minPosition(minPosition)

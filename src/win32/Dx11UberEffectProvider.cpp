@@ -1,10 +1,10 @@
-#include "athena/win32/Dx11UberEffectProvider.h"
-#include "athena/win32/Dx11UberEffectGenerator.h"
-#include "athena/win32/Dx11VertexBuffer.h"
-#include "athena/win32/Dx11UberEffect.h"
-#include "athena/Mesh.h"
+#include "palleon/win32/Dx11UberEffectProvider.h"
+#include "palleon/win32/Dx11UberEffectGenerator.h"
+#include "palleon/win32/Dx11VertexBuffer.h"
+#include "palleon/win32/Dx11UberEffect.h"
+#include "palleon/Mesh.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11UberEffectProvider::CDx11UberEffectProvider(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 : m_device(device)

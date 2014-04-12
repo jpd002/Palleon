@@ -1,17 +1,17 @@
 #include <memory>
 #include <assert.h>
-#include "athena/resources/Package.h"
-#include "athena/resources/ResourceManager.h"
-#include "athena/resources/FontDescriptor.h"
-#include "athena/resources/EmitterDescriptor.h"
-#include "athena/resources/SceneDescriptor.h"
-#include "athena/resources/NinePatchDescriptor.h"
+#include "palleon/resources/Package.h"
+#include "palleon/resources/ResourceManager.h"
+#include "palleon/resources/FontDescriptor.h"
+#include "palleon/resources/EmitterDescriptor.h"
+#include "palleon/resources/SceneDescriptor.h"
+#include "palleon/resources/NinePatchDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include "StdStream.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CPackage::CPackage(const char* name)
 : m_name(name)

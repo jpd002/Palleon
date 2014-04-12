@@ -1,7 +1,7 @@
 #include <assert.h>
-#include "athena/VertexBuffer.h"
+#include "palleon/VertexBuffer.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CVertexBuffer::CVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : m_descriptor(descriptor)
@@ -41,7 +41,7 @@ uint16* CVertexBuffer::LockIndices()
 	return m_shadowIndexBuffer;
 }
 
-VERTEX_BUFFER_DESCRIPTOR Athena::GenerateVertexBufferDescriptor(uint32 vertexCount, uint32 indexCount, uint32 vertexFlags)
+VERTEX_BUFFER_DESCRIPTOR Palleon::GenerateVertexBufferDescriptor(uint32 vertexCount, uint32 indexCount, uint32 vertexFlags)
 {
 	uint32 currentOffset = 0;
 	unsigned int currentVertexItem = 0;
@@ -98,7 +98,7 @@ VERTEX_BUFFER_DESCRIPTOR Athena::GenerateVertexBufferDescriptor(uint32 vertexCou
 	return result;
 }
 
-const Athena::VERTEX_ITEM* Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexItem(uint32 id) const
+const Palleon::VERTEX_ITEM* Palleon::VERTEX_BUFFER_DESCRIPTOR::GetVertexItem(uint32 id) const
 {
 	for(const auto& vertexItem : vertexItems)
 	{
@@ -110,12 +110,12 @@ const Athena::VERTEX_ITEM* Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexItem(uint3
 	return nullptr;
 }
 
-bool Athena::VERTEX_BUFFER_DESCRIPTOR::HasVertexItem(uint32 id) const
+bool Palleon::VERTEX_BUFFER_DESCRIPTOR::HasVertexItem(uint32 id) const
 {
 	return GetVertexItem(id) != nullptr;
 }
 
-uint32 Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexSize() const
+uint32 Palleon::VERTEX_BUFFER_DESCRIPTOR::GetVertexSize() const
 {
 	uint32 size = 0;
 	for(const auto& vertexItem : vertexItems)
@@ -125,7 +125,7 @@ uint32 Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexSize() const
 	return size;
 }
 
-uint32 Athena::VERTEX_BUFFER_DESCRIPTOR::GetVertexBufferSize() const
+uint32 Palleon::VERTEX_BUFFER_DESCRIPTOR::GetVertexBufferSize() const
 {
 	return GetVertexSize() * vertexCount;
 }

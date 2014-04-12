@@ -6,7 +6,7 @@
 #include <string>
 #include <boost/signals2.hpp>
 
-namespace Athena
+namespace Palleon
 {
 	enum ANIMATION_PLAY_MODE
 	{

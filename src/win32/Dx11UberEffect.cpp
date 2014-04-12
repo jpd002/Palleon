@@ -1,6 +1,6 @@
-#include "athena/win32/Dx11UberEffect.h"
+#include "palleon/win32/Dx11UberEffect.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11UberEffect::CDx11UberEffect(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const EFFECTCAPS& effectCaps)
 : CDx11Effect(device, deviceContext)

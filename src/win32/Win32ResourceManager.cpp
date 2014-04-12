@@ -1,10 +1,10 @@
 #include <assert.h>
 #include <string>
-#include "athena/win32/Win32ResourceManager.h"
+#include "palleon/win32/Win32ResourceManager.h"
 
 #define DATA_BASE	"./data/"
 
-using namespace Athena;
+using namespace Palleon;
 
 CWin32ResourceManager::CWin32ResourceManager()
 {

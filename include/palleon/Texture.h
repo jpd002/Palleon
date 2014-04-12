@@ -3,7 +3,7 @@
 #include <memory>
 #include "Types.h"
 
-namespace Athena
+namespace Palleon
 {
 	enum TEXTURE_FORMAT
 	{

@@ -1,7 +1,7 @@
-#include "athena/CubeMesh.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/CubeMesh.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 static const float s_positions[24 * 3] =
 {

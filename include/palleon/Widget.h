@@ -4,7 +4,7 @@
 #include "SceneNode.h"
 #include "ILayoutable.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CWidget : public CSceneNode, public ILayoutable
 	{

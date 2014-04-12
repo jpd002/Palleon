@@ -1,10 +1,10 @@
 #include <assert.h>
 #include <algorithm>
-#include "athena/GraphicDevice.h"
-#include "athena/Vector3.h"
-#include "athena/Vector2.h"
+#include "palleon/GraphicDevice.h"
+#include "palleon/Vector3.h"
+#include "palleon/Vector2.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CGraphicDevice* CGraphicDevice::m_instance = NULL;
 

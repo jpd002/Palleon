@@ -7,7 +7,7 @@
 #include "TextureResource.h"
 #include "Types.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CResourceManager
 	{

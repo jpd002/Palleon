@@ -1,6 +1,6 @@
-#include "athena/AudioClip.h"
+#include "palleon/AudioClip.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CAudioClip::~CAudioClip()
 {

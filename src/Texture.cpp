@@ -1,8 +1,8 @@
-#include "athena/Texture.h"
+#include "palleon/Texture.h"
 
-using namespace Athena;
+using namespace Palleon;
 
-const uint32 Athena::c_textureFormatSize[TEXTURE_FORMAT_MAX] =
+const uint32 Palleon::c_textureFormatSize[TEXTURE_FORMAT_MAX] =
 {
 	0,
 	24,

@@ -1,11 +1,11 @@
-#include "athena/resources/SceneDescriptor.h"
+#include "palleon/resources/SceneDescriptor.h"
 #include "StdStream.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include <assert.h>
 #include <algorithm>
 
-using namespace Athena;
+using namespace Palleon;
 
 CSceneDescriptor::CSceneDescriptor()
 {

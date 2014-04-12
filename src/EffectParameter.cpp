@@ -1,7 +1,7 @@
 #include <assert.h>
-#include "athena/EffectParameter.h"
+#include "palleon/EffectParameter.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 bool CEffectParameter::IsNull() const
 {

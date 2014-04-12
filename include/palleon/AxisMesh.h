@@ -1,10 +1,10 @@
 #pragma once
 
-#include "athena/Mesh.h"
+#include "palleon/Mesh.h"
 
-namespace Athena
+namespace Palleon
 {
-	class CAxisMesh : public Athena::CMesh
+	class CAxisMesh : public Palleon::CMesh
 	{
 	public:
 							CAxisMesh();

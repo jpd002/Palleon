@@ -1,9 +1,9 @@
 #pragma once
 
-#include "athena/Texture.h"
-#include "athena/Viewport.h"
+#include "palleon/Texture.h"
+#include "palleon/Viewport.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CCubeRenderTarget : public CTexture
 	{

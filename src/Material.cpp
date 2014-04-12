@@ -1,7 +1,7 @@
 #include <assert.h>
-#include "athena/Material.h"
+#include "palleon/Material.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CMaterial::CMaterial()
 : m_alphaBlendingMode(ALPHA_BLENDING_NONE)

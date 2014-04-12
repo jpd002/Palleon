@@ -1,6 +1,6 @@
-#include "athena/Viewport.h"
+#include "palleon/Viewport.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CViewport::CViewport()
 {

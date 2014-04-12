@@ -1,6 +1,6 @@
-#include "athena/Widget.h"
+#include "palleon/Widget.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CWidget::CWidget()
 : m_size(1, 1)

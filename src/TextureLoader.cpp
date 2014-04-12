@@ -1,7 +1,7 @@
-#include "athena/TextureLoader.h"
-#include "athena/GraphicDevice.h"
-#include "athena/resources/PvrImage.h"
-#include "athena/resources/DdsImage.h"
+#include "palleon/TextureLoader.h"
+#include "palleon/GraphicDevice.h"
+#include "palleon/resources/PvrImage.h"
+#include "palleon/resources/DdsImage.h"
 #include "bitmap/Bitmap.h"
 #include "bitmap/PNG.h"
 #include "bitmap/JPEG.h"
@@ -9,7 +9,7 @@
 #include "StdStream.h"
 #include "PtrStream.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 TexturePtr CTextureLoader::CreateTextureFromStream(Framework::CStream& stream)
 {
@@ -51,7 +51,7 @@ TexturePtr CTextureLoader::CreateTextureFromStream(Framework::CStream& stream)
 		imageData = imageData.AddAlphaChannel(0xFF);
 	}
 	
-	auto texture = CGraphicDevice::GetInstance().CreateTexture(Athena::TEXTURE_FORMAT_RGBA8888, imageData.GetWidth(), imageData.GetHeight(), 1);
+	auto texture = CGraphicDevice::GetInstance().CreateTexture(Palleon::TEXTURE_FORMAT_RGBA8888, imageData.GetWidth(), imageData.GetHeight(), 1);
 	texture->Update(0, imageData.GetPixels());
 	return texture;
 }

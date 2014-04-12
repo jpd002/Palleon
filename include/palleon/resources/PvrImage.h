@@ -1,7 +1,7 @@
 #ifndef _PVRIMAGE_H_
 #define _PVRIMAGE_H_
 
-namespace Athena
+namespace Palleon
 {
 	enum PVR_PIXEL_FORMAT
 	{

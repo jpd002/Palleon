@@ -1,7 +1,7 @@
-#include "athena/ConfigManager.h"
-#include "athena/resources/ResourceManager.h"
+#include "palleon/ConfigManager.h"
+#include "palleon/resources/ResourceManager.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CConfigManager* CConfigManager::m_instance = NULL;
 

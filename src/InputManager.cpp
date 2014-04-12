@@ -1,10 +1,10 @@
 #include <functional>
 #include <assert.h>
-#include "athena/InputManager.h"
-#include "athena/Widget.h"
-#include "athena/Box2.h"
+#include "palleon/InputManager.h"
+#include "palleon/Widget.h"
+#include "palleon/Box2.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 bool CInputManager::SendInputEvent(const SceneNodePtr& node, const CVector2& inputPosition, INPUT_EVENT event, InputEventHandlerArray& eventHandlers)
 {

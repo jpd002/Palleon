@@ -3,7 +3,7 @@
 
 //Based on http://jstween.sourceforge.net/Tween.js
 
-namespace Athena
+namespace Palleon
 {
 	class CTween
 	{

@@ -1,4 +1,4 @@
-#include "athena/Box2.h"
+#include "palleon/Box2.h"
 
 CBox2::CBox2()
 : position(0, 0)

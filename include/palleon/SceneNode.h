@@ -8,7 +8,7 @@
 #include "AnimationController.h"
 #include "Matrix4.h"
 
-namespace Athena
+namespace Palleon
 {
 	enum SCENE_NODE_TYPE
 	{

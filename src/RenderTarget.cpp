@@ -1,6 +1,6 @@
-#include "athena/RenderTarget.h"
+#include "palleon/RenderTarget.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CRenderTarget::~CRenderTarget()
 {

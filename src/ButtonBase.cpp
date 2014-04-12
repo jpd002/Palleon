@@ -1,6 +1,6 @@
-#include "athena/ButtonBase.h"
+#include "palleon/ButtonBase.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CButtonBase::CButtonBase()
 : m_state(STATE_RELEASED)

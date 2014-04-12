@@ -4,7 +4,7 @@
 #include "Mesh.h"
 #include "resources/EmitterDescriptor.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CEmitterModifier;
 	typedef std::shared_ptr<CEmitterModifier> EmitterModifierPtr;

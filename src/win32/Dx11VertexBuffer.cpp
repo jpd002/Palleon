@@ -1,8 +1,8 @@
-#include "athena/win32/Dx11VertexBuffer.h"
+#include "palleon/win32/Dx11VertexBuffer.h"
 #include <assert.h>
 #include <vector>
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11VertexBuffer::CDx11VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)

@@ -1,10 +1,10 @@
 #include <assert.h>
-#include "athena/win32/Win32ResourceManager.h"
-#include "athena/win32/Win32AudioManager.h"
-#include "athena/win32/Win32ApplicationWindow.h"
-//#include "athena/win32/Dx9GraphicDevice.h"
-#include "athena/win32/Dx11GraphicDevice.h"
-#include "athena/ConfigManager.h"
+#include "palleon/win32/Win32ResourceManager.h"
+#include "palleon/win32/Win32AudioManager.h"
+#include "palleon/win32/Win32ApplicationWindow.h"
+//#include "palleon/win32/Dx9GraphicDevice.h"
+#include "palleon/win32/Dx11GraphicDevice.h"
+#include "palleon/ConfigManager.h"
 #include "win32/Rect.h"
 #include "string_cast.h"
 
@@ -15,7 +15,7 @@
 #define PREFERENCE_SCREEN_HEIGHT	("screen.height")
 #define PREFERENCE_WINDOW_TITLE		("window.title")
 
-using namespace Athena;
+using namespace Palleon;
 
 CWin32ApplicationWindow::CWin32ApplicationWindow()
 {
@@ -35,7 +35,7 @@ CWin32ApplicationWindow::CWin32ApplicationWindow()
 	CWin32ResourceManager::CreateInstance();
 
 	CConfigManager::CreateInstance();
-	CConfigManager::GetInstance().GetConfig().RegisterPreferenceString(PREFERENCE_WINDOW_TITLE, "Athena Engine");
+	CConfigManager::GetInstance().GetConfig().RegisterPreferenceString(PREFERENCE_WINDOW_TITLE, "Palleon Engine");
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_WIDTH, 640);
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceInteger(PREFERENCE_SCREEN_HEIGHT, 480);
 
@@ -97,7 +97,7 @@ void CWin32ApplicationWindow::UpdateApplication()
 
 	m_application->Update(deltaTimeRel);
 
-	Athena::CDx11GraphicDevice::GetInstance().Draw();
+	Palleon::CDx11GraphicDevice::GetInstance().Draw();
 
 	m_currentFrameCount++;
 	if(m_frameCounterTime >= 1)

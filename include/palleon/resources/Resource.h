@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace Athena
+namespace Palleon
 {
 	class CResource
 	{

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <memory>
-#include "athena/resources/ResourceManager.h"
-#include "athena/Color.h"
-#include "athena/Matrix4.h"
-#include "athena/EffectParameter.h"
+#include "palleon/resources/ResourceManager.h"
+#include "palleon/Color.h"
+#include "palleon/Matrix4.h"
+#include "palleon/EffectParameter.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CMaterial;
 	typedef std::shared_ptr<CMaterial> MaterialPtr;

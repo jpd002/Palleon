@@ -1,8 +1,8 @@
-#include "athena/win32/Win32AudioManager.h"
-#include "athena/win32/Win32AudioClip.h"
+#include "palleon/win32/Win32AudioManager.h"
+#include "palleon/win32/Win32AudioClip.h"
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CWin32AudioManager::CWin32AudioManager()
 {

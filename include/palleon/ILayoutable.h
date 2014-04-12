@@ -2,10 +2,10 @@
 #define	_ILAYOUTABLE_H_
 
 #include <memory>
-#include "athena/Vector2.h"
-#include "athena/Vector3.h"
+#include "palleon/Vector2.h"
+#include "palleon/Vector3.h"
 
-namespace Athena
+namespace Palleon
 {
 	class ILayoutable
 	{

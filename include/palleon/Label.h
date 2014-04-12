@@ -5,7 +5,7 @@
 #include "resources/FontDescriptor.h"
 #include "ILayoutable.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CLabel;
 	typedef std::shared_ptr<CLabel> LabelPtr;

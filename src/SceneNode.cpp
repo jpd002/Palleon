@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <assert.h>
-#include "athena/SceneNode.h"
+#include "palleon/SceneNode.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CSceneNode::CSceneNode()
 : m_position(0, 0, 0)

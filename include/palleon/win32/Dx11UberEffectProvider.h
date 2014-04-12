@@ -1,10 +1,10 @@
 #pragma once
 
 #include <unordered_map>
-#include "athena/EffectProvider.h"
-#include "athena/win32/Dx11Effect.h"
+#include "palleon/EffectProvider.h"
+#include "palleon/win32/Dx11Effect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CDx11UberEffectProvider : public CEffectProvider
 	{

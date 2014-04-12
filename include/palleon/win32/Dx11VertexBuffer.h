@@ -3,7 +3,7 @@
 #include <d3d11.h>
 #include "../VertexBuffer.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CDx11VertexBuffer : public CVertexBuffer
 	{

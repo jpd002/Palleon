@@ -1,7 +1,7 @@
-#include "athena/TextureAnimation.h"
-#include "athena/Mesh.h"
+#include "palleon/TextureAnimation.h"
+#include "palleon/Mesh.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CTextureAnimation::CTextureAnimation()
 : m_length(0)

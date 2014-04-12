@@ -7,7 +7,7 @@
 #include "Tween.h"
 #include <vector>
 
-namespace Athena
+namespace Palleon
 {
 	enum ANIMATION_INTERPOLATION_TYPE
 	{

@@ -6,7 +6,7 @@
 #include "Vector3.h"
 #include "Frustum.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CCamera;
 	typedef std::shared_ptr<CCamera> CameraPtr;

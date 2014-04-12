@@ -5,7 +5,7 @@
 #include "NinePatch.h"
 #include <boost/signals2.hpp>
 
-namespace Athena
+namespace Palleon
 {
 	class CNinePatchButton;
 	typedef std::shared_ptr<CNinePatchButton> NinePatchButtonPtr;

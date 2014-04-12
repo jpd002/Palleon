@@ -1,6 +1,6 @@
-#include "athena/win32/Win32AudioClip.h"
+#include "palleon/win32/Win32AudioClip.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CWin32AudioClip::CWin32AudioClip()
 {

@@ -1,17 +1,17 @@
 #include <assert.h>
-#include "athena/win32/Dx11GraphicDevice.h"
-#include "athena/win32/Dx11VertexBuffer.h"
-#include "athena/win32/Dx11Texture.h"
-#include "athena/win32/Dx11UberEffectProvider.h"
-#include "athena/win32/Dx11ShadowMapEffect.h"
-#include "athena/Mesh.h"
-#include "athena/MeshProvider.h"
-#include "athena/MathOps.h"
+#include "palleon/win32/Dx11GraphicDevice.h"
+#include "palleon/win32/Dx11VertexBuffer.h"
+#include "palleon/win32/Dx11Texture.h"
+#include "palleon/win32/Dx11UberEffectProvider.h"
+#include "palleon/win32/Dx11ShadowMapEffect.h"
+#include "palleon/Mesh.h"
+#include "palleon/MeshProvider.h"
+#include "palleon/MathOps.h"
 
 #define SHADOW_MAP_SIZE		2048
 #define SAMPLE_COUNT		1
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize)
 : m_parentWnd(parentWnd)

@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-namespace Athena
+namespace Palleon
 {
 	enum EFFECT_PARAMETER_TYPE
 	{

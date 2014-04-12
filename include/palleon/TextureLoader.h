@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "Stream.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CTextureLoader
 	{

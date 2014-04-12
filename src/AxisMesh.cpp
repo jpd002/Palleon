@@ -1,7 +1,7 @@
-#include "athena/AxisMesh.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/AxisMesh.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 #define LINE_COUNT		3
 #define VERTEX_COUNT	(LINE_COUNT * 2)

@@ -1,6 +1,6 @@
-#include "athena/win32/Dx11ShadowMapEffect.h"
+#include "palleon/win32/Dx11ShadowMapEffect.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11ShadowMapEffect::CDx11ShadowMapEffect(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 : CDx11Effect(device, deviceContext)

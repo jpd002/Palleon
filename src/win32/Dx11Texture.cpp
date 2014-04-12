@@ -1,9 +1,9 @@
-#include "athena/win32/Dx11Texture.h"
+#include "palleon/win32/Dx11Texture.h"
 #include <assert.h>
 #include <vector>
 #include <algorithm>
 
-using namespace Athena;
+using namespace Palleon;
 
 static const DXGI_FORMAT g_textureFormats[TEXTURE_FORMAT_MAX] =
 {

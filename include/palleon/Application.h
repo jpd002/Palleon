@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Athena
+namespace Palleon
 {
 	enum KEY_CODE
 	{
@@ -33,4 +33,4 @@ namespace Athena
 	};
 }
 
-extern Athena::CApplication* CreateApplication();
+extern Palleon::CApplication* CreateApplication();

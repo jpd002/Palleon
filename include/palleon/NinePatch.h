@@ -1,9 +1,9 @@
 #pragma once
 
-#include "athena/Mesh.h"
-#include "athena/resources/NinePatchDescriptor.h"
+#include "palleon/Mesh.h"
+#include "palleon/resources/NinePatchDescriptor.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CNinePatch;
 	typedef std::shared_ptr<CNinePatch> NinePatchPtr;

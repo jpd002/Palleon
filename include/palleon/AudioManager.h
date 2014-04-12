@@ -2,7 +2,7 @@
 
 #include "AudioClip.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CAudioManager
 	{

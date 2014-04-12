@@ -1,8 +1,8 @@
-#include "athena/win32/Dx11Effect.h"
+#include "palleon/win32/Dx11Effect.h"
 #include <D3Dcompiler.h>
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CDx11Effect::CDx11Effect(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 : m_device(device)

@@ -3,7 +3,7 @@
 #include "Dx11UberEffectGenerator.h"
 #include "Dx11Effect.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CDx11UberEffect : public CDx11Effect
 	{

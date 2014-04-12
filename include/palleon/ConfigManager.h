@@ -3,7 +3,7 @@
 
 #include "Config.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CConfigManager
 	{

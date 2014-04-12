@@ -1,11 +1,11 @@
-#include "athena/ParseUtils.h"
+#include "palleon/ParseUtils.h"
 #include <vector>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 
-using namespace Athena;
+using namespace Palleon;
 
-float Athena::ParseFloat(const std::string& valueString)
+float Palleon::ParseFloat(const std::string& valueString)
 {
 	float result = 0;
 	std::stringstream ss;
@@ -15,7 +15,7 @@ float Athena::ParseFloat(const std::string& valueString)
 	return result;
 }
 
-CVector2 Athena::ParseVector2(const std::string& vectorString)
+CVector2 Palleon::ParseVector2(const std::string& vectorString)
 {
 	std::vector<std::string> components;
 	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);
@@ -26,7 +26,7 @@ CVector2 Athena::ParseVector2(const std::string& vectorString)
 	return result;
 }
 
-CVector3 Athena::ParseVector3(const std::string& vectorString)
+CVector3 Palleon::ParseVector3(const std::string& vectorString)
 {
 	std::vector<std::string> components;
 	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);
@@ -38,7 +38,7 @@ CVector3 Athena::ParseVector3(const std::string& vectorString)
 	return result;
 }
 
-CColor Athena::ParseColor(const std::string& vectorString)
+CColor Palleon::ParseColor(const std::string& vectorString)
 {
 	std::vector<std::string> components;
 	boost::split(components, vectorString, boost::is_any_of(", "), boost::algorithm::token_compress_on);

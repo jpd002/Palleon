@@ -4,7 +4,7 @@
 #include "win32/Window.h"
 #include "../Application.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CWin32ApplicationWindow : public Framework::Win32::CWindow
 	{

@@ -1,7 +1,7 @@
-#include "athena/Sprite.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/Sprite.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 static const float s_positions[4 * 3] =
 {

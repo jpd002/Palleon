@@ -6,7 +6,7 @@
 #include "EffectProvider.h"
 #include "Sphere.h"
 
-namespace Athena
+namespace Palleon
 {
 	enum PRIMITIVE_TYPE
 	{

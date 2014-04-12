@@ -4,7 +4,7 @@
 #include <string>
 #include "Resource.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CFontDescriptor : public CResource
 	{

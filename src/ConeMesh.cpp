@@ -1,7 +1,7 @@
-#include "athena/ConeMesh.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/ConeMesh.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 #define RADIAL_PARTS	(32)
 

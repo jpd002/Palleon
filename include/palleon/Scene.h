@@ -4,7 +4,7 @@
 #include "Material.h"
 #include "SceneNode.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CScene;
 	typedef std::shared_ptr<CScene> ScenePtr;

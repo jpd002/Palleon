@@ -1,7 +1,7 @@
-#include "athena/resources/TextureResource.h"
-#include "athena/TextureLoader.h"
+#include "palleon/resources/TextureResource.h"
+#include "palleon/TextureLoader.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CTextureResource::CTextureResource()
 {

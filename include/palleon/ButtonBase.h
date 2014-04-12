@@ -5,7 +5,7 @@
 #include "Label.h"
 #include <boost/signals2.hpp>
 
-namespace Athena
+namespace Palleon
 {
 	class CButtonBase;
 	typedef std::shared_ptr<CButtonBase> ButtonBasePtr;

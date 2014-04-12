@@ -8,7 +8,7 @@
 #include <functional>
 #include <zlib.h>
 
-namespace Athena
+namespace Palleon
 {
 	enum VERTEX_BUFFER_FLAGS
 	{
@@ -100,12 +100,12 @@ namespace Athena
 namespace std
 {
 	template<>
-	struct hash<Athena::VERTEX_ITEMS_KEY>
+	struct hash<Palleon::VERTEX_ITEMS_KEY>
 	{
-		size_t operator ()(const Athena::VERTEX_ITEMS_KEY& itemsKey) const
+		size_t operator ()(const Palleon::VERTEX_ITEMS_KEY& itemsKey) const
 		{
 			uLong crc = crc32(0L, Z_NULL, 0);
-			return crc32(crc, reinterpret_cast<const Bytef*>(itemsKey.vertexItems.data()), sizeof(Athena::VERTEX_ITEM) * itemsKey.vertexItems.size());
+			return crc32(crc, reinterpret_cast<const Bytef*>(itemsKey.vertexItems.data()), sizeof(Palleon::VERTEX_ITEM) * itemsKey.vertexItems.size());
 		}
 	};
 }

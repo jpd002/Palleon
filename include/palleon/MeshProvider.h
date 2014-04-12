@@ -3,7 +3,7 @@
 #include "Mesh.h"
 #include "Camera.h"
 
-namespace Athena
+namespace Palleon
 {
 	typedef std::vector<CMesh*> MeshArray;
 

@@ -1,7 +1,7 @@
-#include "athena/AudioManager.h"
+#include "palleon/AudioManager.h"
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CAudioManager* CAudioManager::m_instance = nullptr;
 

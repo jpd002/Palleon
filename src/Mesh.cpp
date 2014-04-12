@@ -1,8 +1,8 @@
-#include "athena/Mesh.h"
-#include "athena/GraphicDevice.h"
-#include "athena/MathOps.h"
+#include "palleon/Mesh.h"
+#include "palleon/GraphicDevice.h"
+#include "palleon/MathOps.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CMesh::CMesh()
 : m_primitiveType(PRIMITIVE_INVALID)

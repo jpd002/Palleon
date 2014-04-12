@@ -1,10 +1,10 @@
-#include "athena/resources/EmitterDescriptor.h"
+#include "palleon/resources/EmitterDescriptor.h"
 #include "StdStream.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include <memory>
 
-using namespace Athena;
+using namespace Palleon;
 
 CEmitterDescriptor::CEmitterDescriptor()
 : m_sourceType(EMITTER_SOURCE_POINT)

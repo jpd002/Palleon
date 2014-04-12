@@ -3,11 +3,11 @@
 #include "Emitter.h"
 #include "AnimationController.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CEmitterModifier;
 
-	typedef Athena::CAnimationController<CEmitterModifier> EmitterModifierAnimationController;
+	typedef Palleon::CAnimationController<CEmitterModifier> EmitterModifierAnimationController;
 	typedef EmitterModifierAnimationController::AnimationPtr EmitterModifierAnimationPtr;
 
 	class CEmitterModifier

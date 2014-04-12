@@ -1,7 +1,7 @@
-#include "athena/resources/DdsImage.h"
+#include "palleon/resources/DdsImage.h"
 #include <assert.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 CDdsImage::CDdsImage(Framework::CStream& inputStream)
 {

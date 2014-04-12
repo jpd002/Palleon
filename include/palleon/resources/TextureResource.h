@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include "../Texture.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CTextureResource : public CResource
 	{

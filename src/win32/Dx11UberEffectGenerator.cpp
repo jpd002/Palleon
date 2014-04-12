@@ -1,7 +1,7 @@
-#include "athena/win32/Dx11UberEffectGenerator.h"
+#include "palleon/win32/Dx11UberEffectGenerator.h"
 #include <stdarg.h>
 
-using namespace Athena;
+using namespace Palleon;
 
 std::string PrintLine(const char* format, ...)
 {

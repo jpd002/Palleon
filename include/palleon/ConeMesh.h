@@ -2,7 +2,7 @@
 
 #include "Mesh.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CConeMesh : public CMesh
 	{

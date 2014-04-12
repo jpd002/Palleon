@@ -1,14 +1,14 @@
 #include <boost/algorithm/string.hpp>
-#include "athena/Scene.h"
-#include "athena/resources/ResourceManager.h"
-#include "athena/Sprite.h"
-#include "athena/Label.h"
-#include "athena/SpriteButton.h"
-#include "athena/NinePatchButton.h"
-#include "athena/AnimationCurve.h"
-#include "athena/ParseUtils.h"
+#include "palleon/Scene.h"
+#include "palleon/resources/ResourceManager.h"
+#include "palleon/Sprite.h"
+#include "palleon/Label.h"
+#include "palleon/SpriteButton.h"
+#include "palleon/NinePatchButton.h"
+#include "palleon/AnimationCurve.h"
+#include "palleon/ParseUtils.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 static std::map<std::string, CLabel::HORIZONTAL_ALIGNMENT> c_horizontalAlignmentTranslator =
 {

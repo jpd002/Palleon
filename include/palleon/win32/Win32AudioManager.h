@@ -2,7 +2,7 @@
 
 #include "../AudioManager.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CWin32AudioManager : public CAudioManager
 	{

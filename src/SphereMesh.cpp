@@ -1,8 +1,8 @@
-#include "athena/SphereMesh.h"
-#include "athena/GraphicDevice.h"
-#include "athena/MathDef.h"
+#include "palleon/SphereMesh.h"
+#include "palleon/GraphicDevice.h"
+#include "palleon/MathDef.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 #define SPHERE_WIDTH	32
 #define SPHERE_HEIGHT	16

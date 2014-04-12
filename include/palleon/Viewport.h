@@ -4,7 +4,7 @@
 #include "SceneNode.h"
 #include "Camera.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CViewport;
 	typedef std::shared_ptr<CViewport> ViewportPtr;

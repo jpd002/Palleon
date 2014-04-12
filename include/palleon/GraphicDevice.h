@@ -11,7 +11,7 @@
 #include "Color.h"
 #include "EffectProvider.h"
 
-namespace Athena
+namespace Palleon
 {
 	class CGraphicDevice
 	{

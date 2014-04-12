@@ -1,7 +1,7 @@
-#include "athena/NinePatch.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/NinePatch.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 #define PRIMITIVE_COUNT 18
 #define VERTEX_COUNT (16)
@@ -73,7 +73,7 @@ void CNinePatch::SetDescriptor(const CNinePatchDescriptor* descriptor)
 {
 	assert(descriptor != NULL);
 	m_descriptor = descriptor;
-	m_material->SetTexture(0, Athena::CResourceManager::GetInstance().GetTexture(m_descriptor->GetTextureName()));
+	m_material->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture(m_descriptor->GetTextureName()));
 	m_status |= STATUS_VERTEXBUFFER_DIRTY;
 }
 

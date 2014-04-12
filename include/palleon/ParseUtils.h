@@ -5,7 +5,7 @@
 #include "Vector3.h"
 #include "Color.h"
 
-namespace Athena
+namespace Palleon
 {
 	float		ParseFloat(const std::string&);
 	CVector2	ParseVector2(const std::string&);

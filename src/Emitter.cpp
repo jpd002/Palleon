@@ -1,8 +1,8 @@
-#include "athena/Emitter.h"
-#include "athena/EmitterModifier.h"
-#include "athena/GraphicDevice.h"
+#include "palleon/Emitter.h"
+#include "palleon/EmitterModifier.h"
+#include "palleon/GraphicDevice.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 static const float s_texCoords[4 * 2] =
 {
@@ -40,8 +40,8 @@ CEmitter::CEmitter()
 	m_particles.resize(MAX_PARTICLE_COUNT);
 	memset(&m_particles[0], 0, sizeof(PARTICLE) * MAX_PARTICLE_COUNT);
 
-	m_material->SetCullingMode(Athena::CULLING_NONE);
-	m_material->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_LERP);
+	m_material->SetCullingMode(Palleon::CULLING_NONE);
+	m_material->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
 }
 
 CEmitter::~CEmitter()

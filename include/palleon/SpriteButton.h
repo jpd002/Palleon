@@ -5,7 +5,7 @@
 #include "Sprite.h"
 #include <boost/signals2.hpp>
 
-namespace Athena
+namespace Palleon
 {
 	class CSpriteButton;
 	typedef std::shared_ptr<CSpriteButton> SpriteButtonPtr;
@@ -21,7 +21,7 @@ namespace Athena
 		void					SetReleasedTexture(const TexturePtr&);
 		void					SetPressedTexture(const TexturePtr&);
 
-		void					SetBackgroundAlphaBlendingMode(Athena::ALPHA_BLENDING_MODE);
+		void					SetBackgroundAlphaBlendingMode(Palleon::ALPHA_BLENDING_MODE);
 
 		virtual void			SetSize(const CVector2&) override;
 

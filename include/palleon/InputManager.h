@@ -3,7 +3,7 @@
 #include "Vector2.h"
 #include "SceneNode.h"
 
-namespace Athena
+namespace Palleon
 {
 	enum INPUT_EVENT
 	{

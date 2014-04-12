@@ -1,6 +1,6 @@
-#include "athena/Camera.h"
+#include "palleon/Camera.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CCamera::CCamera()
 {

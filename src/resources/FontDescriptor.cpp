@@ -1,12 +1,12 @@
 #include <assert.h>
 #include <boost/scoped_ptr.hpp>
-#include "athena/resources/FontDescriptor.h"
+#include "palleon/resources/FontDescriptor.h"
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include "StdStream.h"
 
-using namespace Athena;
+using namespace Palleon;
 
 CFontDescriptor::CFontDescriptor()
 : m_textureWidth(0)
