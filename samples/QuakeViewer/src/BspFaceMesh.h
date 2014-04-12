@@ -1,7 +1,7 @@
 #ifndef _BSPMESH_H_
 #define _BSPMESH_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "BspFile.h"
 #include "BspMapResourceProvider.h"
 

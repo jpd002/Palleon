@@ -1,7 +1,7 @@
 #ifndef _BSPMAPTCMOD_H_
 #define _BSPMAPTCMOD_H_
 //-------------------------------------------------------------
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 //-------------------------------------------------------------
 class CBspMapTcMod
 {

@@ -24,16 +24,16 @@ CLevelSelectionContext::CLevelSelectionContext(CPakFile* pakFile)
 : CContextBase(pakFile)
 , m_mousePosition(0, 0)
 {
-	CVector2 screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	CVector2 screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_viewport = Athena::CViewport::Create();
+	m_viewport = Palleon::CViewport::Create();
 
 	{
-		Athena::CameraPtr camera = Athena::CCamera::Create();
+		Palleon::CameraPtr camera = Palleon::CCamera::Create();
 		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_viewport->SetCamera(camera);
 	}
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_viewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_viewport.get());
 	
 	for(unsigned int i = 0; i < MAX_LEVELS; i++)
 	{
@@ -41,14 +41,14 @@ CLevelSelectionContext::CLevelSelectionContext(CPakFile* pakFile)
 	}
 
 	{
-		Athena::SceneNodePtr sceneRoot = m_viewport->GetSceneRoot();
+		Palleon::SceneNodePtr sceneRoot = m_viewport->GetSceneRoot();
 
 		{
-			Athena::LabelPtr label = Athena::CLabel::Create();
-			label->SetFont(Athena::CResourceManager::GetInstance().GetResource<Athena::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
+			Palleon::LabelPtr label = Palleon::CLabel::Create();
+			label->SetFont(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
 			label->SetPosition(CVector3(0, 0, 0));
 			label->SetSize(screenSize);
-			label->SetHorizontalAlignment(Athena::CLabel::HORIZONTAL_ALIGNMENT_CENTER);
+			label->SetHorizontalAlignment(Palleon::CLabel::HORIZONTAL_ALIGNMENT_CENTER);
 			label->SetText("Select your destiny");
 			label->SetTextScale(CVector2(0.75, 0.75));
 			sceneRoot->AppendChild(label);
@@ -61,7 +61,7 @@ CLevelSelectionContext::CLevelSelectionContext(CPakFile* pakFile)
 		{
 			unsigned int x = i % 2;
 			unsigned int y = i / 2;
-			Athena::SpriteButtonPtr button = Athena::CSpriteButton::Create();
+			Palleon::SpriteButtonPtr button = Palleon::CSpriteButton::Create();
 			button->SetPosition(CVector3(
 				posX + (x * (SHOT_SIZE + MARGIN_SIZE)), 
 				posY + (y * (SHOT_SIZE + MARGIN_SIZE)), 0));
@@ -76,7 +76,7 @@ CLevelSelectionContext::CLevelSelectionContext(CPakFile* pakFile)
 
 CLevelSelectionContext::~CLevelSelectionContext()
 {
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_viewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_viewport.get());
 }
 
 void CLevelSelectionContext::Update(float dt)
@@ -92,24 +92,24 @@ void CLevelSelectionContext::NotifyMouseMove(int x, int y)
 
 void CLevelSelectionContext::NotifyMouseDown()
 {
-	Athena::CInputManager::SendInputEventToTree(m_viewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_PRESSED);
+	Palleon::CInputManager::SendInputEventToTree(m_viewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_PRESSED);
 }
 
 void CLevelSelectionContext::NotifyMouseUp()
 {
-	Athena::CInputManager::SendInputEventToTree(m_viewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_RELEASED);
+	Palleon::CInputManager::SendInputEventToTree(m_viewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_RELEASED);
 }
 
-Athena::TexturePtr CLevelSelectionContext::LoadTexture(const char* texturePath)
+Palleon::TexturePtr CLevelSelectionContext::LoadTexture(const char* texturePath)
 {
 	uint8* fileData(NULL);
 	uint32 fileSize(0);
 	if(!m_pakFile->ReadFile(texturePath, &fileData, &fileSize))
 	{
-		return Athena::TexturePtr();
+		return Palleon::TexturePtr();
 	}
 
-	auto result = Athena::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
+	auto result = Palleon::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
 	delete fileData;
 
 	return result;

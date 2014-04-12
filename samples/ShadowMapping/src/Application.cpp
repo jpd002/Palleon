@@ -7,26 +7,26 @@ CApplication::CApplication()
 : m_mousePosition(0, 0)
 , m_elapsed(0)
 {
-	m_globalPackage = Athena::CPackage::Create("global");
+	m_globalPackage = Palleon::CPackage::Create("global");
 
 	CreateScene();
 	CreateUi();
 
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
 }
 
 CApplication::~CApplication()
 {
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
 }
 
 void CApplication::CreateScene()
 {
-	auto screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_mainViewport = Athena::CViewport::Create();
+	m_mainViewport = Palleon::CViewport::Create();
 
 	{
 		auto camera = CTouchFreeCamera::Create();
@@ -39,7 +39,7 @@ void CApplication::CreateScene()
 	}
 
 	{
-		auto camera = Athena::CCamera::Create();
+		auto camera = Palleon::CCamera::Create();
 //		camera->SetOrthoProjection(512, 512, 1, 1000);
 		camera->SetPerspectiveProjection(M_PI / 2, 1, 100, 1000);
 		m_mainViewport->SetShadowCamera(camera);
@@ -54,7 +54,7 @@ void CApplication::CreateScene()
 	static const int sphereCount = 50;
 
 	{
-		auto cube = Athena::CCubeMesh::Create();
+		auto cube = Palleon::CCubeMesh::Create();
 		cube->SetScale(CVector3(areaSize, 50, areaSize));
 		cube->SetPosition(CVector3(0, -200, 0));
 		cube->GetMaterial()->SetColor(CColor(0, 0, 1, 1));
@@ -82,19 +82,19 @@ void CApplication::CreateScene()
 		auto resZ = axisZ * invView;
 		quat.Normalize();
 
-		auto shadowProjVolume = Athena::CCubeMesh::Create();
+		auto shadowProjVolume = Palleon::CCubeMesh::Create();
 //		shadowProjVolume->SetPosition(CVector3(0, 200, 0));
 		shadowProjVolume->SetRotation(quat);
 		shadowProjVolume->SetScale(CVector3(512 / 2, 512 / 2, 999));
 		shadowProjVolume->GetMaterial()->SetColor(CColor(0.5f, 0.5f, 0.5f, 0.5f));
-		shadowProjVolume->GetMaterial()->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_LERP);
+		shadowProjVolume->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
 		sceneRoot->AppendChild(shadowProjVolume);
 	}
 #endif
 
 	//Show camera position
 	{
-		auto sphere = Athena::CSphereMesh::Create();
+		auto sphere = Palleon::CSphereMesh::Create();
 		sphere->SetScale(CVector3(10, 10, 10));
 		sphere->GetMaterial()->SetColor(CColor(0, 1, 0, 1));
 		sceneRoot->AppendChild(sphere);
@@ -108,7 +108,7 @@ void CApplication::CreateScene()
 		float xPos = ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) - 0.5f) * 2.f * areaSize;
 		float zPos = ((static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) - 0.5f) * 2.f * areaSize;
 
-		auto sphere = Athena::CSphereMesh::Create();
+		auto sphere = Palleon::CSphereMesh::Create();
 		sphere->SetScale(CVector3(20, 20, 20));
 		sphere->SetPosition(CVector3(xPos, 0, zPos));
 		sphere->GetMaterial()->SetColor(CColor(1, 0, 0, 1));
@@ -119,12 +119,12 @@ void CApplication::CreateScene()
 
 void CApplication::CreateUi()
 {
-	auto screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_uiViewport = Athena::CViewport::Create();
+	m_uiViewport = Palleon::CViewport::Create();
 
 	{
-		auto camera = Athena::CCamera::Create();
+		auto camera = Palleon::CCamera::Create();
 		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_uiViewport->SetCamera(camera);
 	}
@@ -133,16 +133,16 @@ void CApplication::CreateUi()
 		auto sceneRoot = m_uiViewport->GetSceneRoot();
 
 		{
-			auto scene = Athena::CScene::Create(Athena::CResourceManager::GetInstance().GetResource<Athena::CSceneDescriptor>("main_scene.xml"));
+			auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
 
 			{
-				auto sprite = scene->FindNode<Athena::CSprite>("BackwardSprite");
+				auto sprite = scene->FindNode<Palleon::CSprite>("BackwardSprite");
 				m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
 				m_backwardButtonBoundingBox.size = sprite->GetSize();
 			}
 
 			{
-				auto sprite = scene->FindNode<Athena::CSprite>("ForwardSprite");
+				auto sprite = scene->FindNode<Palleon::CSprite>("ForwardSprite");
 				m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
 				m_forwardButtonBoundingBox.size = sprite->GetSize();
 			}
@@ -178,7 +178,7 @@ void CApplication::NotifyMouseMove(int x, int y)
 
 void CApplication::NotifyMouseDown()
 {
-	Athena::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_PRESSED);
+	Palleon::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_PRESSED);
 	if(m_forwardButtonBoundingBox.Intersects(CBox2(m_mousePosition.x, m_mousePosition.y, 4, 4)))
 	{
 		m_mainCamera->NotifyMouseDown_MoveForward();
@@ -195,11 +195,11 @@ void CApplication::NotifyMouseDown()
 
 void CApplication::NotifyMouseUp()
 {
-	Athena::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Athena::INPUT_EVENT_RELEASED);
+	Palleon::CInputManager::SendInputEventToTree(m_uiViewport->GetSceneRoot(), m_mousePosition, Palleon::INPUT_EVENT_RELEASED);
 	m_mainCamera->NotifyMouseUp();
 }
 
-Athena::CApplication* CreateApplication()
+Palleon::CApplication* CreateApplication()
 {
 	return new CApplication();
 }

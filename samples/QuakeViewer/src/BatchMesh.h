@@ -1,9 +1,9 @@
 #ifndef _BATCHMESH_H_
 #define _BATCHMESH_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 
-class CBatchMesh : public Athena::CMesh
+class CBatchMesh : public Palleon::CMesh
 {
 public:
 										CBatchMesh(uint32, uint32, uint32);
@@ -21,7 +21,7 @@ private:
 	uint32								m_currentIndex;
 	uint8*								m_vertexBufferPtr;
 	uint16*								m_indexBufferPtr;
-	Athena::VERTEX_BUFFER_DESCRIPTOR	m_bufferDesc;
+	Palleon::VERTEX_BUFFER_DESCRIPTOR	m_bufferDesc;
 #ifdef _DEBUG
 	bool								m_batchBegun;
 #endif

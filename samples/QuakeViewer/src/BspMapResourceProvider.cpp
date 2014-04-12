@@ -1,5 +1,5 @@
 #include "BspMapResourceProvider.h"
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "QuakeShaderParser.h"
 
 CBspMapResourceProvider::CBspMapResourceProvider()
@@ -84,14 +84,14 @@ void CBspMapResourceProvider::LoadTextures(const CBspFile& bspFile, CPakFile& pa
 				auto pass = BspMapPassPtr(new CBspMapPass());
 				pass->SetTexture(GetTexture(fullName.c_str()));
 				pass->SetTextureSource(CBspMapPass::TEXTURE_SOURCE_DIFFUSE);
-				pass->SetBlendingFunction(Athena::TEXTURE_COMBINE_MODULATE);
+				pass->SetBlendingFunction(Palleon::TEXTURE_COMBINE_MODULATE);
 				resultMaterial->AddPass(pass);
 			}
 
 			{
 				auto pass = BspMapPassPtr(new CBspMapPass());
 				pass->SetTextureSource(CBspMapPass::TEXTURE_SOURCE_LIGHTMAP);
-				pass->SetBlendingFunction(Athena::TEXTURE_COMBINE_MODULATE);
+				pass->SetBlendingFunction(Palleon::TEXTURE_COMBINE_MODULATE);
 				resultMaterial->AddPass(pass);
 			}
 		}
@@ -110,17 +110,17 @@ void CBspMapResourceProvider::LoadTextures(const CBspFile& bspFile, CPakFile& pa
 				auto pass = BspMapPassPtr(new CBspMapPass());
 
 				{
-					Athena::TEXTURE_COMBINE_MODE blendingFunction = Athena::TEXTURE_COMBINE_MODULATE;
+					Palleon::TEXTURE_COMBINE_MODE blendingFunction = Palleon::TEXTURE_COMBINE_MODULATE;
 					switch(passData.blendFunc)
 					{
 					case QUAKE_SHADER_BLEND_BLEND:
-						blendingFunction = Athena::TEXTURE_COMBINE_LERP;
+						blendingFunction = Palleon::TEXTURE_COMBINE_LERP;
 						break;
 					case QUAKE_SHADER_BLEND_ADD:
-						blendingFunction = Athena::TEXTURE_COMBINE_ADD;
+						blendingFunction = Palleon::TEXTURE_COMBINE_ADD;
 						break;
 					case QUAKE_SHADER_BLEND_FILTER:
-						blendingFunction = Athena::TEXTURE_COMBINE_MODULATE;
+						blendingFunction = Palleon::TEXTURE_COMBINE_MODULATE;
 						break;
 					}
 					pass->SetBlendingFunction(blendingFunction);
@@ -210,7 +210,7 @@ void CBspMapResourceProvider::LoadTexture(const char* texturePath, CPakFile& pak
 		return;
 	}
 
-	auto result = Athena::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
+	auto result = Palleon::CTextureLoader::CreateTextureFromMemory(fileData, fileSize);
 	delete fileData;
 
 	m_textures[texturePath] = result;
@@ -222,7 +222,7 @@ void CBspMapResourceProvider::LoadLightMaps(const CBspFile& bspFile)
 	for(uint32 i = 0; i < lightMaps.size(); i++)
 	{
 		const auto& lightMap(lightMaps[i]);
-		auto result = Athena::CGraphicDevice::GetInstance().CreateTexture(Athena::TEXTURE_FORMAT_RGB888, 128, 128, 1);
+		auto result = Palleon::CGraphicDevice::GetInstance().CreateTexture(Palleon::TEXTURE_FORMAT_RGB888, 128, 128, 1);
 		result->Update(0, lightMap.colors);
 		m_lightMaps[i] = result;
 	}
@@ -233,7 +233,7 @@ BspMapMaterialPtr CBspMapResourceProvider::GetMaterial(uint32 textureId) const
 	return m_materials[textureId];
 }
 
-Athena::TexturePtr CBspMapResourceProvider::GetTexture(const char* textureName) const
+Palleon::TexturePtr CBspMapResourceProvider::GetTexture(const char* textureName) const
 {
 	TextureMap::const_iterator textureIterator = m_textures.find(textureName);
 	if(textureIterator != m_textures.end())
@@ -242,11 +242,11 @@ Athena::TexturePtr CBspMapResourceProvider::GetTexture(const char* textureName) 
 	}
 	else
 	{
-		return Athena::TexturePtr();
+		return Palleon::TexturePtr();
 	}
 }
 
-Athena::TexturePtr CBspMapResourceProvider::GetLightMap(uint32 lightMapIndex) const
+Palleon::TexturePtr CBspMapResourceProvider::GetLightMap(uint32 lightMapIndex) const
 {
 	LightMapMap::const_iterator lightMapIterator = m_lightMaps.find(lightMapIndex);
 	if(lightMapIterator != m_lightMaps.end())
@@ -255,6 +255,6 @@ Athena::TexturePtr CBspMapResourceProvider::GetLightMap(uint32 lightMapIndex) co
 	}
 	else
 	{
-		return Athena::TexturePtr();
+		return Palleon::TexturePtr();
 	}
 }

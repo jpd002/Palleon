@@ -1,11 +1,11 @@
 #ifndef _QUAKEVIEWER_H_
 #define _QUAKEVIEWER_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "ContextBase.h"
 #include "QuakeViewerDefs.h"
 
-class CQuakeViewer : public Athena::CApplication
+class CQuakeViewer : public Palleon::CApplication
 {
 public:
 								CQuakeViewer();
@@ -22,7 +22,7 @@ private:
 
 	void						OnContextFinished(int, const char*);
 
-	Athena::PackagePtr			m_globalPackage;
+	Palleon::PackagePtr			m_globalPackage;
 
 	CPakFile*					m_pakFile;
 	CContextBase*				m_currentContext;

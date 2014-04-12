@@ -1,7 +1,7 @@
 #ifndef _LEVELSELECTIONCONTEXT_H_
 #define _LEVELSELECTIONCONTEXT_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "ContextBase.h"
 
 class CLevelSelectionContext : public CContextBase
@@ -22,14 +22,14 @@ private:
 		MAX_LEVELS = 4
 	};
 
-	Athena::TexturePtr		LoadTexture(const char*);
+	Palleon::TexturePtr		LoadTexture(const char*);
 
 	void					OnShotButtonPress(unsigned int);
 
 	CVector2				m_mousePosition;
 
-	Athena::ViewportPtr		m_viewport;
-	Athena::TexturePtr		m_levelShotTextures[MAX_LEVELS];
+	Palleon::ViewportPtr		m_viewport;
+	Palleon::TexturePtr		m_levelShotTextures[MAX_LEVELS];
 
 	static const char*		g_levelPaths[MAX_LEVELS];
 	static const char*		g_levelShotTexturePaths[MAX_LEVELS];

@@ -42,7 +42,7 @@ CBspMapMeshProvider::CBspMapMeshProvider(CBspFile* bspFile, CBspMapResourceProvi
 	for(unsigned int i = 0; i < batchCount; i++)
 	{
 		m_batches[i] = BatchMeshPtr(new CBatchMesh(1024, 4096, 
-			Athena::VERTEX_BUFFER_HAS_POS | Athena::VERTEX_BUFFER_HAS_UV0 | Athena::VERTEX_BUFFER_HAS_UV1 | Athena::VERTEX_BUFFER_HAS_COLOR));
+			Palleon::VERTEX_BUFFER_HAS_POS | Palleon::VERTEX_BUFFER_HAS_UV0 | Palleon::VERTEX_BUFFER_HAS_UV1 | Palleon::VERTEX_BUFFER_HAS_COLOR));
 	}
 }
 
@@ -51,7 +51,7 @@ CBspMapMeshProvider::~CBspMapMeshProvider()
 
 }
 
-void CBspMapMeshProvider::GetMeshes(Athena::MeshArray& meshes, const Athena::CCamera* camera)
+void CBspMapMeshProvider::GetMeshes(Palleon::MeshArray& meshes, const Palleon::CCamera* camera)
 {
 	const Bsp::LeafArray& leaves(m_bspFile->GetLeaves());
 	const Bsp::LeafFaceArray& leafFaces(m_bspFile->GetLeafFaces());
@@ -147,34 +147,34 @@ void CBspMapMeshProvider::GetMeshes(Athena::MeshArray& meshes, const Athena::CCa
 			currentLightMapIdx = currentFace.lightMapIndex;
 
 			//Prepare material
-			Athena::MaterialPtr batchMaterial = currentBatch->GetMaterial();
+			Palleon::MaterialPtr batchMaterial = currentBatch->GetMaterial();
 			BspMapMaterialPtr faceMaterial = m_bspMapResourceProvider->GetMaterial(currentTextureIdx);
 			
-			for(unsigned int i = 0; i < Athena::CMaterial::MAX_TEXTURE_SLOTS; i++)
+			for(unsigned int i = 0; i < Palleon::CMaterial::MAX_TEXTURE_SLOTS; i++)
 			{
-				batchMaterial->SetTexture(i, Athena::TexturePtr());
+				batchMaterial->SetTexture(i, Palleon::TexturePtr());
 			}
 
 			for(unsigned int i = 0; i < faceMaterial->GetPassCount(); i++)
 			{
 				const BspMapPassPtr& pass(faceMaterial->GetPass(i));
-				Athena::TEXTURE_COMBINE_MODE combineMode = pass->GetBlendingFunction();
+				Palleon::TEXTURE_COMBINE_MODE combineMode = pass->GetBlendingFunction();
 				if(pass->GetTextureSource() == CBspMapPass::TEXTURE_SOURCE_DIFFUSE)
 				{
 					batchMaterial->SetTexture(i, pass->GetTexture());
 					batchMaterial->SetTextureMatrix(i, pass->GetUvMatrix());
-					batchMaterial->SetTextureCoordSource(i, Athena::TEXTURE_COORD_UV0);
+					batchMaterial->SetTextureCoordSource(i, Palleon::TEXTURE_COORD_UV0);
 					batchMaterial->SetTextureCombineMode(i, combineMode);
 				}
 				else
 				{
 					batchMaterial->SetTexture(i, m_bspMapResourceProvider->GetLightMap(currentLightMapIdx));
 					batchMaterial->SetTextureMatrix(i, CMatrix4::MakeIdentity());
-					batchMaterial->SetTextureCoordSource(i, Athena::TEXTURE_COORD_UV1);
+					batchMaterial->SetTextureCoordSource(i, Palleon::TEXTURE_COORD_UV1);
 					batchMaterial->SetTextureCombineMode(i, combineMode);
 				}
-				batchMaterial->SetTextureAddressModeU(i, Athena::TEXTURE_ADDRESS_REPEAT);
-				batchMaterial->SetTextureAddressModeV(i, Athena::TEXTURE_ADDRESS_REPEAT);
+				batchMaterial->SetTextureAddressModeU(i, Palleon::TEXTURE_ADDRESS_REPEAT);
+				batchMaterial->SetTextureAddressModeV(i, Palleon::TEXTURE_ADDRESS_REPEAT);
 			}
 		}
 

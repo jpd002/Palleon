@@ -1,7 +1,7 @@
 #ifndef _BSPMAPPASS_H_
 #define _BSPMAPPASS_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "BspMapTcMod.h"
 #include <memory>
 
@@ -19,14 +19,14 @@ public:
 
 	void							Update(float);
 
-	Athena::TexturePtr				GetTexture() const;
-	void							SetTexture(const Athena::TexturePtr&);
+	Palleon::TexturePtr				GetTexture() const;
+	void							SetTexture(const Palleon::TexturePtr&);
 
 	TEXTURE_SOURCE					GetTextureSource() const;
 	void							SetTextureSource(TEXTURE_SOURCE);
 
-	Athena::TEXTURE_COMBINE_MODE	GetBlendingFunction() const;
-	void							SetBlendingFunction(const Athena::TEXTURE_COMBINE_MODE);
+	Palleon::TEXTURE_COMBINE_MODE	GetBlendingFunction() const;
+	void							SetBlendingFunction(const Palleon::TEXTURE_COMBINE_MODE);
 
 	const CMatrix4&					GetUvMatrix() const;
 
@@ -37,11 +37,11 @@ private:
 
 	CMatrix4						m_uvMatrix;
 
-	Athena::TexturePtr				m_texture;
+	Palleon::TexturePtr				m_texture;
 	TcModArray						m_tcMods;
 
 	TEXTURE_SOURCE					m_textureSource;
-	Athena::TEXTURE_COMBINE_MODE	m_blendingFunction;
+	Palleon::TEXTURE_COMBINE_MODE	m_blendingFunction;
 };
 
 typedef std::shared_ptr<CBspMapPass> BspMapPassPtr;

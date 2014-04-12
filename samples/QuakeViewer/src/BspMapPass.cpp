@@ -2,7 +2,7 @@
 
 CBspMapPass::CBspMapPass()
 : m_textureSource(TEXTURE_SOURCE_DIFFUSE)
-, m_blendingFunction(Athena::TEXTURE_COMBINE_MODULATE)
+, m_blendingFunction(Palleon::TEXTURE_COMBINE_MODULATE)
 {
 	m_uvMatrix = CMatrix4::MakeIdentity();
 }
@@ -23,12 +23,12 @@ void CBspMapPass::Update(float dt)
 	}
 }
 
-Athena::TexturePtr CBspMapPass::GetTexture() const
+Palleon::TexturePtr CBspMapPass::GetTexture() const
 {
 	return m_texture;
 }
 
-void CBspMapPass::SetTexture(const Athena::TexturePtr& texture)
+void CBspMapPass::SetTexture(const Palleon::TexturePtr& texture)
 {
 	m_texture = texture;
 }
@@ -43,12 +43,12 @@ void CBspMapPass::SetTextureSource(CBspMapPass::TEXTURE_SOURCE textureSource)
 	m_textureSource = textureSource;
 }
 
-Athena::TEXTURE_COMBINE_MODE CBspMapPass::GetBlendingFunction() const
+Palleon::TEXTURE_COMBINE_MODE CBspMapPass::GetBlendingFunction() const
 {
 	return m_blendingFunction;
 }
 
-void CBspMapPass::SetBlendingFunction(Athena::TEXTURE_COMBINE_MODE blendingFunction)
+void CBspMapPass::SetBlendingFunction(Palleon::TEXTURE_COMBINE_MODE blendingFunction)
 {
 	m_blendingFunction = blendingFunction;
 }

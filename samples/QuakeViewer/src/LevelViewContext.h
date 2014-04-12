@@ -35,22 +35,22 @@ private:
 	void						UpdateCamera();
 	void						UpdateReflectionMap();
 
-	Athena::PackagePtr			m_viewerPackage;
+	Palleon::PackagePtr			m_viewerPackage;
 
-	Athena::ViewportPtr			m_mapViewport;
-	Athena::CameraPtr			m_mapCamera;
+	Palleon::ViewportPtr			m_mapViewport;
+	Palleon::CameraPtr			m_mapCamera;
 
-	Athena::ViewportPtr			m_hudViewport;
-	Athena::LabelPtr			m_positionLabel;
-	Athena::LabelPtr			m_metricsLabel;
-	Athena::SpritePtr			m_renderTargetSprite;
+	Palleon::ViewportPtr			m_hudViewport;
+	Palleon::LabelPtr			m_positionLabel;
+	Palleon::LabelPtr			m_metricsLabel;
+	Palleon::SpritePtr			m_renderTargetSprite;
 
-	Athena::TexturePtr			m_skyTexture;
+	Palleon::TexturePtr			m_skyTexture;
 
-	Athena::CubeRenderTargetPtr	m_reflectionRenderTarget;
-	Athena::CameraPtr			m_reflectionCamera;
+	Palleon::CubeRenderTargetPtr	m_reflectionRenderTarget;
+	Palleon::CameraPtr			m_reflectionCamera;
 
-	Athena::MeshPtr				m_sphere;
+	Palleon::MeshPtr				m_sphere;
 	CVector3					m_sphereBasePosition;
 
 	COMMAND_MODE				m_commandMode;

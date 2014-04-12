@@ -8,10 +8,10 @@ CBatchMesh::CBatchMesh(uint32 vertexCount, uint32 indexCount, uint32 vertexFlags
 #endif
 {
 	//Create vertex buffer
-	m_bufferDesc = Athena::GenerateVertexBufferDescriptor(vertexCount, indexCount, vertexFlags);
+	m_bufferDesc = Palleon::GenerateVertexBufferDescriptor(vertexCount, indexCount, vertexFlags);
 
-	m_vertexBuffer = Athena::CGraphicDevice::GetInstance().CreateVertexBuffer(m_bufferDesc);
-	m_primitiveType = Athena::PRIMITIVE_TRIANGLE_LIST;
+	m_vertexBuffer = Palleon::CGraphicDevice::GetInstance().CreateVertexBuffer(m_bufferDesc);
+	m_primitiveType = Palleon::PRIMITIVE_TRIANGLE_LIST;
 	m_primitiveCount = 0;
 }
 

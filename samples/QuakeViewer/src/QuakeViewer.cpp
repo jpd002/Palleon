@@ -11,9 +11,9 @@ CQuakeViewer::CQuakeViewer()
 , m_currentContext(nullptr)
 , m_pendingContext(-1)
 {
-	m_globalPackage = Athena::CPackage::Create("global");
+	m_globalPackage = Palleon::CPackage::Create("global");
 
-	std::string pakFilePath = Athena::CResourceManager::GetInstance().MakeResourcePath("pak0.pk3");
+	std::string pakFilePath = Palleon::CResourceManager::GetInstance().MakeResourcePath("pak0.pk3");
 	m_pakFile = new CPakFile(pakFilePath.c_str());
 
 	ChangeContext(QuakeViewer::CONTEXT_LEVEL_SELECTION, "");
@@ -26,7 +26,7 @@ CQuakeViewer::~CQuakeViewer()
 	delete m_pakFile;
 }
 
-Athena::CApplication* CreateApplication()
+Palleon::CApplication* CreateApplication()
 {
 	return new CQuakeViewer();
 }

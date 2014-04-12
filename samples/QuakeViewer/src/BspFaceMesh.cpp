@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <float.h>
+#include "PalleonEngine.h"
 #include "BspFaceMesh.h"
 #include "BspUtils.h"
-#include "athena/GraphicDevice.h"
 
 static const unsigned int g_tessellationLevel = 5;
 static const unsigned int g_patchVertexCount = (g_tessellationLevel + 1) * (g_tessellationLevel + 1);
@@ -65,12 +65,12 @@ void CBspFaceMesh::BuildMeshOrPolygon(const CBspFile& bspFile, unsigned int face
 	m_vertexCount = face.vertexCount;
 	m_indexCount = face.meshVertCount;
 
-	Athena::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Athena::GenerateVertexBufferDescriptor(0, 0, 
-		Athena::VERTEX_BUFFER_HAS_POS | Athena::VERTEX_BUFFER_HAS_UV0 | Athena::VERTEX_BUFFER_HAS_UV1 | Athena::VERTEX_BUFFER_HAS_COLOR);
-	const auto& posVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_POSITION);
-	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV0);
-	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV1);
-	const auto& colorVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_COLOR);
+	Palleon::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Palleon::GenerateVertexBufferDescriptor(0, 0, 
+		Palleon::VERTEX_BUFFER_HAS_POS | Palleon::VERTEX_BUFFER_HAS_UV0 | Palleon::VERTEX_BUFFER_HAS_UV1 | Palleon::VERTEX_BUFFER_HAS_COLOR);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_UV0);
+	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_UV1);
+	const auto& colorVertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_COLOR);
 
 	m_vertices = new uint8[bufferDesc.GetVertexSize() * m_vertexCount];
 	m_indices = new uint16[m_indexCount];
@@ -100,7 +100,7 @@ void CBspFaceMesh::BuildMeshOrPolygon(const CBspFile& bspFile, unsigned int face
 			*reinterpret_cast<CVector3*>(vertexPtr + posVertexItem->offset) = position;
 			*reinterpret_cast<CVector2*>(vertexPtr + uv0VertexItem->offset) = texCoord0;
 			*reinterpret_cast<CVector2*>(vertexPtr + uv1VertexItem->offset) = texCoord1;
-			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
+			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Palleon::CGraphicDevice::ConvertColorToUInt32(color);
 			vertexPtr += bufferDesc.GetVertexSize();
 		}
 	}
@@ -182,12 +182,12 @@ void CBspFaceMesh::BuildPatch(const CBspFile& bspFile, unsigned int faceIndex)
 	m_vertexCount = vertexCount;
 	m_indexCount = indexCount;
 
-	Athena::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Athena::GenerateVertexBufferDescriptor(vertexCount, indexCount, 
-		Athena::VERTEX_BUFFER_HAS_POS | Athena::VERTEX_BUFFER_HAS_UV0 | Athena::VERTEX_BUFFER_HAS_UV1 | Athena::VERTEX_BUFFER_HAS_COLOR);
-	const auto& posVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_POSITION);
-	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV0);
-	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_UV1);
-	const auto& colorVertexItem = bufferDesc.GetVertexItem(Athena::VERTEX_ITEM_ID_COLOR);
+	Palleon::VERTEX_BUFFER_DESCRIPTOR bufferDesc = Palleon::GenerateVertexBufferDescriptor(vertexCount, indexCount, 
+		Palleon::VERTEX_BUFFER_HAS_POS | Palleon::VERTEX_BUFFER_HAS_UV0 | Palleon::VERTEX_BUFFER_HAS_UV1 | Palleon::VERTEX_BUFFER_HAS_COLOR);
+	const auto& posVertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_POSITION);
+	const auto& uv0VertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_UV0);
+	const auto& uv1VertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_UV1);
+	const auto& colorVertexItem = bufferDesc.GetVertexItem(Palleon::VERTEX_ITEM_ID_COLOR);
 
 	m_vertices = new uint8[bufferDesc.GetVertexSize() * m_vertexCount];
 	m_indices = new uint16[m_indexCount];
@@ -212,7 +212,7 @@ void CBspFaceMesh::BuildPatch(const CBspFile& bspFile, unsigned int faceIndex)
 			*reinterpret_cast<CVector3*>(vertexPtr + posVertexItem->offset) = position;
 			*reinterpret_cast<CVector2*>(vertexPtr + uv0VertexItem->offset) = texCoord0;
 			*reinterpret_cast<CVector2*>(vertexPtr + uv1VertexItem->offset) = texCoord1;
-			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Athena::CGraphicDevice::ConvertColorToUInt32(color);
+			*reinterpret_cast<uint32*>(vertexPtr + colorVertexItem->offset) = Palleon::CGraphicDevice::ConvertColorToUInt32(color);
 			vertexPtr += bufferDesc.GetVertexSize();
 		}
 	}

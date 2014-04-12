@@ -19,10 +19,10 @@ CLevelViewContext::CLevelViewContext(CPakFile* pakFile, const char* levelPath)
 , m_bspFile(nullptr)
 , m_elapsed(0)
 {
-	m_viewerPackage = Athena::CPackage::Create("viewer");
+	m_viewerPackage = Palleon::CPackage::Create("viewer");
 
-	auto skyTexturePath = Athena::CResourceManager::GetInstance().MakeResourcePath("viewer/skybox.dds");
-	m_skyTexture = Athena::CTextureLoader::CreateCubeTextureFromFile(skyTexturePath);
+	auto skyTexturePath = Palleon::CResourceManager::GetInstance().MakeResourcePath("viewer/skybox.dds");
+	m_skyTexture = Palleon::CTextureLoader::CreateCubeTextureFromFile(skyTexturePath);
 
 	{
 		uint8* fileData = NULL;
@@ -67,8 +67,8 @@ CLevelViewContext::CLevelViewContext(CPakFile* pakFile, const char* levelPath)
 
 CLevelViewContext::~CLevelViewContext()
 {
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_mapViewport.get());
-	Athena::CGraphicDevice::GetInstance().RemoveViewport(m_hudViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mapViewport.get());
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_hudViewport.get());
 	delete m_bspMapResourceProvider;
 	delete m_bspFile;
 }
@@ -77,25 +77,25 @@ void CLevelViewContext::InitializeMapViewport()
 {
 	m_bspMapMeshProvider = BspMapMeshProviderPtr(new CBspMapMeshProvider(m_bspFile, m_bspMapResourceProvider));
 
-	m_mapViewport = Athena::CViewport::Create();
+	m_mapViewport = Palleon::CViewport::Create();
 
-	m_mapCamera = Athena::CCamera::Create();
-	CVector2 screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	m_mapCamera = Palleon::CCamera::Create();
+	CVector2 screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 	m_mapCamera->SetPerspectiveProjection(M_PI / 4, screenSize.x / screenSize.y, 1, 10000);
 	m_mapViewport->SetCamera(m_mapCamera);
 
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_mapViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_mapViewport.get());
 
 	auto sceneRoot = m_mapViewport->GetSceneRoot();
 
 	//Create skybox
 	{
-		auto skyBox = Athena::CCubeMesh::Create();
+		auto skyBox = Palleon::CCubeMesh::Create();
 		skyBox->SetIsPeggedToOrigin(true);
 		skyBox->SetScale(CVector3(50, 50, 50));
-		skyBox->GetMaterial()->SetCullingMode(Athena::CULLING_CW);
+		skyBox->GetMaterial()->SetCullingMode(Palleon::CULLING_CW);
 		skyBox->GetMaterial()->SetTexture(0, m_skyTexture);
-		skyBox->GetMaterial()->SetTextureCoordSource(0, Athena::TEXTURE_COORD_CUBE_POS);
+		skyBox->GetMaterial()->SetTextureCoordSource(0, Palleon::TEXTURE_COORD_CUBE_POS);
 		sceneRoot->AppendChild(skyBox);
 	}
 
@@ -103,11 +103,11 @@ void CLevelViewContext::InitializeMapViewport()
 
 	//Create reflective sphere
 	{
-		auto sphere = Athena::CSphereMesh::Create();
+		auto sphere = Palleon::CSphereMesh::Create();
 		sphere->SetPosition(m_sphereBasePosition);
 		sphere->SetScale(CVector3(25, 25, 25));
 		sphere->GetMaterial()->SetTexture(0, m_reflectionRenderTarget);
-		sphere->GetMaterial()->SetTextureCoordSource(0, Athena::TEXTURE_COORD_CUBE_REFLECT);
+		sphere->GetMaterial()->SetTextureCoordSource(0, Palleon::TEXTURE_COORD_CUBE_REFLECT);
 		sceneRoot->AppendChild(sphere);
 		m_sphere = sphere;
 	}
@@ -115,27 +115,27 @@ void CLevelViewContext::InitializeMapViewport()
 
 void CLevelViewContext::InitializeHudViewport()
 {
-	CVector2 screenSize = Athena::CGraphicDevice::GetInstance().GetScreenSize();
+	CVector2 screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
 	m_forwardButtonBoundingBox = CBox2(CVector2(screenSize.x - (64 + 10), screenSize.y - (64 + 10)), CVector2(64, 64));
 	m_backwardButtonBoundingBox = CBox2(CVector2(10, screenSize.y - (64 + 10)), CVector2(64, 64));
 
-	m_hudViewport = Athena::CViewport::Create();
+	m_hudViewport = Palleon::CViewport::Create();
 
 	{
-		auto camera = Athena::CCamera::Create();
+		auto camera = Palleon::CCamera::Create();
 		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_hudViewport->SetCamera(camera);
 	}
-	Athena::CGraphicDevice::GetInstance().AddViewport(m_hudViewport.get());
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_hudViewport.get());
 
 	//Create hud elements
 	{
 		auto sceneRoot = m_hudViewport->GetSceneRoot();
 
 		{
-			Athena::LabelPtr label = Athena::CLabel::Create();
-			label->SetFont(Athena::CResourceManager::GetInstance().GetResource<Athena::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
+			Palleon::LabelPtr label = Palleon::CLabel::Create();
+			label->SetFont(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
 			label->SetPosition(CVector3(10, 10, 0));
 			label->SetWordWrapEnabled(false);
 			sceneRoot->AppendChild(label);
@@ -143,8 +143,8 @@ void CLevelViewContext::InitializeHudViewport()
 		}
 
 		{
-			Athena::LabelPtr label = Athena::CLabel::Create();
-			label->SetFont(Athena::CResourceManager::GetInstance().GetResource<Athena::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
+			Palleon::LabelPtr label = Palleon::CLabel::Create();
+			label->SetFont(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
 			label->SetPosition(CVector3(10, 40, 0));
 			label->SetWordWrapEnabled(false);
 			sceneRoot->AppendChild(label);
@@ -152,20 +152,20 @@ void CLevelViewContext::InitializeHudViewport()
 		}
 
 		{
-			Athena::SpritePtr sprite = Athena::CSprite::Create();
+			Palleon::SpritePtr sprite = Palleon::CSprite::Create();
 			sprite->SetPosition(CVector3(m_forwardButtonBoundingBox.position, 0));
 			sprite->SetSize(m_forwardButtonBoundingBox.size);
-			sprite->GetMaterial()->SetTexture(0, Athena::CResourceManager::GetInstance().GetTexture("forward.png"));
-			sprite->GetMaterial()->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_LERP);
+			sprite->GetMaterial()->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture("forward.png"));
+			sprite->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
 			sceneRoot->AppendChild(sprite);
 		}
 
 		{
-			Athena::SpritePtr sprite = Athena::CSprite::Create();
+			Palleon::SpritePtr sprite = Palleon::CSprite::Create();
 			sprite->SetPosition(CVector3(m_backwardButtonBoundingBox.position, 0));
 			sprite->SetSize(m_backwardButtonBoundingBox.size);
-			sprite->GetMaterial()->SetTexture(0, Athena::CResourceManager::GetInstance().GetTexture("backward.png"));
-			sprite->GetMaterial()->SetAlphaBlendingMode(Athena::ALPHA_BLENDING_LERP);
+			sprite->GetMaterial()->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture("backward.png"));
+			sprite->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
 			sceneRoot->AppendChild(sprite);
 		}
 	}
@@ -173,10 +173,10 @@ void CLevelViewContext::InitializeHudViewport()
 
 void CLevelViewContext::InitializeReflectionMap()
 {
-	m_reflectionCamera = Athena::CCamera::Create();
+	m_reflectionCamera = Palleon::CCamera::Create();
 	m_reflectionCamera->SetPerspectiveProjection(M_PI / 2, 1, 1, 5000);
 
-	m_reflectionRenderTarget = Athena::CGraphicDevice::GetInstance().CreateCubeRenderTarget(Athena::TEXTURE_FORMAT_RGB888, 128);
+	m_reflectionRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateCubeRenderTarget(Palleon::TEXTURE_FORMAT_RGB888, 128);
 }
 
 void CLevelViewContext::Update(float dt)
@@ -214,8 +214,8 @@ void CLevelViewContext::Update(float dt)
 
 	{
 		auto metricsText = string_format("Draw Calls = %d - FPS = %d", 
-			Athena::CGraphicDevice::GetInstance().GetDrawCallCount(),
-			static_cast<int>(Athena::CGraphicDevice::GetInstance().GetFrameRate()));
+			Palleon::CGraphicDevice::GetInstance().GetDrawCallCount(),
+			static_cast<int>(Palleon::CGraphicDevice::GetInstance().GetFrameRate()));
 		m_metricsLabel->SetText(metricsText);
 	}
 
@@ -270,7 +270,7 @@ void CLevelViewContext::UpdateReflectionMap()
 	{
 		m_reflectionCamera->LookAt(m_sphere->GetPosition(), spherePosition + lookAtDirections[i], lookAtUps[i]);
 		m_mapViewport->SetCamera(m_reflectionCamera);
-		//m_reflectionRenderTarget->Draw(static_cast<Athena::CUBEMAP_FACE>(i), m_mapViewport);
+		//m_reflectionRenderTarget->Draw(static_cast<Palleon::CUBEMAP_FACE>(i), m_mapViewport);
 	}
 
 	m_mapViewport->SetCamera(m_mapCamera);

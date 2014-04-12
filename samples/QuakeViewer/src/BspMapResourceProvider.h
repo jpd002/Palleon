@@ -1,7 +1,7 @@
 #ifndef _BSPMAPRESOURCEPROVIDER_H_
 #define _BSPMAPRESOURCEPROVIDER_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include <map>
 #include "PakFile.h"
 #include "BspFile.h"
@@ -19,13 +19,13 @@ public:
 
 	BspMapMaterialPtr		GetMaterial(uint32) const;
 
-	Athena::TexturePtr		GetTexture(const char*) const;
-	Athena::TexturePtr		GetLightMap(uint32) const;
+	Palleon::TexturePtr		GetTexture(const char*) const;
+	Palleon::TexturePtr		GetLightMap(uint32) const;
 
 private:
-	typedef std::map<std::string, Athena::TexturePtr> TextureMap;
+	typedef std::map<std::string, Palleon::TexturePtr> TextureMap;
 	typedef std::vector<BspMapMaterialPtr> MaterialMap;
-	typedef std::map<uint32, Athena::TexturePtr> LightMapMap;
+	typedef std::map<uint32, Palleon::TexturePtr> LightMapMap;
 	typedef std::map<std::string, QUAKE_SHADER> ShaderMap;
 
 	void					LoadTextures(const CBspFile&, CPakFile&);

@@ -1,19 +1,19 @@
 #ifndef _BSPMAPMESHPROVIDER_H_
 #define _BSPMAPMESHPROVIDER_H_
 
-#include "AthenaEngine.h"
+#include "PalleonEngine.h"
 #include "BspFile.h"
 #include "BspMapResourceProvider.h"
 #include "BatchMesh.h"
 #include "BspFaceMesh.h"
 
-class CBspMapMeshProvider : public Athena::CMeshProvider
+class CBspMapMeshProvider : public Palleon::CMeshProvider
 {
 public:
 								CBspMapMeshProvider(CBspFile*, CBspMapResourceProvider*);
 	virtual						~CBspMapMeshProvider();
 
-	void						GetMeshes(Athena::MeshArray&, const Athena::CCamera*) override;
+	void						GetMeshes(Palleon::MeshArray&, const Palleon::CCamera*) override;
 
 private:
 	typedef std::vector<BspFaceMeshPtr> FaceMeshArray;

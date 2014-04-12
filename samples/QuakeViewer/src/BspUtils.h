@@ -2,7 +2,7 @@
 #define _BSPUTILS_H_
 
 #include "BspDefs.h"
-#include "athena/Vector3.h"
+#include "PalleonEngine.h"
 
 namespace Bsp
 {
