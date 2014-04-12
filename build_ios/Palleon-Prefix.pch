@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Athena' target in the 'Athena' project
+// Prefix header for all source files of the 'Palleon' target in the 'Palleon' project
 //
 
 #ifdef __OBJC__
