@@ -2,11 +2,13 @@
 #include <emscripten.h>
 #include "athena/html5/Html5Canvas.h"
 #include "athena/html5/Html5GraphicDevice.h"
+#include "athena/html5/Html5ResourceManager.h"
 
 using namespace Athena;
 
 CHtml5Canvas::CHtml5Canvas()
 {
+	CHtml5ResourceManager::CreateInstance();
 	CHtml5GraphicDevice::CreateInstance();
 
 	m_application = CreateApplication();

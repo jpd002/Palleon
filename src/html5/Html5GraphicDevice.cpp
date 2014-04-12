@@ -11,8 +11,11 @@ using namespace Athena;
 //#define CHECKEGLERROR()
 //#endif
 
+#define SCREEN_WIDTH	1024
+#define SCREEN_HEIGHT	768
+
 CHtml5GraphicDevice::CHtml5GraphicDevice()
-: CGlEsGraphicDevice(CVector2(640, 480), 1)
+: CGlEsGraphicDevice(CVector2(SCREEN_WIDTH, SCREEN_HEIGHT), 1)
 {
 	static const EGLint configAttribs[] =
 	{
@@ -39,7 +42,7 @@ CHtml5GraphicDevice::CHtml5GraphicDevice()
 		EGL_NONE
 	};
 
-	emscripten_set_canvas_size(640, 480);
+	emscripten_set_canvas_size(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
 	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 	CHECKEGLERROR();
