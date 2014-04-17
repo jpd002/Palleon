@@ -25,5 +25,8 @@ namespace Palleon
 		int						MouseUpCallback(int, const EmscriptenMouseEvent*);
 		
 		CApplication*			m_application = nullptr;
+		double					m_currentTime = 0;
+		float					m_frameCounterTime = 0;
+		unsigned int			m_currentFrameCount = 0;
 	};
 }

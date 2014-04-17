@@ -22,6 +22,7 @@ CHtml5Canvas::~CHtml5Canvas()
 void CHtml5Canvas::StartMainLoop()
 {
 	std::cout << "Starting main loop..." << std::endl;
+	m_currentTime = emscripten_get_now();
 	emscripten_set_mousemove_callback("canvas", this, 1, &CHtml5Canvas::MouseMoveCallbackStub);
 	emscripten_set_mousedown_callback("canvas", this, 1, &CHtml5Canvas::MouseDownCallbackStub);
 	emscripten_set_mouseup_callback("canvas", this, 1, &CHtml5Canvas::MouseUpCallbackStub);
@@ -50,8 +51,22 @@ int CHtml5Canvas::MouseUpCallbackStub(int eventType, const EmscriptenMouseEvent*
 
 void CHtml5Canvas::MainLoopProc()
 {
-	m_application->Update(1.f / 60.f);
+	auto nextTime = emscripten_get_now();
+	auto deltaTime = (nextTime - m_currentTime) / 1000.f;
+	m_currentTime = nextTime;
+	
+	m_application->Update(static_cast<float>(deltaTime));
 	CHtml5GraphicDevice::GetInstance().Draw();
+	
+	m_currentFrameCount++;
+	m_frameCounterTime += deltaTime;
+	if(m_frameCounterTime > 1)
+	{
+		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
+		m_frameCounterTime = 0;
+		m_currentFrameCount = 0;
+		static_cast<CGlEsGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
+	}
 }
 
 int CHtml5Canvas::MouseMoveCallback(int eventType, const EmscriptenMouseEvent* mouseEvent)
