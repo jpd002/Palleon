@@ -45,6 +45,8 @@ CGlEsGraphicDevice::~CGlEsGraphicDevice()
 
 void CGlEsGraphicDevice::Initialize()
 {
+	auto extensions = reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS));
+	m_hasVertexArrayObjects = strstr(extensions, "GL_OES_vertex_array_object") != nullptr;
 	CreateShadowMap();
 }
 
@@ -78,8 +80,13 @@ void CGlEsGraphicDevice::Draw()
 	}
 	CHECKGLERROR();
 	
-	//Make sure VAO doesn't leak somewhere else
-	glBindVertexArrayOES(0);
+	//Make sure buffers don't leak somewhere else
+	if(m_hasVertexArrayObjects)
+	{
+		glBindVertexArrayOES(0);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	CHECKGLERROR();
 }
 
@@ -176,7 +183,7 @@ void CGlEsGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 
 VertexBufferPtr CGlEsGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
 {
-	return VertexBufferPtr(new CGlEsVertexBuffer(bufferDesc));
+	return VertexBufferPtr(new CGlEsVertexBuffer(bufferDesc, m_hasVertexArrayObjects));
 }
 
 TexturePtr CGlEsGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
@@ -224,8 +231,6 @@ void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, cons
 	CGlEsVertexBuffer* vertexBufferGen = static_cast<CGlEsVertexBuffer*>(mesh->GetVertexBuffer().get());
 	assert(vertexBufferGen != NULL);
 	
-	GLuint vertexArray = vertexBufferGen->GetVertexArray();
-
 	//Setup material
 	{
 		auto material = mesh->GetMaterial();
@@ -295,9 +300,17 @@ void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, cons
 		
 		glDepthMask(mesh->GetIsPeggedToOrigin() ? GL_FALSE : GL_TRUE);
 	}
-			
-	glBindVertexArrayOES(vertexArray);
-	CHECKGLERROR();
+	
+	if(m_hasVertexArrayObjects)
+	{
+		GLuint vertexArray = vertexBufferGen->GetVertexArray();
+		glBindVertexArrayOES(vertexArray);
+		CHECKGLERROR();
+	}
+	else
+	{
+		vertexBufferGen->BindBuffers();
+	}
 	
 	GLenum primitiveType = GL_TRIANGLES;
 	GLsizei primitiveCount = mesh->GetPrimitiveCount();

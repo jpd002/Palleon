@@ -43,6 +43,8 @@ namespace Palleon
 
 		void								CreateShadowMap();
 		
+		bool								m_hasVertexArrayObjects = false;
+
 		CVector2							m_scaledScreenSize = CVector2(0, 0);
 		GlEsEffectPtr						m_shadowMapEffect;
 		

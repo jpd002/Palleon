@@ -4,11 +4,8 @@
 
 using namespace Palleon;
 
-CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor, bool useVertexArray)
 : CVertexBuffer(descriptor)
-, m_vertexBuffer(0)
-, m_indexBuffer(0)
-, m_vertexArray(0)
 {
 	//Create vertex buffer
 	{
@@ -41,6 +38,7 @@ CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 	}
 	
 	//Create vertex array
+	if(useVertexArray)
 	{
 		glGenVertexArraysOES(1, &m_vertexArray);
 		CHECKGLERROR();
@@ -48,48 +46,7 @@ CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 		glBindVertexArrayOES(m_vertexArray);
 		CHECKGLERROR();
 		
-		glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-		
-		uint32 vertexSize = descriptor.GetVertexSize();
-
-		for(const auto& vertexItem : descriptor.vertexItems)
-		{
-			if(vertexItem.id == VERTEX_ITEM_ID_NONE) continue;
-			
-			GLuint size = 0;
-			GLenum type = GL_FLOAT;
-			GLboolean normalized = GL_FALSE;
-			switch(vertexItem.id)
-			{
-			case VERTEX_ITEM_ID_POSITION:
-			case VERTEX_ITEM_ID_NORMAL:
-				size = 3;
-				type = GL_FLOAT;
-				normalized = GL_FALSE;
-				break;
-			case VERTEX_ITEM_ID_UV0:
-			case VERTEX_ITEM_ID_UV1:
-				size = 2;
-				type = GL_FLOAT;
-				normalized = GL_FALSE;
-				break;
-			case VERTEX_ITEM_ID_COLOR:
-				size = 4;
-				type = GL_UNSIGNED_BYTE;
-				normalized = GL_TRUE;
-				break;
-			default:
-				size = vertexItem.size / sizeof(float);
-				type = GL_FLOAT;
-				normalized = GL_FALSE;
-				break;
-			}
-			
-			glEnableVertexAttribArray(vertexItem.id);
-			glVertexAttribPointer(vertexItem.id, size, type, normalized, vertexSize, reinterpret_cast<const GLvoid*>(vertexItem.offset));
-			CHECKGLERROR();
-		}
+		BindBuffers();
 		
 		glBindVertexArrayOES(0);
 	}
@@ -97,7 +54,10 @@ CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 
 CGlEsVertexBuffer::~CGlEsVertexBuffer()
 {
-	glDeleteVertexArraysOES(1, &m_vertexArray);
+	if(m_vertexArray != -1)
+	{
+		glDeleteVertexArraysOES(1, &m_vertexArray);
+	}
 	glDeleteBuffers(1, &m_vertexBuffer);
 	glDeleteBuffers(1, &m_indexBuffer);
 }
@@ -137,14 +97,50 @@ void CGlEsVertexBuffer::UnlockIndices()
 	CHECKGLERROR();
 }
 
-GLuint CGlEsVertexBuffer::GetVertexBuffer() const
+void CGlEsVertexBuffer::BindBuffers() const
 {
-	return m_vertexBuffer;
-}
-
-GLuint CGlEsVertexBuffer::GetIndexBuffer() const
-{
-	return m_indexBuffer;
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+	
+	uint32 vertexSize = m_descriptor.GetVertexSize();
+	
+	for(const auto& vertexItem : m_descriptor.vertexItems)
+	{
+		if(vertexItem.id == VERTEX_ITEM_ID_NONE) continue;
+		
+		GLuint size = 0;
+		GLenum type = GL_FLOAT;
+		GLboolean normalized = GL_FALSE;
+		switch(vertexItem.id)
+		{
+			case VERTEX_ITEM_ID_POSITION:
+			case VERTEX_ITEM_ID_NORMAL:
+				size = 3;
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
+				break;
+			case VERTEX_ITEM_ID_UV0:
+			case VERTEX_ITEM_ID_UV1:
+				size = 2;
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
+				break;
+			case VERTEX_ITEM_ID_COLOR:
+				size = 4;
+				type = GL_UNSIGNED_BYTE;
+				normalized = GL_TRUE;
+				break;
+			default:
+				size = vertexItem.size / sizeof(float);
+				type = GL_FLOAT;
+				normalized = GL_FALSE;
+				break;
+		}
+		
+		glEnableVertexAttribArray(vertexItem.id);
+		glVertexAttribPointer(vertexItem.id, size, type, normalized, vertexSize, reinterpret_cast<const GLvoid*>(vertexItem.offset));
+		CHECKGLERROR();
+	}
 }
 
 GLuint CGlEsVertexBuffer::GetVertexArray() const

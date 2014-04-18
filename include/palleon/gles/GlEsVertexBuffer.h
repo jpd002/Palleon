@@ -8,19 +8,19 @@ namespace Palleon
 	class CGlEsVertexBuffer : public CVertexBuffer
 	{
 	public:
-												CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&);
+												CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&, bool);
 		virtual									~CGlEsVertexBuffer();
 
 		virtual void							UnlockVertices(uint32) override;
 		virtual void							UnlockIndices() override;
-		
-		GLuint									GetVertexBuffer() const;
-		GLuint									GetIndexBuffer() const;
+
+		void									BindBuffers() const;
 		GLuint									GetVertexArray() const;
 		
 	protected:
-		GLuint									m_vertexBuffer;
-		GLuint									m_indexBuffer;
-		GLuint									m_vertexArray;
+		
+		GLuint									m_vertexBuffer = -1;
+		GLuint									m_indexBuffer = -1;
+		GLuint									m_vertexArray = -1;
 	};
 }
