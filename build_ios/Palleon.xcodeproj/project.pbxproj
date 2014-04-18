@@ -606,19 +606,19 @@
 		7E7D874013F719E500AD9F7F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				706F71A718F5D35000224718 /* gles */,
 				70B582481635214200C40F25 /* animation */,
 				7E7D877313F71AD900AD9F7F /* Application.h */,
-				709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */,
-				7E407F8B1401F90500431963 /* PalleonEngine.h */,
 				70104E5A167409D300807647 /* audio */,
 				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
 				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
 				702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */,
 				702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */,
+				706F71A718F5D35000224718 /* gles */,
 				7E5C123D14F19F1200292DD3 /* graphics */,
 				7E2885B813F862F800F606EB /* ios */,
 				7E407F811401F88700431963 /* math */,
+				709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */,
+				7E407F8B1401F90500431963 /* PalleonEngine.h */,
 				7096E31318E015960068769A /* ParseUtils.cpp */,
 				7096E31918E015A00068769A /* ParseUtils.h */,
 				7E5C123F14F1A01000292DD3 /* resources */,
