@@ -179,10 +179,10 @@ std::string CDx11UberEffectGenerator::GenerateDiffuseMapCoordComputation(unsigne
 	switch(source)
 	{
 	case DIFFUSE_MAP_COORD_UV0:
-		result += PrintLine("	output.diffuseCoord%d = mul(float4(input.texCoord0, 0, 1), c_diffuse%dTextureMatrix);", index, index);
+		result += PrintLine("	output.diffuseCoord%d = mul(c_diffuse%dTextureMatrix, float4(input.texCoord0, 0, 1));", index, index);
 		break;
 	case DIFFUSE_MAP_COORD_UV1:
-		result += PrintLine("	output.diffuseCoord%d = mul(float4(input.texCoord1, 0, 1), c_diffuse%dTextureMatrix);", index, index);
+		result += PrintLine("	output.diffuseCoord%d = mul(c_diffuse%dTextureMatrix, float4(input.texCoord1, 0, 1));", index, index);
 		break;
 	case DIFFUSE_MAP_COORD_CUBE_POS:
 		result += PrintLine("	output.diffuseCoord%d = normalize(worldPosition).xyz;", index);
