@@ -59,8 +59,13 @@ void CDx11Effect::CompileVertexShader(const std::string& shaderText)
 	Framework::Win32::CComPtr<ID3DBlob> vertexShaderCode;
 	Framework::Win32::CComPtr<ID3DBlob> vertexShaderErrors;
 
+	UINT compileFlags = 0;
+#ifdef _DEBUG
+	compileFlags |= D3DCOMPILE_DEBUG;
+#endif
+
 	HRESULT result = D3DCompile(shaderText.c_str(), shaderText.length() + 1, "vs", nullptr, nullptr, "VertexProgram", 
-		"vs_5_0", D3DCOMPILE_DEBUG, 0, &vertexShaderCode, &vertexShaderErrors);
+		"vs_5_0", compileFlags, 0, &vertexShaderCode, &vertexShaderErrors);
 	if(FAILED(result))
 	{
 		if(!vertexShaderErrors.IsEmpty())
@@ -85,8 +90,13 @@ void CDx11Effect::CompilePixelShader(const std::string& shaderText)
 	Framework::Win32::CComPtr<ID3DBlob> pixelShaderCode;
 	Framework::Win32::CComPtr<ID3DBlob> pixelShaderErrors;
 
+	UINT compileFlags = 0;
+#ifdef _DEBUG
+	compileFlags |= D3DCOMPILE_DEBUG;
+#endif
+
 	HRESULT result = D3DCompile(shaderText.c_str(), shaderText.length() + 1, "ps", nullptr, nullptr, "PixelProgram",
-		"ps_5_0", D3DCOMPILE_DEBUG, 0, &pixelShaderCode, &pixelShaderErrors);
+		"ps_5_0", compileFlags, 0, &pixelShaderCode, &pixelShaderErrors);
 	if(FAILED(result))
 	{
 		if(!pixelShaderErrors.IsEmpty())
