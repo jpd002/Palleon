@@ -21,6 +21,18 @@ GLuint CGlEsEffect::GetProgram() const
 	return m_program;
 }
 
+void CGlEsEffect::ValidateProgram()
+{
+	glValidateProgram(m_program);
+	DumpProgramLog(m_program);
+	
+	{
+		GLint status = 0;
+		glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
+		assert(status != 0);
+	}
+}
+
 void CGlEsEffect::BuildProgram(const std::string& vertexShaderSource, const std::string& pixelShaderSource, const AttributeBindingArray& attributeBindings)
 {	
 	GLuint vertexShader = CompileShader(vertexShaderSource.c_str(), GL_VERTEX_SHADER);
@@ -47,16 +59,7 @@ void CGlEsEffect::BuildProgram(const std::string& vertexShaderSource, const std:
 		glGetProgramiv(program, GL_LINK_STATUS, &status);
 		assert(status != 0);
 	}
-	
-	glValidateProgram(program);
-	DumpProgramLog(program);
-	
-	{
-		GLint status = 0;
-		glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
-		assert(status != 0);
-	}
-	
+		
 	glDeleteShader(vertexShader);
 	glDeleteShader(pixelShader);
 	

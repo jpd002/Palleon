@@ -17,7 +17,8 @@ namespace Palleon
 		virtual void	UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) = 0;
 		
 		GLuint			GetProgram() const;
-				
+		void			ValidateProgram();
+		
 	protected:
 		typedef std::pair<uint32, std::string> AttributeBinding;
 		typedef std::vector<AttributeBinding> AttributeBindingArray;

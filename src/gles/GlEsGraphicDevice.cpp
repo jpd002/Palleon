@@ -334,6 +334,10 @@ void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, cons
 			break;
 	}
 	
+#ifdef _DEBUG
+	effect->ValidateProgram();
+#endif
+	
 	glDrawElements(primitiveType, vertexCount, GL_UNSIGNED_SHORT, nullptr);
 	CHECKGLERROR();
 	
