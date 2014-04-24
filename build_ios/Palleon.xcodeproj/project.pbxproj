@@ -72,7 +72,6 @@
 		709C28F41822088E00B6B2D0 /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EA1822088E00B6B2D0 /* ResourceManager.h */; };
 		709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */; };
 		709C28F61822088E00B6B2D0 /* TextureResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EC1822088E00B6B2D0 /* TextureResource.h */; };
-		709C28F71822088E00B6B2D0 /* TgaImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28ED1822088E00B6B2D0 /* TgaImage.h */; };
 		709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28FC182209A000B6B2D0 /* Scene.cpp */; };
 		709C28FF182209B200B6B2D0 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28FE182209B200B6B2D0 /* Scene.h */; };
 		709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */; };
@@ -88,6 +87,8 @@
 		70B582561635216800C40F25 /* TextureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582521635216800C40F25 /* TextureAnimation.h */; };
 		70C6E54D1685709E001544EB /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C6E54C1685709E001544EB /* Emitter.cpp */; };
 		70C6E550168570A8001544EB /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C6E54F168570A8001544EB /* Emitter.h */; };
+		70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70D498471907FC1800A6557C /* TextureConverters.cpp */; };
+		70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D498491907FC3400A6557C /* TextureConverters.h */; };
 		7E407F851401F8AD00431963 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F831401F8AD00431963 /* Frustum.h */; };
 		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
@@ -246,7 +247,6 @@
 		709C28EA1822088E00B6B2D0 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../include/palleon/resources/ResourceManager.h; sourceTree = "<group>"; };
 		709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneDescriptor.h; path = ../include/palleon/resources/SceneDescriptor.h; sourceTree = "<group>"; };
 		709C28EC1822088E00B6B2D0 /* TextureResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureResource.h; path = ../include/palleon/resources/TextureResource.h; sourceTree = "<group>"; };
-		709C28ED1822088E00B6B2D0 /* TgaImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TgaImage.h; path = ../include/palleon/resources/TgaImage.h; sourceTree = "<group>"; };
 		709C28FC182209A000B6B2D0 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../src/Scene.cpp; sourceTree = "<group>"; };
 		709C28FE182209B200B6B2D0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../include/palleon/Scene.h; sourceTree = "<group>"; };
 		709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Palleon-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -266,6 +266,8 @@
 		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../include/palleon/TextureAnimation.h; sourceTree = "<group>"; };
 		70C6E54C1685709E001544EB /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../src/Emitter.cpp; sourceTree = "<group>"; };
 		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/palleon/Emitter.h; sourceTree = "<group>"; };
+		70D498471907FC1800A6557C /* TextureConverters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureConverters.cpp; path = ../src/resources/TextureConverters.cpp; sourceTree = "<group>"; };
+		70D498491907FC3400A6557C /* TextureConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureConverters.h; path = ../include/palleon/resources/TextureConverters.h; sourceTree = "<group>"; };
 		70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuakeViewer.xcodeproj; path = ../samples/QuakeViewer/build_ios/QuakeViewer.xcodeproj; sourceTree = "<group>"; };
 		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../include/palleon/Frustum.h; sourceTree = "<group>"; };
 		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/palleon/Plane.h; sourceTree = "<group>"; };
@@ -569,9 +571,10 @@
 				709C28EA1822088E00B6B2D0 /* ResourceManager.h */,
 				709C28DB1822088000B6B2D0 /* SceneDescriptor.cpp */,
 				709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */,
+				70D498471907FC1800A6557C /* TextureConverters.cpp */,
+				70D498491907FC3400A6557C /* TextureConverters.h */,
 				709C28DC1822088000B6B2D0 /* TextureResource.cpp */,
 				709C28EC1822088E00B6B2D0 /* TextureResource.h */,
-				709C28ED1822088E00B6B2D0 /* TgaImage.h */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -685,7 +688,6 @@
 				706F71CC18F5D37400224718 /* GlEsVertexBuffer.h in Headers */,
 				7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */,
 				709C28F21822088E00B6B2D0 /* PvrImage.h in Headers */,
-				709C28F71822088E00B6B2D0 /* TgaImage.h in Headers */,
 				7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */,
 				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
 				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
@@ -704,6 +706,7 @@
 				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
 				7096E31A18E015A00068769A /* ParseUtils.h in Headers */,
+				70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
 				70271B9918D522F500777C53 /* ConeMesh.h in Headers */,
 				706F71C618F5D37400224718 /* GlEsGraphicDevice.h in Headers */,
@@ -850,6 +853,7 @@
 				70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */,
 				709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */,
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
+				70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				709C28E11822088000B6B2D0 /* ResourceManager.cpp in Sources */,
 				706F71B718F5D35F00224718 /* GlEsTexture.cpp in Sources */,

@@ -57,6 +57,7 @@ add_library(Palleon
 	../src/resources/Package.cpp
 	../src/resources/ResourceManager.cpp
 	../src/resources/SceneDescriptor.cpp
+	../src/resources/TextureConverters.cpp
 	../src/resources/TextureResource.cpp
 	../src/Scene.cpp
 	../src/SceneNode.cpp
