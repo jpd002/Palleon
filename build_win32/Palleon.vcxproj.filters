@@ -204,237 +204,239 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\AthenaEngine.h" />
-    <ClInclude Include="..\include\athena\Application.h">
+    <ClInclude Include="..\include\palleon\AnimationController.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\AnimationCurve.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Application.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\ConfigManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Box2.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\CatmullRom.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Frustum.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Quaternion.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Matrix4.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\MathDef.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Camera.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Color.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Vector3.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Vector2.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Tween.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Label.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Material.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Mesh.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\MeshProvider.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Sprite.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\SceneNode.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\NinePatchButton.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Texture.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\VertexBuffer.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Viewport.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Widget.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\NinePatch.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\GraphicDevice.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\ButtonBase.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\ILayoutable.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\SpriteButton.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Plane.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\InputManager.h">
-      <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Win32ResourceManager.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\RenderTarget.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\CubeRenderTarget.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\IAnimation.h">
-      <Filter>Source Files\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\AnimationController.h">
-      <Filter>Source Files\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\AnimationCurve.h">
-      <Filter>Source Files\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\TextureAnimation.h">
-      <Filter>Source Files\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\RumbleAnimation.h">
-      <Filter>Source Files\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\AudioClip.h">
+    <ClInclude Include="..\include\palleon\AudioClip.h">
       <Filter>Source Files\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\AudioManager.h">
+    <ClInclude Include="..\include\palleon\AudioManager.h">
       <Filter>Source Files\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Win32AudioManager.h">
-      <Filter>Source Files\win32</Filter>
+    <ClInclude Include="..\include\palleon\AxisMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Win32AudioClip.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Emitter.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Win32ApplicationWindow.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11GraphicDevice.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11VertexBuffer.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11Texture.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\EmitterModifier.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\EmitterDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\FontDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\NinePatchDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\PvrImage.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\Resource.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\ResourceManager.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\SceneDescriptor.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\TextureResource.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\Package.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Scene.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11Effect.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11ShadowMapEffect.h">
-      <Filter>Source Files\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\EffectParameter.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\EffectProvider.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Effect.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11UberEffect.h">
-      <Filter>Source Files\win32\UberEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11UberEffectGenerator.h">
-      <Filter>Source Files\win32\UberEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\win32\Dx11UberEffectProvider.h">
-      <Filter>Source Files\win32\UberEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\resources\DdsImage.h">
-      <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\Vector4.h">
+    <ClInclude Include="..\include\palleon\Box2.h">
       <Filter>Source Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\Sphere.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\MathOps.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\CubeMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\SphereMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\ConeMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\AxisMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\athena\TextureLoader.h">
+    <ClInclude Include="..\include\palleon\Camera.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\athena\ParseUtils.h">
+    <ClInclude Include="..\include\palleon\ButtonBase.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\CatmullRom.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Color.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\ConeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\ConfigManager.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\CubeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\CubeRenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\DdsImage.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11Effect.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11GraphicDevice.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11ShadowMapEffect.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11Texture.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11VertexBuffer.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11UberEffect.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11UberEffectGenerator.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11UberEffectProvider.h">
+      <Filter>Source Files\win32\UberEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Effect.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EffectParameter.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EffectProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Emitter.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\EmitterDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Mesh.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Matrix4.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Vector2.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Vector3.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Vector4.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Sphere.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Quaternion.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Plane.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Win32ApplicationWindow.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Win32AudioClip.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Win32AudioManager.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Win32ResourceManager.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Viewport.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\VertexBuffer.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Sprite.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\SceneNode.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Label.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\NinePatch.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Texture.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\TextureLoader.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\GraphicDevice.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Material.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\NinePatchButton.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\SpriteButton.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\TextureResource.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Widget.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Tween.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Scene.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\PvrImage.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\ParseUtils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\MathDef.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\Package.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\RumbleAnimation.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\TextureAnimation.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\Frustum.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\ILayoutable.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\MathOps.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\PalleonEngine.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\MeshProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\ResourceManager.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\SceneDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\NinePatchDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\IAnimation.h">
+      <Filter>Source Files\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EmitterModifier.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\FontDescriptor.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\InputManager.h">
+      <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\RenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\resources\Resource.h">
+      <Filter>Source Files\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\SphereMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
