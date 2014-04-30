@@ -470,12 +470,18 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	peggedViewMatrix(3, 1) = 0;
 	peggedViewMatrix(3, 2) = 0;
 
+	DX11VIEWPORT_PARAMS viewportParams;
+	viewportParams.viewport = viewport;
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.hasShadowMap = hasShadowMap;
+	viewportParams.shadowViewProjMatrix = shadowViewProjMatrix;
 	for(const auto& mesh : m_renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CDx11Effect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
 		bool isPeggedToOrigin = mesh->GetIsPeggedToOrigin();
-		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewMatrix : viewMatrix, projMatrix, hasShadowMap, shadowViewProjMatrix);
+		viewportParams.viewMatrix = isPeggedToOrigin ? peggedViewMatrix : viewMatrix;
+		DrawMesh(viewportParams, mesh, effect);
 	}
 }
 
@@ -521,16 +527,17 @@ void CDx11GraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 
-	auto viewMatrix = camera->GetViewMatrix();
-	auto projMatrix = camera->GetProjectionMatrix();
+	DX11VIEWPORT_PARAMS viewportParams;
+	viewportParams.viewport = viewport;
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.viewMatrix = camera->GetViewMatrix();
 	for(const auto& mesh : m_renderQueue)
 	{
-		DrawMesh(mesh, m_shadowMapEffect, viewMatrix, projMatrix);
+		DrawMesh(viewportParams, mesh, m_shadowMapEffect);
 	}
 }
 
-void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, const CMatrix4& viewMatrix, const CMatrix4& projMatrix,
-	bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
+void CDx11GraphicDevice::DrawMesh(const DX11VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const Dx11EffectPtr& effect)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 
@@ -551,7 +558,7 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 
 	//Setup material
 	{
-		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewMatrix, projMatrix, shadowViewProjMatrix);
+		effect->UpdateConstants(viewportParams, material.get(), mesh->GetWorldTransformation());
 
 		//TODO: This needs to be moved in the effect class
 		unsigned int textureCount = 0;
@@ -579,7 +586,7 @@ void CDx11GraphicDevice::DrawMesh(CMesh* mesh, const Dx11EffectPtr& effect, cons
 			}
 		}
 
-		if(hasShadowMap)
+		if(viewportParams.hasShadowMap)
 		{
 			assert(samplerStates[textureCount] == nullptr);
 			assert(textureViews[textureCount] == nullptr);

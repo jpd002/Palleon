@@ -86,7 +86,7 @@ namespace Palleon
 		void							DrawViewport(CViewport*);
 		void							DrawViewportMainMap(CViewport*);
 		void							DrawViewportShadowMap(CViewport*);
-		void							DrawMesh(CMesh*, const Dx11EffectPtr&, const CMatrix4&, const CMatrix4&, bool = false, const CMatrix4& = CMatrix4::MakeIdentity());
+		void							DrawMesh(const DX11VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
 
 		HWND													m_parentWnd;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;

@@ -10,7 +10,7 @@ namespace Palleon
 										CDx11ShadowMapEffect(ID3D11Device*, ID3D11DeviceContext*);
 		virtual							~CDx11ShadowMapEffect();
 
-		virtual void					UpdateConstants(const MaterialPtr&, const CMatrix4&, const CMatrix4&, const CMatrix4&, const CMatrix4&) override;
+		virtual void					UpdateConstants(const DX11VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
 
 	private:
 		virtual D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&) override;
