@@ -41,24 +41,6 @@ bool CMaterial::operator <(const CMaterial& rhs) const
 	return m_textureSlots[0].texture.get() < rhs.m_textureSlots[0].texture.get();
 }
 
-CEffectParameter CMaterial::GetEffectParameter(const std::string& name) const
-{
-	auto paramIterator = m_effectParameters.find(name);
-	if(paramIterator != std::end(m_effectParameters))
-	{
-		return paramIterator->second;
-	}
-	else
-	{
-		return CEffectParameter();
-	}
-}
-
-void CMaterial::SetEffectParameter(const std::string& name, const CEffectParameter& param)
-{
-	m_effectParameters.insert(std::make_pair(name, param));
-}
-
 ALPHA_BLENDING_MODE CMaterial::GetAlphaBlendingMode() const
 {
 	return m_alphaBlendingMode;

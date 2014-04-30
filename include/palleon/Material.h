@@ -4,7 +4,7 @@
 #include "palleon/resources/ResourceManager.h"
 #include "palleon/Color.h"
 #include "palleon/Matrix4.h"
-#include "palleon/EffectParameter.h"
+#include "palleon/EffectParameterBag.h"
 
 namespace Palleon
 {
@@ -66,7 +66,7 @@ namespace Palleon
 		STENCIL_FAIL_ACTION_MAX
 	};
 
-	class CMaterial
+	class CMaterial : public CEffectParameterBag
 	{
 	public:
 		enum
@@ -80,9 +80,6 @@ namespace Palleon
 		static MaterialPtr			Create();
 
 		bool						operator <(const CMaterial&) const;
-
-		CEffectParameter			GetEffectParameter(const std::string&) const;
-		void						SetEffectParameter(const std::string&, const CEffectParameter&);
 
 		ALPHA_BLENDING_MODE			GetAlphaBlendingMode() const;
 		void						SetAlphaBlendingMode(ALPHA_BLENDING_MODE);
@@ -140,8 +137,6 @@ namespace Palleon
 			TEXTURE_ADDRESS_MODE	addressModeV;
 		};
 
-		typedef std::unordered_map<std::string, CEffectParameter> EffectParameterMap;
-
 		ALPHA_BLENDING_MODE			m_alphaBlendingMode;
 		CULLING_MODE				m_cullingMode;
 		CColor						m_color;
@@ -155,7 +150,5 @@ namespace Palleon
 		uint8						m_stencilValue;
 
 		TEXTURE_SLOT				m_textureSlots[MAX_TEXTURE_SLOTS];
-
-		EffectParameterMap			m_effectParameters;
 	};
 };

@@ -3,13 +3,14 @@
 #include <memory>
 #include "SceneNode.h"
 #include "Camera.h"
+#include "EffectParameterBag.h"
 
 namespace Palleon
 {
 	class CViewport;
 	typedef std::shared_ptr<CViewport> ViewportPtr;
 
-	class CViewport
+	class CViewport : public CEffectParameterBag
 	{
 	public:
 								CViewport();
