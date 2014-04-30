@@ -18,6 +18,12 @@ namespace Palleon
 	class CEffectParameter
 	{
 	public:
+									CEffectParameter();
+		explicit					CEffectParameter(float);
+		explicit					CEffectParameter(const CVector2&);
+		explicit					CEffectParameter(const CVector3&);
+		explicit					CEffectParameter(const CVector4&);
+
 		bool						IsNull() const;
 		void						SetNull();
 

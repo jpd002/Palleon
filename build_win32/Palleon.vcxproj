@@ -30,6 +30,7 @@
     <ClCompile Include="..\src\ConfigManager.cpp" />
     <ClCompile Include="..\src\CubeMesh.cpp" />
     <ClCompile Include="..\src\CubeRenderTarget.cpp" />
+    <ClCompile Include="..\src\EffectParameterBag.cpp" />
     <ClCompile Include="..\src\Emitter.cpp" />
     <ClCompile Include="..\src\EmitterModifier.cpp" />
     <ClCompile Include="..\src\Frustum.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="..\include\palleon\CubeMesh.h" />
     <ClInclude Include="..\include\palleon\CubeRenderTarget.h" />
     <ClInclude Include="..\include\palleon\Effect.h" />
+    <ClInclude Include="..\include\palleon\EffectParameterBag.h" />
     <ClInclude Include="..\include\palleon\EffectProvider.h" />
     <ClInclude Include="..\include\palleon\Emitter.h" />
     <ClInclude Include="..\include\palleon\EmitterModifier.h" />

@@ -202,6 +202,9 @@
     <ClCompile Include="..\src\ParseUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EffectParameterBag.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -437,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\SphereMesh.h">
       <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EffectParameterBag.h">
+      <Filter>Source Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

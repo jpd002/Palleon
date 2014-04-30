@@ -3,6 +3,31 @@
 
 using namespace Palleon;
 
+CEffectParameter::CEffectParameter()
+{
+
+}
+
+CEffectParameter::CEffectParameter(float value)
+{
+	SetScalar(value);
+}
+
+CEffectParameter::CEffectParameter(const CVector2& value)
+{
+	SetVector2(value);
+}
+
+CEffectParameter::CEffectParameter(const CVector3& value)
+{
+	SetVector3(value);
+}
+
+CEffectParameter::CEffectParameter(const CVector4& value)
+{
+	SetVector4(value);
+}
+
 bool CEffectParameter::IsNull() const
 {
 	return m_type == EFFECT_PARAMETER_NULL;
