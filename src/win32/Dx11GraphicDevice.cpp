@@ -461,7 +461,6 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	);
 
 	auto viewMatrix = camera->GetViewMatrix();
-	auto projMatrix = camera->GetProjectionMatrix();
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	bool hasShadowMap = shadowCamera != nullptr;
 
