@@ -56,6 +56,8 @@
 		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
 		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
 		70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7B18D76DA400FA2ABE /* DdsImage.h */; };
+		709C0B381911351C00947774 /* EffectParameterBag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C0B371911351C00947774 /* EffectParameterBag.cpp */; };
+		709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C0B3D1911352A00947774 /* EffectParameterBag.h */; };
 		709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */; };
 		709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D71822088000B6B2D0 /* FontDescriptor.cpp */; };
 		709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */; };
@@ -231,6 +233,8 @@
 		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
 		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/palleon/resources/DdsImage.h; sourceTree = "<group>"; };
+		709C0B371911351C00947774 /* EffectParameterBag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameterBag.cpp; path = ../src/EffectParameterBag.cpp; sourceTree = "<group>"; };
+		709C0B3D1911352A00947774 /* EffectParameterBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameterBag.h; path = ../include/palleon/EffectParameterBag.h; sourceTree = "<group>"; };
 		709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../src/resources/EmitterDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D71822088000B6B2D0 /* FontDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FontDescriptor.cpp; path = ../src/resources/FontDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchDescriptor.cpp; path = ../src/resources/NinePatchDescriptor.cpp; sourceTree = "<group>"; };
@@ -496,6 +500,8 @@
 				709E16E5186A689B00AEA8C7 /* Effect.h */,
 				70271B7618D5037B00777C53 /* EffectParameter.cpp */,
 				70271B7C18D5039000777C53 /* EffectParameter.h */,
+				709C0B371911351C00947774 /* EffectParameterBag.cpp */,
+				709C0B3D1911352A00947774 /* EffectParameterBag.h */,
 				709E16E6186A689B00AEA8C7 /* EffectProvider.h */,
 				70C6E54C1685709E001544EB /* Emitter.cpp */,
 				70C6E54F168570A8001544EB /* Emitter.h */,
@@ -708,6 +714,7 @@
 				7096E31A18E015A00068769A /* ParseUtils.h in Headers */,
 				70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
+				709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */,
 				70271B9918D522F500777C53 /* ConeMesh.h in Headers */,
 				706F71C618F5D37400224718 /* GlEsGraphicDevice.h in Headers */,
 				709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */,
@@ -862,6 +869,7 @@
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
 				709C28E21822088000B6B2D0 /* SceneDescriptor.cpp in Sources */,
 				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
+				709C0B381911351C00947774 /* EffectParameterBag.cpp in Sources */,
 				70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */,
 				709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */,
 				707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */,
