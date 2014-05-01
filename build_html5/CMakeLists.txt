@@ -30,6 +30,7 @@ add_library(Palleon
 	../src/ConeMesh.cpp
 	../src/CubeMesh.cpp
 	../src/EffectParameter.cpp
+	../src/EffectParameterBag.cpp
 	../src/Frustum.cpp
 	../src/gles/GlEsEffect.cpp
 	../src/gles/GlEsGraphicDevice.cpp
