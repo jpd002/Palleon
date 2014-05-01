@@ -47,10 +47,10 @@ CGlEsUberEffect::~CGlEsUberEffect()
 	
 }
 
-void CGlEsUberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix4& worldMatrix, const CMatrix4& viewMatrix, const CMatrix4& projMatrix, const CMatrix4& shadowViewProjMatrix)
+void CGlEsUberEffect::UpdateConstants(const GLESVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
 	auto meshColor = material->GetColor();
-	auto viewProjMatrix = viewMatrix * projMatrix;
+	auto viewProjMatrix = viewportParams.viewMatrix * viewportParams.projMatrix;
 
 	glUniformMatrix4fv(m_viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&viewProjMatrix));
 	glUniformMatrix4fv(m_worldMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&worldMatrix));
@@ -58,7 +58,7 @@ void CGlEsUberEffect::UpdateConstants(const MaterialPtr& material, const CMatrix
 	
 	if(m_shadowViewProjMatrixHandle != -1)
 	{
-		glUniformMatrix4fv(m_shadowViewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&shadowViewProjMatrix));
+		glUniformMatrix4fv(m_shadowViewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&viewportParams.shadowViewProjMatrix));
 	}
 	
 	unsigned int textureCount = 0;

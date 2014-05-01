@@ -118,7 +118,6 @@ void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	sceneRoot->TraverseNodes(std::bind(&CGlEsGraphicDevice::FillRenderQueue, this, std::placeholders::_1, camera.get()));
 	
 	auto viewMatrix = camera->GetViewMatrix();
-	auto projMatrix = camera->GetProjectionMatrix();
 	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
 	bool hasShadowMap = shadowCamera != nullptr;
 	
@@ -127,12 +126,18 @@ void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	peggedViewMatrix(3, 1) = 0;
 	peggedViewMatrix(3, 2) = 0;
 	
+	GLESVIEWPORT_PARAMS viewportParams;
+	viewportParams.viewport = viewport;
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.hasShadowMap = hasShadowMap;
+	viewportParams.shadowViewProjMatrix = shadowViewProjMatrix;
 	for(const auto& mesh : m_renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CGlEsEffect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
 		bool isPeggedToOrigin = mesh->GetIsPeggedToOrigin();
-		DrawMesh(mesh, effect, isPeggedToOrigin ? peggedViewMatrix : viewMatrix, projMatrix, hasShadowMap, shadowViewProjMatrix);
+		viewportParams.viewMatrix = isPeggedToOrigin ? peggedViewMatrix : viewMatrix;
+		DrawMesh(viewportParams, mesh, effect);
 	}
 }
 
@@ -173,11 +178,13 @@ void CGlEsGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 	
-	auto viewMatrix = camera->GetViewMatrix();
-	auto projMatrix = camera->GetProjectionMatrix();
+	GLESVIEWPORT_PARAMS viewportParams;
+	viewportParams.viewport = viewport;
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.viewMatrix = camera->GetViewMatrix();
 	for(const auto& mesh : m_renderQueue)
 	{
-		DrawMesh(mesh, m_shadowMapEffect, viewMatrix, projMatrix);
+		DrawMesh(viewportParams, mesh, m_shadowMapEffect);
 	}
 }
 
@@ -224,7 +231,7 @@ bool CGlEsGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* came
 	return true;
 }
 
-void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, const CMatrix4& viewMatrix, const CMatrix4& projMatrix, bool hasShadowMap, const CMatrix4& shadowViewProjMatrix)
+void CGlEsGraphicDevice::DrawMesh(const GLESVIEWPORT_PARAMS& viewportParams, CMesh* mesh, const GlEsEffectPtr& effect)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	
@@ -239,7 +246,7 @@ void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, cons
 		glUseProgram(effect->GetProgram());
 		CHECKGLERROR();
 		
-		effect->UpdateConstants(material, mesh->GetWorldTransformation(), viewMatrix, projMatrix, shadowViewProjMatrix);
+		effect->UpdateConstants(viewportParams, material.get(), mesh->GetWorldTransformation());
 		CHECKGLERROR();
 
 		unsigned int textureCount = 0;
@@ -257,7 +264,7 @@ void CGlEsGraphicDevice::DrawMesh(CMesh* mesh, const GlEsEffectPtr& effect, cons
 			textureCount++;
 		}
 		
-		if(hasShadowMap)
+		if(viewportParams.hasShadowMap)
 		{
 			glActiveTexture(GL_TEXTURE0 + textureCount);
 			glBindTexture(GL_TEXTURE_2D, m_shadowMapTexture);
