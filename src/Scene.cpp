@@ -268,6 +268,16 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
 		}
 		result = sprite;
 	}
+	else if(nodeDesc.type == "NinePatch")
+	{
+		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
+		auto ninePatch = GetValueFromItemInfo<std::string>(nodeDesc.properties, "NinePatch", "");
+
+		auto ninePatchNode = CNinePatch::Create();
+		ninePatchNode->SetDescriptor(CResourceManager::GetInstance().GetResource<CNinePatchDescriptor>(ninePatch));
+		ninePatchNode->SetSize(size);
+		result = ninePatchNode;
+	}
 	else if(nodeDesc.type == "Label")
 	{
 		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
