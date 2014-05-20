@@ -384,11 +384,13 @@ void CScene::CreateMaterials(const CSceneDescriptor* descriptor)
 		auto material = CMaterial::Create();
 		auto texture0 = GetValueFromItemInfo<std::string>(materialInfo, "Texture0", "");
 		auto alphaBlendingMode = GetEnumFromItemInfo(materialInfo, "AlphaBlendingMode", c_alphaBlendingModeTranslator);
+		auto color = GetValueFromItemInfo<CColor>(materialInfo, "Color", CColor(1, 1, 1, 1));
 		if(!texture0.empty())
 		{
 			material->SetTexture(0, CResourceManager::GetInstance().GetTexture(texture0.c_str()));
 		}
 		material->SetAlphaBlendingMode(alphaBlendingMode);
+		material->SetColor(color);
 		m_materials.insert(std::make_pair(materialInfoPair.first, material));
 	}
 }
