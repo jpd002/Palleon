@@ -1,0 +1,13 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(602BE7B1-9DD8-4B20-A432-61BB6F44AA5C)
+]
+interface IEmbedApplication : IUnknown
+{
+	HRESULT Update(
+		[in] float dt
+	);
+};
