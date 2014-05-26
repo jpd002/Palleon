@@ -4,7 +4,10 @@
     <Import Project="..\build_win32\ExternalDependencies.userprops" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <IntDir>$(PlatformName)\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(PlatformName)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ZLIB_PATH);$(BOOST_PATH);$(SolutionDir)..\include;$(FRAMEWORK_PATH)\include</AdditionalIncludeDirectories>
