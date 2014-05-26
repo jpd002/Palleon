@@ -76,6 +76,8 @@ namespace Palleon
 		virtual							~CDx11GraphicDevice();
 
 		void							CreateDevice();
+		void							CreateWindowlessDevice();
+		void							CreateGlobalResources();
 		void							CreateShadowMap();
 
 		ID3D11BlendState*				GetBlendState(ALPHA_BLENDING_MODE);
@@ -92,6 +94,7 @@ namespace Palleon
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
 		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_renderTarget;
 		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_renderTargetView;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_depthBuffer;
 		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_depthBufferView;

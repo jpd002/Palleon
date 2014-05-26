@@ -19,7 +19,15 @@ CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSiz
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x1000);
 
-	CreateDevice();
+	if(parentWnd == NULL)
+	{
+		CreateWindowlessDevice();
+	}
+	else
+	{
+		CreateDevice();
+	}
+	CreateGlobalResources();
 	CreateShadowMap();
 	m_defaultEffectProvider = std::make_shared<CDx11UberEffectProvider>(m_device, m_deviceContext);
 	m_shadowMapEffect = std::make_shared<CDx11ShadowMapEffect>(m_device, m_deviceContext);
@@ -72,6 +80,49 @@ void CDx11GraphicDevice::CreateDevice()
 		result = m_device->CreateRenderTargetView(backBuffer, nullptr, &m_renderTargetView);
 		assert(SUCCEEDED(result));
 	}
+}
+
+void CDx11GraphicDevice::CreateWindowlessDevice()
+{
+	HRESULT result = S_OK;
+
+	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+
+	UINT deviceCreationFlags = 0;
+#ifdef _DEBUG
+	deviceCreationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, deviceCreationFlags, &featureLevel, 1,
+		D3D11_SDK_VERSION, &m_device, nullptr, &m_deviceContext);
+	assert(SUCCEEDED(result));
+
+	{
+		D3D11_TEXTURE2D_DESC renderTargetDesc = {};
+
+		renderTargetDesc.Width				= static_cast<UINT>(m_screenSize.x);
+		renderTargetDesc.Height				= static_cast<UINT>(m_screenSize.y);
+		renderTargetDesc.MipLevels			= 1;
+		renderTargetDesc.ArraySize			= 1;
+		renderTargetDesc.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
+		renderTargetDesc.SampleDesc.Count	= SAMPLE_COUNT;
+		renderTargetDesc.SampleDesc.Quality	= 0;
+		renderTargetDesc.Usage				= D3D11_USAGE_DEFAULT;
+		renderTargetDesc.BindFlags			= D3D11_BIND_RENDER_TARGET;
+		renderTargetDesc.CPUAccessFlags		= 0;
+		renderTargetDesc.MiscFlags			= 0;
+
+		result = m_device->CreateTexture2D(&renderTargetDesc, nullptr, &m_renderTarget);
+		assert(SUCCEEDED(result));
+
+		result = m_device->CreateRenderTargetView(m_renderTarget, nullptr, &m_renderTargetView);
+		assert(SUCCEEDED(result));
+	}
+}
+
+void CDx11GraphicDevice::CreateGlobalResources()
+{
+	HRESULT result = S_OK;
 
 	{
 		D3D11_TEXTURE2D_DESC depthBufferDesc = {};
@@ -396,7 +447,10 @@ void CDx11GraphicDevice::Draw()
 		DrawViewport(viewport);
 	}
 
-	m_swapChain->Present(0, 0);
+	if(!m_swapChain.IsEmpty())
+	{
+		m_swapChain->Present(0, 0);
+	}
 }
 
 void CDx11GraphicDevice::DrawViewport(CViewport* viewport)
