@@ -205,6 +205,9 @@
     <ClCompile Include="..\src\EffectParameterBag.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -443,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\EffectParameterBag.h">
       <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Pch.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
