@@ -40,4 +40,9 @@
       <Filter>ソース ファイル</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="PalleonEmbedProxy.manifest">
+      <Filter>ソース ファイル</Filter>
+    </Manifest>
+  </ItemGroup>
 </Project>

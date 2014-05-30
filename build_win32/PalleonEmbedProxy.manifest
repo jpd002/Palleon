@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+	<assemblyIdentity name="PalleonEmbedProxy" type="win32" processorArchitecture="X86" version="1.0.0.0" />
+	<file name="PalleonEmbedProxy.dll">
+		<comInterfaceProxyStub
+			name="IEmbedApplication"
+			iid="{602BE7B1-9DD8-4B20-A432-61BB6F44AA5C}"
+		/>
+	</file>
+</assembly>
