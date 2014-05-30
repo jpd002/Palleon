@@ -28,6 +28,7 @@ namespace Palleon
 		ID3D11Device*					GetDevice() const;
 		ID3D11DeviceContext*			GetDeviceContext() const;
 		HWND							GetParentWindow() const;
+		HANDLE							GetRenderTargetSharedHandle();
 
 		void							SetFrameRate(float);
 
@@ -95,6 +96,7 @@ namespace Palleon
 		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_renderTarget;
+		Framework::Win32::CComPtr<IDXGIKeyedMutex>				m_renderTargetMutex;
 		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_renderTargetView;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_depthBuffer;
 		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_depthBufferView;

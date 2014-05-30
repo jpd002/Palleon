@@ -110,9 +110,12 @@ void CDx11GraphicDevice::CreateWindowlessDevice()
 		renderTargetDesc.Usage				= D3D11_USAGE_DEFAULT;
 		renderTargetDesc.BindFlags			= D3D11_BIND_RENDER_TARGET;
 		renderTargetDesc.CPUAccessFlags		= 0;
-		renderTargetDesc.MiscFlags			= 0;
+		renderTargetDesc.MiscFlags			= D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
 
 		result = m_device->CreateTexture2D(&renderTargetDesc, nullptr, &m_renderTarget);
+		assert(SUCCEEDED(result));
+
+		result = m_renderTarget->QueryInterface<IDXGIKeyedMutex>(reinterpret_cast<IDXGIKeyedMutex**>(&m_renderTargetMutex));
 		assert(SUCCEEDED(result));
 
 		result = m_device->CreateRenderTargetView(m_renderTarget, nullptr, &m_renderTargetView);
@@ -237,6 +240,23 @@ ID3D11DeviceContext* CDx11GraphicDevice::GetDeviceContext() const
 HWND CDx11GraphicDevice::GetParentWindow() const
 {
 	return m_parentWnd;
+}
+
+HANDLE CDx11GraphicDevice::GetRenderTargetSharedHandle()
+{
+	HRESULT result = S_OK;
+	Framework::Win32::CComPtr<IDXGIResource> resource;
+	assert(!m_renderTarget.IsEmpty());
+	result = m_renderTarget->QueryInterface<IDXGIResource>(&resource);
+	assert(SUCCEEDED(result));
+	if(FAILED(result))
+	{
+		return INVALID_HANDLE_VALUE;
+	}
+	HANDLE sharedHandle = INVALID_HANDLE_VALUE;
+	result = resource->GetSharedHandle(&sharedHandle);
+	assert(SUCCEEDED(result));
+	return sharedHandle;
 }
 
 void CDx11GraphicDevice::SetFrameRate(float frameRate)
@@ -430,8 +450,15 @@ ID3D11SamplerState* CDx11GraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO
 
 void CDx11GraphicDevice::Draw()
 {
+	HRESULT result = S_OK;
+
 	//Reset metrics
 	m_drawCallCount = 0;
+
+	if(!m_renderTargetMutex.IsEmpty())
+	{
+		result = m_renderTargetMutex->AcquireSync(0, INFINITE);
+	}
 
 	static const float clearColor[4] = { 0, 0, 0, 0 };
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
@@ -447,9 +474,15 @@ void CDx11GraphicDevice::Draw()
 		DrawViewport(viewport);
 	}
 
+	if(!m_renderTargetMutex.IsEmpty())
+	{
+		result = m_renderTargetMutex->ReleaseSync(1);
+	}
+
 	if(!m_swapChain.IsEmpty())
 	{
-		m_swapChain->Present(0, 0);
+		result = m_swapChain->Present(0, 0);
+		assert(SUCCEEDED(result));
 	}
 }
 
