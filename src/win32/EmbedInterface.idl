@@ -10,4 +10,22 @@ interface IEmbedApplication : IUnknown
 	HRESULT Update(
 		[in] float dt
 	);
+
+	HRESULT GetSurfaceHandle(
+		[out] DWORD_PTR* surfaceHandle
+	);
+
+	HRESULT SetSurfaceSize(
+		[in] unsigned int width,
+		[in] unsigned int height
+	);
+
+	HRESULT NotifyMouseMove(
+		[in] int posX,
+		[in] int posY
+	);
+
+	HRESULT NotifyMouseDown();
+	HRESULT NotifyMouseUp();
+
 };
