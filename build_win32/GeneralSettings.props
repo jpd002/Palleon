@@ -3,14 +3,17 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="ExternalDependencies.userprops" />
   </ImportGroup>
-  <PropertyGroup />
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(PlatformName)\$(Configuration)\</OutDir>
+    <IntDir>$(PlatformName)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\include;$(BOOST_PATH);$(FRAMEWORK_PATH)\include;$(ZLIB_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>Pch.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>$(ProjectDir)\Pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>$(ProjectDir)\Pch.h</ForcedIncludeFiles>
     </ClCompile>
     <Link />
   </ItemDefinitionGroup>
