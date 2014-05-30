@@ -12,7 +12,11 @@
 
 #include <boost/signals2.hpp>
 
+#include <zlib.h>
+
 #include <d3d11.h>
+#include <D3Dcompiler.h>
+
 #include <Windows.h>
 
 #undef near
