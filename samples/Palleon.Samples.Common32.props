@@ -9,6 +9,7 @@
     <ClCompile />
     <Link>
       <AdditionalLibraryDirectories>$(BOOST_PATH)\stage32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalManifestDependencies>name='PalleonEmbedProxy' type='Win32' processorArchitecture='X86' version='1.0.0.0';%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

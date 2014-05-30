@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+	<assemblyIdentity name="Embedding.exe" type="win32" processorArchitecture="X86" version="1.0.0.0" />
+	<dependency>
+		<dependentAssembly>
+			<assemblyIdentity name="PalleonEmbedProxy" type="win32" processorArchitecture="X86" version="1.0.0.0" />
+		</dependentAssembly> 
+	</dependency> 
+</assembly>
