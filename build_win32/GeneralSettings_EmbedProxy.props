@@ -14,6 +14,10 @@
     <Link>
       <AdditionalDependencies>rpcns4.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>PalleonEmbedProxy.def</ModuleDefinitionFile>
+      <EnableUAC>false</EnableUAC>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>PalleonEmbedProxy.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
 </Project>
