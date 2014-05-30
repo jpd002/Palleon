@@ -2,7 +2,6 @@
 #include "palleon/win32/Win32ResourceManager.h"
 #include "palleon/win32/Win32AudioManager.h"
 #include "palleon/win32/Win32ApplicationWindow.h"
-//#include "palleon/win32/Dx9GraphicDevice.h"
 #include "palleon/win32/Dx11GraphicDevice.h"
 #include "palleon/ConfigManager.h"
 #include "win32/Rect.h"
@@ -202,13 +201,4 @@ void CWin32ApplicationWindow::Loop()
 		}
 		UpdateApplication();
 	}
-}
-
-int WINAPI WinMain(HINSTANCE, HINSTANCE, char*, int)
-{
-	CWin32ApplicationWindow applicationWindow;
-	applicationWindow.Center(NULL);
-	applicationWindow.Show(SW_SHOW);
-	applicationWindow.Loop();
-	return 0;
 }

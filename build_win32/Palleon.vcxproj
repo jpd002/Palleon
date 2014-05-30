@@ -72,9 +72,25 @@
     <ClCompile Include="..\src\win32\Dx11UberEffectGenerator.cpp" />
     <ClCompile Include="..\src\win32\Dx11UberEffectProvider.cpp" />
     <ClCompile Include="..\src\win32\Dx11VertexBuffer.cpp" />
+    <ClCompile Include="..\src\win32\EmbedInterface_i.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
     <ClCompile Include="..\src\win32\Win32ApplicationWindow.cpp" />
     <ClCompile Include="..\src\win32\Win32AudioClip.cpp" />
     <ClCompile Include="..\src\win32\Win32AudioManager.cpp" />
+    <ClCompile Include="..\src\win32\Win32EmbedServer.cpp" />
+    <ClCompile Include="..\src\win32\Win32Main.cpp" />
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp" />
     <ClCompile Include="Pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -162,6 +178,7 @@
     <ClInclude Include="..\include\palleon\win32\Win32ApplicationWindow.h" />
     <ClInclude Include="..\include\palleon\win32\Win32AudioClip.h" />
     <ClInclude Include="..\include\palleon\win32\Win32AudioManager.h" />
+    <ClInclude Include="..\include\palleon\win32\Win32EmbedServer.h" />
     <ClInclude Include="..\include\palleon\win32\Win32ResourceManager.h" />
     <ClInclude Include="Pch.h" />
   </ItemGroup>
