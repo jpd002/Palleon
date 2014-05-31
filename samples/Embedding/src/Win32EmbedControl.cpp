@@ -93,11 +93,11 @@ void CWin32EmbedControl::CreateOutputTexture()
 void CWin32EmbedControl::CreateSharedTexture()
 {
 	HRESULT result = S_OK;
-	auto clientRect = GetClientRect();
+	auto surfaceSize = GetSurfaceSize();
 
 	auto application = m_embedClient.GetApplication();
 
-	result = application->SetSurfaceSize(clientRect.Width(), clientRect.Height());
+	result = application->SetSurfaceSize(surfaceSize.Width(), surfaceSize.Height());
 	assert(SUCCEEDED(result));
 
 	HANDLE surfaceHandle = INVALID_HANDLE_VALUE;
@@ -109,6 +109,22 @@ void CWin32EmbedControl::CreateSharedTexture()
 
 	result = m_sharedTexture->QueryInterface<IDXGIKeyedMutex>(reinterpret_cast<IDXGIKeyedMutex**>(&m_sharedTextureMutex));
 	assert(SUCCEEDED(result));
+}
+
+Framework::Win32::CRect CWin32EmbedControl::GetSurfaceSize()
+{
+	auto clientRect = GetClientRect();
+	int widthAdjust = 0, heightAdjust = 0;
+	if(clientRect.Width() < 8)
+	{
+		widthAdjust = 8 - clientRect.Width();
+	}
+	if(clientRect.Height() < 8)
+	{
+		heightAdjust = 8 - clientRect.Height();
+	}
+	clientRect.Inflate(widthAdjust, heightAdjust);
+	return clientRect;
 }
 
 long CWin32EmbedControl::OnMouseMove(WPARAM, int posX, int posY)
@@ -141,12 +157,14 @@ long CWin32EmbedControl::OnSize(unsigned int, unsigned int width, unsigned int h
 	
 	if(!m_swapChain.IsEmpty())
 	{
+		auto surfaceSize = GetSurfaceSize();
+
 		m_outputTexture.Reset();
 		m_outputTextureView.Reset();
 		m_sharedTexture.Reset();
 		m_sharedTextureMutex.Reset();
 
-		result = m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		result = m_swapChain->ResizeBuffers(1, surfaceSize.Width(), surfaceSize.Height(), DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 		assert(SUCCEEDED(result));
 
 		CreateOutputTexture();

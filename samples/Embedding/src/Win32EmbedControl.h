@@ -32,6 +32,8 @@ namespace Palleon
 		void							CreateOutputTexture();
 		void							CreateSharedTexture();
 
+		Framework::Win32::CRect			GetSurfaceSize();
+
 		D3D11DevicePtr					m_device;
 		D3D11DeviceContextPtr			m_deviceContext;
 		D3D11Texture2DPtr				m_outputTexture;
