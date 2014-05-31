@@ -22,6 +22,8 @@ namespace Palleon
 
 		virtual void	Update(float) = 0;
 
+		virtual void	NotifySizeChanged() {}
+
 		virtual void	NotifyMouseMove(int, int) {}
 		virtual void	NotifyMouseDown() {}
 		virtual void	NotifyMouseUp() {}
