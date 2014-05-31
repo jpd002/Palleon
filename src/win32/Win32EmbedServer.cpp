@@ -120,7 +120,7 @@ STDMETHODIMP CWin32EmbedServer::Update(float dt)
 
 STDMETHODIMP CWin32EmbedServer::GetSurfaceHandle(DWORD_PTR* surfaceHandleReturn)
 {
-	HANDLE surfaceHandle = static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).GetRenderTargetSharedHandle();
+	HANDLE surfaceHandle = static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).GetOutputBufferSharedHandle();
 	if(surfaceHandleReturn)
 	{
 		(*surfaceHandleReturn) = reinterpret_cast<DWORD_PTR>(surfaceHandle);
@@ -128,8 +128,10 @@ STDMETHODIMP CWin32EmbedServer::GetSurfaceHandle(DWORD_PTR* surfaceHandleReturn)
 	return S_OK;
 }
 
-STDMETHODIMP CWin32EmbedServer::SetSurfaceSize(unsigned int, unsigned int)
+STDMETHODIMP CWin32EmbedServer::SetSurfaceSize(unsigned int width, unsigned int height)
 {
+	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(width, height);
+	m_application->NotifySizeChanged();
 	return S_OK;
 }
 

@@ -16,6 +16,7 @@ namespace Palleon
 
 	protected:
 		long						OnActivate(unsigned int, bool, HWND) override;
+		long						OnSize(unsigned int, unsigned int, unsigned int) override;
 		long						OnMouseMove(WPARAM, int, int) override;
 		long						OnMouseLeave() override;
 		long						OnLeftButtonDown(int, int) override;

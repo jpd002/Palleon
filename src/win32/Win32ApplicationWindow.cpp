@@ -96,7 +96,7 @@ void CWin32ApplicationWindow::UpdateApplication()
 
 	m_application->Update(deltaTimeRel);
 
-	Palleon::CDx11GraphicDevice::GetInstance().Draw();
+	Palleon::CGraphicDevice::GetInstance().Draw();
 
 	m_currentFrameCount++;
 	if(m_frameCounterTime >= 1)
@@ -104,7 +104,7 @@ void CWin32ApplicationWindow::UpdateApplication()
 		float frameRate = static_cast<float>(m_currentFrameCount) / m_frameCounterTime;
 		m_frameCounterTime = 0;
 		m_currentFrameCount = 0;
-		static_cast<CDx11GraphicDevice&>(CDx11GraphicDevice::GetInstance()).SetFrameRate(frameRate);
+		static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
 	}
 }
 
@@ -132,6 +132,13 @@ long CWin32ApplicationWindow::OnActivate(unsigned int activeState, bool, HWND)
 		m_mouseDownPending = false;
 		m_mouseUpPending = false;
 	}
+	return FALSE;
+}
+
+long CWin32ApplicationWindow::OnSize(unsigned int, unsigned int x, unsigned int y)
+{
+	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(x, y);
+	m_application->NotifySizeChanged();
 	return FALSE;
 }
 
