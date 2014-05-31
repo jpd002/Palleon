@@ -28,7 +28,9 @@ namespace Palleon
 		ID3D11Device*					GetDevice() const;
 		ID3D11DeviceContext*			GetDeviceContext() const;
 		HWND							GetParentWindow() const;
-		HANDLE							GetRenderTargetSharedHandle();
+
+		HANDLE							GetOutputBufferSharedHandle();
+		void							SetOutputBufferSize(unsigned int,unsigned int);
 
 		void							SetFrameRate(float);
 
@@ -78,6 +80,9 @@ namespace Palleon
 
 		void							CreateDevice();
 		void							CreateWindowlessDevice();
+		void							CreateOutputBuffer();
+		void							CreateWindowlessOutputBuffer();
+		void							CreateDepthBuffer();
 		void							CreateGlobalResources();
 		void							CreateShadowMap();
 
@@ -95,9 +100,9 @@ namespace Palleon
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
 		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
-		Framework::Win32::CComPtr<ID3D11Texture2D>				m_renderTarget;
-		Framework::Win32::CComPtr<IDXGIKeyedMutex>				m_renderTargetMutex;
-		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_renderTargetView;
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_outputBuffer;
+		Framework::Win32::CComPtr<IDXGIKeyedMutex>				m_outputBufferMutex;
+		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_outputBufferView;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_depthBuffer;
 		Framework::Win32::CComPtr<ID3D11DepthStencilView>		m_depthBufferView;
 		Framework::Win32::CComPtr<ID3D11SamplerState>			m_defaultSamplerState;

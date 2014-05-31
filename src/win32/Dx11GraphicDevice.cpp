@@ -72,14 +72,7 @@ void CDx11GraphicDevice::CreateDevice()
 		&swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
 	assert(SUCCEEDED(result));
 	
-	{
-		Framework::Win32::CComPtr<ID3D11Texture2D> backBuffer;
-		result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
-		assert(SUCCEEDED(result));
-	
-		result = m_device->CreateRenderTargetView(backBuffer, nullptr, &m_renderTargetView);
-		assert(SUCCEEDED(result));
-	}
+	CreateOutputBuffer();
 }
 
 void CDx11GraphicDevice::CreateWindowlessDevice()
@@ -97,6 +90,27 @@ void CDx11GraphicDevice::CreateWindowlessDevice()
 		D3D11_SDK_VERSION, &m_device, nullptr, &m_deviceContext);
 	assert(SUCCEEDED(result));
 
+	CreateWindowlessOutputBuffer();
+}
+
+void CDx11GraphicDevice::CreateOutputBuffer()
+{
+	HRESULT result = S_OK;
+
+	Framework::Win32::CComPtr<ID3D11Texture2D> backBuffer;
+	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer));
+	assert(SUCCEEDED(result));
+	
+	result = m_device->CreateRenderTargetView(backBuffer, nullptr, &m_outputBufferView);
+	assert(SUCCEEDED(result));
+
+	CreateDepthBuffer();
+}
+
+void CDx11GraphicDevice::CreateWindowlessOutputBuffer()
+{
+	HRESULT result = S_OK;
+
 	{
 		D3D11_TEXTURE2D_DESC renderTargetDesc = {};
 
@@ -112,18 +126,20 @@ void CDx11GraphicDevice::CreateWindowlessDevice()
 		renderTargetDesc.CPUAccessFlags		= 0;
 		renderTargetDesc.MiscFlags			= D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
 
-		result = m_device->CreateTexture2D(&renderTargetDesc, nullptr, &m_renderTarget);
+		result = m_device->CreateTexture2D(&renderTargetDesc, nullptr, &m_outputBuffer);
 		assert(SUCCEEDED(result));
 
-		result = m_renderTarget->QueryInterface<IDXGIKeyedMutex>(reinterpret_cast<IDXGIKeyedMutex**>(&m_renderTargetMutex));
+		result = m_outputBuffer->QueryInterface<IDXGIKeyedMutex>(reinterpret_cast<IDXGIKeyedMutex**>(&m_outputBufferMutex));
 		assert(SUCCEEDED(result));
 
-		result = m_device->CreateRenderTargetView(m_renderTarget, nullptr, &m_renderTargetView);
+		result = m_device->CreateRenderTargetView(m_outputBuffer, nullptr, &m_outputBufferView);
 		assert(SUCCEEDED(result));
 	}
+
+	CreateDepthBuffer();
 }
 
-void CDx11GraphicDevice::CreateGlobalResources()
+void CDx11GraphicDevice::CreateDepthBuffer()
 {
 	HRESULT result = S_OK;
 
@@ -148,6 +164,11 @@ void CDx11GraphicDevice::CreateGlobalResources()
 		result = m_device->CreateDepthStencilView(m_depthBuffer, nullptr, &m_depthBufferView);
 		assert(SUCCEEDED(result));
 	}
+}
+
+void CDx11GraphicDevice::CreateGlobalResources()
+{
+	HRESULT result = S_OK;
 
 	{
 		D3D11_SAMPLER_DESC samplerDesc = {};
@@ -242,12 +263,12 @@ HWND CDx11GraphicDevice::GetParentWindow() const
 	return m_parentWnd;
 }
 
-HANDLE CDx11GraphicDevice::GetRenderTargetSharedHandle()
+HANDLE CDx11GraphicDevice::GetOutputBufferSharedHandle()
 {
 	HRESULT result = S_OK;
 	Framework::Win32::CComPtr<IDXGIResource> resource;
-	assert(!m_renderTarget.IsEmpty());
-	result = m_renderTarget->QueryInterface<IDXGIResource>(&resource);
+	assert(!m_outputBuffer.IsEmpty());
+	result = m_outputBuffer->QueryInterface<IDXGIResource>(&resource);
 	assert(SUCCEEDED(result));
 	if(FAILED(result))
 	{
@@ -257,6 +278,29 @@ HANDLE CDx11GraphicDevice::GetRenderTargetSharedHandle()
 	result = resource->GetSharedHandle(&sharedHandle);
 	assert(SUCCEEDED(result));
 	return sharedHandle;
+}
+
+void CDx11GraphicDevice::SetOutputBufferSize(unsigned int width, unsigned int height)
+{
+	m_outputBuffer.Reset();
+	m_outputBufferView.Reset();
+	m_depthBuffer.Reset();
+	m_depthBufferView.Reset();
+
+	m_screenSize.x = width;
+	m_screenSize.y = height;
+
+	if(!m_swapChain.IsEmpty())
+	{
+		HRESULT result = m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		assert(SUCCEEDED(result));
+
+		CreateOutputBuffer();
+	}
+	else
+	{
+		CreateWindowlessOutputBuffer();
+	}
 }
 
 void CDx11GraphicDevice::SetFrameRate(float frameRate)
@@ -455,13 +499,13 @@ void CDx11GraphicDevice::Draw()
 	//Reset metrics
 	m_drawCallCount = 0;
 
-	if(!m_renderTargetMutex.IsEmpty())
+	if(!m_outputBufferMutex.IsEmpty())
 	{
-		result = m_renderTargetMutex->AcquireSync(0, INFINITE);
+		result = m_outputBufferMutex->AcquireSync(0, INFINITE);
 	}
 
 	static const float clearColor[4] = { 0, 0, 0, 0 };
-	m_deviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
+	m_deviceContext->ClearRenderTargetView(m_outputBufferView, clearColor);
 
 	ID3D11ShaderResourceView* textureViews[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
 	ID3D11SamplerState* samplerStates[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
@@ -474,9 +518,9 @@ void CDx11GraphicDevice::Draw()
 		DrawViewport(viewport);
 	}
 
-	if(!m_renderTargetMutex.IsEmpty())
+	if(!m_outputBufferMutex.IsEmpty())
 	{
-		result = m_renderTargetMutex->ReleaseSync(1);
+		result = m_outputBufferMutex->ReleaseSync(1);
 	}
 
 	if(!m_swapChain.IsEmpty())
@@ -506,7 +550,7 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 		m_deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthBufferView);
+	m_deviceContext->OMSetRenderTargets(1, &m_outputBufferView, m_depthBufferView);
 	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	auto camera = viewport->GetCamera();
