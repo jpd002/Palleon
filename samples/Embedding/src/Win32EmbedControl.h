@@ -29,12 +29,13 @@ namespace Palleon
 		typedef Framework::Win32::CComPtr<IDXGIKeyedMutex> DXGIKeyedMutexPtr;
 
 		void							CreateDevice();
+		void							CreateOutputTexture();
 		void							CreateSharedTexture();
 
 		D3D11DevicePtr					m_device;
 		D3D11DeviceContextPtr			m_deviceContext;
-		D3D11RenderTargetViewPtr		m_renderTargetView;
-		D3D11Texture2DPtr				m_backBufferTexture;
+		D3D11Texture2DPtr				m_outputTexture;
+		D3D11RenderTargetViewPtr		m_outputTextureView;
 		D3D11Texture2DPtr				m_sharedTexture;
 		DXGIKeyedMutexPtr				m_sharedTextureMutex;
 		DXGISwapChainPtr				m_swapChain;

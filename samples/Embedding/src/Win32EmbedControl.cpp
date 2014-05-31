@@ -45,9 +45,11 @@ void CWin32EmbedControl::CreateDevice()
 
 	HRESULT result = S_OK;
 
+	auto clientRect = GetClientRect();
+
 	swapChainDesc.BufferCount							= 1;
-	swapChainDesc.BufferDesc.Width						= 640;
-	swapChainDesc.BufferDesc.Height						= 480;
+	swapChainDesc.BufferDesc.Width						= clientRect.Width();
+	swapChainDesc.BufferDesc.Height						= clientRect.Height();
 	swapChainDesc.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator		= 0;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator	= 1;
@@ -71,12 +73,19 @@ void CWin32EmbedControl::CreateDevice()
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, deviceCreationFlags, &featureLevel, 1, D3D11_SDK_VERSION, 
 		&swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
 	assert(SUCCEEDED(result));
-	
+
+	CreateOutputTexture();
+}
+
+void CWin32EmbedControl::CreateOutputTexture()
+{
+	HRESULT result = S_OK;
+
 	{
-		result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&m_backBufferTexture));
+		result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&m_outputTexture));
 		assert(SUCCEEDED(result));
 	
-		result = m_device->CreateRenderTargetView(m_backBufferTexture, nullptr, &m_renderTargetView);
+		result = m_device->CreateRenderTargetView(m_outputTexture, nullptr, &m_outputTextureView);
 		assert(SUCCEEDED(result));
 	}
 }
@@ -84,8 +93,13 @@ void CWin32EmbedControl::CreateDevice()
 void CWin32EmbedControl::CreateSharedTexture()
 {
 	HRESULT result = S_OK;
+	auto clientRect = GetClientRect();
 
 	auto application = m_embedClient.GetApplication();
+
+	result = application->SetSurfaceSize(clientRect.Width(), clientRect.Height());
+	assert(SUCCEEDED(result));
+
 	HANDLE surfaceHandle = INVALID_HANDLE_VALUE;
 	result = application->GetSurfaceHandle(reinterpret_cast<DWORD_PTR*>(&surfaceHandle));
 	assert(SUCCEEDED(result));
@@ -121,8 +135,24 @@ long CWin32EmbedControl::OnLeftButtonUp(int, int)
 	return FALSE;
 }
 
-long CWin32EmbedControl::OnSize(unsigned int, unsigned int, unsigned int)
+long CWin32EmbedControl::OnSize(unsigned int, unsigned int width, unsigned int height)
 {
+	HRESULT result = S_OK;
+	
+	if(!m_swapChain.IsEmpty())
+	{
+		m_outputTexture.Reset();
+		m_outputTextureView.Reset();
+		m_sharedTexture.Reset();
+		m_sharedTextureMutex.Reset();
+
+		result = m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		assert(SUCCEEDED(result));
+
+		CreateOutputTexture();
+		CreateSharedTexture();
+	}
+
 	return FALSE;
 }
 
@@ -152,12 +182,12 @@ long CWin32EmbedControl::OnTimer(WPARAM)
 	assert(SUCCEEDED(result));
 
 	static const float clearColor[4] = { 1, 0, 0, 0 };
-	m_deviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
+	m_deviceContext->ClearRenderTargetView(m_outputTextureView, clearColor);
 
 	result = m_sharedTextureMutex->AcquireSync(1, INFINITE);
 	if(result != WAIT_OBJECT_0) return FALSE;
 
-	m_deviceContext->CopyResource(m_backBufferTexture, m_sharedTexture);
+	m_deviceContext->CopyResource(m_outputTexture, m_sharedTexture);
 
 	result = m_sharedTextureMutex->ReleaseSync(0);
 	assert(SUCCEEDED(result));

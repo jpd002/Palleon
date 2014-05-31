@@ -9,7 +9,12 @@ public:
 									CEmbedWindow();
 	virtual							~CEmbedWindow();
 
+protected:
+	long							OnSize(unsigned int, unsigned int, unsigned int) override;
+
 private:
+	void							UpdateLayout();
+
 	Palleon::CWin32EmbedControl*	m_embedControl = nullptr;
 }
 ;
