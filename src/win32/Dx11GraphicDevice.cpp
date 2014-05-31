@@ -284,6 +284,7 @@ void CDx11GraphicDevice::SetOutputBufferSize(unsigned int width, unsigned int he
 {
 	m_outputBuffer.Reset();
 	m_outputBufferView.Reset();
+	m_outputBufferMutex.Reset();
 	m_depthBuffer.Reset();
 	m_depthBufferView.Reset();
 
