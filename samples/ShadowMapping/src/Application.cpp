@@ -3,6 +3,10 @@
 
 using namespace ShadowMapping;
 
+#define MAIN_CAMERA_FOV		(M_PI / 4.f)
+#define MAIN_CAMERA_NEAR_Z	(1.f)
+#define MAIN_CAMERA_FAR_Z	(10000.f)
+
 CApplication::CApplication()
 : m_mousePosition(0, 0)
 , m_elapsed(0)
@@ -30,7 +34,7 @@ void CApplication::CreateScene()
 
 	{
 		auto camera = CTouchFreeCamera::Create();
-		camera->SetPerspectiveProjection(M_PI / 4, screenSize.x / screenSize.y, 1, 10000);
+		camera->SetPerspectiveProjection(MAIN_CAMERA_FOV, screenSize.x / screenSize.y, MAIN_CAMERA_NEAR_Z, MAIN_CAMERA_FAR_Z);
 		camera->SetPosition(CVector3(350, 700, -350));
 		camera->SetHorizontalAngle(-M_PI / 4.f);
 		camera->SetVerticalAngle(5.f * M_PI / 16.f);
@@ -168,6 +172,12 @@ void CApplication::UpdateShadowCamera()
 	CVector3 shadowCameraPosition(0, 384.f + 128.f * sin(m_elapsed), 0);
 	m_shadowCamera->LookAt(shadowCameraPosition, CVector3(0, 0, 0), CVector3(0, 0, -1));
 	m_shadowCameraSphere->SetPosition(shadowCameraPosition);
+}
+
+void CApplication::NotifySizeChanged()
+{
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
+	m_mainCamera->SetPerspectiveProjection(MAIN_CAMERA_FOV, screenSize.x / screenSize.y, MAIN_CAMERA_NEAR_Z, MAIN_CAMERA_FAR_Z);
 }
 
 void CApplication::NotifyMouseMove(int x, int y)
