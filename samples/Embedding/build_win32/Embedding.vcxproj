@@ -84,21 +84,19 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\win32\EmbedInterface_i.c" />
-    <ClCompile Include="..\..\..\src\win32\Win32EmbedClient.cpp" />
     <ClCompile Include="..\src\EmbedWindow.cpp" />
-    <ClCompile Include="..\src\Win32EmbedControl.cpp" />
     <ClCompile Include="..\src\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Framework\build_win32\Framework.vcxproj">
       <Project>{553ce050-a97e-4e6e-ae84-057a1f0fa45d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\build_win32\PalleonEmbedClient.vcxproj">
+      <Project>{96467766-1448-43e2-9828-f05557cfc80e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\palleon\win32\Win32EmbedClient.h" />
     <ClInclude Include="..\src\EmbedWindow.h" />
-    <ClInclude Include="..\src\Win32EmbedControl.h" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="Embedding.manifest" />
