@@ -9,7 +9,7 @@
     <ClCompile />
     <Link />
     <Midl>
-      <OutputDirectory>$(SolutionDir)\..\src\win32</OutputDirectory>
+      <OutputDirectory>$(ProjectDir)\..\src\win32</OutputDirectory>
     </Midl>
     <Link>
       <AdditionalDependencies>rpcns4.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
