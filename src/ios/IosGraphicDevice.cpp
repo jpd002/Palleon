@@ -16,14 +16,14 @@ CIosGraphicDevice::~CIosGraphicDevice()
 
 void CIosGraphicDevice::CreateInstance(bool hasRetinaDisplay, const CVector2& screenSize)
 {
-	assert(m_instance == NULL);
-	if(m_instance != NULL) return;
+	assert(m_instance == nullptr);
+	if(m_instance != nullptr) return;
 	m_instance = new CIosGraphicDevice(hasRetinaDisplay, screenSize);
 }
 
 void CIosGraphicDevice::DestroyInstance()
 {
-	assert(m_instance != NULL);
-	if(m_instance == NULL) return;
+	assert(m_instance != nullptr);
+	if(m_instance == nullptr) return;
 	delete m_instance;
 }

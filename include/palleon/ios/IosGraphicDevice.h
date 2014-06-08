@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "palleon/gles/GlEsGraphicDevice.h"
 
 namespace Palleon
@@ -12,8 +11,6 @@ namespace Palleon
 		static void							DestroyInstance();
 
 	protected:				
-		typedef std::vector<CMesh*> RenderQueue;
-
 											CIosGraphicDevice(bool, const CVector2&);
 		virtual								~CIosGraphicDevice();
 	};
