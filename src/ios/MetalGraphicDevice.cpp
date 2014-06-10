@@ -43,12 +43,12 @@ VertexBufferPtr CMetalGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESC
 
 TexturePtr CMetalGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
-	return std::make_shared<CMetalTexture>();
+	return CMetalTexture::Create(m_metalView.device, textureFormat, width, height);
 }
 
 TexturePtr CMetalGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
 {
-	return std::make_shared<CMetalTexture>();
+	return TexturePtr();
 }
 
 RenderTargetPtr CMetalGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
