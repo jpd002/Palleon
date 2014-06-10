@@ -13,7 +13,7 @@ namespace Palleon
 								CMetalUberEffect(id<MTLDevice>, const EFFECTCAPS&);
 		virtual					~CMetalUberEffect();
 		
-		virtual void			UpdateConstants(void*, const METALVIEWPORT_PARAMS&, const CMatrix4&) override;
+		virtual void			UpdateConstants(void*, const METALVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
 		virtual unsigned int	GetConstantsSize() const override;
 		
 	private:

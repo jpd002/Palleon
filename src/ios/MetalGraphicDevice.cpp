@@ -73,7 +73,7 @@ void CMetalGraphicDevice::Draw()
 
 		MTLAttachmentDescriptor* colorAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: drawable.texture];
 		[colorAttachment setLoadAction: MTLLoadActionClear];
-		[colorAttachment setClearValue: MTLClearValueMakeColor(1.0f, 0.0f, 0.0f, 1.0f)];
+		[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
 		[colorAttachment setStoreAction: MTLStoreActionStore];
 		
 		MTLFramebufferDescriptor* framebufferDescriptor = [MTLFramebufferDescriptor framebufferDescriptorWithColorAttachment: colorAttachment];
@@ -171,7 +171,7 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	auto vertexShaderHandle = effect->GetVertexShaderHandle();
 	auto fragmentShaderHandle = effect->GetFragmentShaderHandle();
 	
-	effect->UpdateConstants(reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset, viewportParams, mesh->GetWorldTransformation());
+	effect->UpdateConstants(reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset, viewportParams, mesh->GetMaterial().get(), mesh->GetWorldTransformation());
 	
 	MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
 	[pipelineStateDescriptor setPixelFormat: MTLPixelFormatBGRA8Unorm atIndex: MTLFramebufferAttachmentIndexColor0];

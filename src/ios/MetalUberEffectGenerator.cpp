@@ -24,6 +24,7 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	result += PrintLine("struct Uniforms");
 	result += PrintLine("{");
 	result += PrintLine("\tmatrix_float4x4 modelViewProjMatrix;");
+	result += PrintLine("\tfloat4 meshColor;");
 	result += PrintLine("};");
 	
 	result += PrintLine("struct VertexIn");
@@ -42,6 +43,7 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	result += PrintLine("struct VertexOut");
 	result += PrintLine("{");
 	result += PrintLine("\tfloat4 position [[position]];");
+	result += PrintLine("\thalf4 color;");
 	result += PrintLine("};");
 	
 	result += PrintLine("vertex VertexOut VertexShader(");
@@ -53,12 +55,13 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	result += PrintLine("\tVertexOut out;");
 	result += PrintLine("\tfloat4 position = float4(float3(vertices[vertexId].position), 1.0);");
 	result += PrintLine("\tout.position = uniforms.modelViewProjMatrix * position;");
+	result += PrintLine("\tout.color = half4(uniforms.meshColor);");
 	result += PrintLine("\treturn out;");
 	result += PrintLine("}");
 	
 	result += PrintLine("fragment half4 FragmentShader(VertexOut input [[stage_in]])");
 	result += PrintLine("{");
-	result += PrintLine("\treturn half4(1.0, 1.0, 1.0, 1.0);");
+	result += PrintLine("\treturn input.color;");
 	result += PrintLine("}");
 	
 	return result;

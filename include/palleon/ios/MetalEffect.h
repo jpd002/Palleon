@@ -8,6 +8,7 @@
 namespace Palleon
 {
 	class CViewport;
+	class CMaterial;
 	
 	struct METALVIEWPORT_PARAMS
 	{
@@ -25,7 +26,7 @@ namespace Palleon
 		id<MTLFunction>			GetVertexShaderHandle() const;
 		id<MTLFunction>			GetFragmentShaderHandle() const;
 		
-		virtual void			UpdateConstants(void*, const METALVIEWPORT_PARAMS&, const CMatrix4&) = 0;
+		virtual void			UpdateConstants(void*, const METALVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) = 0;
 		virtual unsigned int	GetConstantsSize() const = 0;
 		
 	protected:
