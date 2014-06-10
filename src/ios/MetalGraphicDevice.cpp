@@ -9,7 +9,7 @@ using namespace Palleon;
 CMetalGraphicDevice::CMetalGraphicDevice(MetalView* metalView)
 : m_metalView(metalView)
 {
-	m_screenSize = CVector2(960, 480);
+	m_screenSize = CVector2(480, 320);
 	m_commandQueue = [m_metalView.device newCommandQueue];
 	m_constantBuffer = [m_metalView.device newBufferWithLength: CONSTANT_BUFFER_SIZE options: MTLResourceOptionCPUCacheModeDefault];
 	m_defaultEffectProvider = std::make_shared<CMetalUberEffectProvider>(m_metalView.device);
@@ -75,6 +75,7 @@ void CMetalGraphicDevice::Draw()
 		[colorAttachment setLoadAction: MTLLoadActionClear];
 		[colorAttachment setClearValue: MTLClearValueMakeColor(1.0f, 0.0f, 0.0f, 1.0f)];
 		[colorAttachment setStoreAction: MTLStoreActionStore];
+		
 		MTLFramebufferDescriptor* framebufferDescriptor = [MTLFramebufferDescriptor framebufferDescriptorWithColorAttachment: colorAttachment];
 		
 		id<MTLFramebuffer> framebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
@@ -82,9 +83,10 @@ void CMetalGraphicDevice::Draw()
 		id<MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
 		id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: framebuffer];
 		
+		unsigned int constantBufferOffset = 0;
 		for(const auto& viewport : m_viewports)
 		{
-			DrawViewport(renderEncoder, viewport);
+			DrawViewport(renderEncoder, viewport, constantBufferOffset);
 		}
 		
 		[renderEncoder endEncoding];
@@ -100,16 +102,19 @@ void CMetalGraphicDevice::Draw()
 		[commandBuffer addScheduledPresent: drawable];
 		[commandBuffer commit];
 		
+		[framebuffer release];
+		[drawable release];
+		
 		dispatch_semaphore_wait(m_drawSemaphore, DISPATCH_TIME_FOREVER);
 	}
 }
 
-void CMetalGraphicDevice::DrawViewport(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport)
+void CMetalGraphicDevice::DrawViewport(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport, unsigned int& constantBufferOffset)
 {
-	DrawViewportMainMap(renderEncoder, viewport);
+	DrawViewportMainMap(renderEncoder, viewport, constantBufferOffset);
 }
 
-void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport)
+void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport, unsigned int& constantBufferOffset)
 {
 	auto camera = viewport->GetCamera();
 	assert(camera);
@@ -144,7 +149,6 @@ void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> render
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.viewMatrix = camera->GetViewMatrix();
 	
-	unsigned int constantBufferOffset = 0;
 	for(const auto& mesh : renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
@@ -200,5 +204,8 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	[renderEncoder setRenderPipelineState: pipelineState];
 	[renderEncoder setVertexBuffer: vertexBufferHandle offset: 0 atIndex: 0];
 	[renderEncoder setVertexBuffer: m_constantBuffer offset: constantBufferOffset atIndex: 1];
-	[renderEncoder drawIndexedPrimitives: MTLPrimitiveTypeTriangle indexCount: indexCount indexType: MTLIndexTypeUInt16 indexBuffer: indexBufferHandle indexBufferOffset: 0];
+	[renderEncoder drawIndexedPrimitives: primitiveType indexCount: indexCount indexType: MTLIndexTypeUInt16 indexBuffer: indexBufferHandle indexBufferOffset: 0];
+	
+	[pipelineStateDescriptor release];
+	[pipelineState release];
 }

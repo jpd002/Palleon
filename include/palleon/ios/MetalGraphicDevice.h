@@ -30,14 +30,14 @@ namespace Palleon
 											CMetalGraphicDevice(MetalView*);
 		virtual								~CMetalGraphicDevice();
 		
-		void								DrawViewport(id<MTLRenderCommandEncoder>, CViewport*);
-		void								DrawViewportMainMap(id<MTLRenderCommandEncoder>, CViewport*);
+		void								DrawViewport(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
+		void								DrawViewportMainMap(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
 		
 		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const METALVIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
 		
 		MetalView*							m_metalView;
 		id<MTLCommandQueue>					m_commandQueue;
 		id<MTLBuffer>						m_constantBuffer;
-		dispatch_semaphore_t				m_drawSemaphore;		
+		dispatch_semaphore_t				m_drawSemaphore;
 	};
 }
