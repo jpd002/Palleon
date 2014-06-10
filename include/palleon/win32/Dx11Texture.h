@@ -13,7 +13,7 @@ namespace Palleon
 									CDx11Texture(ID3D11Device*, ID3D11DeviceContext*, ID3D11Texture2D*);
 		virtual						~CDx11Texture();
 
-		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32, uint32);	
+		static TexturePtr			Create(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32, uint32, uint32);
 		static TexturePtr			CreateCube(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32);
 
 		virtual void*				GetHandle() const override;
