@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Metal/Metal.h>
+#include "Types.h"
 #include <string>
+#include <map>
 #include "palleon/Matrix4.h"
 #include "palleon/Effect.h"
 
@@ -20,22 +22,31 @@ namespace Palleon
 	class CMetalEffect : public CEffect
 	{
 	public:
-								CMetalEffect(id<MTLDevice>);
-		virtual					~CMetalEffect();
+		struct PIPELINE_STATE_INFO
+		{
+			unsigned int	blendingMode : 2;
+			unsigned int	unused : 30;
+		};
+									CMetalEffect(id<MTLDevice>);
+		virtual						~CMetalEffect();
 		
-		id<MTLFunction>			GetVertexShaderHandle() const;
-		id<MTLFunction>			GetFragmentShaderHandle() const;
+		id<MTLFunction>				GetVertexShaderHandle() const;
+		id<MTLFunction>				GetFragmentShaderHandle() const;
+		id<MTLRenderPipelineState>	GetPipelineState(const PIPELINE_STATE_INFO&);
 		
-		virtual void			UpdateConstants(void*, const METALVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) = 0;
-		virtual unsigned int	GetConstantsSize() const = 0;
+		virtual void				UpdateConstants(void*, const METALVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) = 0;
+		virtual unsigned int		GetConstantsSize() const = 0;
 		
 	protected:
-		void					CreateLibraryAndShaders(const std::string&);
+		typedef std::map<uint32, id<MTLRenderPipelineState>> PipelineStateMap;
 		
-		id<MTLDevice>			m_device;
-		id<MTLLibrary>			m_library;
-		id<MTLFunction>			m_vertexShader;
-		id<MTLFunction>			m_fragmentShader;
+		void						CreateLibraryAndShaders(const std::string&);
+		
+		id<MTLDevice>				m_device = nil;
+		id<MTLLibrary>				m_library = nil;
+		id<MTLFunction>				m_vertexShader = nil;
+		id<MTLFunction>				m_fragmentShader = nil;
+		PipelineStateMap			m_pipelineStates;
 	};
 	
 	typedef std::shared_ptr<CMetalEffect> MetalEffectPtr;

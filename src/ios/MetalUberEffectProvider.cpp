@@ -29,6 +29,7 @@ EffectPtr CMetalUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool)
 	
 	effectCaps.hasNormal		= descriptor.HasVertexItem(VERTEX_ITEM_ID_NORMAL);
 	effectCaps.hasTexCoord0		= descriptor.HasVertexItem(VERTEX_ITEM_ID_UV0);
+	effectCaps.hasTexture		= material->GetTexture(0) ? true : false;
 	
 	auto effectKey = *reinterpret_cast<uint32*>(&effectCaps);
 	auto effectIterator = m_effects.find(effectKey);

@@ -11,6 +11,7 @@ namespace Palleon
 		{
 			unsigned int	hasNormal		: 1;
 			unsigned int	hasTexCoord0	: 1;
+			unsigned int	hasTexture		: 1;
 		};
 		
 		static std::string	GenerateLibrarySource(const EFFECTCAPS&);

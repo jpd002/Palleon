@@ -43,6 +43,7 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	result += PrintLine("struct VertexOut");
 	result += PrintLine("{");
 	result += PrintLine("\tfloat4 position [[position]];");
+	result += PrintLine("\tfloat2 texCoord0;");
 	result += PrintLine("\thalf4 color;");
 	result += PrintLine("};");
 	
@@ -56,12 +57,29 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	result += PrintLine("\tfloat4 position = float4(float3(vertices[vertexId].position), 1.0);");
 	result += PrintLine("\tout.position = uniforms.modelViewProjMatrix * position;");
 	result += PrintLine("\tout.color = half4(uniforms.meshColor);");
+	if(caps.hasTexture)
+	{
+		result += PrintLine("\tout.texCoord0 = vertices[vertexId].texCoord0;");
+	}
 	result += PrintLine("\treturn out;");
 	result += PrintLine("}");
 	
-	result += PrintLine("fragment half4 FragmentShader(VertexOut input [[stage_in]])");
+	result += PrintLine("fragment half4 FragmentShader(");
+	if(caps.hasTexture)
+	{
+		result += PrintLine("\ttexture2d<half> texture0 [[texture(0)]], ");
+		result += PrintLine("\tsampler smp0 [[sampler(0)]],");
+	}
+	result += PrintLine("\tVertexOut input [[stage_in]])");
 	result += PrintLine("{");
-	result += PrintLine("\treturn input.color;");
+	if(caps.hasTexture)
+	{
+		result += PrintLine("\treturn input.color * texture0.sample(smp0, input.texCoord0);");
+	}
+	else
+	{
+		result += PrintLine("\treturn input.color;");
+	}
 	result += PrintLine("}");
 	
 	return result;

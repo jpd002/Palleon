@@ -46,5 +46,5 @@ void CMetalTexture::UpdateCubeFace(TEXTURE_CUBE_FACE, const void*)
 
 void* CMetalTexture::GetHandle() const
 {
-	return nullptr;
+	return m_texture;
 }

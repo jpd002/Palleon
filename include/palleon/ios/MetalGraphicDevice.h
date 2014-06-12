@@ -27,6 +27,17 @@ namespace Palleon
 		{
 			CONSTANT_BUFFER_SIZE = 0x10000,
 		};
+		
+		struct SAMPLER_STATE_INFO
+		{
+			unsigned int		addressU		: 1;
+			unsigned int		addressV		: 1;
+			unsigned int		reserved		: 30;
+		};
+		static_assert(sizeof(SAMPLER_STATE_INFO) == 4, "SAMPLER_STATE_INFO's size must be 4 bytes.");
+		
+		typedef std::unordered_map<uint32, id<MTLSamplerState>> SamplerStateMap;
+		
 											CMetalGraphicDevice(MetalView*);
 		virtual								~CMetalGraphicDevice();
 		
@@ -35,9 +46,12 @@ namespace Palleon
 		
 		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const METALVIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
 		
+		id<MTLSamplerState>					GetSamplerState(const SAMPLER_STATE_INFO&);
+		
 		MetalView*							m_metalView;
 		id<MTLCommandQueue>					m_commandQueue;
 		id<MTLBuffer>						m_constantBuffer;
+		SamplerStateMap						m_samplerStates;
 		dispatch_semaphore_t				m_drawSemaphore;
 	};
 }

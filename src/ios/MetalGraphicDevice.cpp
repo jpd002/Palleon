@@ -18,6 +18,8 @@ CMetalGraphicDevice::CMetalGraphicDevice(MetalView* metalView)
 
 CMetalGraphicDevice::~CMetalGraphicDevice()
 {
+	//TODO: Cleanup
+	assert(m_samplerStates.empty());
 	[m_constantBuffer release];
 	[m_commandQueue release];
 }
@@ -59,6 +61,32 @@ RenderTargetPtr CMetalGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFo
 CubeRenderTargetPtr CMetalGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
 {
 	return CubeRenderTargetPtr();
+}
+
+id<MTLSamplerState> CMetalGraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO& stateInfo)
+{
+	id<MTLSamplerState> state = nil;
+	
+	uint32 stateKey = *reinterpret_cast<const uint32*>(&stateInfo);
+	auto stateIterator = m_samplerStates.find(stateKey);
+	if(stateIterator == std::end(m_samplerStates))
+	{
+		MTLSamplerDescriptor* stateDescriptor = [[MTLSamplerDescriptor alloc] init];
+		stateDescriptor.sAddressMode = MTLSamplerAddressModeRepeat;
+		stateDescriptor.tAddressMode = MTLSamplerAddressModeRepeat;
+		
+		state = [m_metalView.device newSamplerStateWithDescriptor: stateDescriptor];
+		assert(state != nil);
+		
+		[stateDescriptor release];
+		m_samplerStates.insert(std::make_pair(stateKey, state));
+	}
+	else
+	{
+		state = stateIterator->second;
+	}
+	
+	return state;
 }
 
 void CMetalGraphicDevice::Draw()
@@ -165,23 +193,31 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	auto vertexBuffer = std::static_pointer_cast<CMetalVertexBuffer>(mesh->GetVertexBuffer());
 	assert(vertexBuffer);
 	
+	auto material = mesh->GetMaterial();
+	assert(material);
+	
 	auto vertexBufferHandle = vertexBuffer->GetVertexBufferHandle();
 	auto indexBufferHandle = vertexBuffer->GetIndexBufferHandle();
+		
+	effect->UpdateConstants(reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset, viewportParams, material.get(), mesh->GetWorldTransformation());
 	
-	auto vertexShaderHandle = effect->GetVertexShaderHandle();
-	auto fragmentShaderHandle = effect->GetFragmentShaderHandle();
+	CMetalEffect::PIPELINE_STATE_INFO pipelineStateInfo = {};
+	pipelineStateInfo.blendingMode = material->GetAlphaBlendingMode();
+	id<MTLRenderPipelineState> pipelineState = effect->GetPipelineState(pipelineStateInfo);
 	
-	effect->UpdateConstants(reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset, viewportParams, mesh->GetMaterial().get(), mesh->GetWorldTransformation());
-	
-	MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-	[pipelineStateDescriptor setPixelFormat: MTLPixelFormatBGRA8Unorm atIndex: MTLFramebufferAttachmentIndexColor0];
-	[pipelineStateDescriptor setSampleCount: 1];
-	[pipelineStateDescriptor setVertexFunction: vertexShaderHandle];
-	[pipelineStateDescriptor setFragmentFunction: fragmentShaderHandle];
-	
-	NSError* pipelineStateError = nil;
-	id<MTLRenderPipelineState> pipelineState = [m_metalView.device newRenderPipelineStateWithDescriptor: pipelineStateDescriptor error: &pipelineStateError];
-	assert(pipelineStateError == nil);
+	for(unsigned int i = 0; i < CMaterial::MAX_TEXTURE_SLOTS; i++)
+	{
+		auto texture = std::static_pointer_cast<CMetalTexture>(material->GetTexture(i));
+		if(texture)
+		{
+			SAMPLER_STATE_INFO samplerStateInfo = {};
+			id<MTLSamplerState> samplerState = GetSamplerState(samplerStateInfo);
+			[renderEncoder setFragmentSamplerState: samplerState atIndex: i];
+			
+			id<MTLTexture> textureHandle = reinterpret_cast<id<MTLTexture>>(texture->GetHandle());
+			[renderEncoder setFragmentTexture: textureHandle atIndex: i];
+		}
+	}
 	
 	MTLPrimitiveType primitiveType = MTLPrimitiveTypeTriangle;
 	unsigned int indexCount = vertexBuffer->GetDescriptor().indexCount;
@@ -205,7 +241,4 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	[renderEncoder setVertexBuffer: vertexBufferHandle offset: 0 atIndex: 0];
 	[renderEncoder setVertexBuffer: m_constantBuffer offset: constantBufferOffset atIndex: 1];
 	[renderEncoder drawIndexedPrimitives: primitiveType indexCount: indexCount indexType: MTLIndexTypeUInt16 indexBuffer: indexBufferHandle indexBufferOffset: 0];
-	
-	[pipelineStateDescriptor release];
-	[pipelineState release];
 }
