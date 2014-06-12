@@ -56,6 +56,22 @@
 		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
 		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
 		70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7B18D76DA400FA2ABE /* DdsImage.h */; };
+		709890681943D34D00D38411 /* MetalView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 709890671943D34D00D38411 /* MetalView.mm */; };
+		7098906E1943D36800D38411 /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098906D1943D36800D38411 /* MetalView.h */; };
+		709890761943DA1E00D38411 /* MetalGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890751943DA1E00D38411 /* MetalGraphicDevice.cpp */; };
+		7098907A1943DB4A00D38411 /* MetalGraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890791943DB4A00D38411 /* MetalGraphicDevice.h */; };
+		7098907C1943E01500D38411 /* MetalVertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098907B1943E01500D38411 /* MetalVertexBuffer.cpp */; };
+		7098907E1943E02400D38411 /* MetalVertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098907D1943E02400D38411 /* MetalVertexBuffer.h */; };
+		709890801943E03D00D38411 /* MetalTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098907F1943E03D00D38411 /* MetalTexture.cpp */; };
+		709890821943E05700D38411 /* MetalTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890811943E05700D38411 /* MetalTexture.h */; };
+		7098908419451BB700D38411 /* MetalUberEffectProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098908319451BB700D38411 /* MetalUberEffectProvider.cpp */; };
+		7098908619451BDF00D38411 /* MetalUberEffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098908519451BDF00D38411 /* MetalUberEffectProvider.h */; };
+		709890881945201200D38411 /* MetalUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890871945201200D38411 /* MetalUberEffect.cpp */; };
+		7098908A1945202600D38411 /* MetalUberEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890891945202600D38411 /* MetalUberEffect.h */; };
+		7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098908C1945212800D38411 /* MetalUberEffectGenerator.cpp */; };
+		7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */; };
+		709890911945235100D38411 /* MetalEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890901945235100D38411 /* MetalEffect.cpp */; };
+		709890931945236400D38411 /* MetalEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890921945236400D38411 /* MetalEffect.h */; };
 		709C0B381911351C00947774 /* EffectParameterBag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C0B371911351C00947774 /* EffectParameterBag.cpp */; };
 		709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C0B3D1911352A00947774 /* EffectParameterBag.h */; };
 		709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */; };
@@ -233,6 +249,22 @@
 		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
 		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/palleon/resources/DdsImage.h; sourceTree = "<group>"; };
+		709890671943D34D00D38411 /* MetalView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalView.mm; path = ../src/ios/MetalView.mm; sourceTree = "<group>"; };
+		7098906D1943D36800D38411 /* MetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalView.h; path = ../include/palleon/ios/MetalView.h; sourceTree = "<group>"; };
+		709890751943DA1E00D38411 /* MetalGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalGraphicDevice.cpp; path = ../src/ios/MetalGraphicDevice.cpp; sourceTree = "<group>"; };
+		709890791943DB4A00D38411 /* MetalGraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalGraphicDevice.h; path = ../include/palleon/ios/MetalGraphicDevice.h; sourceTree = "<group>"; };
+		7098907B1943E01500D38411 /* MetalVertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalVertexBuffer.cpp; path = ../src/ios/MetalVertexBuffer.cpp; sourceTree = "<group>"; };
+		7098907D1943E02400D38411 /* MetalVertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalVertexBuffer.h; path = ../include/palleon/ios/MetalVertexBuffer.h; sourceTree = "<group>"; };
+		7098907F1943E03D00D38411 /* MetalTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalTexture.cpp; path = ../src/ios/MetalTexture.cpp; sourceTree = "<group>"; };
+		709890811943E05700D38411 /* MetalTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalTexture.h; path = ../include/palleon/ios/MetalTexture.h; sourceTree = "<group>"; };
+		7098908319451BB700D38411 /* MetalUberEffectProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalUberEffectProvider.cpp; path = ../src/ios/MetalUberEffectProvider.cpp; sourceTree = "<group>"; };
+		7098908519451BDF00D38411 /* MetalUberEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalUberEffectProvider.h; path = ../include/palleon/ios/MetalUberEffectProvider.h; sourceTree = "<group>"; };
+		709890871945201200D38411 /* MetalUberEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalUberEffect.cpp; path = ../src/ios/MetalUberEffect.cpp; sourceTree = "<group>"; };
+		709890891945202600D38411 /* MetalUberEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalUberEffect.h; path = ../include/palleon/ios/MetalUberEffect.h; sourceTree = "<group>"; };
+		7098908C1945212800D38411 /* MetalUberEffectGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalUberEffectGenerator.cpp; path = ../src/ios/MetalUberEffectGenerator.cpp; sourceTree = "<group>"; };
+		7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalUberEffectGenerator.h; path = ../include/palleon/ios/MetalUberEffectGenerator.h; sourceTree = "<group>"; };
+		709890901945235100D38411 /* MetalEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalEffect.cpp; path = ../src/ios/MetalEffect.cpp; sourceTree = "<group>"; };
+		709890921945236400D38411 /* MetalEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalEffect.h; path = ../include/palleon/ios/MetalEffect.h; sourceTree = "<group>"; };
 		709C0B371911351C00947774 /* EffectParameterBag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameterBag.cpp; path = ../src/EffectParameterBag.cpp; sourceTree = "<group>"; };
 		709C0B3D1911352A00947774 /* EffectParameterBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameterBag.h; path = ../include/palleon/EffectParameterBag.h; sourceTree = "<group>"; };
 		709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../src/resources/EmitterDescriptor.cpp; sourceTree = "<group>"; };
@@ -367,17 +399,38 @@
 				706F71BE18F5D37400224718 /* GlEsShadowMapEffect.h */,
 				706F71AF18F5D35F00224718 /* GlEsTexture.cpp */,
 				706F71BF18F5D37400224718 /* GlEsTexture.h */,
+				709890941945663F00D38411 /* GlEsUberEffect */,
+				706F71B318F5D35F00224718 /* GlEsVertexBuffer.cpp */,
+				706F71C318F5D37400224718 /* GlEsVertexBuffer.h */,
+				706F71C418F5D37400224718 /* OpenGlEsDefs.h */,
+			);
+			name = gles;
+			sourceTree = "<group>";
+		};
+		7098908B1945210300D38411 /* MetalUberEffect */ = {
+			isa = PBXGroup;
+			children = (
+				709890871945201200D38411 /* MetalUberEffect.cpp */,
+				709890891945202600D38411 /* MetalUberEffect.h */,
+				7098908319451BB700D38411 /* MetalUberEffectProvider.cpp */,
+				7098908519451BDF00D38411 /* MetalUberEffectProvider.h */,
+				7098908C1945212800D38411 /* MetalUberEffectGenerator.cpp */,
+				7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */,
+			);
+			name = MetalUberEffect;
+			sourceTree = "<group>";
+		};
+		709890941945663F00D38411 /* GlEsUberEffect */ = {
+			isa = PBXGroup;
+			children = (
 				706F71B018F5D35F00224718 /* GlEsUberEffect.cpp */,
 				706F71C018F5D37400224718 /* GlEsUberEffect.h */,
 				706F71B118F5D35F00224718 /* GlEsUberEffectGenerator.cpp */,
 				706F71C118F5D37400224718 /* GlEsUberEffectGenerator.h */,
 				706F71B218F5D35F00224718 /* GlEsUberEffectProvider.cpp */,
 				706F71C218F5D37400224718 /* GlEsUberEffectProvider.h */,
-				706F71B318F5D35F00224718 /* GlEsVertexBuffer.cpp */,
-				706F71C318F5D37400224718 /* GlEsVertexBuffer.h */,
-				706F71C418F5D37400224718 /* OpenGlEsDefs.h */,
 			);
-			name = gles;
+			name = GlEsUberEffect;
 			sourceTree = "<group>";
 		};
 		709E1743186A724B00AEA8C7 /* Samples */ = {
@@ -460,6 +513,17 @@
 				7078960C16E45BBA00CFCE67 /* IosResourceManager.h */,
 				7078960F16E45BBA00CFCE67 /* IosViewController.h */,
 				707895FB16E45BAF00CFCE67 /* IosViewController.mm */,
+				709890901945235100D38411 /* MetalEffect.cpp */,
+				709890921945236400D38411 /* MetalEffect.h */,
+				709890751943DA1E00D38411 /* MetalGraphicDevice.cpp */,
+				709890791943DB4A00D38411 /* MetalGraphicDevice.h */,
+				7098907F1943E03D00D38411 /* MetalTexture.cpp */,
+				709890811943E05700D38411 /* MetalTexture.h */,
+				7098908B1945210300D38411 /* MetalUberEffect */,
+				7098907B1943E01500D38411 /* MetalVertexBuffer.cpp */,
+				7098907D1943E02400D38411 /* MetalVertexBuffer.h */,
+				7098906D1943D36800D38411 /* MetalView.h */,
+				709890671943D34D00D38411 /* MetalView.mm */,
 			);
 			name = ios;
 			sourceTree = "<group>";
@@ -646,6 +710,7 @@
 				7E7D878C13F71AD900AD9F7F /* Application.h in Headers */,
 				70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */,
 				7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */,
+				7098906E1943D36800D38411 /* MetalView.h in Headers */,
 				7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */,
 				7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */,
 				7E7D879113F71AD900AD9F7F /* Color.h in Headers */,
@@ -686,6 +751,8 @@
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
 				70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */,
+				7098908619451BDF00D38411 /* MetalUberEffectProvider.h in Headers */,
+				7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				706F71C818F5D37400224718 /* GlEsTexture.h in Headers */,
 				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
@@ -693,6 +760,7 @@
 				709C28F31822088E00B6B2D0 /* Resource.h in Headers */,
 				706F71CC18F5D37400224718 /* GlEsVertexBuffer.h in Headers */,
 				7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */,
+				709890931945236400D38411 /* MetalEffect.h in Headers */,
 				709C28F21822088E00B6B2D0 /* PvrImage.h in Headers */,
 				7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */,
 				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
@@ -700,6 +768,7 @@
 				70B582531635216800C40F25 /* AnimationController.h in Headers */,
 				70B582541635216800C40F25 /* AnimationCurve.h in Headers */,
 				70B582551635216800C40F25 /* RumbleAnimation.h in Headers */,
+				7098908A1945202600D38411 /* MetalUberEffect.h in Headers */,
 				709C28EF1822088E00B6B2D0 /* FontDescriptor.h in Headers */,
 				70B582561635216800C40F25 /* TextureAnimation.h in Headers */,
 				70104E62167409F500807647 /* AudioClip.h in Headers */,
@@ -708,11 +777,14 @@
 				70C6E550168570A8001544EB /* Emitter.h in Headers */,
 				7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */,
 				7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */,
+				709890821943E05700D38411 /* MetalTexture.h in Headers */,
 				7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */,
 				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
+				7098907A1943DB4A00D38411 /* MetalGraphicDevice.h in Headers */,
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
 				7096E31A18E015A00068769A /* ParseUtils.h in Headers */,
 				70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */,
+				7098907E1943E02400D38411 /* MetalVertexBuffer.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
 				709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */,
 				70271B9918D522F500777C53 /* ConeMesh.h in Headers */,
@@ -830,6 +902,7 @@
 				7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */,
 				7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */,
 				7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */,
+				709890761943DA1E00D38411 /* MetalGraphicDevice.cpp in Sources */,
 				70271B7718D5037B00777C53 /* EffectParameter.cpp in Sources */,
 				706F71B518F5D35F00224718 /* GlEsGraphicDevice.cpp in Sources */,
 				7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */,
@@ -841,12 +914,14 @@
 				7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */,
 				709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */,
 				7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */,
+				7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */,
 				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
 				7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */,
 				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
 				70271B9518D522E400777C53 /* ConeMesh.cpp in Sources */,
 				7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */,
 				7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */,
+				709890911945235100D38411 /* MetalEffect.cpp in Sources */,
 				706F71BA18F5D35F00224718 /* GlEsUberEffectProvider.cpp in Sources */,
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
 				7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */,
@@ -854,17 +929,21 @@
 				7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */,
 				706F71B618F5D35F00224718 /* GlEsShadowMapEffect.cpp in Sources */,
 				7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */,
+				7098907C1943E01500D38411 /* MetalVertexBuffer.cpp in Sources */,
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
 				70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */,
 				709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */,
+				709890881945201200D38411 /* MetalUberEffect.cpp in Sources */,
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
 				70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */,
+				7098908419451BB700D38411 /* MetalUberEffectProvider.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				709C28E11822088000B6B2D0 /* ResourceManager.cpp in Sources */,
 				706F71B718F5D35F00224718 /* GlEsTexture.cpp in Sources */,
 				709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */,
+				709890801943E03D00D38411 /* MetalTexture.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
 				709C28E21822088000B6B2D0 /* SceneDescriptor.cpp in Sources */,
@@ -876,6 +955,7 @@
 				706F71B918F5D35F00224718 /* GlEsUberEffectGenerator.cpp in Sources */,
 				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
+				709890681943D34D00D38411 /* MetalView.mm in Sources */,
 				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
 				709C28E01822088000B6B2D0 /* Package.cpp in Sources */,
 				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,

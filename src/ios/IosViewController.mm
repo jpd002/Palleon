@@ -1,11 +1,18 @@
 #import <QuartzCore/QuartzCore.h>
 
+//#define USE_METAL
+
 #import "palleon/ios/IosViewController.h"
-#import "palleon/ios/IosGraphicDevice.h"
 #import "palleon/ios/IosResourceManager.h"
 #import "palleon/ios/IosAudioManager.h"
 #import "palleon/ConfigManager.h"
+#ifdef USE_METAL
+#import "palleon/ios/MetalView.h"
+#import "palleon/ios/MetalGraphicDevice.h"
+#else
 #import "palleon/ios/EAGLView.h"
+#import "palleon/ios/IosGraphicDevice.h"
+#endif
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 #include <MobileCoreServices/MobileCoreServices.h>
@@ -31,9 +38,15 @@ using namespace Palleon;
 		
 		CGRect screenBounds = [[UIScreen mainScreen] bounds];
 		
+#ifdef USE_METAL
+		MetalView* view = [[MetalView alloc] initWithFrame: screenBounds];
+		self.view = view;
+		[view release];
+#else
 		EAGLView* view = [[EAGLView alloc] initWithFrame: screenBounds];
 		self.view = view;
 		[view release];
+#endif
 		
 		m_spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
 		[m_spinner setCenter: CGPointMake(480 / 2, 320 / 2)];
@@ -54,27 +67,23 @@ using namespace Palleon;
 
 -(void)viewWillAppear:(BOOL)animated
 {
-	[(EAGLView *)self.view prepareContext];
-	
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-
-	bool hasRetinaDisplay = [(EAGLView *)self.view hasRetinaDisplay];
-	
 	CIosResourceManager::CreateInstance();
 	CIosAudioManager::CreateInstance();
 	CConfigManager::CreateInstance();
 	CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
-	
+
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	m_isPortraitOrientation = CConfigManager::GetInstance().GetConfig().GetPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT);
 	
-	if(m_isPortraitOrientation)
-	{
-		CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.width, screenBounds.size.height));
-	}
-	else
-	{
-		CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.height, screenBounds.size.width));
-	}
+#ifdef USE_METAL
+	auto view = (MetalView*)self.view;
+	CMetalGraphicDevice::CreateInstance(view);
+#else
+	auto view = (EAGLView*)self.view;
+	[view prepareContext];
+	bool hasRetinaDisplay = [view hasRetinaDisplay];
+	CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.width, screenBounds.size.height));
+#endif
 
 	animating = FALSE;
 	animationFrameInterval = 1;
@@ -87,9 +96,10 @@ using namespace Palleon;
 
 -(void)viewDidAppear: (BOOL)animated
 {
+#ifndef USE_METAL
 	EAGLView* glView = (EAGLView*)self.view;
 	[glView setFramebuffer];
-	
+#endif
 	if(!m_application)
 	{
 		m_application = CreateApplication();
@@ -160,6 +170,10 @@ using namespace Palleon;
 	CFAbsoluteTime deltaTime = nextTime - m_currentTime;
 	m_currentTime = nextTime;
 	
+#ifdef USE_METAL
+	m_application->Update(static_cast<float>(deltaTime));
+	CGraphicDevice::GetInstance().Draw();
+#else
 	EAGLView* glView = (EAGLView*)self.view;
 	[glView setFramebuffer];
 	m_application->Update(static_cast<float>(deltaTime));
@@ -176,27 +190,18 @@ using namespace Palleon;
 		m_currentFrameCount = 0;
 		static_cast<CGlEsGraphicDevice&>(CGraphicDevice::GetInstance()).SetFrameRate(frameRate);
 	}
-	
+#endif
 }
 
--(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation
+-(NSUInteger)supportedInterfaceOrientations
 {
-	if(m_isPortraitOrientation && toInterfaceOrientation == UIInterfaceOrientationPortrait)
+	if(m_isPortraitOrientation)
 	{
-		return YES;
-	}
-	else if(!m_isPortraitOrientation &&
-			(
-			 toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-			 toInterfaceOrientation == UIInterfaceOrientationLandscapeRight
-			 )
-			)
-	{
-		return YES;
+		return UIInterfaceOrientationMaskPortrait;
 	}
 	else
 	{
-		return NO;
+		return UIInterfaceOrientationMaskLandscape;
 	}
 }
 
