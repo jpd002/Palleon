@@ -74,35 +74,65 @@ void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near
 	m_projMatrix = proj;
 }
 
-void CCamera::LookAt(const CVector3& eye, const CVector3& target, const CVector3& up)
+void CCamera::LookAt(const CVector3& eye, const CVector3& target, const CVector3& up, HANDEDNESS handedness)
 {
-	//zaxis = normal(At - Eye)
-	//xaxis = normal(cross(Up, zaxis))
-	//yaxis = cross(zaxis, xaxis)
-
 	CMatrix4 view;
 	view.Clear();
 
-	CVector3 axisZ = (target - eye).Normalize();
-	CVector3 axisX = (up.Cross(axisZ)).Normalize();
-	CVector3 axisY = axisZ.Cross(axisX);
+	if(handedness == HANDEDNESS_LEFTHANDED)
+	{
+		//zaxis = normal(At - Eye)
+		//xaxis = normal(cross(Up, zaxis))
+		//yaxis = cross(zaxis, xaxis)
 
-	view(0, 0) = axisX.x;
-	view(1, 0) = axisX.y;
-	view(2, 0) = axisX.z;
-	view(3, 0) = -axisX.Dot(eye);
+		CVector3 axisZ = (target - eye).Normalize();
+		CVector3 axisX = (up.Cross(axisZ)).Normalize();
+		CVector3 axisY = axisZ.Cross(axisX);
 
-	view(0, 1) = axisY.x;
-	view(1, 1) = axisY.y;
-	view(2, 1) = axisY.z;
-	view(3, 1) = -axisY.Dot(eye);
+		view(0, 0) = axisX.x;
+		view(1, 0) = axisX.y;
+		view(2, 0) = axisX.z;
+		view(3, 0) = -axisX.Dot(eye);
 
-	view(0, 2) = axisZ.x;
-	view(1, 2) = axisZ.y;
-	view(2, 2) = axisZ.z;
-	view(3, 2) = -axisZ.Dot(eye);
+		view(0, 1) = axisY.x;
+		view(1, 1) = axisY.y;
+		view(2, 1) = axisY.z;
+		view(3, 1) = -axisY.Dot(eye);
 
-	view(3, 3) = 1;
+		view(0, 2) = axisZ.x;
+		view(1, 2) = axisZ.y;
+		view(2, 2) = axisZ.z;
+		view(3, 2) = -axisZ.Dot(eye);
+
+		view(3, 3) = 1;
+	}
+	else
+	{
+		//zaxis = normal(Eye - At)
+		//xaxis = normal(cross(Up, zaxis))
+		//yaxis = cross(zaxis, xaxis)
+
+		CVector3 axisZ = (eye - target).Normalize();
+		CVector3 axisX = (up.Cross(axisZ)).Normalize();
+		CVector3 axisY = axisZ.Cross(axisX);
+
+		view(0, 0) = axisX.x;
+		view(1, 0) = axisX.y;
+		view(2, 0) = axisX.z;
+		view(3, 0) = -axisX.Dot(eye);
+
+		view(0, 1) = axisY.x;
+		view(1, 1) = axisY.y;
+		view(2, 1) = axisY.z;
+		view(3, 1) = -axisY.Dot(eye);
+
+		view(0, 2) = axisZ.x;
+		view(1, 2) = axisZ.y;
+		view(2, 2) = axisZ.z;
+		view(3, 2) = -axisZ.Dot(eye);
+
+		view(3, 3) = 1;
+	}
 
 	m_viewMatrix = view;
 }

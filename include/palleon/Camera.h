@@ -30,7 +30,7 @@ namespace Palleon
 		void				SetOrthoProjection(float width, float height, float near, float far);
 		void				SetPerspectiveProjection(float fovY, float aspectRatio, float near, float far, HANDEDNESS = HANDEDNESS_LEFTHANDED);
 
-		void				LookAt(const CVector3& eye, const CVector3& target, const CVector3& up);
+		void				LookAt(const CVector3& eye, const CVector3& target, const CVector3& up, HANDEDNESS = HANDEDNESS_LEFTHANDED);
 		void				SetViewMatrix(const CMatrix4&);
 
 		const CMatrix4&		GetProjectionMatrix() const;
