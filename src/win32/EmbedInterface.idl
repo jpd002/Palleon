@@ -25,7 +25,14 @@ interface IEmbedApplication : IUnknown
 		[in] int posY
 	);
 
+	HRESULT NotifyMouseWheel(
+		[in] int posZ
+	);
+
 	HRESULT NotifyMouseDown();
 	HRESULT NotifyMouseUp();
 
+	HRESULT NotifyExternalCommand(
+		[in, string] LPCSTR command
+	);
 };

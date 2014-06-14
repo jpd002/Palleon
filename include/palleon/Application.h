@@ -27,11 +27,16 @@ namespace Palleon
 		virtual void	NotifyMouseMove(int, int) {}
 		virtual void	NotifyMouseDown() {}
 		virtual void	NotifyMouseUp() {}
+		virtual void	NotifyMouseWheel(int) {}
 
 		virtual void	NotifyKeyDown(KEY_CODE) {}
 		virtual void	NotifyKeyUp(KEY_CODE) {}
 
 		virtual void	NotifyInputCancelled() {}
+
+		//Embedding notifications
+		virtual void	NotifyIsEmbedding() {}
+		virtual void	NotifyExternalCommand(const std::string&) {}
 	};
 }
 

@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "palleon/win32/Win32EmbedControl.h"
 
 using namespace Palleon;
@@ -9,8 +10,9 @@ using namespace Palleon;
 #define TIMER_DELAY						16
 #define TIMER_ID						1
 
-CWin32EmbedControl::CWin32EmbedControl(HWND parentWnd, const RECT& windowRect)
-: m_embedClient(_T("ShadowMapping.exe"), _T("C:\\Projects\\Palleon\\samples\\ShadowMapping"))
+CWin32EmbedControl::CWin32EmbedControl(HWND parentWnd, const RECT& windowRect,
+	const std::tstring& executablePath, const std::tstring& workingDir)
+: m_embedClient(executablePath, workingDir)
 {
 	if(!DoesWindowClassExist(CLSNAME))
 	{
@@ -37,6 +39,17 @@ CWin32EmbedControl::CWin32EmbedControl(HWND parentWnd, const RECT& windowRect)
 CWin32EmbedControl::~CWin32EmbedControl()
 {
 
+}
+
+void CWin32EmbedControl::ExecuteCommand(const std::string& command)
+{
+	HRESULT result = S_OK;
+	auto application = m_embedClient.GetApplication();
+	result = application->NotifyExternalCommand(command.c_str());
+	if(FAILED(result))
+	{
+		throw std::runtime_error("Execute command failed");
+	}
 }
 
 void CWin32EmbedControl::CreateDevice()
@@ -135,8 +148,17 @@ long CWin32EmbedControl::OnMouseMove(WPARAM, int posX, int posY)
 	return FALSE;
 }
 
+long CWin32EmbedControl::OnMouseWheel(int, int, short z)
+{
+	auto application = m_embedClient.GetApplication();
+	HRESULT result = application->NotifyMouseWheel(z);
+	assert(SUCCEEDED(result));
+	return FALSE;
+}
+
 long CWin32EmbedControl::OnLeftButtonDown(int, int)
 {
+	SetFocus();
 	auto application = m_embedClient.GetApplication();
 	HRESULT result = application->NotifyMouseDown();
 	assert(SUCCEEDED(result));

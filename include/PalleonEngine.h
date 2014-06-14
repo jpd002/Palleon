@@ -57,5 +57,5 @@
 #include "palleon/Scene.h"
 #include "palleon/ParseUtils.h"
 
+#include "palleon/EmbedRemoteCall.h"
 #include "palleon/Application.h"
-

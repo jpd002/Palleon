@@ -70,6 +70,12 @@ void CWin32ApplicationWindow::UpdateApplication()
 {
 	m_application->NotifyMouseMove(m_mouseX, m_mouseY);
 
+	if(m_mouseZ != 0)
+	{
+		m_application->NotifyMouseWheel(m_mouseZ);
+		m_mouseZ = 0;
+	}
+
 	if(m_mouseDownPending)
 	{
 		m_application->NotifyMouseDown();
@@ -146,6 +152,12 @@ long CWin32ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
 {
 	m_mouseX = x;
 	m_mouseY = y;
+	return TRUE;
+}
+
+long CWin32ApplicationWindow::OnMouseWheel(int x, int y, short z)
+{
+	m_mouseZ += z;
 	return TRUE;
 }
 

@@ -217,6 +217,9 @@
     <ClCompile Include="..\src\win32\Win32Main.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EmbedRemoteCall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -461,6 +464,9 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\win32\Win32EmbedServer.h">
       <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EmbedRemoteCall.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

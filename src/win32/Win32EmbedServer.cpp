@@ -13,6 +13,7 @@ CWin32EmbedServer::CWin32EmbedServer()
 	CDx11GraphicDevice::CreateInstance(NULL, CVector2(640, 480));
 
 	m_application = CreateApplication();
+	m_application->NotifyIsEmbedding();
 }
 
 CWin32EmbedServer::~CWin32EmbedServer()
@@ -101,6 +102,12 @@ STDMETHODIMP CWin32EmbedServer::Update(float dt)
 {
 	m_application->NotifyMouseMove(m_mouseX, m_mouseY);
 
+	if(m_mouseZ != 0)
+	{
+		m_application->NotifyMouseWheel(m_mouseZ);
+		m_mouseZ = 0;
+	}
+
 	if(m_mouseDownPending)
 	{
 		m_application->NotifyMouseDown();
@@ -142,6 +149,12 @@ STDMETHODIMP CWin32EmbedServer::NotifyMouseMove(int mouseX, int mouseY)
 	return S_OK;
 }
 
+STDMETHODIMP CWin32EmbedServer::NotifyMouseWheel(int mouseZ)
+{
+	m_mouseZ += mouseZ;
+	return S_OK;
+}
+
 STDMETHODIMP CWin32EmbedServer::NotifyMouseDown()
 {
 	m_mouseDownPending = true;
@@ -151,5 +164,11 @@ STDMETHODIMP CWin32EmbedServer::NotifyMouseDown()
 STDMETHODIMP CWin32EmbedServer::NotifyMouseUp()
 {
 	m_mouseUpPending = true;
+	return S_OK;
+}
+
+STDMETHODIMP CWin32EmbedServer::NotifyExternalCommand(LPCSTR command)
+{
+	m_application->NotifyExternalCommand(std::string(command));
 	return S_OK;
 }

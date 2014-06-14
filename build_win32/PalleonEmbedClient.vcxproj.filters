@@ -19,6 +19,9 @@
     <ClCompile Include="..\src\win32\Win32EmbedControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EmbedRemoteCall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\win32\Win32EmbedClient.h">
@@ -28,6 +31,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\win32\Win32EmbedControl.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EmbedRemoteCall.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

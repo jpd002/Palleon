@@ -10,11 +10,14 @@ namespace Palleon
 	class CWin32EmbedControl : public Framework::Win32::CWindow
 	{
 	public:
-										CWin32EmbedControl(HWND, const RECT&);
+										CWin32EmbedControl(HWND, const RECT&, const std::tstring&, const std::tstring&);
 		virtual							~CWin32EmbedControl();
+
+		void							ExecuteCommand(const std::string&);
 
 	protected:
 		long							OnMouseMove(WPARAM, int, int) override;
+		long							OnMouseWheel(int, int, short) override;
 		long							OnLeftButtonDown(int, int) override;
 		long							OnLeftButtonUp(int, int) override;
 		long							OnTimer(WPARAM) override;

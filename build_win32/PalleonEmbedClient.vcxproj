@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\EmbedRemoteCall.cpp" />
     <ClCompile Include="..\src\win32\EmbedInterface_i.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -43,6 +44,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\palleon\EmbedRemoteCall.h" />
     <ClInclude Include="..\include\palleon\win32\Win32EmbedClient.h" />
     <ClInclude Include="..\include\palleon\win32\Win32EmbedControl.h" />
     <ClInclude Include="Pch.h" />

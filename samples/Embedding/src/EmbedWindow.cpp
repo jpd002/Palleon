@@ -11,7 +11,8 @@ CEmbedWindow::CEmbedWindow()
 	Create(NULL, Framework::Win32::CDefaultWndClass::GetName(), _T("Embedding"), WNDSTYLE, windowRect, NULL, NULL);
 	SetClassPtr();
 
-	m_embedControl = new Palleon::CWin32EmbedControl(m_hWnd, Framework::Win32::CRect(0, 0, 32, 32));
+	m_embedControl = new Palleon::CWin32EmbedControl(m_hWnd, Framework::Win32::CRect(0, 0, 32, 32),
+		_T("ShadowMapping.exe"), _T("C:\\Projects\\Palleon\\samples\\ShadowMapping"));
 }
 
 CEmbedWindow::~CEmbedWindow()

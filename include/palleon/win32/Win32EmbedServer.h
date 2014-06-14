@@ -25,8 +25,11 @@ namespace Palleon
 		STDMETHODIMP			SetSurfaceSize(unsigned int, unsigned int) override;
 
 		STDMETHODIMP			NotifyMouseMove(int, int) override;
+		STDMETHODIMP			NotifyMouseWheel(int) override;
 		STDMETHODIMP			NotifyMouseDown() override;
 		STDMETHODIMP			NotifyMouseUp() override;
+
+		STDMETHODIMP			NotifyExternalCommand(LPCSTR) override;
 
 	private:
 		void					WriteInterfaceToConsole();
@@ -35,6 +38,7 @@ namespace Palleon
 
 		int						m_mouseX = 0;
 		int						m_mouseY = 0;
+		int						m_mouseZ = 0;
 		bool					m_mouseDownPending = false;
 		bool					m_mouseUpPending = false;
 	};
