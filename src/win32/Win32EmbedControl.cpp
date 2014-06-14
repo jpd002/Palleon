@@ -159,6 +159,7 @@ long CWin32EmbedControl::OnMouseWheel(int, int, short z)
 long CWin32EmbedControl::OnLeftButtonDown(int, int)
 {
 	SetFocus();
+	SetCapture(m_hWnd);
 	auto application = m_embedClient.GetApplication();
 	HRESULT result = application->NotifyMouseDown();
 	assert(SUCCEEDED(result));
@@ -167,6 +168,7 @@ long CWin32EmbedControl::OnLeftButtonDown(int, int)
 
 long CWin32EmbedControl::OnLeftButtonUp(int, int)
 {
+	ReleaseCapture();
 	auto application = m_embedClient.GetApplication();
 	HRESULT result = application->NotifyMouseUp();
 	assert(SUCCEEDED(result));
