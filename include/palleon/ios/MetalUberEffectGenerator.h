@@ -13,6 +13,7 @@ namespace Palleon
 			unsigned int	hasTexCoord0	: 1;
 			unsigned int	hasTexture		: 1;
 			unsigned int	hasShadowMap	: 1;
+			unsigned int	reserved		: 28;
 		};
 		static_assert(sizeof(EFFECTCAPS) == 4, "EFFECTCAPS must be 4 bytes.");
 		
