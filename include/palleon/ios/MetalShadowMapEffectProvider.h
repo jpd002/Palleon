@@ -7,11 +7,11 @@
 
 namespace Palleon
 {
-	class CMetalUberEffectProvider : public CEffectProvider
+	class CMetalShadowMapEffectProvider : public CEffectProvider
 	{
 	public:
-							CMetalUberEffectProvider(id<MTLDevice> device);
-		virtual				~CMetalUberEffectProvider();
+							CMetalShadowMapEffectProvider(id<MTLDevice> device);
+		virtual				~CMetalShadowMapEffectProvider();
 		
 		virtual EffectPtr	GetEffectForRenderable(CMesh*, bool) override;
 		

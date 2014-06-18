@@ -40,10 +40,11 @@ id<MTLRenderPipelineState> CMetalEffect::GetPipelineState(const PIPELINE_STATE_I
 		assert(m_fragmentShader != nil);
 	
 		MTLRenderPipelineDescriptor* pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-		[pipelineStateDescriptor setPixelFormat: MTLPixelFormatBGRA8Unorm atIndex: MTLFramebufferAttachmentIndexColor0];
+		FillPipelinePixelFormats(pipelineStateDescriptor);
 		[pipelineStateDescriptor setSampleCount: 1];
 		[pipelineStateDescriptor setVertexFunction: m_vertexShader];
 		[pipelineStateDescriptor setFragmentFunction: m_fragmentShader];
+		[pipelineStateDescriptor setDepthWriteEnabled: YES];
 
 		if(stateInfo.blendingMode != ALPHA_BLENDING_NONE)
 		{
@@ -94,7 +95,7 @@ void CMetalEffect::CreateLibraryAndShaders(const std::string& librarySource)
 	{
 		NSLog(@"%s", librarySource.c_str());
 		NSLog(@"%@", [compileError localizedDescription]);
-		assert(false);
+		assert(m_library);
 	}
 	
 	assert(m_library != nil);

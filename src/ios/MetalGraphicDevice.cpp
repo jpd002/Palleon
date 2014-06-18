@@ -13,13 +13,22 @@ CMetalGraphicDevice::CMetalGraphicDevice(MetalView* metalView)
 	m_commandQueue = [m_metalView.device newCommandQueue];
 	m_constantBuffer = [m_metalView.device newBufferWithLength: CONSTANT_BUFFER_SIZE options: MTLResourceOptionCPUCacheModeDefault];
 	m_defaultEffectProvider = std::make_shared<CMetalUberEffectProvider>(m_metalView.device);
+	m_shadowMapEffectProvider = std::make_shared<CMetalShadowMapEffectProvider>(m_metalView.device);
 	m_drawSemaphore = dispatch_semaphore_create(0);
+	
+	@autoreleasepool
+	{
+		CreateDepthStencilState();
+		CreateShadowMap();
+	}
 }
 
 CMetalGraphicDevice::~CMetalGraphicDevice()
 {
 	//TODO: Cleanup
 	assert(m_samplerStates.empty());
+	[m_depthStencilState release];
+	[m_shadowMap release];
 	[m_constantBuffer release];
 	[m_commandQueue release];
 }
@@ -36,6 +45,43 @@ void CMetalGraphicDevice::DestroyInstance()
 	assert(m_instance != nullptr);
 	if(m_instance == nullptr) return;
 	delete m_instance;
+}
+
+void CMetalGraphicDevice::CreateDepthStencilState()
+{
+	MTLDepthStencilDescriptor* depthStateDesc = [[MTLDepthStencilDescriptor alloc] init];
+	depthStateDesc.depthCompareFunction = MTLCompareFunctionLessEqual;
+	depthStateDesc.depthWriteEnabled = YES;
+	m_depthStencilState = [m_metalView.device newDepthStencilStateWithDescriptor: depthStateDesc];
+	[depthStateDesc release];
+}
+
+void CMetalGraphicDevice::CreateShadowMap()
+{
+	static const unsigned int shadowMapSize = 1024;
+	
+	{
+		MTLTextureDescriptor* textureDesc = [[MTLTextureDescriptor alloc] init];
+		textureDesc.width = shadowMapSize;
+		textureDesc.height = shadowMapSize;
+		textureDesc.mipmapLevelCount = 1;
+		textureDesc.pixelFormat = MTLPixelFormatDepth32Float;
+		m_shadowMap = [m_metalView.device newTextureWithDescriptor: textureDesc];
+		assert(m_shadowMap != nil);
+		[textureDesc release];
+	}
+	
+	MTLAttachmentDescriptor* depthAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: m_shadowMap];
+	[depthAttachment setLoadAction: MTLLoadActionClear];
+	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
+	[depthAttachment setStoreAction: MTLStoreActionStore];
+
+	MTLFramebufferDescriptor* framebufferDescriptor = [[MTLFramebufferDescriptor alloc] init];
+	[framebufferDescriptor setAttachment: depthAttachment atIndex: MTLFramebufferAttachmentIndexDepth];
+	
+	m_shadowFramebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
+	
+	[framebufferDescriptor release];
 }
 
 VertexBufferPtr CMetalGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
@@ -61,6 +107,33 @@ RenderTargetPtr CMetalGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFo
 CubeRenderTargetPtr CMetalGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
 {
 	return CubeRenderTargetPtr();
+}
+
+id<MTLFramebuffer> CMetalGraphicDevice::GetMainFramebuffer(id<CAMetalDrawable> drawable)
+{
+	if(!m_mainDepthBuffer || (m_mainDepthBuffer && (m_mainDepthBuffer.width != drawable.texture.width || m_mainDepthBuffer.height != drawable.texture.height)))
+	{
+		MTLTextureDescriptor* desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat: MTLPixelFormatDepth32Float width: drawable.texture.width height: drawable.texture.height mipmapped: NO];
+		m_mainDepthBuffer = [m_metalView.device newTextureWithDescriptor: desc];
+		m_mainDepthBuffer.label = @"Main Depth Buffer";
+	}
+	
+	MTLAttachmentDescriptor* colorAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: drawable.texture];
+	[colorAttachment setLoadAction: MTLLoadActionClear];
+	[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
+	[colorAttachment setStoreAction: MTLStoreActionStore];
+	
+	MTLAttachmentDescriptor* depthAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: m_mainDepthBuffer];
+	[depthAttachment setLoadAction: MTLLoadActionClear];
+	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
+	[depthAttachment setStoreAction: MTLStoreActionDontCare];
+
+	MTLFramebufferDescriptor* framebufferDescriptor = [MTLFramebufferDescriptor framebufferDescriptorWithColorAttachment: colorAttachment];
+	[framebufferDescriptor setAttachment: depthAttachment atIndex: MTLFramebufferAttachmentIndexDepth];
+	
+	id<MTLFramebuffer> framebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
+	
+	return framebuffer;
 }
 
 id<MTLSamplerState> CMetalGraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO& stateInfo)
@@ -99,25 +172,35 @@ void CMetalGraphicDevice::Draw()
 			drawable = [m_metalView.renderLayer newDrawable];
 		}
 
-		MTLAttachmentDescriptor* colorAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: drawable.texture];
-		[colorAttachment setLoadAction: MTLLoadActionClear];
-		[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
-		[colorAttachment setStoreAction: MTLStoreActionStore];
-		
-		MTLFramebufferDescriptor* framebufferDescriptor = [MTLFramebufferDescriptor framebufferDescriptorWithColorAttachment: colorAttachment];
-		
-		id<MTLFramebuffer> framebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
-		
+		id<MTLFramebuffer> mainFramebuffer = GetMainFramebuffer(drawable);
 		id<MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
-		id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: framebuffer];
-		
 		unsigned int constantBufferOffset = 0;
-		for(const auto& viewport : m_viewports)
+
+		//Draw shadow map(s)
 		{
-			DrawViewport(renderEncoder, viewport, constantBufferOffset);
+			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: m_shadowFramebuffer];
+
+			for(const auto& viewport : m_viewports)
+			{
+				if(!viewport->GetShadowCamera()) continue;
+				DrawViewportShadowMap(renderEncoder, viewport, constantBufferOffset);
+				break;
+			}
+			
+			[renderEncoder endEncoding];
 		}
+
+		//Draw main maps
+		{
+			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: mainFramebuffer];
 		
-		[renderEncoder endEncoding];
+			for(const auto& viewport : m_viewports)
+			{
+				DrawViewportMainMap(renderEncoder, viewport, constantBufferOffset);
+			}
+		
+			[renderEncoder endEncoding];
+		}
 		
 		__block dispatch_semaphore_t block_sema = m_drawSemaphore;
 		[commandBuffer addCompletedHandler:
@@ -130,16 +213,11 @@ void CMetalGraphicDevice::Draw()
 		[commandBuffer addScheduledPresent: drawable];
 		[commandBuffer commit];
 		
-		[framebuffer release];
+		[mainFramebuffer release];
 		[drawable release];
 		
 		dispatch_semaphore_wait(m_drawSemaphore, DISPATCH_TIME_FOREVER);
 	}
-}
-
-void CMetalGraphicDevice::DrawViewport(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport, unsigned int& constantBufferOffset)
-{
-	DrawViewportMainMap(renderEncoder, viewport, constantBufferOffset);
 }
 
 void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport, unsigned int& constantBufferOffset)
@@ -147,7 +225,8 @@ void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> render
 	auto camera = viewport->GetCamera();
 	assert(camera);
 	//auto cameraFrustum = camera->GetFrustum();
-
+	auto shadowCamera = viewport->GetShadowCamera();
+	
 	std::vector<CMesh*> renderQueue;
 	renderQueue.reserve(100);
 	
@@ -172,6 +251,51 @@ void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> render
 		}
 	);
 	
+	bool hasShadowMap = shadowCamera != nullptr;
+	
+	METALVIEWPORT_PARAMS viewportParams;
+	viewportParams.viewport = viewport;
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.viewMatrix = camera->GetViewMatrix();
+	viewportParams.shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
+	viewportParams.hasShadowMap = hasShadowMap;
+	
+	for(const auto& mesh : renderQueue)
+	{
+		auto effectProvider = mesh->GetEffectProvider();
+		auto effect = std::static_pointer_cast<CMetalEffect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
+		unsigned int constantsSize = effect->GetConstantsSize();
+		assert((constantBufferOffset + constantsSize) <= CONSTANT_BUFFER_SIZE);
+		DrawMesh(renderEncoder, constantBufferOffset, viewportParams, mesh, effect);
+		constantBufferOffset += constantsSize;
+	}
+}
+
+void CMetalGraphicDevice::DrawViewportShadowMap(id<MTLRenderCommandEncoder> renderEncoder, CViewport* viewport, unsigned int& constantBufferOffset)
+{
+	auto camera = viewport->GetShadowCamera();
+	assert(camera);
+
+	std::vector<CMesh*> renderQueue;
+	renderQueue.reserve(100);
+	
+	auto sceneRoot = viewport->GetSceneRoot();
+	sceneRoot->TraverseNodes(
+		[&] (const SceneNodePtr& node)
+		{
+			if(!node->GetVisible()) return false;
+			
+			if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
+			{
+				if(mesh->GetMaterial()->GetShadowCasting())
+				{
+					renderQueue.push_back(mesh.get());
+				}
+			}
+			return true;
+		}
+	);
+	
 	METALVIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
@@ -179,8 +303,7 @@ void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> render
 	
 	for(const auto& mesh : renderQueue)
 	{
-		auto effectProvider = mesh->GetEffectProvider();
-		auto effect = std::static_pointer_cast<CMetalEffect>(effectProvider->GetEffectForRenderable(mesh, false));
+		auto effect = std::static_pointer_cast<CMetalEffect>(m_shadowMapEffectProvider->GetEffectForRenderable(mesh, false));
 		unsigned int constantsSize = effect->GetConstantsSize();
 		assert((constantBufferOffset + constantsSize) <= CONSTANT_BUFFER_SIZE);
 		DrawMesh(renderEncoder, constantBufferOffset, viewportParams, mesh, effect);
@@ -218,6 +341,10 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 			[renderEncoder setFragmentTexture: textureHandle atIndex: i];
 		}
 	}
+	if(viewportParams.hasShadowMap)
+	{
+		[renderEncoder setFragmentTexture: m_shadowMap atIndex: 1];
+	}
 	
 	MTLPrimitiveType primitiveType = MTLPrimitiveTypeTriangle;
 	unsigned int indexCount = vertexBuffer->GetDescriptor().indexCount;
@@ -238,6 +365,7 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	}
 	
 	[renderEncoder setRenderPipelineState: pipelineState];
+	[renderEncoder setDepthStencilState: m_depthStencilState];
 	[renderEncoder setVertexBuffer: vertexBufferHandle offset: 0 atIndex: 0];
 	[renderEncoder setVertexBuffer: m_constantBuffer offset: constantBufferOffset atIndex: 1];
 	[renderEncoder drawIndexedPrimitives: primitiveType indexCount: indexCount indexType: MTLIndexTypeUInt16 indexBuffer: indexBufferHandle indexBufferOffset: 0];

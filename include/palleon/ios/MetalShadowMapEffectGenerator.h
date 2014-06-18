@@ -4,17 +4,14 @@
 
 namespace Palleon
 {
-	class CMetalUberEffectGenerator
+	class CMetalShadowMapEffectGenerator
 	{
 	public:
 		struct EFFECTCAPS
 		{
 			unsigned int	hasNormal		: 1;
 			unsigned int	hasTexCoord0	: 1;
-			unsigned int	hasTexture		: 1;
-			unsigned int	hasShadowMap	: 1;
 		};
-		static_assert(sizeof(EFFECTCAPS) == 4, "EFFECTCAPS must be 4 bytes.");
 		
 		static std::string	GenerateLibrarySource(const EFFECTCAPS&);
 		

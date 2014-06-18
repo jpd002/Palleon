@@ -3,6 +3,7 @@
 #include "palleon/GraphicDevice.h"
 #include "palleon/ios/MetalView.h"
 #include "palleon/ios/MetalEffect.h"
+#include "palleon/ios/MetalShadowMapEffectProvider.h"
 
 namespace Palleon
 {
@@ -41,17 +42,30 @@ namespace Palleon
 											CMetalGraphicDevice(MetalView*);
 		virtual								~CMetalGraphicDevice();
 		
-		void								DrawViewport(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
+		void								CreateDepthStencilState();
+		void								CreateShadowMap();
+		void								UpdateDepthBuffer();
+		
 		void								DrawViewportMainMap(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
+		void								DrawViewportShadowMap(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
 		
 		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const METALVIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
 		
+		id<MTLFramebuffer>					GetMainFramebuffer(id<CAMetalDrawable>);
 		id<MTLSamplerState>					GetSamplerState(const SAMPLER_STATE_INFO&);
 		
-		MetalView*							m_metalView;
-		id<MTLCommandQueue>					m_commandQueue;
-		id<MTLBuffer>						m_constantBuffer;
+		MetalView*							m_metalView = nil;
+		id<MTLCommandQueue>					m_commandQueue = nil;
+		id<MTLBuffer>						m_constantBuffer = nil;
+		id<MTLTexture>						m_mainDepthBuffer = nil;
+
+		id<MTLTexture>						m_shadowMap = nil;
+		id<MTLFramebuffer>					m_shadowFramebuffer = nil;
+		
 		SamplerStateMap						m_samplerStates;
+		id<MTLDepthStencilState>			m_depthStencilState = nil;
 		dispatch_semaphore_t				m_drawSemaphore;
+		
+		EffectProviderPtr					m_shadowMapEffectProvider;
 	};
 }

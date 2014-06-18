@@ -2,85 +2,110 @@
 
 using namespace Palleon;
 
-std::string PrintLine(const char* format, ...)
-{
-	char buffer[256];
-	va_list args;
-	va_start(args, format);
-	vsnprintf(buffer, 256, format, args);
-	va_end(args);
-	return std::string(buffer) + std::string("\n");
-}
-
 std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& caps)
 {
 	std::string result;
 	
-	result += PrintLine("#include <metal_stdlib>");
-	result += PrintLine("#include <simd/simd.h>");
+	result += "#include <metal_stdlib>\n";
+	result += "#include <simd/simd.h>\n";
 	
-	result += PrintLine("using namespace metal;");
+	result += "using namespace metal;\n";
 	
-	result += PrintLine("struct Uniforms");
-	result += PrintLine("{");
-	result += PrintLine("\tmatrix_float4x4 modelViewProjMatrix;");
-	result += PrintLine("\tfloat4 meshColor;");
-	result += PrintLine("};");
-	
-	result += PrintLine("struct VertexIn");
-	result += PrintLine("{");
-	result += PrintLine("\tpacked_float3 position;");
+	result += "struct VertexIn\n";
+	result += "{\n";
+	result += "packed_float3 position;\n";
 	if(caps.hasNormal)
 	{
-		result += PrintLine("\tpacked_float3 normal;");
+		result += "packed_float3 normal;\n";
 	}
 	if(caps.hasTexCoord0)
 	{
-		result += PrintLine("\tpacked_float2 texCoord0;");
+		result += "packed_float2 texCoord0;\n";
 	}
-	result += PrintLine("};");
+	result += "};";
 	
-	result += PrintLine("struct VertexOut");
-	result += PrintLine("{");
-	result += PrintLine("\tfloat4 position [[position]];");
-	result += PrintLine("\tfloat2 texCoord0;");
-	result += PrintLine("\thalf4 color;");
-	result += PrintLine("};");
+	result += "struct VertexOut";
+	result += "{";
+	result += "float4 position [[position]];\n";
+	result += "float2 texCoord0;\n";
+	result += "half4 color;\n";
+	if(caps.hasShadowMap)
+	{
+		result += "float4 shadowPosition;\n";
+	}
+	result += "};\n";
 	
-	result += PrintLine("vertex VertexOut VertexShader(");
-	result += PrintLine("\tunsigned int vertexId [[vertex_id]],");
-	result += PrintLine("\tglobal VertexIn* vertices [[buffer(0)]],");
-	result += PrintLine("\tconstant Uniforms& uniforms [[buffer(1)]]");
-	result += PrintLine(")");
-	result += PrintLine("{");
-	result += PrintLine("\tVertexOut out;");
-	result += PrintLine("\tfloat4 position = float4(float3(vertices[vertexId].position), 1.0);");
-	result += PrintLine("\tout.position = uniforms.modelViewProjMatrix * position;");
-	result += PrintLine("\tout.color = half4(uniforms.meshColor);");
+	////////////////////////////////////////////////////
+	//Vertex Shader
+	////////////////////////////////////////////////////
+	
+	result += "struct VertexUniforms\n";
+	result += "{\n";
+	result += "matrix_float4x4 worldMatrix;\n";
+	result += "matrix_float4x4 viewProjMatrix;\n";
+	if(caps.hasShadowMap)
+	{
+		result += "matrix_float4x4 shadowViewProjMatrix;\n";
+	}
+	result += "float4 meshColor;\n";
+	result += "};\n";
+	
+	result += "vertex VertexOut VertexShader(\n";
+	result += "unsigned int vertexId [[vertex_id]],\n";
+	result += "global VertexIn* vertices [[buffer(0)]],\n";
+	result += "constant VertexUniforms& uniforms [[buffer(1)]]\n";
+	result += ")\n";
+	result += "{\n";
+	result += "VertexOut out;\n";
+	result += "float4 worldPos = uniforms.worldMatrix * float4(float3(vertices[vertexId].position), 1.0);\n";
+	result += "out.position = uniforms.viewProjMatrix * worldPos;\n";
+	if(caps.hasShadowMap)
+	{
+		result += "out.shadowPosition = uniforms.shadowViewProjMatrix * worldPos;\n";
+	}
+	result += "out.color = half4(uniforms.meshColor);\n";
 	if(caps.hasTexture)
 	{
-		result += PrintLine("\tout.texCoord0 = vertices[vertexId].texCoord0;");
+		result += "out.texCoord0 = vertices[vertexId].texCoord0;\n";
 	}
-	result += PrintLine("\treturn out;");
-	result += PrintLine("}");
+	result += "return out;\n";
+	result += "}\n";
 	
-	result += PrintLine("fragment half4 FragmentShader(");
+	////////////////////////////////////////////////////
+	//Fragment Shader
+	////////////////////////////////////////////////////
+	
+	if(caps.hasShadowMap)
+	{
+		result += "constexpr sampler g_shadowSampler(compare_func::less, min_filter::linear, mag_filter::linear);\n";
+	}
+	
+	result += "fragment half4 FragmentShader(\n";
 	if(caps.hasTexture)
 	{
-		result += PrintLine("\ttexture2d<half> texture0 [[texture(0)]], ");
-		result += PrintLine("\tsampler smp0 [[sampler(0)]],");
+		result += "texture2d<half> texture0 [[texture(0)]],\n";
+		result += "sampler smp0 [[sampler(0)]],\n";
 	}
-	result += PrintLine("\tVertexOut input [[stage_in]])");
-	result += PrintLine("{");
+	if(caps.hasShadowMap)
+	{
+		result += "depth2d<float> shadowTexture [[texture(1)]]\n,";
+	}
+	result += "VertexOut input [[stage_in]]\n";
+	result += ")\n";
+	result += "{\n";
+	result += "half4 diffuseColor = input.color;\n";
+	if(caps.hasShadowMap)
+	{
+		result += "float2 shadowMapCoord = 0.5 * (input.shadowPosition.xy / input.shadowPosition.w) + float2(0.5, 0.5);\n";
+		result += "float pixelZ = input.shadowPosition.z / input.shadowPosition.w;\n";
+		result += "diffuseColor *= shadowTexture.sample_compare(g_shadowSampler, shadowMapCoord, pixelZ);\n";
+	}
 	if(caps.hasTexture)
 	{
-		result += PrintLine("\treturn input.color * texture0.sample(smp0, input.texCoord0);");
+		result += "diffuseColor *= texture0.sample(smp0, input.texCoord0);\n";
 	}
-	else
-	{
-		result += PrintLine("\treturn input.color;");
-	}
-	result += PrintLine("}");
+	result += "return diffuseColor;\n";
+	result += "}\n";
 	
 	return result;
 }

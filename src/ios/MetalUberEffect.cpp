@@ -4,17 +4,21 @@
 
 using namespace Palleon;
 
-struct CONSTANTS
-{
-	CMatrix4	modelViewProjMatrix;
-	CColor		meshColor;
-};
-
 CMetalUberEffect::CMetalUberEffect(id<MTLDevice> device, const EFFECTCAPS& effectCaps)
 : CMetalEffect(device)
 {
 	auto librarySource = CMetalUberEffectGenerator::GenerateLibrarySource(effectCaps);
 	CreateLibraryAndShaders(librarySource);
+	
+	OffsetKeeper constantOffset;
+	m_worldMatrixOffset = constantOffset.Allocate(sizeof(CMatrix4));
+	m_viewProjMatrixOffset = constantOffset.Allocate(sizeof(CMatrix4));
+	if(effectCaps.hasShadowMap)
+	{
+		m_shadowViewProjMatrixOffset = constantOffset.Allocate(sizeof(CMatrix4));
+	}
+	m_meshColorOffset = constantOffset.Allocate(sizeof(CColor));
+	m_constantsSize = constantOffset.currentOffset;
 }
 
 CMetalUberEffect::~CMetalUberEffect()
@@ -22,14 +26,33 @@ CMetalUberEffect::~CMetalUberEffect()
 
 }
 
-void CMetalUberEffect::UpdateConstants(void* constantBuffer, const METALVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
+void CMetalUberEffect::UpdateConstants(uint8* constantBuffer, const METALVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
-	CONSTANTS* constants = reinterpret_cast<CONSTANTS*>(constantBuffer);
-	constants->modelViewProjMatrix = worldMatrix * viewportParams.viewMatrix * viewportParams.projMatrix;
-	constants->meshColor = material->GetColor();
+	if(m_worldMatrixOffset != -1)
+	{
+		*reinterpret_cast<CMatrix4*>(constantBuffer + m_worldMatrixOffset) = worldMatrix;
+	}
+	if(m_viewProjMatrixOffset != -1)
+	{
+		*reinterpret_cast<CMatrix4*>(constantBuffer + m_viewProjMatrixOffset) = viewportParams.viewMatrix * viewportParams.projMatrix;
+	}
+	if(m_shadowViewProjMatrixOffset != -1)
+	{
+		*reinterpret_cast<CMatrix4*>(constantBuffer + m_shadowViewProjMatrixOffset) = viewportParams.shadowViewProjMatrix;
+	}
+	if(m_meshColorOffset != -1)
+	{
+		*reinterpret_cast<CColor*>(constantBuffer + m_meshColorOffset) = material->GetColor();
+	}
 }
 
 unsigned int CMetalUberEffect::GetConstantsSize() const
 {
-	return sizeof(CONSTANTS);
+	return m_constantsSize;
+}
+
+void CMetalUberEffect::FillPipelinePixelFormats(MTLRenderPipelineDescriptor* pipelineStateDescriptor)
+{
+	[pipelineStateDescriptor setPixelFormat: MTLPixelFormatBGRA8Unorm atIndex: MTLFramebufferAttachmentIndexColor0];
+	[pipelineStateDescriptor setPixelFormat: MTLPixelFormatDepth32Float atIndex: MTLFramebufferAttachmentIndexDepth];
 }
