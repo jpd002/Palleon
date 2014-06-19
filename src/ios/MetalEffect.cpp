@@ -48,21 +48,19 @@ id<MTLRenderPipelineState> CMetalEffect::GetPipelineState(const PIPELINE_STATE_I
 
 		if(stateInfo.blendingMode != ALPHA_BLENDING_NONE)
 		{
-			MTLBlendDescriptor* blendDescriptor = [[MTLBlendDescriptor alloc] init];
-			blendDescriptor.blendingEnabled = TRUE;
+			MTLRenderPipelineAttachmentDescriptor* colorAttachement = [pipelineStateDescriptor.colorAttachments objectAtIndexedSubscript: 0];
+			colorAttachement.blendingEnabled = TRUE;
 			switch(stateInfo.blendingMode)
 			{
 			case ALPHA_BLENDING_LERP:
-				blendDescriptor.alphaBlendOperation = MTLBlendOperationAdd;
-				blendDescriptor.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-				blendDescriptor.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+				colorAttachement.alphaBlendOperation = MTLBlendOperationAdd;
+				colorAttachement.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+				colorAttachement.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 				break;
 			default:
 				assert(0);
 				break;
 			}
-			[pipelineStateDescriptor setBlendDescriptor: blendDescriptor atIndex: MTLFramebufferAttachmentIndexColor0];
-			[blendDescriptor release];
 		}
 	
 		NSError* pipelineStateError = nil;

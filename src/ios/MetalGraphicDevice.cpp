@@ -11,6 +11,7 @@ CMetalGraphicDevice::CMetalGraphicDevice(MetalView* metalView)
 {
 	m_screenSize = CVector2(480, 320);
 	m_commandQueue = [m_metalView.device newCommandQueue];
+	m_mainRenderPass = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 	m_constantBuffer = [m_metalView.device newBufferWithLength: CONSTANT_BUFFER_SIZE options: MTLResourceOptionCPUCacheModeDefault];
 	m_defaultEffectProvider = std::make_shared<CMetalUberEffectProvider>(m_metalView.device);
 	m_shadowMapEffectProvider = std::make_shared<CMetalShadowMapEffectProvider>(m_metalView.device);
@@ -31,6 +32,7 @@ CMetalGraphicDevice::~CMetalGraphicDevice()
 	[m_shadowMap release];
 	[m_constantBuffer release];
 	[m_commandQueue release];
+	[m_mainRenderPass release];
 }
 
 void CMetalGraphicDevice::CreateInstance(MetalView* metalView)
@@ -71,17 +73,14 @@ void CMetalGraphicDevice::CreateShadowMap()
 		[textureDesc release];
 	}
 	
-	MTLAttachmentDescriptor* depthAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: m_shadowMap];
+	MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
+	depthAttachment.texture = m_shadowMap;
 	[depthAttachment setLoadAction: MTLLoadActionClear];
 	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
 	[depthAttachment setStoreAction: MTLStoreActionStore];
 
-	MTLFramebufferDescriptor* framebufferDescriptor = [[MTLFramebufferDescriptor alloc] init];
-	[framebufferDescriptor setAttachment: depthAttachment atIndex: MTLFramebufferAttachmentIndexDepth];
-	
-	m_shadowFramebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
-	
-	[framebufferDescriptor release];
+	m_shadowRenderPass = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+	m_shadowRenderPass.depthAttachment = depthAttachment;
 }
 
 VertexBufferPtr CMetalGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
@@ -109,7 +108,7 @@ CubeRenderTargetPtr CMetalGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT t
 	return CubeRenderTargetPtr();
 }
 
-id<MTLFramebuffer> CMetalGraphicDevice::GetMainFramebuffer(id<CAMetalDrawable> drawable)
+void CMetalGraphicDevice::SetupMainRenderPass(id<CAMetalDrawable> drawable)
 {
 	if(!m_mainDepthBuffer || (m_mainDepthBuffer && (m_mainDepthBuffer.width != drawable.texture.width || m_mainDepthBuffer.height != drawable.texture.height)))
 	{
@@ -118,22 +117,20 @@ id<MTLFramebuffer> CMetalGraphicDevice::GetMainFramebuffer(id<CAMetalDrawable> d
 		m_mainDepthBuffer.label = @"Main Depth Buffer";
 	}
 	
-	MTLAttachmentDescriptor* colorAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: drawable.texture];
+	MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
+	colorAttachment.texture = drawable.texture;
 	[colorAttachment setLoadAction: MTLLoadActionClear];
 	[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
 	[colorAttachment setStoreAction: MTLStoreActionStore];
 	
-	MTLAttachmentDescriptor* depthAttachment = [MTLAttachmentDescriptor attachmentDescriptorWithTexture: m_mainDepthBuffer];
+	MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
+	depthAttachment.texture = m_mainDepthBuffer;
 	[depthAttachment setLoadAction: MTLLoadActionClear];
 	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
 	[depthAttachment setStoreAction: MTLStoreActionDontCare];
 
-	MTLFramebufferDescriptor* framebufferDescriptor = [MTLFramebufferDescriptor framebufferDescriptorWithColorAttachment: colorAttachment];
-	[framebufferDescriptor setAttachment: depthAttachment atIndex: MTLFramebufferAttachmentIndexDepth];
-	
-	id<MTLFramebuffer> framebuffer = [m_metalView.device newFramebufferWithDescriptor: framebufferDescriptor];
-	
-	return framebuffer;
+	[m_mainRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
+	m_mainRenderPass.depthAttachment = depthAttachment;
 }
 
 id<MTLSamplerState> CMetalGraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO& stateInfo)
@@ -171,14 +168,14 @@ void CMetalGraphicDevice::Draw()
 		{
 			drawable = [m_metalView.renderLayer newDrawable];
 		}
-
-		id<MTLFramebuffer> mainFramebuffer = GetMainFramebuffer(drawable);
+		SetupMainRenderPass(drawable);
+		
 		id<MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
 		unsigned int constantBufferOffset = 0;
-
+		
 		//Draw shadow map(s)
 		{
-			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: m_shadowFramebuffer];
+			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor: m_shadowRenderPass];
 
 			for(const auto& viewport : m_viewports)
 			{
@@ -192,7 +189,7 @@ void CMetalGraphicDevice::Draw()
 
 		//Draw main maps
 		{
-			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithFramebuffer: mainFramebuffer];
+			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor: m_mainRenderPass];
 		
 			for(const auto& viewport : m_viewports)
 			{
@@ -210,10 +207,9 @@ void CMetalGraphicDevice::Draw()
 			}
 		];
 		
-		[commandBuffer addScheduledPresent: drawable];
+		[commandBuffer presentDrawable: drawable];
 		[commandBuffer commit];
 		
-		[mainFramebuffer release];
 		[drawable release];
 		
 		dispatch_semaphore_wait(m_drawSemaphore, DISPATCH_TIME_FOREVER);

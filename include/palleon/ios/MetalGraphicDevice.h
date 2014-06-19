@@ -51,16 +51,18 @@ namespace Palleon
 		
 		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const METALVIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
 		
-		id<MTLFramebuffer>					GetMainFramebuffer(id<CAMetalDrawable>);
+		void								SetupMainRenderPass(id<CAMetalDrawable>);
 		id<MTLSamplerState>					GetSamplerState(const SAMPLER_STATE_INFO&);
 		
 		MetalView*							m_metalView = nil;
 		id<MTLCommandQueue>					m_commandQueue = nil;
 		id<MTLBuffer>						m_constantBuffer = nil;
+		
+		MTLRenderPassDescriptor*			m_mainRenderPass = nil;
 		id<MTLTexture>						m_mainDepthBuffer = nil;
 
 		id<MTLTexture>						m_shadowMap = nil;
-		id<MTLFramebuffer>					m_shadowFramebuffer = nil;
+		MTLRenderPassDescriptor*			m_shadowRenderPass = nil;
 		
 		SamplerStateMap						m_samplerStates;
 		id<MTLDepthStencilState>			m_depthStencilState = nil;
