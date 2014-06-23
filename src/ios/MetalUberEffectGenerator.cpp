@@ -98,7 +98,7 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	{
 		result += "float2 shadowMapCoord = 0.5 * (input.shadowPosition.xy / input.shadowPosition.w) + float2(0.5, 0.5);\n";
 		result += "float pixelZ = input.shadowPosition.z / input.shadowPosition.w;\n";
-		result += "diffuseColor *= shadowTexture.sample_compare(g_shadowSampler, shadowMapCoord, pixelZ);\n";
+		result += "diffuseColor.xyz *= shadowTexture.sample_compare(g_shadowSampler, shadowMapCoord, pixelZ);\n";
 	}
 	if(caps.hasTexture)
 	{
