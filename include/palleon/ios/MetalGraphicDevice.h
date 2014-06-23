@@ -59,6 +59,7 @@ namespace Palleon
 		id<MTLBuffer>						m_constantBuffer = nil;
 		
 		MTLRenderPassDescriptor*			m_mainRenderPass = nil;
+		MTLRenderPassDescriptor*			m_mainAdditionalRenderPass = nil;
 		id<MTLTexture>						m_mainDepthBuffer = nil;
 
 		id<MTLTexture>						m_shadowMap = nil;

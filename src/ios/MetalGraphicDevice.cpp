@@ -12,6 +12,7 @@ CMetalGraphicDevice::CMetalGraphicDevice(MetalView* metalView)
 	m_screenSize = CVector2(480, 320);
 	m_commandQueue = [m_metalView.device newCommandQueue];
 	m_mainRenderPass = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
+	m_mainAdditionalRenderPass = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
 	m_constantBuffer = [m_metalView.device newBufferWithLength: CONSTANT_BUFFER_SIZE options: MTLResourceOptionCPUCacheModeDefault];
 	m_defaultEffectProvider = std::make_shared<CMetalUberEffectProvider>(m_metalView.device);
 	m_shadowMapEffectProvider = std::make_shared<CMetalShadowMapEffectProvider>(m_metalView.device);
@@ -33,6 +34,7 @@ CMetalGraphicDevice::~CMetalGraphicDevice()
 	[m_constantBuffer release];
 	[m_commandQueue release];
 	[m_mainRenderPass release];
+	[m_mainAdditionalRenderPass release];
 }
 
 void CMetalGraphicDevice::CreateInstance(MetalView* metalView)
@@ -116,21 +118,39 @@ void CMetalGraphicDevice::SetupMainRenderPass(id<CAMetalDrawable> drawable)
 		m_mainDepthBuffer = [m_metalView.device newTextureWithDescriptor: desc];
 		m_mainDepthBuffer.label = @"Main Depth Buffer";
 	}
-	
-	MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
-	colorAttachment.texture = drawable.texture;
-	[colorAttachment setLoadAction: MTLLoadActionClear];
-	[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
-	[colorAttachment setStoreAction: MTLStoreActionStore];
-	
-	MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
-	depthAttachment.texture = m_mainDepthBuffer;
-	[depthAttachment setLoadAction: MTLLoadActionClear];
-	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
-	[depthAttachment setStoreAction: MTLStoreActionDontCare];
 
-	[m_mainRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
-	m_mainRenderPass.depthAttachment = depthAttachment;
+	{
+		MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
+		colorAttachment.texture = drawable.texture;
+		[colorAttachment setLoadAction: MTLLoadActionClear];
+		[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
+		[colorAttachment setStoreAction: MTLStoreActionStore];
+	
+		MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
+		depthAttachment.texture = m_mainDepthBuffer;
+		[depthAttachment setLoadAction: MTLLoadActionClear];
+		[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
+		[depthAttachment setStoreAction: MTLStoreActionDontCare];
+
+		[m_mainRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
+		m_mainRenderPass.depthAttachment = depthAttachment;
+	}
+	
+	{
+		MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
+		colorAttachment.texture = drawable.texture;
+		[colorAttachment setLoadAction: MTLLoadActionLoad];
+		[colorAttachment setStoreAction: MTLStoreActionStore];
+	
+		MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
+		depthAttachment.texture = m_mainDepthBuffer;
+		[depthAttachment setLoadAction: MTLLoadActionClear];
+		[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
+		[depthAttachment setStoreAction: MTLStoreActionDontCare];
+
+		[m_mainAdditionalRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
+		m_mainAdditionalRenderPass.depthAttachment = depthAttachment;
+	}
 }
 
 id<MTLSamplerState> CMetalGraphicDevice::GetSamplerState(const SAMPLER_STATE_INFO& stateInfo)
@@ -189,14 +209,14 @@ void CMetalGraphicDevice::Draw()
 
 		//Draw main maps
 		{
-			id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor: m_mainRenderPass];
-		
+			MTLRenderPassDescriptor* currentRenderPass = m_mainRenderPass;
 			for(const auto& viewport : m_viewports)
 			{
+				id<MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor: currentRenderPass];
 				DrawViewportMainMap(renderEncoder, viewport, constantBufferOffset);
+				[renderEncoder endEncoding];
+				currentRenderPass = m_mainAdditionalRenderPass;
 			}
-		
-			[renderEncoder endEncoding];
 		}
 		
 		__block dispatch_semaphore_t block_sema = m_drawSemaphore;
