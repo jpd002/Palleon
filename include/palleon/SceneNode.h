@@ -42,6 +42,7 @@ namespace Palleon
 		void							RemoveAllChildren();
 
 		CSceneNode*						GetParent() const;
+		const SceneNodeArray&			GetChildren() const;
 
 		std::string						GetName() const;
 		void							SetName(const std::string&);

@@ -87,6 +87,11 @@ CSceneNode* CSceneNode::GetParent() const
 	return m_parent;
 }
 
+const CSceneNode::SceneNodeArray& CSceneNode::GetChildren() const
+{
+	return m_children;
+}
+
 std::string CSceneNode::GetName() const
 {
 	return m_name;
