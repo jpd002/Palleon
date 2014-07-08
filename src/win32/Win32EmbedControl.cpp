@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "palleon/win32/Win32EmbedControl.h"
+#include "string_cast.h"
 
 using namespace Palleon;
 
@@ -41,15 +42,36 @@ CWin32EmbedControl::~CWin32EmbedControl()
 
 }
 
-void CWin32EmbedControl::ExecuteCommand(const std::string& command)
+bool CWin32EmbedControl::IsClientActive() const
 {
-	HRESULT result = S_OK;
-	auto application = m_embedClient.GetApplication();
-	result = application->NotifyExternalCommand(command.c_str());
-	if(FAILED(result))
+	return m_embedClientActive;
+}
+
+std::string CWin32EmbedControl::ExecuteCommand(const std::string& command)
+{
+	std::string commandResult;
+	if(m_embedClientActive)
 	{
-		throw std::runtime_error("Execute command failed");
+		BSTR rpcCommandResult = nullptr;
+		BSTR rpcCommand = SysAllocString(string_cast<std::wstring>(command).c_str());
+
+		auto application = m_embedClient.GetApplication();
+		HRESULT result = application->NotifyExternalCommand(rpcCommand, &rpcCommandResult);
+
+		SysFreeString(rpcCommand);
+		if(rpcCommandResult != nullptr)
+		{
+			commandResult = string_cast<std::string>(rpcCommandResult);
+			SysFreeString(rpcCommandResult);
+		}
+
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
 	}
+	return commandResult;
 }
 
 void CWin32EmbedControl::CreateDevice()
@@ -58,7 +80,7 @@ void CWin32EmbedControl::CreateDevice()
 
 	HRESULT result = S_OK;
 
-	auto clientRect = GetClientRect();
+	auto clientRect = GetSurfaceSize();
 
 	swapChainDesc.BufferCount							= 1;
 	swapChainDesc.BufferDesc.Width						= clientRect.Width();
@@ -105,6 +127,11 @@ void CWin32EmbedControl::CreateOutputTexture()
 
 void CWin32EmbedControl::CreateSharedTexture()
 {
+	if(!m_embedClientActive)
+	{
+		return;
+	}
+
 	HRESULT result = S_OK;
 	auto surfaceSize = GetSurfaceSize();
 
@@ -112,10 +139,22 @@ void CWin32EmbedControl::CreateSharedTexture()
 
 	result = application->SetSurfaceSize(surfaceSize.Width(), surfaceSize.Height());
 	assert(SUCCEEDED(result));
+	if(FAILED(result))
+	{
+		m_embedClientActive = false;
+		ErrorRaised(this);
+		return;
+	}
 
 	HANDLE surfaceHandle = INVALID_HANDLE_VALUE;
 	result = application->GetSurfaceHandle(reinterpret_cast<DWORD_PTR*>(&surfaceHandle));
 	assert(SUCCEEDED(result));
+	if(FAILED(result))
+	{
+		m_embedClientActive = false;
+		ErrorRaised(this);
+		return;
+	}
 
 	result = m_device->OpenSharedResource(surfaceHandle, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&m_sharedTexture));
 	assert(SUCCEEDED(result));
@@ -142,17 +181,33 @@ Framework::Win32::CRect CWin32EmbedControl::GetSurfaceSize()
 
 long CWin32EmbedControl::OnMouseMove(WPARAM, int posX, int posY)
 {
-	auto application = m_embedClient.GetApplication();
-	HRESULT result = application->NotifyMouseMove(posX, posY);
-	assert(SUCCEEDED(result));
+	if(m_embedClientActive)
+	{
+		auto application = m_embedClient.GetApplication();
+		HRESULT result = application->NotifyMouseMove(posX, posY);
+		assert(SUCCEEDED(result));
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
+	}
 	return FALSE;
 }
 
 long CWin32EmbedControl::OnMouseWheel(int, int, short z)
 {
-	auto application = m_embedClient.GetApplication();
-	HRESULT result = application->NotifyMouseWheel(z);
-	assert(SUCCEEDED(result));
+	if(m_embedClientActive)
+	{
+		auto application = m_embedClient.GetApplication();
+		HRESULT result = application->NotifyMouseWheel(z);
+		assert(SUCCEEDED(result));
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
+	}
 	return FALSE;
 }
 
@@ -160,18 +215,34 @@ long CWin32EmbedControl::OnLeftButtonDown(int, int)
 {
 	SetFocus();
 	SetCapture(m_hWnd);
-	auto application = m_embedClient.GetApplication();
-	HRESULT result = application->NotifyMouseDown();
-	assert(SUCCEEDED(result));
+	if(m_embedClientActive)
+	{
+		auto application = m_embedClient.GetApplication();
+		HRESULT result = application->NotifyMouseDown();
+		assert(SUCCEEDED(result));
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
+	}
 	return FALSE;
 }
 
 long CWin32EmbedControl::OnLeftButtonUp(int, int)
 {
 	ReleaseCapture();
-	auto application = m_embedClient.GetApplication();
-	HRESULT result = application->NotifyMouseUp();
-	assert(SUCCEEDED(result));
+	if(m_embedClientActive)
+	{
+		auto application = m_embedClient.GetApplication();
+		HRESULT result = application->NotifyMouseUp();
+		assert(SUCCEEDED(result));
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
+	}
 	return FALSE;
 }
 
@@ -202,37 +273,33 @@ long CWin32EmbedControl::OnTimer(WPARAM)
 {
 	KillTimer(m_hWnd, TIMER_ID);
 
-#if 0
-	static LARGE_INTEGER currCall = { 0, 0 }, prevCall = { 0, 0 };
-
-	QueryPerformanceCounter(&currCall);
-	if(prevCall.QuadPart != 0)
-	{
-		LARGE_INTEGER freq = { 0, 0 };
-		QueryPerformanceFrequency(&freq);
-		double delta = static_cast<double>(currCall.QuadPart - prevCall.QuadPart) / static_cast<double>(freq.QuadPart);
-		auto deltaString = std::to_string(delta);
-		OutputDebugStringA((std::string("Delta: ") + deltaString + "\r\n").c_str());
-	}
-	prevCall = currCall;
-#endif
-
 	HRESULT result = S_OK;
-	
-	auto application = m_embedClient.GetApplication();
-	result = application->Update(1.f / 60.f);
-	assert(SUCCEEDED(result));
 
-	static const float clearColor[4] = { 1, 0, 0, 0 };
+	if(m_embedClientActive)
+	{
+		auto application = m_embedClient.GetApplication();
+		result = application->Update(1.f / 60.f);
+		assert(SUCCEEDED(result));
+		if(FAILED(result))
+		{
+			m_embedClientActive = false;
+			ErrorRaised(this);
+		}
+	}
+
+	static const float clearColor[4] = { 0, 0, 0, 0 };
 	m_deviceContext->ClearRenderTargetView(m_outputTextureView, clearColor);
 
-	result = m_sharedTextureMutex->AcquireSync(1, INFINITE);
-	if(result != WAIT_OBJECT_0) return FALSE;
+	if(m_embedClientActive)
+	{
+		result = m_sharedTextureMutex->AcquireSync(1, INFINITE);
+		if(result != WAIT_OBJECT_0) return FALSE;
 
-	m_deviceContext->CopyResource(m_outputTexture, m_sharedTexture);
+		m_deviceContext->CopyResource(m_outputTexture, m_sharedTexture);
 
-	result = m_sharedTextureMutex->ReleaseSync(0);
-	assert(SUCCEEDED(result));
+		result = m_sharedTextureMutex->ReleaseSync(0);
+		assert(SUCCEEDED(result));
+	}
 
 	m_swapChain->Present(0, 0);
 

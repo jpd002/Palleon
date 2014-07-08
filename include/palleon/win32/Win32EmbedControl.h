@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <boost/signals2.hpp>
 #include "win32/Window.h"
 #include "win32/ComPtr.h"
 #include "palleon/win32/Win32EmbedClient.h"
@@ -10,10 +11,16 @@ namespace Palleon
 	class CWin32EmbedControl : public Framework::Win32::CWindow
 	{
 	public:
+		typedef boost::signals2::signal<void (CWin32EmbedControl*)> ErrorRaisedEventType;
+
 										CWin32EmbedControl(HWND, const RECT&, const std::tstring&, const std::tstring&);
 		virtual							~CWin32EmbedControl();
 
-		void							ExecuteCommand(const std::string&);
+		bool							IsClientActive() const;
+
+		std::string						ExecuteCommand(const std::string&);
+
+		ErrorRaisedEventType			ErrorRaised;
 
 	protected:
 		long							OnMouseMove(WPARAM, int, int) override;
@@ -46,5 +53,6 @@ namespace Palleon
 		DXGISwapChainPtr				m_swapChain;
 
 		CWin32EmbedClient				m_embedClient;
+		bool							m_embedClientActive = true;
 	};
 }

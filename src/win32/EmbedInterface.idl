@@ -33,6 +33,7 @@ interface IEmbedApplication : IUnknown
 	HRESULT NotifyMouseUp();
 
 	HRESULT NotifyExternalCommand(
-		[in, string] LPCSTR command
+		[in] BSTR command,
+		[out, retval] BSTR* result
 	);
 };

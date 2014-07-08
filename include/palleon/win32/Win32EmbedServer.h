@@ -29,7 +29,7 @@ namespace Palleon
 		STDMETHODIMP			NotifyMouseDown() override;
 		STDMETHODIMP			NotifyMouseUp() override;
 
-		STDMETHODIMP			NotifyExternalCommand(LPCSTR) override;
+		STDMETHODIMP			NotifyExternalCommand(BSTR, BSTR*) override;
 
 	private:
 		void					WriteInterfaceToConsole();

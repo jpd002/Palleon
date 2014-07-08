@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace Palleon
 {
 	enum KEY_CODE
@@ -18,25 +20,25 @@ namespace Palleon
 	class CApplication
 	{
 	public:
-		virtual			~CApplication() {};
+		virtual				~CApplication() {};
 
-		virtual void	Update(float) = 0;
+		virtual void		Update(float) = 0;
 
-		virtual void	NotifySizeChanged() {}
+		virtual void		NotifySizeChanged() {}
 
-		virtual void	NotifyMouseMove(int, int) {}
-		virtual void	NotifyMouseDown() {}
-		virtual void	NotifyMouseUp() {}
-		virtual void	NotifyMouseWheel(int) {}
+		virtual void		NotifyMouseMove(int, int) {}
+		virtual void		NotifyMouseDown() {}
+		virtual void		NotifyMouseUp() {}
+		virtual void		NotifyMouseWheel(int) {}
 
-		virtual void	NotifyKeyDown(KEY_CODE) {}
-		virtual void	NotifyKeyUp(KEY_CODE) {}
+		virtual void		NotifyKeyDown(KEY_CODE) {}
+		virtual void		NotifyKeyUp(KEY_CODE) {}
 
-		virtual void	NotifyInputCancelled() {}
+		virtual void		NotifyInputCancelled() {}
 
 		//Embedding notifications
-		virtual void	NotifyIsEmbedding() {}
-		virtual void	NotifyExternalCommand(const std::string&) {}
+		virtual void		NotifyIsEmbedding() {}
+		virtual std::string	NotifyExternalCommand(const std::string&) { return ""; }
 	};
 }
 

@@ -4,6 +4,7 @@
 #include "MemStream.h"
 #include "win32/ComPtr.h"
 #include "win32/ComStreamAdapter.h"
+#include "string_cast.h"
 
 using namespace Palleon;
 
@@ -167,8 +168,13 @@ STDMETHODIMP CWin32EmbedServer::NotifyMouseUp()
 	return S_OK;
 }
 
-STDMETHODIMP CWin32EmbedServer::NotifyExternalCommand(LPCSTR command)
+STDMETHODIMP CWin32EmbedServer::NotifyExternalCommand(BSTR command, BSTR* result)
 {
-	m_application->NotifyExternalCommand(std::string(command));
+	auto convertedCommand = string_cast<std::string>(command);
+	auto commandResult = m_application->NotifyExternalCommand(convertedCommand);
+	if(result)
+	{
+		(*result) = SysAllocString(string_cast<std::wstring>(commandResult.c_str()).c_str());
+	}
 	return S_OK;
 }
