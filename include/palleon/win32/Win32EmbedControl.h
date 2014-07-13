@@ -5,6 +5,7 @@
 #include "win32/Window.h"
 #include "win32/ComPtr.h"
 #include "palleon/win32/Win32EmbedClient.h"
+#include "palleon/Application.h"
 
 namespace Palleon
 {
@@ -27,6 +28,8 @@ namespace Palleon
 		long							OnMouseWheel(int, int, short) override;
 		long							OnLeftButtonDown(int, int) override;
 		long							OnLeftButtonUp(int, int) override;
+		long							OnKeyDown(WPARAM, LPARAM) override;
+		long							OnKeyUp(WPARAM, LPARAM) override;
 		long							OnTimer(WPARAM) override;
 		long							OnSize(unsigned int, unsigned int, unsigned int) override;
 
@@ -43,6 +46,8 @@ namespace Palleon
 		void							CreateSharedTexture();
 
 		Framework::Win32::CRect			GetSurfaceSize();
+
+		KEY_CODE						TranslateKeyCode(unsigned int);
 
 		D3D11DevicePtr					m_device;
 		D3D11DeviceContextPtr			m_deviceContext;

@@ -29,6 +29,9 @@ namespace Palleon
 		STDMETHODIMP			NotifyMouseDown() override;
 		STDMETHODIMP			NotifyMouseUp() override;
 
+		STDMETHODIMP			NotifyKeyDown(unsigned int) override;
+		STDMETHODIMP			NotifyKeyUp(unsigned int) override;
+
 		STDMETHODIMP			NotifyExternalCommand(BSTR, BSTR*) override;
 
 	private:

@@ -32,6 +32,14 @@ interface IEmbedApplication : IUnknown
 	HRESULT NotifyMouseDown();
 	HRESULT NotifyMouseUp();
 
+	HRESULT NotifyKeyDown(
+		[in] unsigned int code
+	);
+
+	HRESULT NotifyKeyUp(
+		[in] unsigned int code
+	);
+
 	HRESULT NotifyExternalCommand(
 		[in] BSTR command,
 		[out, retval] BSTR* result

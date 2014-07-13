@@ -179,6 +179,22 @@ Framework::Win32::CRect CWin32EmbedControl::GetSurfaceSize()
 	return clientRect;
 }
 
+KEY_CODE CWin32EmbedControl::TranslateKeyCode(unsigned int keyCode)
+{
+	switch(keyCode)
+	{
+	case 'W':		return KEY_CODE_W;
+	case 'A':		return KEY_CODE_A;
+	case 'S':		return KEY_CODE_S;
+	case 'D':		return KEY_CODE_D;
+	case VK_DOWN:	return KEY_CODE_ARROW_DOWN;
+	case VK_UP:		return KEY_CODE_ARROW_UP;
+	case VK_LEFT:	return KEY_CODE_ARROW_LEFT;
+	case VK_RIGHT:	return KEY_CODE_ARROW_RIGHT;
+	default:		return KEY_CODE_NONE;
+	}
+}
+
 long CWin32EmbedControl::OnMouseMove(WPARAM, int posX, int posY)
 {
 	if(m_embedClientActive)
@@ -246,27 +262,30 @@ long CWin32EmbedControl::OnLeftButtonUp(int, int)
 	return FALSE;
 }
 
-long CWin32EmbedControl::OnSize(unsigned int, unsigned int width, unsigned int height)
+long CWin32EmbedControl::OnKeyDown(WPARAM keyCode, LPARAM flags)
 {
-	HRESULT result = S_OK;
-	
-	if(!m_swapChain.IsEmpty())
+	//Check repeat flag
+	if((flags & 0x40000000) == 0)
 	{
-		auto surfaceSize = GetSurfaceSize();
-
-		m_outputTexture.Reset();
-		m_outputTextureView.Reset();
-		m_sharedTexture.Reset();
-		m_sharedTextureMutex.Reset();
-
-		result = m_swapChain->ResizeBuffers(1, surfaceSize.Width(), surfaceSize.Height(), DXGI_FORMAT_R8G8B8A8_UNORM, 0);
-		assert(SUCCEEDED(result));
-
-		CreateOutputTexture();
-		CreateSharedTexture();
+		auto translatedKeyCode = TranslateKeyCode(keyCode);
+		if(translatedKeyCode != KEY_CODE_NONE)
+		{
+			auto application = m_embedClient.GetApplication();
+			application->NotifyKeyDown(translatedKeyCode);
+		}
 	}
+	return TRUE;
+}
 
-	return FALSE;
+long CWin32EmbedControl::OnKeyUp(WPARAM keyCode, LPARAM flags)
+{
+	auto translatedKeyCode = TranslateKeyCode(keyCode);
+	if(translatedKeyCode != KEY_CODE_NONE)
+	{
+		auto application = m_embedClient.GetApplication();
+		application->NotifyKeyUp(translatedKeyCode);
+	}
+	return TRUE;
 }
 
 long CWin32EmbedControl::OnTimer(WPARAM)
@@ -304,6 +323,29 @@ long CWin32EmbedControl::OnTimer(WPARAM)
 	m_swapChain->Present(0, 0);
 
 	SetTimer(m_hWnd, TIMER_ID, TIMER_DELAY, 0);
+
+	return FALSE;
+}
+
+long CWin32EmbedControl::OnSize(unsigned int, unsigned int width, unsigned int height)
+{
+	HRESULT result = S_OK;
+	
+	if(!m_swapChain.IsEmpty())
+	{
+		auto surfaceSize = GetSurfaceSize();
+
+		m_outputTexture.Reset();
+		m_outputTextureView.Reset();
+		m_sharedTexture.Reset();
+		m_sharedTextureMutex.Reset();
+
+		result = m_swapChain->ResizeBuffers(1, surfaceSize.Width(), surfaceSize.Height(), DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		assert(SUCCEEDED(result));
+
+		CreateOutputTexture();
+		CreateSharedTexture();
+	}
 
 	return FALSE;
 }

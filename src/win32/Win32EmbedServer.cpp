@@ -167,6 +167,18 @@ STDMETHODIMP CWin32EmbedServer::NotifyMouseUp()
 	return S_OK;
 }
 
+STDMETHODIMP CWin32EmbedServer::NotifyKeyDown(unsigned int code)
+{
+	m_application->NotifyKeyDown(static_cast<Palleon::KEY_CODE>(code));
+	return S_OK;
+}
+
+STDMETHODIMP CWin32EmbedServer::NotifyKeyUp(unsigned int code)
+{
+	m_application->NotifyKeyUp(static_cast<Palleon::KEY_CODE>(code));
+	return S_OK;
+}
+
 STDMETHODIMP CWin32EmbedServer::NotifyExternalCommand(BSTR command, BSTR* result)
 {
 	auto convertedCommand = string_cast<std::string>(command);
