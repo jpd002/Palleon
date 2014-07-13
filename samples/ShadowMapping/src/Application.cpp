@@ -209,7 +209,7 @@ void CApplication::NotifyMouseUp()
 	m_mainCamera->NotifyMouseUp();
 }
 
-Palleon::CApplication* CreateApplication()
+Palleon::CApplication* CreateApplication(bool)
 {
 	return new CApplication();
 }

@@ -26,7 +26,7 @@ CQuakeViewer::~CQuakeViewer()
 	delete m_pakFile;
 }
 
-Palleon::CApplication* CreateApplication()
+Palleon::CApplication* CreateApplication(bool)
 {
 	return new CQuakeViewer();
 }
