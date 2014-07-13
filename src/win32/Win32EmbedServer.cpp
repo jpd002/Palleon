@@ -13,8 +13,7 @@ CWin32EmbedServer::CWin32EmbedServer()
 	CWin32ResourceManager::CreateInstance();
 	CDx11GraphicDevice::CreateInstance(NULL, CVector2(640, 480));
 
-	m_application = CreateApplication();
-	m_application->NotifyIsEmbedding();
+	m_application = CreateApplication(true);
 }
 
 CWin32EmbedServer::~CWin32EmbedServer()

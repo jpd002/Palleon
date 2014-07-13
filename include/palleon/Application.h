@@ -37,9 +37,8 @@ namespace Palleon
 		virtual void		NotifyInputCancelled() {}
 
 		//Embedding notifications
-		virtual void		NotifyIsEmbedding() {}
 		virtual std::string	NotifyExternalCommand(const std::string&) { return ""; }
 	};
 }
 
-extern Palleon::CApplication* CreateApplication();
+extern Palleon::CApplication* CreateApplication(bool isEmbedding = false);
