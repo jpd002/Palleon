@@ -349,3 +349,8 @@ long CWin32EmbedControl::OnSize(unsigned int, unsigned int width, unsigned int h
 
 	return FALSE;
 }
+
+long CWin32EmbedControl::OnGetDlgCode(WPARAM, LPARAM)
+{
+	return DLGC_WANTALLKEYS;
+}

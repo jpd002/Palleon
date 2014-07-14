@@ -32,6 +32,7 @@ namespace Palleon
 		long							OnKeyUp(WPARAM, LPARAM) override;
 		long							OnTimer(WPARAM) override;
 		long							OnSize(unsigned int, unsigned int, unsigned int) override;
+		long							OnGetDlgCode(WPARAM, LPARAM) override;
 
 	private:
 		typedef Framework::Win32::CComPtr<ID3D11Device> D3D11DevicePtr;
