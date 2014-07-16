@@ -17,6 +17,8 @@ namespace Palleon
 										CWin32EmbedControl(HWND, const RECT&, const std::tstring&, const std::tstring&);
 		virtual							~CWin32EmbedControl();
 
+		void							SetRunning(bool);
+
 		bool							IsClientActive() const;
 
 		std::string						ExecuteCommand(const std::string&);
@@ -57,6 +59,8 @@ namespace Palleon
 		D3D11Texture2DPtr				m_sharedTexture;
 		DXGIKeyedMutexPtr				m_sharedTextureMutex;
 		DXGISwapChainPtr				m_swapChain;
+
+		bool							m_running = false;
 
 		CWin32EmbedClient				m_embedClient;
 		bool							m_embedClientActive = true;

@@ -34,12 +34,28 @@ CWin32EmbedControl::CWin32EmbedControl(HWND parentWnd, const RECT& windowRect,
 	CreateDevice();
 	CreateSharedTexture();
 
-	SetTimer(m_hWnd, TIMER_ID, TIMER_DELAY, 0);
+	SetRunning(true);
 }
 
 CWin32EmbedControl::~CWin32EmbedControl()
 {
 
+}
+
+void CWin32EmbedControl::SetRunning(bool running)
+{
+	if(!m_running && running)
+	{
+		SetTimer(m_hWnd, TIMER_ID, TIMER_DELAY, 0);
+		m_running = true;
+		return;
+	}
+	if(m_running && !running)
+	{
+		KillTimer(m_hWnd, TIMER_ID);
+		m_running = false;
+		return;
+	}
 }
 
 bool CWin32EmbedControl::IsClientActive() const
@@ -290,6 +306,8 @@ long CWin32EmbedControl::OnKeyUp(WPARAM keyCode, LPARAM flags)
 
 long CWin32EmbedControl::OnTimer(WPARAM)
 {
+	assert(m_running);
+
 	KillTimer(m_hWnd, TIMER_ID);
 
 	HRESULT result = S_OK;
