@@ -18,7 +18,7 @@ CSceneNode::CSceneNode()
 
 CSceneNode::~CSceneNode()
 {
-
+	RemoveAllChildren();
 }
 
 SceneNodePtr CSceneNode::Create()
