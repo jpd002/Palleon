@@ -40,7 +40,7 @@ namespace Palleon
 
 	enum
 	{
-		MAX_VERTEX_ITEMS = 8
+		MAX_VERTEX_ITEMS = 16
 	};
 
 	typedef std::array<VERTEX_ITEM, MAX_VERTEX_ITEMS> VertexItemArray;
