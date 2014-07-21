@@ -315,7 +315,7 @@ long CWin32EmbedControl::OnKeyUp(WPARAM keyCode, LPARAM flags)
 
 long CWin32EmbedControl::OnTimer(WPARAM)
 {
-	assert(m_running);
+	if(!m_running) return FALSE;
 
 	KillTimer(m_hWnd, TIMER_ID);
 
