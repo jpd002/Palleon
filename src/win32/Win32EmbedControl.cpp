@@ -68,6 +68,11 @@ std::string CWin32EmbedControl::ExecuteCommand(const std::string& command)
 	std::string commandResult;
 	if(m_embedClientActive)
 	{
+		//Disable timer to that we don't get in a situation where
+		//the control is locked because lots of WM_TIMER messages are sent
+		bool runningBefore = m_running;
+		SetRunning(false);
+
 		BSTR rpcCommandResult = nullptr;
 		BSTR rpcCommand = SysAllocString(string_cast<std::wstring>(command).c_str());
 
@@ -80,6 +85,10 @@ std::string CWin32EmbedControl::ExecuteCommand(const std::string& command)
 			commandResult = string_cast<std::string>(rpcCommandResult);
 			SysFreeString(rpcCommandResult);
 		}
+
+		//Enable timer here because "ErrorRaised" might change
+		//the running state for some reason
+		SetRunning(runningBefore);
 
 		if(FAILED(result))
 		{
