@@ -19,6 +19,8 @@
 		70271B9918D522F500777C53 /* ConeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70271B9718D522F500777C53 /* ConeMesh.h */; };
 		7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93717166B530092A5CF /* EmitterModifier.cpp */; };
 		7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93B17166B630092A5CF /* EmitterModifier.h */; };
+		7056B40D198717E000EF9810 /* EmbedRemoteCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7056B40C198717E000EF9810 /* EmbedRemoteCall.cpp */; };
+		7056B413198717E900EF9810 /* EmbedRemoteCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 7056B412198717E900EF9810 /* EmbedRemoteCall.h */; };
 		706F71B418F5D35F00224718 /* GlEsEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 706F71AC18F5D35F00224718 /* GlEsEffect.cpp */; };
 		706F71B518F5D35F00224718 /* GlEsGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 706F71AD18F5D35F00224718 /* GlEsGraphicDevice.cpp */; };
 		706F71B618F5D35F00224718 /* GlEsShadowMapEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 706F71AE18F5D35F00224718 /* GlEsShadowMapEffect.cpp */; };
@@ -218,6 +220,8 @@
 		702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GeneralSettingsDebug.xcconfig; sourceTree = SOURCE_ROOT; };
 		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../src/EmitterModifier.cpp; sourceTree = "<group>"; };
 		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../include/palleon/EmitterModifier.h; sourceTree = "<group>"; };
+		7056B40C198717E000EF9810 /* EmbedRemoteCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmbedRemoteCall.cpp; path = ../src/EmbedRemoteCall.cpp; sourceTree = "<group>"; };
+		7056B412198717E900EF9810 /* EmbedRemoteCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmbedRemoteCall.h; path = ../include/palleon/EmbedRemoteCall.h; sourceTree = "<group>"; };
 		706F71AC18F5D35F00224718 /* GlEsEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsEffect.cpp; path = ../src/gles/GlEsEffect.cpp; sourceTree = "<group>"; };
 		706F71AD18F5D35F00224718 /* GlEsGraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsGraphicDevice.cpp; path = ../src/gles/GlEsGraphicDevice.cpp; sourceTree = "<group>"; };
 		706F71AE18F5D35F00224718 /* GlEsShadowMapEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsShadowMapEffect.cpp; path = ../src/gles/GlEsShadowMapEffect.cpp; sourceTree = "<group>"; };
@@ -718,6 +722,8 @@
 				70104E5A167409D300807647 /* audio */,
 				7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */,
 				7E5C122C14F19F0800292DD3 /* ConfigManager.h */,
+				7056B40C198717E000EF9810 /* EmbedRemoteCall.cpp */,
+				7056B412198717E900EF9810 /* EmbedRemoteCall.h */,
 				702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */,
 				702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */,
 				706F71A718F5D35000224718 /* gles */,
@@ -787,6 +793,7 @@
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
 				70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */,
 				7098908619451BDF00D38411 /* MetalUberEffectProvider.h in Headers */,
+				7056B413198717E900EF9810 /* EmbedRemoteCall.h in Headers */,
 				7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				706F71C818F5D37400224718 /* GlEsTexture.h in Headers */,
@@ -951,6 +958,7 @@
 				7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */,
 				7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */,
 				709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */,
+				7056B40D198717E000EF9810 /* EmbedRemoteCall.cpp in Sources */,
 				7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */,
 				7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */,
 				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
