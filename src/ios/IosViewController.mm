@@ -34,8 +34,11 @@ using namespace Palleon;
 	self = [super init];
 	if (self)
 	{
-		m_isPortraitOrientation = false;
-		
+		CIosResourceManager::CreateInstance();
+		CConfigManager::CreateInstance();
+		CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
+		m_isPortraitOrientation = CConfigManager::GetInstance().GetConfig().GetPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT);
+	
 		CGRect screenBounds = [[UIScreen mainScreen] bounds];
 		
 #ifdef USE_METAL
@@ -65,20 +68,15 @@ using namespace Palleon;
 	return YES;
 }
 
--(void)viewWillAppear:(BOOL)animated
+-(void)viewWillAppear: (BOOL)animated
 {
-	CIosResourceManager::CreateInstance();
 	CIosAudioManager::CreateInstance();
-	CConfigManager::CreateInstance();
-	CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
 
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	m_isPortraitOrientation = CConfigManager::GetInstance().GetConfig().GetPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT);
-	
 #ifdef USE_METAL
 	auto view = (MetalView*)self.view;
 	CMetalGraphicDevice::CreateInstance(view);
 #else
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	auto view = (EAGLView*)self.view;
 	[view prepareContext];
 	bool hasRetinaDisplay = [view hasRetinaDisplay];
