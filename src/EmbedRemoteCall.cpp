@@ -5,6 +5,7 @@
 #include "xml/Parser.h"
 #include "MemStream.h"
 #include "PtrStream.h"
+#include "make_unique.h"
 
 using namespace Palleon;
 
