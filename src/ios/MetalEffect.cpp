@@ -44,18 +44,17 @@ id<MTLRenderPipelineState> CMetalEffect::GetPipelineState(const PIPELINE_STATE_I
 		[pipelineStateDescriptor setSampleCount: 1];
 		[pipelineStateDescriptor setVertexFunction: m_vertexShader];
 		[pipelineStateDescriptor setFragmentFunction: m_fragmentShader];
-		[pipelineStateDescriptor setDepthWriteEnabled: YES];
 
 		if(stateInfo.blendingMode != ALPHA_BLENDING_NONE)
 		{
-			MTLRenderPipelineAttachmentDescriptor* colorAttachement = [pipelineStateDescriptor.colorAttachments objectAtIndexedSubscript: 0];
-			colorAttachement.blendingEnabled = TRUE;
+			MTLRenderPipelineColorAttachmentDescriptor* colorAttachment = pipelineStateDescriptor.colorAttachments[0];
+			colorAttachment.blendingEnabled = TRUE;
 			switch(stateInfo.blendingMode)
 			{
 			case ALPHA_BLENDING_LERP:
-				colorAttachement.alphaBlendOperation = MTLBlendOperationAdd;
-				colorAttachement.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
-				colorAttachement.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+				colorAttachment.alphaBlendOperation = MTLBlendOperationAdd;
+				colorAttachment.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+				colorAttachment.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 				break;
 			default:
 				assert(0);
@@ -65,7 +64,11 @@ id<MTLRenderPipelineState> CMetalEffect::GetPipelineState(const PIPELINE_STATE_I
 	
 		NSError* pipelineStateError = nil;
 		state = [m_device newRenderPipelineStateWithDescriptor: pipelineStateDescriptor error: &pipelineStateError];
-		assert(pipelineStateError == nil);
+		if(pipelineStateError)
+		{
+			NSLog(@"%@", [pipelineStateError localizedDescription]);
+			assert(state);
+		}
 		
 		[pipelineStateDescriptor release];
 		

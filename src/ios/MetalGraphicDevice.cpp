@@ -75,14 +75,11 @@ void CMetalGraphicDevice::CreateShadowMap()
 		[textureDesc release];
 	}
 	
-	MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
-	depthAttachment.texture = m_shadowMap;
-	[depthAttachment setLoadAction: MTLLoadActionClear];
-	[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
-	[depthAttachment setStoreAction: MTLStoreActionStore];
-
 	m_shadowRenderPass = [[MTLRenderPassDescriptor renderPassDescriptor] retain];
-	m_shadowRenderPass.depthAttachment = depthAttachment;
+	m_shadowRenderPass.depthAttachment.texture = m_shadowMap;
+	m_shadowRenderPass.depthAttachment.loadAction = MTLLoadActionClear;
+	m_shadowRenderPass.depthAttachment.clearDepth = 1.0f;
+	m_shadowRenderPass.depthAttachment.storeAction = MTLStoreActionStore;
 }
 
 VertexBufferPtr CMetalGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
@@ -120,36 +117,26 @@ void CMetalGraphicDevice::SetupMainRenderPass(id<CAMetalDrawable> drawable)
 	}
 
 	{
-		MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
-		colorAttachment.texture = drawable.texture;
-		[colorAttachment setLoadAction: MTLLoadActionClear];
-		[colorAttachment setClearValue: MTLClearValueMakeColor(0.0f, 0.0f, 0.0f, 0.0f)];
-		[colorAttachment setStoreAction: MTLStoreActionStore];
-	
-		MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
-		depthAttachment.texture = m_mainDepthBuffer;
-		[depthAttachment setLoadAction: MTLLoadActionClear];
-		[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
-		[depthAttachment setStoreAction: MTLStoreActionDontCare];
-
-		[m_mainRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
-		m_mainRenderPass.depthAttachment = depthAttachment;
+		m_mainRenderPass.colorAttachments[0].texture = drawable.texture;
+		m_mainRenderPass.colorAttachments[0].loadAction = MTLLoadActionClear;
+		m_mainRenderPass.colorAttachments[0].clearColor = MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f);
+		m_mainRenderPass.colorAttachments[0].storeAction = MTLStoreActionStore;
+		
+		m_mainRenderPass.depthAttachment.texture = m_mainDepthBuffer;
+		m_mainRenderPass.depthAttachment.loadAction = MTLLoadActionClear;
+		m_mainRenderPass.depthAttachment.clearDepth = 1.0f;
+		m_mainRenderPass.depthAttachment.storeAction = MTLStoreActionDontCare;
 	}
 	
 	{
-		MTLRenderPassAttachmentDescriptor* colorAttachment = [MTLRenderPassAttachmentDescriptor new];
-		colorAttachment.texture = drawable.texture;
-		[colorAttachment setLoadAction: MTLLoadActionLoad];
-		[colorAttachment setStoreAction: MTLStoreActionStore];
-	
-		MTLRenderPassAttachmentDescriptor* depthAttachment = [MTLRenderPassAttachmentDescriptor new];
-		depthAttachment.texture = m_mainDepthBuffer;
-		[depthAttachment setLoadAction: MTLLoadActionClear];
-		[depthAttachment setClearValue: MTLClearValueMakeDepth(1.0)];
-		[depthAttachment setStoreAction: MTLStoreActionDontCare];
-
-		[m_mainAdditionalRenderPass.colorAttachments setObject: colorAttachment atIndexedSubscript: 0];
-		m_mainAdditionalRenderPass.depthAttachment = depthAttachment;
+		m_mainAdditionalRenderPass.colorAttachments[0].texture = drawable.texture;
+		m_mainAdditionalRenderPass.colorAttachments[0].loadAction = MTLLoadActionLoad;
+		m_mainAdditionalRenderPass.colorAttachments[0].storeAction = MTLStoreActionStore;
+		
+		m_mainAdditionalRenderPass.depthAttachment.texture = m_mainDepthBuffer;
+		m_mainAdditionalRenderPass.depthAttachment.loadAction = MTLLoadActionClear;
+		m_mainAdditionalRenderPass.depthAttachment.clearDepth = 1.0f;
+		m_mainAdditionalRenderPass.depthAttachment.storeAction = MTLStoreActionDontCare;
 	}
 }
 
@@ -186,7 +173,7 @@ void CMetalGraphicDevice::Draw()
 		id<CAMetalDrawable> drawable = nil;
 		while(drawable == nil)
 		{
-			drawable = [m_metalView.renderLayer newDrawable];
+			drawable = [m_metalView.renderLayer nextDrawable];
 		}
 		SetupMainRenderPass(drawable);
 		
@@ -229,9 +216,7 @@ void CMetalGraphicDevice::Draw()
 		
 		[commandBuffer presentDrawable: drawable];
 		[commandBuffer commit];
-		
-		[drawable release];
-		
+				
 		dispatch_semaphore_wait(m_drawSemaphore, DISPATCH_TIME_FOREVER);
 	}
 }

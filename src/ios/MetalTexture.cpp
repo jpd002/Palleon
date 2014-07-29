@@ -36,7 +36,7 @@ TexturePtr CMetalTexture::Create(id<MTLDevice> device, TEXTURE_FORMAT format, ui
 void CMetalTexture::Update(uint32, const void* data)
 {
 	uint32 srcPitch = (c_textureFormatSize[m_format] * m_width) / 8;
-	[m_texture replaceRegion: MTLTextureRegionMake2D(0, 0, m_width, m_height) mipmapLevel: 0 withBytes: data bytesPerRow: srcPitch];
+	[m_texture replaceRegion: MTLRegionMake2D(0, 0, m_width, m_height) mipmapLevel: 0 withBytes: data bytesPerRow: srcPitch];
 }
 
 void CMetalTexture::UpdateCubeFace(TEXTURE_CUBE_FACE, const void*)

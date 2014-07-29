@@ -53,8 +53,6 @@ unsigned int CMetalUberEffect::GetConstantsSize() const
 
 void CMetalUberEffect::FillPipelinePixelFormats(MTLRenderPipelineDescriptor* pipelineStateDescriptor)
 {
-	MTLRenderPipelineAttachmentDescriptor* colorDescriptor = [MTLRenderPipelineAttachmentDescriptor new];
-	colorDescriptor.pixelFormat = MTLPixelFormatBGRA8Unorm;
-	[pipelineStateDescriptor.colorAttachments setObject: colorDescriptor atIndexedSubscript: 0];
+	pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
 	pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
 }

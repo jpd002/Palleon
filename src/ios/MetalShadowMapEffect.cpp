@@ -33,9 +33,7 @@ unsigned int CMetalShadowMapEffect::GetConstantsSize() const
 
 void CMetalShadowMapEffect::FillPipelinePixelFormats(MTLRenderPipelineDescriptor* pipelineStateDescriptor)
 {
-	MTLRenderPipelineAttachmentDescriptor* colorDescriptor = [MTLRenderPipelineAttachmentDescriptor new];
-	colorDescriptor.pixelFormat = MTLPixelFormatInvalid;
-	[pipelineStateDescriptor.colorAttachments setObject: colorDescriptor atIndexedSubscript: 0];
+	pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatInvalid;
 	pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
 }
 

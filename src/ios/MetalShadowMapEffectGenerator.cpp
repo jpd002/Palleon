@@ -36,7 +36,7 @@ std::string CMetalShadowMapEffectGenerator::GenerateLibrarySource(const CMetalSh
 	
 	result += "vertex VertexOut VertexShader(";
 	result += "unsigned int vertexId [[vertex_id]],\n";
-	result += "global VertexIn* vertices [[buffer(0)]],\n";
+	result += "device VertexIn* vertices [[buffer(0)]],\n";
 	result += "constant Uniforms& uniforms [[buffer(1)]]\n";
 	result += ")\n";
 	result += "{\n";
