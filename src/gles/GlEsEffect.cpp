@@ -89,7 +89,7 @@ GLuint CGlEsEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 	
 	GLint status;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-	if (status == 0)
+	if(status == 0)
 	{
 		glDeleteShader(shader);
 		return -1;
