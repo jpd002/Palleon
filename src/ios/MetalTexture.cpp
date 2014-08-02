@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalTexture.h"
 
 using namespace Palleon;
@@ -48,3 +51,5 @@ void* CMetalTexture::GetHandle() const
 {
 	return m_texture;
 }
+
+#endif

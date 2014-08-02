@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalGraphicDevice.h"
 #include "palleon/ios/MetalVertexBuffer.h"
 #include "palleon/ios/MetalTexture.h"
@@ -371,3 +374,5 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	[renderEncoder setVertexBuffer: m_constantBuffer offset: constantBufferOffset atIndex: 1];
 	[renderEncoder drawIndexedPrimitives: primitiveType indexCount: indexCount indexType: MTLIndexTypeUInt16 indexBuffer: indexBufferHandle indexBufferOffset: 0];
 }
+
+#endif

@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalUberEffectGenerator.h"
 
 using namespace Palleon;
@@ -113,3 +116,5 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	
 	return result;
 }
+
+#endif

@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include <cassert>
 #include "palleon/Material.h"
 #include "palleon/ios/MetalEffect.h"
@@ -106,3 +109,5 @@ void CMetalEffect::CreateLibraryAndShaders(const std::string& librarySource)
 	
 	assert(m_vertexShader != nil && m_fragmentShader != nil);
 }
+
+#endif

@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalUberEffect.h"
 #include "palleon/Color.h"
 #include "palleon/Material.h"
@@ -56,3 +59,5 @@ void CMetalUberEffect::FillPipelinePixelFormats(MTLRenderPipelineDescriptor* pip
 	pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
 	pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
 }
+
+#endif

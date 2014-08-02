@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalShadowMapEffectGenerator.h"
 
 using namespace Palleon;
@@ -54,4 +57,6 @@ std::string CMetalShadowMapEffectGenerator::GenerateLibrarySource(const CMetalSh
 	
 	return result;
 }
+
+#endif
 

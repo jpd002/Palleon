@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalShadowMapEffect.h"
 
 using namespace Palleon;
@@ -37,3 +40,4 @@ void CMetalShadowMapEffect::FillPipelinePixelFormats(MTLRenderPipelineDescriptor
 	pipelineStateDescriptor.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
 }
 
+#endif

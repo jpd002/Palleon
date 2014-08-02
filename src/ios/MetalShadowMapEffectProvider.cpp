@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalShadowMapEffectProvider.h"
 #include "palleon/ios/MetalShadowMapEffectGenerator.h"
 #include "palleon/ios/MetalShadowMapEffect.h"
@@ -42,3 +45,5 @@ EffectPtr CMetalShadowMapEffectProvider::GetEffectForRenderable(Palleon::CMesh* 
 	
 	return effectIterator->second;
 }
+
+#endif
