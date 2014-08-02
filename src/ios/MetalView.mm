@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #import "palleon/ios/MetalView.h"
 
 @implementation MetalView
@@ -44,3 +47,5 @@
 }
 
 @end
+
+#endif

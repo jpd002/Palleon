@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalUberEffectProvider.h"
 #include "palleon/ios/MetalUberEffectGenerator.h"
 #include "palleon/ios/MetalUberEffect.h"
@@ -44,3 +47,5 @@ EffectPtr CMetalUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool has
 	
 	return effectIterator->second;
 }
+
+#endif

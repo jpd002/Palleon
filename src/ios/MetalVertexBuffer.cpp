@@ -1,3 +1,6 @@
+#include "TargetConditionals.h"
+#if !TARGET_IPHONE_SIMULATOR
+
 #include "palleon/ios/MetalVertexBuffer.h"
 
 using namespace Palleon;
@@ -36,3 +39,5 @@ void CMetalVertexBuffer::UnlockIndices()
 {
 	memcpy(m_indexBuffer.contents, m_shadowIndexBuffer, m_descriptor.indexCount * sizeof(uint16));
 }
+
+#endif
