@@ -100,12 +100,8 @@ std::string CMetalUberEffectGenerator::GenerateLibrarySource(const EFFECTCAPS& c
 	if(caps.hasShadowMap)
 	{
 		result += "float2 shadowMapCoord = 0.5 * (input.shadowPosition.xy / input.shadowPosition.w) + float2(0.5, 0.5);\n";
-		
-		//BUG: Using sample_compare seems to break the Metal runtime on iOS 8 beta 4
-		//result += "float pixelZ = input.shadowPosition.z / input.shadowPosition.w;\n";
-		//result += "diffuseColor.xyz *= shadowTexture.sample_compare(g_shadowSampler, shadowMapCoord, pixelZ);\n";
-		
-		result += "diffuseColor.xyz *= shadowTexture.sample(g_shadowSampler, shadowMapCoord);\n";
+		result += "float pixelZ = input.shadowPosition.z / input.shadowPosition.w;\n";
+		result += "diffuseColor.xyz *= shadowTexture.sample_compare(g_shadowSampler, shadowMapCoord, pixelZ);\n";
 	}
 	if(caps.hasTexture)
 	{
