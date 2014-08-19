@@ -40,10 +40,11 @@ namespace Palleon
 		typedef std::map<std::string, SceneNodeAnimationPtr> AnimationArray;
 
 		void				CreateScene(const CSceneDescriptor*);
-		SceneNodePtr		CreateNode(const CSceneDescriptor::NODE_INFO&);
-		void				CreateNodes(CSceneNode*, const CSceneDescriptor::NodeInfoArray&);
+		SceneNodePtr		CreateNode(const CSceneDescriptor*, const CSceneDescriptor::NODE_INFO&);
+		void				CreateNodes(CSceneNode*, const CSceneDescriptor*, const CSceneDescriptor::NodeInfoArray&);
 		void				CreateMaterials(const CSceneDescriptor*);
 		void				CreateAnimations(const CSceneDescriptor*);
+		void				CreateStyles(const CSceneDescriptor*);
 
 		MaterialPtr			GetMaterialFromItemInfo(const CSceneDescriptor::ItemInfo&) const;
 		void				RegisterNodeAnimations(const SceneNodePtr&, const std::string&);

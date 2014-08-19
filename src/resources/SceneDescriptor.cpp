@@ -22,6 +22,11 @@ const CSceneDescriptor::NODE_INFO& CSceneDescriptor::GetRootNode() const
 	return m_rootNode;
 }
 
+const CSceneDescriptor::StyleMap& CSceneDescriptor::GetStyles() const
+{
+	return m_styles;
+}
+
 const CSceneDescriptor::MaterialMap& CSceneDescriptor::GetMaterials() const
 {
 	return m_materials;
@@ -37,45 +42,67 @@ void CSceneDescriptor::Load(const char* path)
 	Framework::CStdStream inputStream(path, "rb");
 	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
-	{
-		auto materialNodes = document->SelectNodes("Scene/Materials/Material");
-		for(const auto& node : materialNodes)
-		{
-			auto name = node->GetAttribute("Name");
-			assert(name != nullptr);
-			if(name == nullptr) continue;
-
-			auto materialInfo = LoadItemInfo(node);
-
-			assert(m_materials.find(name) == m_materials.end());
-			m_materials.insert(std::make_pair(name, materialInfo));
-		}
-	}
-
-	{
-		auto animationNodes = document->SelectNodes("Scene/Animations/Animation");
-		for(const auto& node : animationNodes)
-		{
-			auto name = node->GetAttribute("Name");
-			assert(name != nullptr);
-			if(name == nullptr) continue;
-
-			ANIMATION_INFO animationInfo;
-			animationInfo.properties = LoadItemInfo(node);
-
-			auto animationKeyNodes = node->SelectNodes("Key");
-			for(const auto& animationKeyNode : animationKeyNodes)
-			{
-				animationInfo.keys.push_back(LoadItemInfo(animationKeyNode));
-			}
-
-			assert(m_animations.find(name) == m_animations.end());
-			m_animations.insert(std::make_pair(name, animationInfo));
-		}
-	}
+	LoadStyles(document.get());
+	LoadMaterials(document.get());
+	LoadAnimations(document.get());
 
 	auto rootNode = document->Select("Scene/Root");
 	m_rootNode.children = LoadNode(rootNode);
+}
+
+void CSceneDescriptor::LoadStyles(Framework::Xml::CNode* document)
+{
+	auto styleNodes = document->SelectNodes("Scene/Styles/Style");
+	for(const auto& node : styleNodes)
+	{
+		auto name = node->GetAttribute("Name");
+		assert(name != nullptr);
+		if(name == nullptr) continue;
+
+		auto styleInfo = LoadItemInfo(node);
+
+		assert(m_styles.find(name) == m_styles.end());
+		m_styles.insert(std::make_pair(name, styleInfo));
+	}
+}
+
+void CSceneDescriptor::LoadMaterials(Framework::Xml::CNode* document)
+{
+	auto materialNodes = document->SelectNodes("Scene/Materials/Material");
+	for(const auto& node : materialNodes)
+	{
+		auto name = node->GetAttribute("Name");
+		assert(name != nullptr);
+		if(name == nullptr) continue;
+
+		auto materialInfo = LoadItemInfo(node);
+
+		assert(m_materials.find(name) == m_materials.end());
+		m_materials.insert(std::make_pair(name, materialInfo));
+	}
+}
+
+void CSceneDescriptor::LoadAnimations(Framework::Xml::CNode* document)
+{
+	auto animationNodes = document->SelectNodes("Scene/Animations/Animation");
+	for(const auto& node : animationNodes)
+	{
+		auto name = node->GetAttribute("Name");
+		assert(name != nullptr);
+		if(name == nullptr) continue;
+
+		ANIMATION_INFO animationInfo;
+		animationInfo.properties = LoadItemInfo(node);
+
+		auto animationKeyNodes = node->SelectNodes("Key");
+		for(const auto& animationKeyNode : animationKeyNodes)
+		{
+			animationInfo.keys.push_back(LoadItemInfo(animationKeyNode));
+		}
+
+		assert(m_animations.find(name) == m_animations.end());
+		m_animations.insert(std::make_pair(name, animationInfo));
+	}
 }
 
 CSceneDescriptor::NodeInfoArray CSceneDescriptor::LoadNode(Framework::Xml::CNode* parentNode)

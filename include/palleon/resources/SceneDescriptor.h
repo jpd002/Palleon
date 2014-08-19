@@ -24,6 +24,8 @@ namespace Palleon
 			NodeInfoArray	children;
 		};
 
+		typedef std::map<std::string, ItemInfo> StyleMap;
+
 		typedef std::vector<ItemInfo> AnimationKeyInfo;
 
 		struct ANIMATION_INFO
@@ -40,6 +42,7 @@ namespace Palleon
 		virtual				~CSceneDescriptor();
 
 		const NODE_INFO&	GetRootNode() const;
+		const StyleMap&		GetStyles() const;
 		const MaterialMap&	GetMaterials() const;
 		const AnimationMap&	GetAnimations() const;
 
@@ -49,6 +52,11 @@ namespace Palleon
 		NodeInfoArray		LoadNode(Framework::Xml::CNode*);
 		ItemInfo			LoadItemInfo(Framework::Xml::CNode*);
 
+		void				LoadStyles(Framework::Xml::CNode*);
+		void				LoadMaterials(Framework::Xml::CNode*);
+		void				LoadAnimations(Framework::Xml::CNode*);
+
+		StyleMap			m_styles;
 		MaterialMap			m_materials;
 		AnimationMap		m_animations;
 		NODE_INFO			m_rootNode;

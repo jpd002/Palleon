@@ -87,7 +87,7 @@ void CScene::CreateScene(const CSceneDescriptor* descriptor)
 	CreateMaterials(descriptor);
 	CreateAnimations(descriptor);
 	auto rootNodeInfo = descriptor->GetRootNode();
-	CreateNodes(this, rootNodeInfo.children);
+	CreateNodes(this, descriptor, rootNodeInfo.children);
 }
 
 template <typename ValueType>
@@ -246,8 +246,22 @@ void CScene::RegisterNodeAnimations(const SceneNodePtr& node, const std::string&
 	}
 }
 
-SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
+SceneNodePtr CScene::CreateNode(const CSceneDescriptor* descriptor, const CSceneDescriptor::NODE_INFO& baseNodeDesc)
 {
+	CSceneDescriptor::NODE_INFO nodeDesc = baseNodeDesc;
+
+	auto className = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Class", "");
+	const auto& styles = descriptor->GetStyles();
+	auto styleInfoIterator = styles.find(className);
+	if(styleInfoIterator != std::end(styles))
+	{
+		for(const auto& styleItemPair : styleInfoIterator->second)
+		{
+			if(nodeDesc.properties.find(styleItemPair.first) != std::end(nodeDesc.properties)) continue;
+			nodeDesc.properties.insert(styleItemPair);
+		}
+	}
+
 	auto position = GetValueFromItemInfo<CVector3>(nodeDesc.properties, "Position", CVector3(0, 0, 0));
 	auto scale = GetValueFromItemInfo<CVector3>(nodeDesc.properties, "Scale", CVector3(1, 1, 1));
 	auto hotspot = GetValueFromItemInfo<CVector3>(nodeDesc.properties, "Hotspot", CVector3(0, 0, 0));
@@ -361,17 +375,17 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor::NODE_INFO& nodeDesc)
 		result->SetHotspot(hotspot);
 		RegisterNodeAnimations(result, animations);
 
-		CreateNodes(result.get(), nodeDesc.children);
+		CreateNodes(result.get(), descriptor, nodeDesc.children);
 	}
 
 	return result;
 }
 
-void CScene::CreateNodes(CSceneNode* parentNode, const CSceneDescriptor::NodeInfoArray& nodeInfos)
+void CScene::CreateNodes(CSceneNode* parentNode, const CSceneDescriptor* descriptor, const CSceneDescriptor::NodeInfoArray& nodeInfos)
 {
 	for(const auto& nodeInfo : nodeInfos)
 	{
-		auto childNode = CreateNode(nodeInfo);
+		auto childNode = CreateNode(descriptor, nodeInfo);
 		parentNode->AppendChild(childNode);
 	}
 }
