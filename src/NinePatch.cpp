@@ -38,11 +38,8 @@ static const uint16 s_indices[INDEX_COUNT] =
 };
 
 CNinePatch::CNinePatch()
-: m_size(1, 1)
-, m_status(0)
-, m_descriptor(NULL)
 {
-	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(VERTEX_COUNT, INDEX_COUNT, 
+	auto bufferDesc = GenerateVertexBufferDescriptor(VERTEX_COUNT, INDEX_COUNT, 
 		VERTEX_BUFFER_HAS_POS | VERTEX_BUFFER_HAS_UV0);
 
 	m_primitiveType = PRIMITIVE_TRIANGLE_LIST;
@@ -71,7 +68,7 @@ void CNinePatch::SetSize(const CVector2& size)
 
 void CNinePatch::SetDescriptor(const CNinePatchDescriptor* descriptor)
 {
-	assert(descriptor != NULL);
+	assert(descriptor != nullptr);
 	m_descriptor = descriptor;
 	m_material->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture(m_descriptor->GetTextureName()));
 	m_status |= STATUS_VERTEXBUFFER_DIRTY;

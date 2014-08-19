@@ -16,7 +16,7 @@ namespace Palleon
 
 		static NinePatchPtr			Create();
 
-		virtual void				Update(float dt);
+		virtual void				Update(float dt) override;
 
 		void						SetSize(const CVector2&);
 
@@ -31,8 +31,8 @@ namespace Palleon
 			STATUS_VERTEXBUFFER_DIRTY = 0x01,
 		};
 
-		CVector2					m_size;
-		uint32						m_status;
-		const CNinePatchDescriptor*	m_descriptor;
+		CVector2					m_size = CVector2(1, 1);
+		uint32						m_status = 0;
+		const CNinePatchDescriptor*	m_descriptor = nullptr;
 	};
 };
