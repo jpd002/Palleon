@@ -27,7 +27,7 @@ namespace Palleon
 
 		NinePatchPtr				m_background;
 
-		const CNinePatchDescriptor*	m_releasedDescriptor;
-		const CNinePatchDescriptor*	m_pressedDescriptor;
+		const CNinePatchDescriptor*	m_releasedDescriptor = nullptr;
+		const CNinePatchDescriptor*	m_pressedDescriptor = nullptr;
 	};
 }

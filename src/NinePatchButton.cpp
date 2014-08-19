@@ -3,8 +3,6 @@
 using namespace Palleon;
 
 CNinePatchButton::CNinePatchButton()
-: m_releasedDescriptor(NULL)
-, m_pressedDescriptor(NULL)
 {
 	m_background = CNinePatch::Create();
 	PrependChild(m_background);
