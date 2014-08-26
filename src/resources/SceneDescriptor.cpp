@@ -22,6 +22,11 @@ const CSceneDescriptor::NODE_INFO& CSceneDescriptor::GetRootNode() const
 	return m_rootNode;
 }
 
+const CSceneDescriptor::NODE_INFO& CSceneDescriptor::GetLayoutRootNode() const
+{
+	return m_layoutRootNode;
+}
+
 const CSceneDescriptor::StyleMap& CSceneDescriptor::GetStyles() const
 {
 	return m_styles;
@@ -48,6 +53,9 @@ void CSceneDescriptor::Load(const char* path)
 
 	auto rootNode = document->Select("Scene/Root");
 	m_rootNode.children = LoadNode(rootNode);
+
+	auto layoutRootNode = document->Select("Scene/Layout");
+	m_layoutRootNode.children = LoadNode(layoutRootNode);
 }
 
 void CSceneDescriptor::LoadStyles(Framework::Xml::CNode* document)
@@ -113,16 +121,14 @@ CSceneDescriptor::NodeInfoArray CSceneDescriptor::LoadNode(Framework::Xml::CNode
 		if(!node->IsTag()) continue;
 
 		auto name = node->GetAttribute("Name");
-		assert(name != nullptr);
-		if(name == nullptr) continue;
 
 		NODE_INFO nodeInfo;
-		nodeInfo.name		= name;
+		nodeInfo.name		= name ? name : "";
 		nodeInfo.type		= node->GetText();
 		nodeInfo.children	= LoadNode(node);
 		nodeInfo.properties	= LoadItemInfo(node);
 
-		assert(std::find_if(std::begin(result), std::end(result), [&] (const NODE_INFO& nodeInfo) { return nodeInfo.name == name; }) == std::end(result));
+		assert(name == nullptr || std::find_if(std::begin(result), std::end(result), [&] (const NODE_INFO& nodeInfo) { return nodeInfo.name == name; }) == std::end(result));
 		result.push_back(nodeInfo);
 	}
 	return result;

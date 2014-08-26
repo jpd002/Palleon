@@ -38,6 +38,7 @@
     <ClCompile Include="..\src\GraphicDevice.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
     <ClCompile Include="..\src\Label.cpp" />
+    <ClCompile Include="..\src\LayoutNode.cpp" />
     <ClCompile Include="..\src\Material.cpp" />
     <ClCompile Include="..\src\Mesh.cpp" />
     <ClCompile Include="..\src\NinePatch.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="..\include\palleon\ILayoutable.h" />
     <ClInclude Include="..\include\palleon\InputManager.h" />
     <ClInclude Include="..\include\palleon\Label.h" />
+    <ClInclude Include="..\include\palleon\LayoutNode.h" />
     <ClInclude Include="..\include\palleon\Material.h" />
     <ClInclude Include="..\include\palleon\MathDef.h" />
     <ClInclude Include="..\include\palleon\MathOps.h" />

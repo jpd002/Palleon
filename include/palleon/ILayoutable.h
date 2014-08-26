@@ -1,5 +1,4 @@
-#ifndef _ILAYOUTABLE_H_
-#define	_ILAYOUTABLE_H_
+#pragma once
 
 #include <memory>
 #include "palleon/Vector2.h"
@@ -18,5 +17,3 @@ namespace Palleon
 
 	typedef std::shared_ptr<ILayoutable> LayoutablePtr;
 }
-
-#endif

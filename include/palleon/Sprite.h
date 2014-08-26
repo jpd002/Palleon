@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Mesh.h"
+#include "ILayoutable.h"
 
 namespace Palleon
 {
 	class CSprite;
 	typedef std::shared_ptr<CSprite> SpritePtr;
 
-	class CSprite : public CMesh
+	class CSprite : public CMesh, public ILayoutable
 	{
 	public:
 							CSprite();
@@ -15,10 +16,12 @@ namespace Palleon
 
 		static SpritePtr	Create();
 
-		virtual void		Update(float dt);
+		void				Update(float dt) override;
 		
+		void				SetPosition(const CVector3&) override;
+
 		CVector2			GetSize() const;
-		void				SetSize(const CVector2&);
+		void				SetSize(const CVector2&) override;
 		
 	protected:
 		void				UpdateVertices();

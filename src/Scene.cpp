@@ -7,6 +7,10 @@
 #include "palleon/NinePatchButton.h"
 #include "palleon/AnimationCurve.h"
 #include "palleon/ParseUtils.h"
+#include "layout/VerticalLayout.h"
+#include "layout/HorizontalLayout.h"
+#include "layout/LayoutStretch.h"
+#include "palleon/LayoutNode.h"
 
 using namespace Palleon;
 
@@ -72,6 +76,11 @@ SceneNodePtr CScene::FindNode(const std::string& name)
 	return result;
 }
 
+CScene::LayoutObjectPtr CScene::GetLayout() const
+{
+	return m_layout;
+}
+
 SceneNodeAnimationPtr CScene::GetAnimation(const std::string& name) const
 {
 	auto animationIterator = m_animations.find(name);
@@ -88,6 +97,11 @@ void CScene::CreateScene(const CSceneDescriptor* descriptor)
 	CreateAnimations(descriptor);
 	auto rootNodeInfo = descriptor->GetRootNode();
 	CreateNodes(this, descriptor, rootNodeInfo.children);
+	auto layoutRootNode = descriptor->GetLayoutRootNode();
+	if(!layoutRootNode.children.empty())
+	{
+		m_layout = CreateLayoutNode(descriptor, layoutRootNode.children[0]);
+	}
 }
 
 template <typename ValueType>
@@ -388,6 +402,53 @@ void CScene::CreateNodes(CSceneNode* parentNode, const CSceneDescriptor* descrip
 		auto childNode = CreateNode(descriptor, nodeInfo);
 		parentNode->AppendChild(childNode);
 	}
+}
+
+CScene::LayoutObjectPtr CScene::CreateLayoutNode(const CSceneDescriptor* descriptor, const CSceneDescriptor::NODE_INFO& nodeDesc)
+{
+	LayoutObjectPtr result;
+	if(nodeDesc.type == "Horizontal")
+	{
+		auto layout = Framework::CHorizontalLayout::Create();
+		result = layout;
+	}
+	else if(nodeDesc.type == "Vertical")
+	{
+		auto layout = Framework::CVerticalLayout::Create();
+		result = layout;
+	}
+	else if(nodeDesc.type == "Stretch")
+	{
+		auto stretch = Framework::CLayoutStretch::Create();
+		result = stretch;
+	}
+	else if(nodeDesc.type == "Item")
+	{
+		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
+		auto targetNode = FindNode<ILayoutable>(nodeDesc.name);
+		assert(targetNode);
+		auto item = std::make_shared<CLayoutNode>(size.x, size.y, 0, 0, targetNode);
+		result = item;
+	}
+	else
+	{
+		assert(0);
+	}
+
+	if(auto flatLayout = std::dynamic_pointer_cast<Framework::CFlatLayout>(result))
+	{
+		for(const auto& nodeInfo : nodeDesc.children)
+		{
+			auto childNode = CreateLayoutNode(descriptor, nodeInfo);
+			flatLayout->InsertObject(childNode);
+		}
+	}
+	else
+	{
+		assert(nodeDesc.children.empty());
+	}
+
+	return result;
 }
 
 void CScene::CreateMaterials(const CSceneDescriptor* descriptor)

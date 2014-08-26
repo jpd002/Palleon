@@ -42,6 +42,7 @@ namespace Palleon
 		virtual				~CSceneDescriptor();
 
 		const NODE_INFO&	GetRootNode() const;
+		const NODE_INFO&	GetLayoutRootNode() const;
 		const StyleMap&		GetStyles() const;
 		const MaterialMap&	GetMaterials() const;
 		const AnimationMap&	GetAnimations() const;
@@ -60,5 +61,6 @@ namespace Palleon
 		MaterialMap			m_materials;
 		AnimationMap		m_animations;
 		NODE_INFO			m_rootNode;
+		NODE_INFO			m_layoutRootNode;
 	};
 }

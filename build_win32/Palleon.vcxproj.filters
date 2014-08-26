@@ -220,6 +220,9 @@
     <ClCompile Include="..\src\EmbedRemoteCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\LayoutNode.cpp">
+      <Filter>Source Files\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -467,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\EmbedRemoteCall.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\LayoutNode.h">
+      <Filter>Source Files\widgets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,17 @@
 		<Material Name="ForwardMaterial" Texture0="forward.png" AlphaBlendingMode="lerp" />
 	</Materials>
 	<Root>
-		<Sprite Name="BackwardSprite" Material="BackwardMaterial" Position="8, 696, 0" Size="64, 64" />
-		<Sprite Name="ForwardSprite" Material="ForwardMaterial" Position="952, 696, 0" Size="64, 64" />
+		<Sprite Name="BackwardSprite" Material="BackwardMaterial" />
+		<Sprite Name="ForwardSprite" Material="ForwardMaterial" />
 	</Root>
+	<Layout>
+		<Vertical>
+			<Stretch />
+			<Horizontal>
+				<Item Name="BackwardSprite" Size="64, 64" />
+				<Stretch />
+				<Item Name="ForwardSprite" Size="64, 64" />
+			</Horizontal>
+		</Vertical>
+	</Layout>
 </Scene>

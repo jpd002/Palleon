@@ -140,6 +140,12 @@ void CApplication::CreateUi()
 			auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
 
 			{
+				auto sceneLayout = scene->GetLayout();
+				sceneLayout->SetRect(10, 10, screenSize.x - 10, screenSize.y - 10);
+				sceneLayout->RefreshGeometry();
+			}
+
+			{
 				auto sprite = scene->FindNode<Palleon::CSprite>("BackwardSprite");
 				m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
 				m_backwardButtonBoundingBox.size = sprite->GetSize();

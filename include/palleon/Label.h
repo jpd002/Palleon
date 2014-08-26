@@ -43,7 +43,7 @@ namespace Palleon
 
 		void					SetWordWrapEnabled(bool);
 
-		virtual void			SetPosition(const CVector3&);
+		void					SetPosition(const CVector3&);
 
 		void					SetSize(const CVector2&);
 

@@ -44,6 +44,11 @@ SpritePtr CSprite::Create()
 	return std::make_shared<CSprite>();
 }
 
+void CSprite::SetPosition(const CVector3& position)
+{
+	CMesh::SetPosition(position);
+}
+
 CVector2 CSprite::GetSize() const
 {
 	return m_size;

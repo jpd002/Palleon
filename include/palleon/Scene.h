@@ -3,6 +3,7 @@
 #include "resources/SceneDescriptor.h"
 #include "Material.h"
 #include "SceneNode.h"
+#include "layout/LayoutObject.h"
 
 namespace Palleon
 {
@@ -12,6 +13,8 @@ namespace Palleon
 	class CScene : public CSceneNode
 	{
 	public:
+		typedef Framework::LayoutObjectPtr LayoutObjectPtr;
+
 								CScene(const CSceneDescriptor*);
 		virtual					~CScene();
 
@@ -33,6 +36,7 @@ namespace Palleon
 			}
 		}
 
+		LayoutObjectPtr			GetLayout() const;
 		SceneNodeAnimationPtr	GetAnimation(const std::string&) const;
 
 	private:
@@ -40,8 +44,12 @@ namespace Palleon
 		typedef std::map<std::string, SceneNodeAnimationPtr> AnimationArray;
 
 		void				CreateScene(const CSceneDescriptor*);
+
 		SceneNodePtr		CreateNode(const CSceneDescriptor*, const CSceneDescriptor::NODE_INFO&);
 		void				CreateNodes(CSceneNode*, const CSceneDescriptor*, const CSceneDescriptor::NodeInfoArray&);
+
+		LayoutObjectPtr		CreateLayoutNode(const CSceneDescriptor*, const CSceneDescriptor::NODE_INFO&);
+
 		void				CreateMaterials(const CSceneDescriptor*);
 		void				CreateAnimations(const CSceneDescriptor*);
 		void				CreateStyles(const CSceneDescriptor*);
@@ -51,5 +59,6 @@ namespace Palleon
 
 		MaterialArray		m_materials;
 		AnimationArray		m_animations;
+		LayoutObjectPtr		m_layout;
 	};
 }
