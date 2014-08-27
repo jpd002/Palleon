@@ -58,6 +58,11 @@ public:
 		return CVector2(x - rhs.x, y - rhs.y);
 	}
 	
+	CVector2 operator *(const CVector2& rhs) const
+	{
+		return CVector2(x * rhs.x, y * rhs.y);
+	}
+
 	CVector2 operator *(float value) const
 	{
 		return CVector2(x * value, y * value);
