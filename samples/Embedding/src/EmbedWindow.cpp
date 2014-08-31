@@ -4,8 +4,14 @@
 
 CEmbedWindow::CEmbedWindow()
 {
+	int logX = GetDeviceCaps(GetDC(NULL), LOGPIXELSX);
+	int logY = GetDeviceCaps(GetDC(NULL), LOGPIXELSY);
+
+	int windowWidth = MulDiv(800, logX, 96);
+	int windowHeight = MulDiv(600, logY, 96);
+
 	RECT windowRect;
-	SetRect(&windowRect, 0, 0, 800, 600);
+	SetRect(&windowRect, 0, 0, windowWidth, windowHeight);
 	AdjustWindowRectEx(&windowRect, WNDSTYLE, FALSE, NULL);
 
 	Create(NULL, Framework::Win32::CDefaultWndClass::GetName(), _T("Embedding"), WNDSTYLE, windowRect, NULL, NULL);
