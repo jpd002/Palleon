@@ -123,43 +123,22 @@ void CApplication::CreateScene()
 
 void CApplication::CreateUi()
 {
-	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
-
 	m_uiViewport = Palleon::CViewport::Create();
 
 	{
 		auto camera = Palleon::CCamera::Create();
-		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
 		m_uiViewport->SetCamera(camera);
 	}
 
+	auto sceneRoot = m_uiViewport->GetSceneRoot();
+
 	{
-		auto sceneRoot = m_uiViewport->GetSceneRoot();
-
-		{
-			auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
-
-			{
-				auto sceneLayout = scene->GetLayout();
-				sceneLayout->SetRect(10, 10, screenSize.x - 10, screenSize.y - 10);
-				sceneLayout->RefreshGeometry();
-			}
-
-			{
-				auto sprite = scene->FindNode<Palleon::CSprite>("BackwardSprite");
-				m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
-				m_backwardButtonBoundingBox.size = sprite->GetSize();
-			}
-
-			{
-				auto sprite = scene->FindNode<Palleon::CSprite>("ForwardSprite");
-				m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
-				m_forwardButtonBoundingBox.size = sprite->GetSize();
-			}
-
-			sceneRoot->AppendChild(scene);
-		}
+		auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
+		sceneRoot->AppendChild(scene);
+		m_uiScene = scene;
 	}
+
+	RefreshUiLayout();
 }
 
 void CApplication::Update(float dt)
@@ -180,10 +159,39 @@ void CApplication::UpdateShadowCamera()
 	m_shadowCameraSphere->SetPosition(shadowCameraPosition);
 }
 
+void CApplication::RefreshUiLayout()
+{
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
+
+	{
+		auto camera = m_uiViewport->GetCamera();
+		camera->SetupOrthoCamera(screenSize.x, screenSize.y);
+	}
+
+	{
+		auto sceneLayout = m_uiScene->GetLayout();
+		sceneLayout->SetRect(10, 10, screenSize.x - 10, screenSize.y - 10);
+		sceneLayout->RefreshGeometry();
+	}
+
+	{
+		auto sprite = m_uiScene->FindNode<Palleon::CSprite>("BackwardSprite");
+		m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
+		m_backwardButtonBoundingBox.size = sprite->GetSize();
+	}
+
+	{
+		auto sprite = m_uiScene->FindNode<Palleon::CSprite>("ForwardSprite");
+		m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
+		m_forwardButtonBoundingBox.size = sprite->GetSize();
+	}
+}
+
 void CApplication::NotifySizeChanged()
 {
 	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 	m_mainCamera->SetPerspectiveProjection(MAIN_CAMERA_FOV, screenSize.x / screenSize.y, MAIN_CAMERA_NEAR_Z, MAIN_CAMERA_FAR_Z);
+	RefreshUiLayout();
 }
 
 void CApplication::NotifyMouseMove(int x, int y)

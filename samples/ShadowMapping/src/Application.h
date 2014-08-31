@@ -24,6 +24,7 @@ namespace ShadowMapping
 		void					CreateUi();
 
 		void					UpdateShadowCamera();
+		void					RefreshUiLayout();
 
 		Palleon::PackagePtr		m_globalPackage;
 
@@ -33,6 +34,8 @@ namespace ShadowMapping
 		Palleon::MeshPtr		m_shadowCameraSphere;
 
 		Palleon::ViewportPtr	m_uiViewport;
+
+		Palleon::ScenePtr		m_uiScene;
 
 		CBox2					m_forwardButtonBoundingBox;
 		CBox2					m_backwardButtonBoundingBox;
