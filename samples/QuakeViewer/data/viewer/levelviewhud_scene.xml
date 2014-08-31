@@ -1,0 +1,27 @@
+<Scene>
+	<Styles>
+		<Style Name="DefaultLabel" Font="font.fnt" />
+	</Styles>
+	<Materials>
+		<Material Name="BackwardMaterial" Texture0="backward.png" AlphaBlendingMode="lerp" />
+		<Material Name="ForwardMaterial" Texture0="forward.png" AlphaBlendingMode="lerp" />
+	</Materials>
+	<Root>
+		<Label Name="PositionLabel" Class="DefaultLabel" />
+		<Label Name="MetricsLabel" Class="DefaultLabel" />
+		<Sprite Name="BackwardSprite" Material="BackwardMaterial" />
+		<Sprite Name="ForwardSprite" Material="ForwardMaterial" />
+	</Root>
+	<Layout>
+		<Vertical>
+			<Item Name="PositionLabel" Size="0, 32" Stretch="1, 0" />
+			<Item Name="MetricsLabel" Size="0, 32" Stretch="1, 0" />
+			<Stretch />
+			<Horizontal>
+				<Item Name="BackwardSprite" Size="64, 64" />
+				<Stretch />
+				<Item Name="ForwardSprite" Size="64, 64" />
+			</Horizontal>
+		</Vertical>
+	</Layout>
+</Scene>

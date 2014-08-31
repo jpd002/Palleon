@@ -1,4 +1,5 @@
 <Package>
 	<Texture Source="backward.png" />
 	<Texture Source="forward.png" />
+	<Scene Source="levelviewhud_scene.xml" />
 </Package>

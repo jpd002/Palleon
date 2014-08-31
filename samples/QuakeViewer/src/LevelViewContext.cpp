@@ -117,9 +117,6 @@ void CLevelViewContext::InitializeHudViewport()
 {
 	CVector2 screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
 
-	m_forwardButtonBoundingBox = CBox2(CVector2(screenSize.x - (64 + 10), screenSize.y - (64 + 10)), CVector2(64, 64));
-	m_backwardButtonBoundingBox = CBox2(CVector2(10, screenSize.y - (64 + 10)), CVector2(64, 64));
-
 	m_hudViewport = Palleon::CViewport::Create();
 
 	{
@@ -134,39 +131,30 @@ void CLevelViewContext::InitializeHudViewport()
 		auto sceneRoot = m_hudViewport->GetSceneRoot();
 
 		{
-			Palleon::LabelPtr label = Palleon::CLabel::Create();
-			label->SetFont(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
-			label->SetPosition(CVector3(10, 10, 0));
-			label->SetWordWrapEnabled(false);
-			sceneRoot->AppendChild(label);
-			m_positionLabel = label;
-		}
+			auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("levelviewhud_scene.xml"));
 
-		{
-			Palleon::LabelPtr label = Palleon::CLabel::Create();
-			label->SetFont(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CFontDescriptor>(FONTDESCRIPTOR_NAME_DEFAULT));
-			label->SetPosition(CVector3(10, 40, 0));
-			label->SetWordWrapEnabled(false);
-			sceneRoot->AppendChild(label);
-			m_metricsLabel = label;
-		}
+			{
+				auto sceneLayout = scene->GetLayout();
+				sceneLayout->SetRect(10, 10, screenSize.x - 10, screenSize.y - 10);
+				sceneLayout->RefreshGeometry();
+			}
 
-		{
-			Palleon::SpritePtr sprite = Palleon::CSprite::Create();
-			sprite->SetPosition(CVector3(m_forwardButtonBoundingBox.position, 0));
-			sprite->SetSize(m_forwardButtonBoundingBox.size);
-			sprite->GetMaterial()->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture("forward.png"));
-			sprite->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
-			sceneRoot->AppendChild(sprite);
-		}
+			{
+				auto sprite = scene->FindNode<Palleon::CSprite>("BackwardSprite");
+				m_backwardButtonBoundingBox.position = sprite->GetPosition().xy();
+				m_backwardButtonBoundingBox.size = sprite->GetSize();
+			}
 
-		{
-			Palleon::SpritePtr sprite = Palleon::CSprite::Create();
-			sprite->SetPosition(CVector3(m_backwardButtonBoundingBox.position, 0));
-			sprite->SetSize(m_backwardButtonBoundingBox.size);
-			sprite->GetMaterial()->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture("backward.png"));
-			sprite->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
-			sceneRoot->AppendChild(sprite);
+			{
+				auto sprite = scene->FindNode<Palleon::CSprite>("ForwardSprite");
+				m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
+				m_forwardButtonBoundingBox.size = sprite->GetSize();
+			}
+
+			m_positionLabel = scene->FindNode<Palleon::CLabel>("PositionLabel");
+			m_metricsLabel = scene->FindNode<Palleon::CLabel>("MetricsLabel");
+
+			sceneRoot->AppendChild(scene);
 		}
 	}
 }

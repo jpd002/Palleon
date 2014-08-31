@@ -10,14 +10,14 @@
 class CLevelViewContext : public CContextBase
 {
 public:
-								CLevelViewContext(CPakFile*, const char*);
-	virtual						~CLevelViewContext();
+									CLevelViewContext(CPakFile*, const char*);
+	virtual							~CLevelViewContext();
 
-	virtual void				Update(float);
+	virtual void					Update(float) override;
 
-	virtual void				NotifyMouseMove(int, int) override;
-	virtual void				NotifyMouseDown();
-	virtual void				NotifyMouseUp();
+	virtual void					NotifyMouseMove(int, int) override;
+	virtual void					NotifyMouseDown() override;
+	virtual void					NotifyMouseUp() override;
 
 private:
 	enum COMMAND_MODE
@@ -28,52 +28,52 @@ private:
 		COMMAND_MODE_MOVE_BACKWARD	= 3,
 	};
 
-	void						InitializeMapViewport();
-	void						InitializeHudViewport();
-	void						InitializeReflectionMap();
+	void							InitializeMapViewport();
+	void							InitializeHudViewport();
+	void							InitializeReflectionMap();
 
-	void						UpdateCamera();
-	void						UpdateReflectionMap();
+	void							UpdateCamera();
+	void							UpdateReflectionMap();
 
-	Palleon::PackagePtr			m_viewerPackage;
+	Palleon::PackagePtr				m_viewerPackage;
 
 	Palleon::ViewportPtr			m_mapViewport;
-	Palleon::CameraPtr			m_mapCamera;
+	Palleon::CameraPtr				m_mapCamera;
 
 	Palleon::ViewportPtr			m_hudViewport;
-	Palleon::LabelPtr			m_positionLabel;
-	Palleon::LabelPtr			m_metricsLabel;
-	Palleon::SpritePtr			m_renderTargetSprite;
+	Palleon::LabelPtr				m_positionLabel;
+	Palleon::LabelPtr				m_metricsLabel;
+	Palleon::SpritePtr				m_renderTargetSprite;
 
-	Palleon::TexturePtr			m_skyTexture;
+	Palleon::TexturePtr				m_skyTexture;
 
 	Palleon::CubeRenderTargetPtr	m_reflectionRenderTarget;
-	Palleon::CameraPtr			m_reflectionCamera;
+	Palleon::CameraPtr				m_reflectionCamera;
 
 	Palleon::MeshPtr				m_sphere;
-	CVector3					m_sphereBasePosition;
+	CVector3						m_sphereBasePosition;
 
-	COMMAND_MODE				m_commandMode;
+	COMMAND_MODE					m_commandMode;
 
-	CVector2					m_mousePosition;
-	CVector3					m_cameraPosition;
+	CVector2						m_mousePosition;
+	CVector3						m_cameraPosition;
 
-	CBspFile*					m_bspFile;
-	BspMapMeshProviderPtr		m_bspMapMeshProvider;
-	CBspMapResourceProvider*	m_bspMapResourceProvider;
+	CBspFile*						m_bspFile;
+	BspMapMeshProviderPtr			m_bspMapMeshProvider;
+	CBspMapResourceProvider*		m_bspMapResourceProvider;
 
-	float						m_cameraHAngle;
-	float						m_dragHAngle;
+	float							m_cameraHAngle;
+	float							m_dragHAngle;
 
-	float						m_cameraVAngle;
-	float						m_dragVAngle;
+	float							m_cameraVAngle;
+	float							m_dragVAngle;
 
-	CVector2					m_dragPosition;
+	CVector2						m_dragPosition;
 
-	float						m_elapsed;
+	float							m_elapsed;
 
-	CBox2						m_forwardButtonBoundingBox;
-	CBox2						m_backwardButtonBoundingBox;
+	CBox2							m_forwardButtonBoundingBox;
+	CBox2							m_backwardButtonBoundingBox;
 };
 
 #endif
