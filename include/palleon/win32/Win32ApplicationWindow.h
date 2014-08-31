@@ -3,6 +3,7 @@
 #include "Types.h"
 #include "win32/Window.h"
 #include "../Application.h"
+#include "../Vector2.h"
 
 namespace Palleon
 {
@@ -29,9 +30,8 @@ namespace Palleon
 		void						UpdateApplication();
 		static KEY_CODE				TranslateKeyCode(unsigned int);
 
-		uint32						m_screenWidth = 640;
-		uint32						m_screenHeight = 480;
-
+		CVector2					m_dpiScale = CVector2(1, 1);
+		
 		CApplication*				m_application = nullptr;
 
 		int							m_mouseX = 0;

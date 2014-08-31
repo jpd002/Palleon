@@ -40,20 +40,31 @@ CWin32ApplicationWindow::CWin32ApplicationWindow()
 
 	const char* windowTitle = CConfigManager::GetInstance().GetConfig().GetPreferenceString(PREFERENCE_WINDOW_TITLE);
 	std::tstring windowTitleString = string_cast<std::tstring>(windowTitle);
-	m_screenWidth = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_WIDTH);
-	m_screenHeight = CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_HEIGHT);
+	CVector2 screenSize = 
+		CVector2
+		(
+			CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_WIDTH),
+			CConfigManager::GetInstance().GetConfig().GetPreferenceInteger(PREFERENCE_SCREEN_HEIGHT)
+		);
 
 	QueryPerformanceFrequency(&m_counterFreq);
 	QueryPerformanceCounter(&m_previousTime);
 
+	int logX = GetDeviceCaps(GetDC(NULL), LOGPIXELSX);
+	int logY = GetDeviceCaps(GetDC(NULL), LOGPIXELSY);
+	m_dpiScale.x = static_cast<float>(logX) / 96.f;
+	m_dpiScale.y = static_cast<float>(logY) / 96.f;
+
+	CVector2 realScreenSize(screenSize * m_dpiScale);
+
 	RECT windowRect;
-	SetRect(&windowRect, 0, 0, m_screenWidth, m_screenHeight);
+	SetRect(&windowRect, 0, 0, realScreenSize.x, realScreenSize.y);
 	AdjustWindowRectEx(&windowRect, WNDSTYLE, FALSE, NULL);
 
 	Create(NULL, CLSNAME, windowTitleString.c_str(), WNDSTYLE, windowRect, NULL, NULL);
 	SetClassPtr();
 
-	CDx11GraphicDevice::CreateInstance(m_hWnd, CVector2(m_screenWidth, m_screenHeight));
+	CDx11GraphicDevice::CreateInstance(m_hWnd, screenSize, realScreenSize);
 	CWin32AudioManager::CreateInstance();
 
 	m_application = CreateApplication();
@@ -143,15 +154,17 @@ long CWin32ApplicationWindow::OnActivate(unsigned int activeState, bool, HWND)
 
 long CWin32ApplicationWindow::OnSize(unsigned int, unsigned int x, unsigned int y)
 {
-	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(x, y);
+	CVector2 realScreenSize(x, y);
+	CVector2 screenSize(realScreenSize / m_dpiScale);
+	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(screenSize, realScreenSize);
 	m_application->NotifySizeChanged();
 	return FALSE;
 }
 
 long CWin32ApplicationWindow::OnMouseMove(WPARAM param, int x, int y)
 {
-	m_mouseX = x;
-	m_mouseY = y;
+	m_mouseX = static_cast<int>(static_cast<float>(x) / m_dpiScale.x);
+	m_mouseY = static_cast<int>(static_cast<float>(y) / m_dpiScale.y);
 	return TRUE;
 }
 

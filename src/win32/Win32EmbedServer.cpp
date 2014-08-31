@@ -11,7 +11,7 @@ using namespace Palleon;
 CWin32EmbedServer::CWin32EmbedServer()
 {
 	CWin32ResourceManager::CreateInstance();
-	CDx11GraphicDevice::CreateInstance(NULL, CVector2(640, 480));
+	CDx11GraphicDevice::CreateInstance(NULL, CVector2(640, 480), CVector2(640, 480));
 
 	m_application = CreateApplication(true);
 }
@@ -137,7 +137,8 @@ STDMETHODIMP CWin32EmbedServer::GetSurfaceHandle(DWORD_PTR* surfaceHandleReturn)
 
 STDMETHODIMP CWin32EmbedServer::SetSurfaceSize(unsigned int width, unsigned int height)
 {
-	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(width, height);
+	CVector2 screenSize(width, height);
+	static_cast<CDx11GraphicDevice&>(CGraphicDevice::GetInstance()).SetOutputBufferSize(screenSize, screenSize);
 	m_application->NotifySizeChanged();
 	return S_OK;
 }

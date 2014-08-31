@@ -13,8 +13,9 @@
 
 using namespace Palleon;
 
-CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize)
+CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize, const CVector2& realScreenSize)
 : m_parentWnd(parentWnd)
+, m_realScreenSize(realScreenSize)
 {
 	m_screenSize = screenSize;
 	m_renderQueue.reserve(0x1000);
@@ -46,8 +47,8 @@ void CDx11GraphicDevice::CreateDevice()
 	HRESULT result = S_OK;
 
 	swapChainDesc.BufferCount							= 1;
-	swapChainDesc.BufferDesc.Width						= static_cast<UINT>(m_screenSize.x);
-	swapChainDesc.BufferDesc.Height						= static_cast<UINT>(m_screenSize.y);
+	swapChainDesc.BufferDesc.Width						= static_cast<UINT>(m_realScreenSize.x);
+	swapChainDesc.BufferDesc.Height						= static_cast<UINT>(m_realScreenSize.y);
 	swapChainDesc.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator		= 0;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator	= 1;
@@ -114,8 +115,8 @@ void CDx11GraphicDevice::CreateWindowlessOutputBuffer()
 	{
 		D3D11_TEXTURE2D_DESC renderTargetDesc = {};
 
-		renderTargetDesc.Width				= static_cast<UINT>(m_screenSize.x);
-		renderTargetDesc.Height				= static_cast<UINT>(m_screenSize.y);
+		renderTargetDesc.Width				= static_cast<UINT>(m_realScreenSize.x);
+		renderTargetDesc.Height				= static_cast<UINT>(m_realScreenSize.y);
 		renderTargetDesc.MipLevels			= 1;
 		renderTargetDesc.ArraySize			= 1;
 		renderTargetDesc.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -146,8 +147,8 @@ void CDx11GraphicDevice::CreateDepthBuffer()
 	{
 		D3D11_TEXTURE2D_DESC depthBufferDesc = {};
 
-		depthBufferDesc.Width				= static_cast<UINT>(m_screenSize.x);
-		depthBufferDesc.Height				= static_cast<UINT>(m_screenSize.y);
+		depthBufferDesc.Width				= static_cast<UINT>(m_realScreenSize.x);
+		depthBufferDesc.Height				= static_cast<UINT>(m_realScreenSize.y);
 		depthBufferDesc.MipLevels			= 1;
 		depthBufferDesc.ArraySize			= 1;
 		depthBufferDesc.Format				= DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -234,11 +235,11 @@ void CDx11GraphicDevice::CreateShadowMap()
 	}
 }
 
-void CDx11GraphicDevice::CreateInstance(HWND parentWnd, const CVector2& screenSize)
+void CDx11GraphicDevice::CreateInstance(HWND parentWnd, const CVector2& screenSize, const CVector2& realScreenSize)
 {
 	assert(m_instance == NULL);
 	if(m_instance != NULL) return;
-	m_instance = new CDx11GraphicDevice(parentWnd, screenSize);
+	m_instance = new CDx11GraphicDevice(parentWnd, screenSize, realScreenSize);
 }
 
 void CDx11GraphicDevice::DestroyInstance()
@@ -280,7 +281,7 @@ HANDLE CDx11GraphicDevice::GetOutputBufferSharedHandle()
 	return sharedHandle;
 }
 
-void CDx11GraphicDevice::SetOutputBufferSize(unsigned int width, unsigned int height)
+void CDx11GraphicDevice::SetOutputBufferSize(const CVector2& screenSize, const CVector2& realScreenSize)
 {
 	m_outputBuffer.Reset();
 	m_outputBufferView.Reset();
@@ -288,12 +289,12 @@ void CDx11GraphicDevice::SetOutputBufferSize(unsigned int width, unsigned int he
 	m_depthBuffer.Reset();
 	m_depthBufferView.Reset();
 
-	m_screenSize.x = width;
-	m_screenSize.y = height;
+	m_screenSize = screenSize;
+	m_realScreenSize = realScreenSize;
 
 	if(!m_swapChain.IsEmpty())
 	{
-		HRESULT result = m_swapChain->ResizeBuffers(1, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		HRESULT result = m_swapChain->ResizeBuffers(1, m_realScreenSize.x, realScreenSize.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 		assert(SUCCEEDED(result));
 
 		CreateOutputBuffer();
@@ -541,8 +542,8 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 {
 	{
 		D3D11_VIEWPORT viewport = {};
-		viewport.Width		= m_screenSize.x;
-		viewport.Height		= m_screenSize.y;
+		viewport.Width		= m_realScreenSize.x;
+		viewport.Height		= m_realScreenSize.y;
 		viewport.MinDepth	= 0.0f;
 		viewport.MaxDepth	= 1.0f;
 		viewport.TopLeftX	= 0.0f;

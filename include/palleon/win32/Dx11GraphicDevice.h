@@ -12,7 +12,7 @@ namespace Palleon
 	class CDx11GraphicDevice : public CGraphicDevice
 	{
 	public:
-		static void						CreateInstance(HWND, const CVector2&);
+		static void						CreateInstance(HWND, const CVector2&, const CVector2&);
 		static void						DestroyInstance();
 
 		virtual void					Draw() override;
@@ -30,7 +30,7 @@ namespace Palleon
 		HWND							GetParentWindow() const;
 
 		HANDLE							GetOutputBufferSharedHandle();
-		void							SetOutputBufferSize(unsigned int,unsigned int);
+		void							SetOutputBufferSize(const CVector2&, const CVector2&);
 
 		void							SetFrameRate(float);
 
@@ -75,7 +75,7 @@ namespace Palleon
 
 		typedef std::vector<CMesh*> RenderQueue;
 
-										CDx11GraphicDevice(HWND, const CVector2&);
+										CDx11GraphicDevice(HWND, const CVector2&, const CVector2&);
 		virtual							~CDx11GraphicDevice();
 
 		void							CreateDevice();
@@ -97,6 +97,7 @@ namespace Palleon
 		void							DrawMesh(const DX11VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
 
 		HWND													m_parentWnd;
+		CVector2												m_realScreenSize;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
 		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
