@@ -425,9 +425,12 @@ CScene::LayoutObjectPtr CScene::CreateLayoutNode(const CSceneDescriptor* descrip
 	else if(nodeDesc.type == "Item")
 	{
 		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
+		auto stretch = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Stretch", CVector2(0, 0));
 		auto targetNode = FindNode<ILayoutable>(nodeDesc.name);
 		assert(targetNode);
-		auto item = std::make_shared<CLayoutNode>(size.x, size.y, 0, 0, targetNode);
+		auto item = std::make_shared<CLayoutNode>(
+			static_cast<unsigned int>(size.x), static_cast<unsigned int>(size.y), 
+			static_cast<unsigned int>(stretch.x), static_cast<unsigned int>(stretch.y), targetNode);
 		result = item;
 	}
 	else
