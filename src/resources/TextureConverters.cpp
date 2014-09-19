@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "palleon/resources/TextureConverters.h"
 
 using namespace Palleon;
