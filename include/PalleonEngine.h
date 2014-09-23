@@ -59,3 +59,9 @@
 
 #include "palleon/EmbedRemoteCall.h"
 #include "palleon/Application.h"
+
+#ifdef __ANDROID__
+extern void palleon_library_link();
+#else
+static void palleon_library_link() {}
+#endif

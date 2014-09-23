@@ -9,7 +9,7 @@ using namespace Palleon;
 
 static AndroidActivity g_androidActivity;
 
-void palleon_dummy()
+void palleon_library_link()
 {
 
 }
