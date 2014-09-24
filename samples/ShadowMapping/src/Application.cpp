@@ -225,5 +225,6 @@ void CApplication::NotifyMouseUp()
 
 Palleon::CApplication* CreateApplication(bool)
 {
+	palleon_library_link();		//Needed for Android to work properly
 	return new CApplication();
 }
