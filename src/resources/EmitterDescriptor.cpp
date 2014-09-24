@@ -1,5 +1,4 @@
 #include "palleon/resources/EmitterDescriptor.h"
-#include "StdStream.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include <memory>
@@ -22,9 +21,8 @@ CEmitterDescriptor::~CEmitterDescriptor()
 
 }
 
-void CEmitterDescriptor::Load(const char* path)
+void CEmitterDescriptor::Load(Framework::CStream& inputStream)
 {
-	Framework::CStdStream inputStream(path, "rb");
 	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	auto emitterNode = document->Select("Emitter");

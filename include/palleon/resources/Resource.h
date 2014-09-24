@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "Stream.h"
 
 namespace Palleon
 {
@@ -8,7 +9,7 @@ namespace Palleon
 	{
 	public:
 		virtual			~CResource() {}
-		virtual void	Load(const char*) = 0;
+		virtual void	Load(Framework::CStream&) = 0;
 	};
 	typedef std::shared_ptr<CResource> ResourcePtr;
 }

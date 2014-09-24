@@ -11,7 +11,7 @@ namespace Palleon
 						CNinePatchDescriptor();
 		virtual			~CNinePatchDescriptor();
 
-		void			Load(const char*) override;
+		void			Load(Framework::CStream&) override;
 
 		const char*		GetTextureName() const;
 

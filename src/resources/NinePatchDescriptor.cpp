@@ -4,7 +4,6 @@
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
-#include "StdStream.h"
 
 using namespace Palleon;
 
@@ -24,9 +23,8 @@ CNinePatchDescriptor::~CNinePatchDescriptor()
 
 }
 
-void CNinePatchDescriptor::Load(const char* path)
+void CNinePatchDescriptor::Load(Framework::CStream& inputStream)
 {
-	Framework::CStdStream inputStream(path, "rb");
 	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	auto ninePatchNode = document->Select("NinePatch");

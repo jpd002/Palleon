@@ -21,7 +21,7 @@ namespace Palleon
 								CEmitterDescriptor();
 		virtual					~CEmitterDescriptor();
 
-		void					Load(const char*) override;
+		void					Load(Framework::CStream&) override;
 
 		EMITTER_SOURCE_TYPE		GetSourceType() const;
 

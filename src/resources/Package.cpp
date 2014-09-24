@@ -9,7 +9,6 @@
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
-#include "StdStream.h"
 
 using namespace Palleon;
 
@@ -27,16 +26,15 @@ CPackage::~CPackage()
 
 PackagePtr CPackage::Create(const char* name)
 {
-	return PackagePtr(new CPackage(name));
+	return std::make_shared<CPackage>(name);
 }
 
 void CPackage::LoadDefinition()
 {
 	std::string packageRelPath = m_name + std::string("/package.xml");
-	std::string packagePath = CResourceManager::GetInstance().MakeResourcePath(packageRelPath.c_str());
 
-	Framework::CStdStream inputStream(packagePath.c_str(), "rb");
-	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
+	auto inputStream =  CResourceManager::GetInstance().MakeResourceStream(packageRelPath.c_str());
+	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(*inputStream));
 
 	Framework::Xml::CNode* packageNode = document->Select("Package");
 	assert(packageNode != NULL);

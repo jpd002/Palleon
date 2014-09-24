@@ -4,7 +4,6 @@
 #include "xml/Node.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
-#include "StdStream.h"
 
 using namespace Palleon;
 
@@ -52,11 +51,10 @@ CFontDescriptor::GLYPHINFO CFontDescriptor::GetGlyphInfo(unsigned int charId) co
 	return glyphIterator->second;
 }
 
-void CFontDescriptor::Load(const char* path)
+void CFontDescriptor::Load(Framework::CStream& inputStream)
 {
 	m_glyphInfos.clear();
 
-	Framework::CStdStream inputStream(path, "rb");
 	boost::scoped_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	//Get common info

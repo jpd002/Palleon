@@ -13,9 +13,9 @@ CTextureResource::~CTextureResource()
 
 }
 
-void CTextureResource::Load(const char* path)
+void CTextureResource::Load(Framework::CStream& inputStream)
 {
-	m_texture = CTextureLoader::CreateTextureFromFile(path);
+	m_texture = CTextureLoader::CreateTextureFromStream(inputStream);
 }
 
 TexturePtr CTextureResource::GetTexture() const

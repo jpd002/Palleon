@@ -36,7 +36,7 @@ namespace Palleon
 
 		GLYPHINFO		GetGlyphInfo(unsigned int) const;
 			
-		void			Load(const char*) override;
+		void			Load(Framework::CStream&) override;
 		
 	private:
 		typedef std::unordered_map<unsigned int, PAGEINFO> PageInfoMap;

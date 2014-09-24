@@ -11,7 +11,7 @@ namespace Palleon
 							CTextureResource();
 		virtual				~CTextureResource();
 
-		virtual void		Load(const char*) override;
+		virtual void		Load(Framework::CStream&) override;
 
 		TexturePtr			GetTexture() const;
 

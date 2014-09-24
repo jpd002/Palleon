@@ -1,5 +1,4 @@
 #include "palleon/resources/SceneDescriptor.h"
-#include "StdStream.h"
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include <assert.h>
@@ -42,9 +41,8 @@ const CSceneDescriptor::AnimationMap& CSceneDescriptor::GetAnimations() const
 	return m_animations;
 }
 
-void CSceneDescriptor::Load(const char* path)
+void CSceneDescriptor::Load(Framework::CStream& inputStream)
 {
-	Framework::CStdStream inputStream(path, "rb");
 	std::unique_ptr<Framework::Xml::CNode> document(Framework::Xml::CParser::ParseDocument(inputStream));
 
 	LoadStyles(document.get());

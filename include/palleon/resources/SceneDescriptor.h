@@ -47,7 +47,7 @@ namespace Palleon
 		const MaterialMap&	GetMaterials() const;
 		const AnimationMap&	GetAnimations() const;
 
-		void				Load(const char*) override;
+		void				Load(Framework::CStream&) override;
 
 	private:
 		NodeInfoArray		LoadNode(Framework::Xml::CNode*);

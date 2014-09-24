@@ -12,12 +12,15 @@ namespace Palleon
 	class CResourceManager
 	{
 	public:
+		typedef std::unique_ptr<Framework::CStream> StreamPtr;
+
 		virtual						~CResourceManager();
 		
 		static CResourceManager&	GetInstance();
 
 		virtual std::string			MakeResourcePath(const std::string&) const = 0;
-		
+		virtual StreamPtr			MakeResourceStream(const std::string&) const = 0;
+
 		ResourcePtr					GetResource(const std::string&) const;
 
 		template <typename T>
@@ -37,10 +40,10 @@ namespace Palleon
 		{
 			std::string resourcePath = localPath.empty() ? name : localPath;
 			unsigned int resId = MakeCrc(name);
-			auto path = MakeResourcePath(resourcePath);
 			assert(m_resources.find(resId) == std::end(m_resources));
 			auto resource = std::shared_ptr<T>(new T());
-			resource->Load(path.c_str());
+			auto inputStream = MakeResourceStream(resourcePath);
+			resource->Load(*inputStream);
 			m_resources[resId] = resource;
 		}
 
