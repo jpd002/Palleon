@@ -25,7 +25,7 @@ LOCAL_SRC_FILES			:=	../../src/Application.cpp \
 							../../src/TouchFreeCamera.cpp
 LOCAL_C_INCLUDES		:= $(BOOST_PATH) $(FRAMEWORK_PATH)/include $(PALLEON_PATH)/include
 LOCAL_CPP_FEATURES		:= exceptions rtti
-LOCAL_LDLIBS 			:= -lz -llog -lGLESv3 -lEGL
+LOCAL_LDLIBS 			:= -lz -llog -landroid -lGLESv3 -lEGL
 LOCAL_STATIC_LIBRARIES	:= libPalleon libFramework
 
 include $(BUILD_SHARED_LIBRARY)
