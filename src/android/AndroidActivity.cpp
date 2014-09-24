@@ -7,14 +7,12 @@
 
 using namespace Palleon;
 
-static AndroidActivity g_androidActivity;
-
 void palleon_library_link()
 {
 
 }
 
-void AndroidActivity::Initialize(int width, int height)
+void CAndroidActivity::Initialize(int width, int height)
 {
 	assert(!m_initialized);
 	
@@ -25,18 +23,35 @@ void AndroidActivity::Initialize(int width, int height)
 	m_application = CreateApplication();
 }
 
-void AndroidActivity::Update()
+void CAndroidActivity::Update()
 {
 	m_application->Update(1.f / 60.f);
 	CAndroidGraphicDevice::GetInstance().Draw();
 }
 
+AAssetManager* CAndroidActivity::GetAssetManager() const
+{
+	return m_assetManager;
+}
+
+void CAndroidActivity::SetAssetManager(AAssetManager* assetManager)
+{
+	m_assetManager = assetManager;
+}
+
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jint width, jint height)
 {
-	g_androidActivity.Initialize(width, height);
+	CAndroidActivity::GetInstance().Initialize(width, height);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_update(JNIEnv* env, jobject obj)
 {
-	g_androidActivity.Update();
+	CAndroidActivity::GetInstance().Update();
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_setAssetManager(JNIEnv* env, jobject obj, jobject assetManagerJava)
+{
+	auto assetManager = AAssetManager_fromJava(env, assetManagerJava);
+	assert(assetManager != nullptr);
+	CAndroidActivity::GetInstance().SetAssetManager(assetManager);
 }

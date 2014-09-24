@@ -7,6 +7,7 @@ FRAMEWORK_PATH		:= /cygdrive/c/Projects/Framework/
 
 LOCAL_MODULE		:= libPalleon
 LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
+						../../src/android/AndroidAssetStream.cpp \
 						../../src/android/AndroidGraphicDevice.cpp \
 						../../src/android/AndroidLog.cpp \
 						../../src/android/AndroidResourceManager.cpp \

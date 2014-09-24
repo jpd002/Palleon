@@ -1,4 +1,6 @@
 #include "palleon/android/AndroidResourceManager.h"
+#include "palleon/android/AndroidAssetStream.h"
+#include "make_unique.h"
 
 using namespace Palleon;
 
@@ -29,4 +31,9 @@ void CAndroidResourceManager::DestroyInstance()
 std::string CAndroidResourceManager::MakeResourcePath(const std::string& name) const
 {
 	return name;
+}
+
+CResourceManager::StreamPtr CAndroidResourceManager::MakeResourceStream(const std::string& name) const
+{
+	return std::make_unique<CAndroidAssetStream>(name.c_str());
 }

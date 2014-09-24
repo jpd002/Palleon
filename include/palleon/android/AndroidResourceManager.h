@@ -11,6 +11,7 @@ namespace Palleon
 		static void					DestroyInstance();
 		
 		virtual std::string			MakeResourcePath(const std::string&) const override;
+		virtual StreamPtr			MakeResourceStream(const std::string&) const override;
 		
 	protected:
 									CAndroidResourceManager();

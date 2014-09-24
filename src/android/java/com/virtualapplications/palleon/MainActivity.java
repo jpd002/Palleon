@@ -14,6 +14,7 @@ public class MainActivity extends Activity
 	@Override protected void onCreate(Bundle icicle) 
 	{
 		super.onCreate(icicle);
+		NativeInterop.setAssetManager(getAssets());
 		_view = new MainView(getApplication(), false, 24, 8);
 		setContentView(_view);
 	}
