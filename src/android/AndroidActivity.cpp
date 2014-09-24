@@ -14,7 +14,7 @@ void palleon_library_link()
 
 void CAndroidActivity::Initialize(int width, int height)
 {
-	assert(!m_initialized);
+	assert(!m_application);
 	
 	CAndroidLog::CreateInstance();
 	CAndroidResourceManager::CreateInstance();
@@ -27,6 +27,24 @@ void CAndroidActivity::Update()
 {
 	m_application->Update(1.f / 60.f);
 	CAndroidGraphicDevice::GetInstance().Draw();
+}
+
+void CAndroidActivity::NotifyMouseMove(int x, int y)
+{
+	assert(m_application);
+	m_application->NotifyMouseMove(x, y);
+}
+
+void CAndroidActivity::NotifyMouseDown()
+{
+	assert(m_application);
+	m_application->NotifyMouseDown();
+}
+
+void CAndroidActivity::NotifyMouseUp()
+{
+	assert(m_application);
+	m_application->NotifyMouseUp();
 }
 
 AAssetManager* CAndroidActivity::GetAssetManager() const
@@ -54,4 +72,19 @@ extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInt
 	auto assetManager = AAssetManager_fromJava(env, assetManagerJava);
 	assert(assetManager != nullptr);
 	CAndroidActivity::GetInstance().SetAssetManager(assetManager);
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_notifyMouseMove(JNIEnv* env, jobject obj, jint x, jint y)
+{
+	CAndroidActivity::GetInstance().NotifyMouseMove(x, y);
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_notifyMouseDown(JNIEnv* env, jobject obj)
+{
+	CAndroidActivity::GetInstance().NotifyMouseDown();
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_notifyMouseUp(JNIEnv* env, jobject obj)
+{
+	CAndroidActivity::GetInstance().NotifyMouseUp();
 }

@@ -15,9 +15,12 @@ namespace Palleon
 		AAssetManager*			GetAssetManager() const;
 		void					SetAssetManager(AAssetManager*);
 		
+		void					NotifyMouseMove(int, int);
+		void					NotifyMouseDown();
+		void					NotifyMouseUp();
+		
 	private:
 		CApplication*			m_application = nullptr;
 		AAssetManager*			m_assetManager = nullptr;
-		bool					m_initialized = false;
 	};
 }

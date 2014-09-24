@@ -16,7 +16,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 class MainView extends GLSurfaceView
 {
-	private static String TAG = "MainView";
+	private static String TAG = "Palleon";
 	private static final boolean DEBUG = false;
 
 	public MainView(Context context) 
@@ -107,7 +107,7 @@ class MainView extends GLSurfaceView
 			EGL10.EGL_NONE
 		};
 
-		public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) 
+		@Override public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) 
 		{
 			/* Get the number of minimally matching EGL configurations
 			 */
@@ -135,7 +135,7 @@ class MainView extends GLSurfaceView
 			return chooseConfig(egl, display, configs);
 		}
 
-		public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display, EGLConfig[] configs) 
+		private EGLConfig chooseConfig(EGL10 egl, EGLDisplay display, EGLConfig[] configs) 
 		{
 			Log.w(TAG, "chooseConfig");
 		
@@ -287,19 +287,42 @@ class MainView extends GLSurfaceView
 
 	private static class Renderer implements GLSurfaceView.Renderer 
 	{
-		public void onDrawFrame(GL10 gl) 
+		@Override public void onDrawFrame(GL10 gl) 
 		{
 			NativeInterop.update();
 		}
 
-		public void onSurfaceChanged(GL10 gl, int width, int height) 
+		@Override public void onSurfaceChanged(GL10 gl, int width, int height) 
 		{
 			NativeInterop.initialize(width, height);
 		}
 
-		public void onSurfaceCreated(GL10 gl, EGLConfig config) 
+		@Override public void onSurfaceCreated(GL10 gl, EGLConfig config) 
 		{
 			// Do nothing.
 		}
+	}
+	
+	@Override public boolean onTouchEvent(final MotionEvent event)
+	{
+		int action = event.getActionMasked();
+		int pointerIndex = event.getActionIndex();
+		int pointerId = event.getPointerId(pointerIndex);
+		float x = event.getX(pointerIndex);
+		float y = event.getY(pointerIndex);
+		switch(action)
+		{
+		case MotionEvent.ACTION_DOWN:
+			NativeInterop.notifyMouseMove((int)x, (int)y);
+			NativeInterop.notifyMouseDown();
+			break;
+		case MotionEvent.ACTION_UP:
+			NativeInterop.notifyMouseUp();
+			break;
+		case MotionEvent.ACTION_MOVE:
+			NativeInterop.notifyMouseMove((int)x, (int)y);
+			break;
+		}
+		return true;
 	}
 }

@@ -12,4 +12,8 @@ public class NativeInterop
 	 public static native void initialize(int width, int height);
 	 public static native void update();
 	 public static native void setAssetManager(AssetManager assetManager);
+	 
+	 public static native void notifyMouseMove(int x, int y);
+	 public static native void notifyMouseDown();
+	 public static native void notifyMouseUp();
 }
