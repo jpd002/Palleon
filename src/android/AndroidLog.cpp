@@ -18,5 +18,5 @@ void CAndroidLog::Print(const char* fmt, ...)
 	va_list ap;
 	va_start(ap, fmt);
 	__android_log_vprint(ANDROID_LOG_INFO, LOG_NAME, fmt, ap);
-	va_end(ap);	
+	va_end(ap);
 }
