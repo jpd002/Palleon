@@ -6,7 +6,7 @@
 
 using namespace Palleon;
 
-CGraphicDevice* CGraphicDevice::m_instance = NULL;
+CGraphicDevice* CGraphicDevice::m_instance = nullptr;
 
 CGraphicDevice::CGraphicDevice()
 : m_screenSize(0, 0)
@@ -23,7 +23,7 @@ CGraphicDevice::~CGraphicDevice()
 
 CGraphicDevice& CGraphicDevice::GetInstance()
 {
-	assert(m_instance != NULL);
+	assert(m_instance != nullptr);
 	return (*m_instance);
 }
 
