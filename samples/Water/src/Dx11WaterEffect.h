@@ -15,6 +15,7 @@ private:
 
 	uint32					m_worldMatrixOffset = -1;
 	uint32					m_viewProjMatrixOffset = -1;
+	uint32					m_reflectViewProjMatrixOffset = -1;
 	uint32					m_texture1MatrixOffset = -1;
 	uint32					m_cameraPositionOffset = -1;
 };

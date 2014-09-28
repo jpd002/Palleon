@@ -33,6 +33,8 @@ namespace Water
 		TouchFreeCameraPtr			m_mainCamera;
 		Palleon::CameraPtr			m_reflectCamera;
 		Palleon::MeshPtr			m_waterPlane;
+		Palleon::MeshPtr			m_overBall;
+		Palleon::MeshPtr			m_underBall;
 		Palleon::RenderTargetPtr	m_reflectRenderTarget;
 		Palleon::RenderTargetPtr	m_refractRenderTarget;
 		Palleon::EffectProviderPtr	m_waterEffectProvider;

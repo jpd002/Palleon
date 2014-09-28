@@ -8,6 +8,7 @@ CDx11WaterEffect::CDx11WaterEffect(ID3D11Device* device, ID3D11DeviceContext* de
 		"{"
 		"	matrix c_worldMatrix;"
 		"	matrix c_viewProjMatrix;"
+		"	matrix c_reflectViewProjMatrix;"
 		"	matrix c_texture1Matrix;"
 		"	float3 c_cameraPosition;"
 		"};"
@@ -19,17 +20,19 @@ CDx11WaterEffect::CDx11WaterEffect(ID3D11Device* device, ID3D11DeviceContext* de
 		"struct PixelInputType"
 		"{"
 		"	float4 position : SV_POSITION;"
-		"	float2 texCoord1 : TEXCOORD0;"
+		"	float4 reflectPosition : TEXCOORD0;"
 		"	float4 refractPosition : TEXCOORD1;"
 		"	float3 eyeVector : TEXCOORD2;"
+		"	float2 texCoord1 : TEXCOORD3;"
 		"};"
 		"PixelInputType VertexProgram(VertexInputType input)"
 		"{"
 		"	PixelInputType output;"
-		"	output.position = mul(c_worldMatrix, float4(input.position, 1));"
-		"	output.eyeVector = normalize(c_cameraPosition - output.position.xyz);"
-		"	output.position = mul(c_viewProjMatrix, output.position);"
+		"	float4 worldPos = mul(c_worldMatrix, float4(input.position, 1));"
+		"	output.eyeVector = normalize(c_cameraPosition - worldPos.xyz);"
+		"	output.position = mul(c_viewProjMatrix, worldPos);"
 		"	output.texCoord1 = mul(c_texture1Matrix, float4(input.texCoord, 0, 1));"
+		"	output.reflectPosition = mul(c_reflectViewProjMatrix, worldPos);"
 		"	output.refractPosition = output.position;"
 		"	return output;"
 		"}";
@@ -37,29 +40,44 @@ CDx11WaterEffect::CDx11WaterEffect(ID3D11Device* device, ID3D11DeviceContext* de
 		"struct PixelInputType"
 		"{"
 		"	float4 position : SV_POSITION;"
-		"	float2 texCoord1 : TEXCOORD0;"
+		"	float4 reflectPosition : TEXCOORD0;"
 		"	float4 refractPosition : TEXCOORD1;"
 		"	float3 eyeVector : TEXCOORD2;"
+		"	float2 texCoord1 : TEXCOORD3;"
 		"};"
-		"Texture2D c_reflectionTexture : register(t0);"
-		"Texture2D c_bumpTexture : register(t1);"
-		"SamplerState c_reflectionSampler : register(s0);"
-		"SamplerState c_bumpSampler : register(s1);"
+		"Texture2D c_reflectTexture		: register(t0);"
+		"Texture2D c_refractTexture		: register(t1);"
+		"Texture2D c_bumpTexture		: register(t2);"
+		"SamplerState c_reflectSampler	: register(s0);"
+		"SamplerState c_refractSampler	: register(s1);"
+		"SamplerState c_bumpSampler		: register(s2);"
 		"float4 PixelProgram(PixelInputType input) : SV_TARGET"
 		"{"
+		"	float waveHeight = 0.01f;"
+		"	float4 dullColor = float4(0.3f, 0.3f, 0.5f, 1.0f);"
+		"	float3 lightDir = normalize(float3(0.1f, 0.6f, 0.5f));"
 		"	float4 bump = c_bumpTexture.Sample(c_bumpSampler, input.texCoord1);"
-		"	float waveHeight = 0.2f;"
-		"	float2 perturbation = waveHeight * ((bump.rg - 0.5f) * 2.0f);"
+		"	float3 normal = ((bump.rgb - 0.5f) * 2.0f);"
+		"	normal.y = 1.0f;"
+		"	normal = normalize(normal);"
+		"	float2 perturbation = waveHeight * normal.xz;"
+		"	float2 reflectTexCoord;"
 		"	float2 refractTexCoord;"
+		"	reflectTexCoord.x = ( input.reflectPosition.x / input.reflectPosition.w) / 2.0f + 0.5f;"
+		"	reflectTexCoord.y = (-input.reflectPosition.y / input.reflectPosition.w) / 2.0f + 0.5f;"
 		"	refractTexCoord.x = ( input.refractPosition.x / input.refractPosition.w) / 2.0f + 0.5f;"
 		"	refractTexCoord.y = (-input.refractPosition.y / input.refractPosition.w) / 2.0f + 0.5f;"
+		"	reflectTexCoord += perturbation;"
 		"	refractTexCoord += perturbation;"
-		"	float4 refractColor = c_reflectionTexture.Sample(c_reflectionSampler, refractTexCoord);"
-		"	float3 normalVector = float3(0, 1, 0);"
-		"	float fresnelTerm = dot(input.eyeVector, normalVector);"
-		"	float4 combinedColor = lerp(float4(0, 0, 0, 0), refractColor, fresnelTerm);"
-		"	float4 dullColor = float4(0.3f, 0.3f, 0.5f, 1.0f);"
-		"	return lerp(combinedColor, dullColor, 0.2f);"
+		"	float4 reflectColor = c_reflectTexture.Sample(c_reflectSampler, reflectTexCoord);"
+		"	float4 refractColor = c_refractTexture.Sample(c_refractSampler, refractTexCoord);"
+		"	float fresnelTerm = dot(input.eyeVector, normal);"
+		"	float3 halfVector = normalize(lightDir + input.eyeVector);"
+		"	float specularFactor = max(dot(normal, halfVector), 0);"
+		"	float specular = pow(specularFactor, 255);"
+		"	float diffuse = max(dot(normal, lightDir), 0);"
+		"	float4 combinedColor = lerp(reflectColor, refractColor, fresnelTerm);"
+		"	return combinedColor + float4(diffuse, diffuse, diffuse, 0) * 0.2f + float4(specular, specular, specular, 0) * 0.1f;"
 		"}";
 
 	CompileVertexShader(vertexShaderText);
@@ -68,10 +86,11 @@ CDx11WaterEffect::CDx11WaterEffect(ID3D11Device* device, ID3D11DeviceContext* de
 	{
 		OffsetKeeper constantOffset;
 
-		m_worldMatrixOffset		= constantOffset.Allocate(0x40);
-		m_viewProjMatrixOffset	= constantOffset.Allocate(0x40);
-		m_texture1MatrixOffset	= constantOffset.Allocate(0x40);
-		m_cameraPositionOffset	= constantOffset.Allocate(0x10);
+		m_worldMatrixOffset				= constantOffset.Allocate(0x40);
+		m_viewProjMatrixOffset			= constantOffset.Allocate(0x40);
+		m_reflectViewProjMatrixOffset	= constantOffset.Allocate(0x40);
+		m_texture1MatrixOffset			= constantOffset.Allocate(0x40);
+		m_cameraPositionOffset			= constantOffset.Allocate(0x10);
 
 		CreateVertexConstantBuffer(constantOffset.currentOffset);
 	}
@@ -82,11 +101,39 @@ CDx11WaterEffect::~CDx11WaterEffect()
 
 }
 
+static CMatrix4 MakeReflectMatrix(const CVector4& reflectPlane)
+{
+	auto reflectMatrix = CMatrix4::MakeIdentity();
+
+	reflectMatrix(0, 0) = 1 - 2 * reflectPlane.x * reflectPlane.x;
+	reflectMatrix(0, 1) =   - 2 * reflectPlane.x * reflectPlane.y;
+	reflectMatrix(0, 2) =   - 2 * reflectPlane.x * reflectPlane.z;
+	reflectMatrix(0, 3) =   - 2 * reflectPlane.x * reflectPlane.w;
+
+	reflectMatrix(1, 0) =   - 2 * reflectPlane.y * reflectPlane.x;
+	reflectMatrix(1, 1) = 1 - 2 * reflectPlane.y * reflectPlane.y;
+	reflectMatrix(1, 2) =   - 2 * reflectPlane.y * reflectPlane.z;
+	reflectMatrix(1, 3) =   - 2 * reflectPlane.y * reflectPlane.w;
+
+	reflectMatrix(2, 0) =   - 2 * reflectPlane.z * reflectPlane.x;
+	reflectMatrix(2, 1) =   - 2 * reflectPlane.z * reflectPlane.y;
+	reflectMatrix(2, 2) = 1 - 2 * reflectPlane.z * reflectPlane.z;
+	reflectMatrix(2, 3) =   - 2 * reflectPlane.z * reflectPlane.w;
+
+	return reflectMatrix;
+}
+
 void CDx11WaterEffect::UpdateConstants(const Palleon::DX11VIEWPORT_PARAMS& viewportParams, Palleon::CMaterial* material, const CMatrix4& worldMatrix)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
 	HRESULT result = m_deviceContext->Map(m_vertexConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
+
+	auto clipPlane = CVector4(0, 1, 0, 0);
+
+	auto reflectMatrix = MakeReflectMatrix(clipPlane);
+
+	auto reflectViewMatrix = reflectMatrix * viewportParams.viewMatrix;
 
 	auto inverseView = viewportParams.viewMatrix.Inverse();
 	auto cameraPosition = CVector4(inverseView(3, 0), inverseView(3, 1), inverseView(3, 2), 0);
@@ -94,6 +141,7 @@ void CDx11WaterEffect::UpdateConstants(const Palleon::DX11VIEWPORT_PARAMS& viewp
 	auto constantBufferPtr = reinterpret_cast<uint8*>(mappedResource.pData);
 	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_worldMatrixOffset) = worldMatrix;
 	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_viewProjMatrixOffset) = viewportParams.viewMatrix * viewportParams.projMatrix;
+	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_reflectViewProjMatrixOffset) = reflectViewMatrix * viewportParams.projMatrix;
 	*reinterpret_cast<CMatrix4*>(constantBufferPtr + m_texture1MatrixOffset) = material->GetTextureMatrix(1);
 	*reinterpret_cast<CVector4*>(constantBufferPtr + m_cameraPositionOffset) = cameraPosition;
 
