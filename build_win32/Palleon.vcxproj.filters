@@ -223,6 +223,9 @@
     <ClCompile Include="..\src\LayoutNode.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11RenderTarget.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\LayoutNode.h">
       <Filter>Source Files\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11RenderTarget.h">
+      <Filter>Source Files\win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

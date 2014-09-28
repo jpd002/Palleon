@@ -2,6 +2,7 @@
 #include "palleon/win32/Dx11GraphicDevice.h"
 #include "palleon/win32/Dx11VertexBuffer.h"
 #include "palleon/win32/Dx11Texture.h"
+#include "palleon/win32/Dx11RenderTarget.h"
 #include "palleon/win32/Dx11UberEffectProvider.h"
 #include "palleon/win32/Dx11ShadowMapEffect.h"
 #include "palleon/Mesh.h"
@@ -12,6 +13,18 @@
 #define SAMPLE_COUNT		1
 
 using namespace Palleon;
+
+const DXGI_FORMAT CDx11GraphicDevice::g_textureFormats[TEXTURE_FORMAT_MAX] =
+{
+	DXGI_FORMAT_UNKNOWN,
+	DXGI_FORMAT_R8G8B8A8_UNORM,
+	DXGI_FORMAT_R8G8B8A8_UNORM,
+	DXGI_FORMAT_B8G8R8A8_UNORM,
+	DXGI_FORMAT_BC1_UNORM,
+	DXGI_FORMAT_BC2_UNORM,
+	DXGI_FORMAT_BC3_UNORM,
+	DXGI_FORMAT_UNKNOWN,
+};
 
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize, const CVector2& realScreenSize)
 : m_parentWnd(parentWnd)
@@ -327,7 +340,7 @@ TexturePtr CDx11GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, u
 
 RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return RenderTargetPtr();
+	return std::make_shared<CDx11RenderTarget>(m_device, m_deviceContext, textureFormat, width, height);
 }
 
 CubeRenderTargetPtr CDx11GraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
@@ -535,15 +548,15 @@ void CDx11GraphicDevice::Draw()
 void CDx11GraphicDevice::DrawViewport(CViewport* viewport)
 {
 	DrawViewportShadowMap(viewport);
-	DrawViewportMainMap(viewport);
+	DrawViewportMainMap(viewport, m_outputBufferView, m_depthBufferView, m_realScreenSize.x, m_realScreenSize.y);
 }
 
-void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
+void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* renderDepth, uint32 width, uint32 height)
 {
 	{
 		D3D11_VIEWPORT viewport = {};
-		viewport.Width		= m_realScreenSize.x;
-		viewport.Height		= m_realScreenSize.y;
+		viewport.Width		= width;
+		viewport.Height		= height;
 		viewport.MinDepth	= 0.0f;
 		viewport.MaxDepth	= 1.0f;
 		viewport.TopLeftX	= 0.0f;
@@ -552,8 +565,11 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport)
 		m_deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	m_deviceContext->OMSetRenderTargets(1, &m_outputBufferView, m_depthBufferView);
-	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_deviceContext->OMSetRenderTargets(1, &renderTarget, renderDepth);
+	if(renderDepth)
+	{
+		m_deviceContext->ClearDepthStencilView(renderDepth, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	}
 
 	auto camera = viewport->GetCamera();
 	assert(camera);
@@ -706,9 +722,8 @@ void CDx11GraphicDevice::DrawMesh(const DX11VIEWPORT_PARAMS& viewportParams, CMe
 				samplerStateInfo.addressV = material->GetTextureAddressModeV(i);
 				auto samplerState = GetSamplerState(samplerStateInfo);
 
-				auto specTexture = std::static_pointer_cast<CDx11Texture>(texture);
 				samplerStates[i] = samplerState;
-				textureViews[i] = specTexture->GetTextureView();
+				textureViews[i] = reinterpret_cast<ID3D11ShaderResourceView*>(texture->GetHandle());
 				textureCount++;
 			}
 			else

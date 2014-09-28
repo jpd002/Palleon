@@ -1,21 +1,10 @@
 #include "palleon/win32/Dx11Texture.h"
+#include "palleon/win32/Dx11GraphicDevice.h"
 #include <assert.h>
 #include <vector>
 #include <algorithm>
 
 using namespace Palleon;
-
-static const DXGI_FORMAT g_textureFormats[TEXTURE_FORMAT_MAX] =
-{
-	DXGI_FORMAT_UNKNOWN,
-	DXGI_FORMAT_R8G8B8A8_UNORM,
-	DXGI_FORMAT_R8G8B8A8_UNORM,
-	DXGI_FORMAT_B8G8R8A8_UNORM,
-	DXGI_FORMAT_BC1_UNORM,
-	DXGI_FORMAT_BC2_UNORM,
-	DXGI_FORMAT_BC3_UNORM,
-	DXGI_FORMAT_UNKNOWN,
-};
 
 CDx11Texture::CDx11Texture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11Texture2D* texture)
 : m_device(device)
@@ -43,7 +32,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 {
 	assert(mipCount > 0);
 
-	auto specTextureFormat = g_textureFormats[textureFormat];
+	auto specTextureFormat = CDx11GraphicDevice::g_textureFormats[textureFormat];
 
 	ID3D11Texture2D* texture(nullptr);
 
@@ -72,7 +61,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 
 TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 size)
 {
-	auto specTextureFormat = g_textureFormats[textureFormat];
+	auto specTextureFormat = CDx11GraphicDevice::g_textureFormats[textureFormat];
 
 	ID3D11Texture2D* texture(nullptr);
 
@@ -102,11 +91,6 @@ TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, ID3D11DeviceContext* d
 }
 
 void* CDx11Texture::GetHandle() const
-{
-	return m_texture;
-}
-
-ID3D11ShaderResourceView* CDx11Texture::GetTextureView() const
 {
 	return m_textureView;
 }

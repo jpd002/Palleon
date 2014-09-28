@@ -16,6 +16,7 @@ namespace Palleon
 		static void						DestroyInstance();
 
 		virtual void					Draw() override;
+		void							DrawViewportMainMap(CViewport*, ID3D11RenderTargetView*, ID3D11DepthStencilView*, uint32, uint32);
 
 		virtual VertexBufferPtr			CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 
@@ -33,6 +34,8 @@ namespace Palleon
 		void							SetOutputBufferSize(const CVector2&, const CVector2&);
 
 		void							SetFrameRate(float);
+
+		static const DXGI_FORMAT		g_textureFormats[TEXTURE_FORMAT_MAX];
 
 	protected:
 		enum
@@ -92,7 +95,6 @@ namespace Palleon
 		ID3D11SamplerState*				GetSamplerState(const SAMPLER_STATE_INFO&);
 
 		void							DrawViewport(CViewport*);
-		void							DrawViewportMainMap(CViewport*);
 		void							DrawViewportShadowMap(CViewport*);
 		void							DrawMesh(const DX11VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
 

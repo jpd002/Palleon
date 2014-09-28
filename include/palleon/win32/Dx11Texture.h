@@ -17,7 +17,6 @@ namespace Palleon
 		static TexturePtr			CreateCube(ID3D11Device*, ID3D11DeviceContext*, TEXTURE_FORMAT, uint32);
 
 		virtual void*				GetHandle() const override;
-		ID3D11ShaderResourceView*	GetTextureView() const;
 
 		virtual void				Update(uint32, const void*) override;
 		virtual void				UpdateCubeFace(TEXTURE_CUBE_FACE, const void*) override;
