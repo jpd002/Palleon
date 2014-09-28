@@ -29,6 +29,16 @@ public:
 		
 	}
 	
+	CVector4 operator *(float value) const
+	{
+		return CVector4(x * value, y * value, z * value, w * value);
+	}
+
+	float Dot(const CVector4& rhs) const
+	{
+		return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
+	}
+
 	CVector2 xy() const
 	{
 		return CVector2(x, y);

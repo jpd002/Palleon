@@ -22,6 +22,15 @@ static CVector3 operator *(const CVector3& lhs, const CMatrix4& rhs)
 	return result;
 }
 
+static CVector4 operator *(float lhs, const CVector4& rhs)
+{
+	return CVector4(
+		lhs * rhs.x, 
+		lhs * rhs.y, 
+		lhs * rhs.z,
+		lhs * rhs.w);
+}
+
 static CVector4 operator *(const CVector4& lhs, const CMatrix4& rhs)
 {
 	CVector4 result;

@@ -38,6 +38,11 @@ public:
 					(z * z));
 	}
 	
+	float LengthSquared() const
+	{
+		return	(x * x) + (y * y) + (z * z);
+	}
+
 	CVector3& operator +=(const CVector3& value)
 	{
 		x += value.x;
