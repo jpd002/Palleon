@@ -74,6 +74,11 @@ void CCamera::SetPerspectiveProjection(float fovY, float aspectRatio, float near
 	m_projMatrix = proj;
 }
 
+void CCamera::SetProjectionMatrix(const CMatrix4& projMatrix)
+{
+	m_projMatrix = projMatrix;
+}
+
 void CCamera::LookAt(const CVector3& eye, const CVector3& target, const CVector3& up, HANDEDNESS handedness)
 {
 	CMatrix4 view;
