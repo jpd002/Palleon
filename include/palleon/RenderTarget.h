@@ -1,5 +1,4 @@
-#ifndef _RENDERTARGET_H_
-#define _RENDERTARGET_H_
+#pragma once
 
 #include "palleon/Texture.h"
 #include "palleon/Viewport.h"
@@ -16,5 +15,3 @@ namespace Palleon
 
 	typedef std::shared_ptr<CRenderTarget> RenderTargetPtr;
 }
-
-#endif
