@@ -21,9 +21,14 @@ namespace Water
 
 	private:
 		void						CreateScene();
+		void						CreateSky();
 		void						CreateUi();
 
 		void						RefreshUiLayout();
+		void						RenderReflection();
+		void						RenderRefraction();
+
+		void						SetupSkyCamera(const Palleon::CameraPtr&);
 
 		//Resources
 		Palleon::PackagePtr			m_globalPackage;
@@ -31,13 +36,21 @@ namespace Water
 		//3D scene
 		Palleon::ViewportPtr		m_mainViewport;
 		TouchFreeCameraPtr			m_mainCamera;
+
 		Palleon::CameraPtr			m_reflectCamera;
+
 		Palleon::MeshPtr			m_waterPlane;
-		Palleon::MeshPtr			m_overBall;
-		Palleon::MeshPtr			m_underBall;
 		Palleon::RenderTargetPtr	m_reflectRenderTarget;
 		Palleon::RenderTargetPtr	m_refractRenderTarget;
 		Palleon::EffectProviderPtr	m_waterEffectProvider;
+
+		Palleon::MeshPtr			m_overBall;
+		Palleon::MeshPtr			m_underBall;
+
+		Palleon::ViewportPtr		m_skyViewport;
+		Palleon::CameraPtr			m_skyCamera;
+		Palleon::TexturePtr			m_skyTexture;
+		Palleon::MeshPtr			m_skyBox;
 
 		//UI stuff
 		Palleon::ViewportPtr		m_uiViewport;

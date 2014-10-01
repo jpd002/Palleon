@@ -15,14 +15,17 @@ CApplication::CApplication()
 	m_globalPackage = Palleon::CPackage::Create("global");
 
 	CreateScene();
+	CreateSky();
 	CreateUi();
 
+	Palleon::CGraphicDevice::GetInstance().AddViewport(m_skyViewport.get());
 	Palleon::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
 	Palleon::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
 }
 
 CApplication::~CApplication()
 {
+	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_skyViewport.get());
 	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
 	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
 }
@@ -50,7 +53,7 @@ void CApplication::CreateScene()
 
 	auto sceneRoot = m_mainViewport->GetSceneRoot();
 
-	static const float areaSize = 1024;
+	static const float areaSize = 2048;
 
 	{
 		auto& graphicDevice = static_cast<Palleon::CDx11GraphicDevice&>(Palleon::CGraphicDevice::GetInstance());
@@ -67,7 +70,7 @@ void CApplication::CreateScene()
 		auto cube = Palleon::CCubeMesh::Create();
 		cube->SetScale(CVector3(areaSize, 50, areaSize));
 		cube->SetPosition(CVector3(0, -200, 0));
-		cube->GetMaterial()->SetColor(CColor(0, 0, 1, 1));
+		cube->GetMaterial()->SetColor(CColor(0, 32.f / 255.f, 0, 1));
 		cube->GetMaterial()->SetCullingMode(Palleon::CULLING_CW);
 		sceneRoot->AppendChild(cube);
 	}
@@ -75,7 +78,7 @@ void CApplication::CreateScene()
 	//Pillar
 	{
 		auto cube = Palleon::CCubeMesh::Create();
-		cube->SetScale(CVector3(areaSize * 0.10f, 300, areaSize * 0.10f));
+		cube->SetScale(CVector3(areaSize * 0.05f, 300, areaSize * 0.05f));
 		cube->SetPosition(CVector3(0, -100, 0));
 		cube->GetMaterial()->SetColor(CColor(0, 1, 0, 1));
 		cube->GetMaterial()->SetCullingMode(Palleon::CULLING_CW);
@@ -106,17 +109,50 @@ void CApplication::CreateScene()
 	//Water
 	{
 		auto plane = Palleon::CCubeMesh::Create();
-		plane->SetScale(CVector3(areaSize * 2, 0, areaSize * 2));
+		plane->SetScale(CVector3(areaSize, 0, areaSize));
 		plane->SetPosition(CVector3(0, 0, 0));
 		plane->GetMaterial()->SetCullingMode(Palleon::CULLING_CW);
 		plane->GetMaterial()->SetTexture(0, m_reflectRenderTarget);
 		plane->GetMaterial()->SetTexture(1, m_refractRenderTarget);
 		plane->GetMaterial()->SetTexture(2, waterBumpTexture);
+		plane->GetMaterial()->SetTexture(3, waterBumpTexture);
 		plane->GetMaterial()->SetTextureAddressModeU(2, Palleon::TEXTURE_ADDRESS_REPEAT);
 		plane->GetMaterial()->SetTextureAddressModeV(2, Palleon::TEXTURE_ADDRESS_REPEAT);
+		plane->GetMaterial()->SetTextureAddressModeU(3, Palleon::TEXTURE_ADDRESS_REPEAT);
+		plane->GetMaterial()->SetTextureAddressModeV(3, Palleon::TEXTURE_ADDRESS_REPEAT);
 		plane->SetEffectProvider(m_waterEffectProvider);
 		sceneRoot->AppendChild(plane);
 		m_waterPlane = plane;
+	}
+}
+
+void CApplication::CreateSky()
+{
+	auto skyTexturePath = Palleon::CResourceManager::GetInstance().MakeResourcePath("global/skybox.dds");
+	m_skyTexture = Palleon::CTextureLoader::CreateCubeTextureFromFile(skyTexturePath);
+
+	{
+		auto viewport = Palleon::CViewport::Create();
+		m_skyViewport = viewport;
+	}
+
+	{
+		auto camera = Palleon::CCamera::Create();
+		m_skyViewport->SetCamera(camera);
+		m_skyCamera = camera;
+	}
+
+	auto sceneRoot = m_skyViewport->GetSceneRoot();
+
+	//Create skybox
+	{
+		auto skyBox = Palleon::CCubeMesh::Create();
+		skyBox->SetScale(CVector3(100, 100, 100));
+		skyBox->GetMaterial()->SetCullingMode(Palleon::CULLING_NONE);
+		skyBox->GetMaterial()->SetTexture(0, m_skyTexture);
+		skyBox->GetMaterial()->SetTextureCoordSource(0, Palleon::TEXTURE_COORD_CUBE_POS);
+		sceneRoot->AppendChild(skyBox);
+		m_skyBox = skyBox;
 	}
 }
 
@@ -170,28 +206,6 @@ CMatrix4 MakeObliqueClippedFrustum(const CMatrix4& viewMatrix, const CMatrix4& p
 	return clippedProjMatrix;
 }
 
-static CMatrix4 MakeReflectMatrix(const CVector4& reflectPlane)
-{
-	auto reflectMatrix = CMatrix4::MakeIdentity();
-
-	reflectMatrix(0, 0) = 1 - 2 * reflectPlane.x * reflectPlane.x;
-	reflectMatrix(0, 1) =   - 2 * reflectPlane.x * reflectPlane.y;
-	reflectMatrix(0, 2) =   - 2 * reflectPlane.x * reflectPlane.z;
-	reflectMatrix(0, 3) =   - 2 * reflectPlane.x * reflectPlane.w;
-
-	reflectMatrix(1, 0) =   - 2 * reflectPlane.y * reflectPlane.x;
-	reflectMatrix(1, 1) = 1 - 2 * reflectPlane.y * reflectPlane.y;
-	reflectMatrix(1, 2) =   - 2 * reflectPlane.y * reflectPlane.z;
-	reflectMatrix(1, 3) =   - 2 * reflectPlane.y * reflectPlane.w;
-
-	reflectMatrix(2, 0) =   - 2 * reflectPlane.z * reflectPlane.x;
-	reflectMatrix(2, 1) =   - 2 * reflectPlane.z * reflectPlane.y;
-	reflectMatrix(2, 2) = 1 - 2 * reflectPlane.z * reflectPlane.z;
-	reflectMatrix(2, 3) =   - 2 * reflectPlane.z * reflectPlane.w;
-
-	return reflectMatrix;
-}
-
 void CApplication::Update(float dt)
 {
 	m_overBall->SetPosition(CVector3(300.f * cos(m_elapsed / 2.5f), 200.f, 300.f * sin(m_elapsed / 2.5f)));
@@ -200,53 +214,34 @@ void CApplication::Update(float dt)
 	m_mainCamera->Update(dt);
 	m_mainViewport->GetSceneRoot()->Update(dt);
 	m_mainViewport->GetSceneRoot()->UpdateTransformations();
+	m_skyViewport->GetSceneRoot()->Update(dt);
+	m_skyViewport->GetSceneRoot()->UpdateTransformations();
 	m_uiViewport->GetSceneRoot()->Update(dt);
 	m_uiViewport->GetSceneRoot()->UpdateTransformations();
 
 	{
 		float waterScale = 6;
 		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(m_elapsed / 25.f, m_elapsed / 50.f, 0);
-		m_waterPlane->GetMaterial()->SetTextureMatrix(1, waterBumpTextureMatrix);
+		m_waterPlane->GetMaterial()->SetTextureMatrix(2, waterBumpTextureMatrix);
+	}
+
+	{
+		float waterScale = 10;
+		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(-m_elapsed / 75.f, m_elapsed / 100.f, 0);
+		m_waterPlane->GetMaterial()->SetTextureMatrix(3, waterBumpTextureMatrix);
 	}
 
 	m_waterPlane->SetVisible(false);
 
-	//Reflection
-	{
-		{
-			auto clipPlane = CVector4(0, 1, 0, 0);
-			auto reflectMatrix = MakeReflectMatrix(clipPlane);
-
-			auto viewMatrix = reflectMatrix * m_mainCamera->GetViewMatrix();
-			auto projMatrix = MakeObliqueClippedFrustum(viewMatrix, m_mainCamera->GetProjectionMatrix(), clipPlane);
-
-			m_reflectCamera->SetViewMatrix(viewMatrix);
-			m_reflectCamera->SetProjectionMatrix(projMatrix);
-		}
-
-		m_mainViewport->SetCamera(m_reflectCamera);
-		m_reflectRenderTarget->Draw(m_mainViewport);
-	}
-
-	//Refraction
-	{
-		{
-			auto clipPlane = CVector4(0, -1, 0, 0);
-
-			auto viewMatrix = m_mainCamera->GetViewMatrix();
-			auto projMatrix = MakeObliqueClippedFrustum(viewMatrix, m_mainCamera->GetProjectionMatrix(), clipPlane);
-
-			m_reflectCamera->SetViewMatrix(viewMatrix);
-			m_reflectCamera->SetProjectionMatrix(projMatrix);
-		}
-
-		m_mainViewport->SetCamera(m_reflectCamera);
-		m_refractRenderTarget->Draw(m_mainViewport);
-	}
+	RenderReflection();
+	RenderRefraction();
 
 	//Reset the state
 	m_waterPlane->SetVisible(true);
 	m_mainViewport->SetCamera(m_mainCamera);
+
+	SetupSkyCamera(m_mainCamera);
+	m_skyViewport->SetCamera(m_skyCamera);
 
 	m_elapsed += dt;
 }
@@ -277,6 +272,63 @@ void CApplication::RefreshUiLayout()
 		m_forwardButtonBoundingBox.position = sprite->GetPosition().xy();
 		m_forwardButtonBoundingBox.size = sprite->GetSize();
 	}
+}
+
+void CApplication::RenderReflection()
+{
+	auto clipPlane = CVector4(0, 1, 0, 0);
+	auto reflectMatrix = CMatrix4::MakeReflect(clipPlane.x, clipPlane.y, clipPlane.z, clipPlane.w);
+
+	m_reflectRenderTarget->Clear();
+
+	SetupSkyCamera(m_mainCamera);
+
+	{
+		auto viewMatrix = reflectMatrix * m_skyCamera->GetViewMatrix();
+		auto projMatrix = MakeObliqueClippedFrustum(viewMatrix, m_skyCamera->GetProjectionMatrix(), clipPlane);
+
+		m_reflectCamera->SetViewMatrix(viewMatrix);
+		m_reflectCamera->SetProjectionMatrix(projMatrix);
+	}
+	m_skyViewport->SetCamera(m_reflectCamera);
+	m_reflectRenderTarget->Draw(m_skyViewport);
+
+	{
+		auto viewMatrix = reflectMatrix * m_mainCamera->GetViewMatrix();
+		auto projMatrix = MakeObliqueClippedFrustum(viewMatrix, m_mainCamera->GetProjectionMatrix(), clipPlane);
+
+		m_reflectCamera->SetViewMatrix(viewMatrix);
+		m_reflectCamera->SetProjectionMatrix(projMatrix);
+	}
+	m_mainViewport->SetCamera(m_reflectCamera);
+	m_reflectRenderTarget->Draw(m_mainViewport);
+}
+
+void CApplication::RenderRefraction()
+{
+	{
+		auto clipPlane = CVector4(0, -1, 0, 0);
+
+		auto viewMatrix = m_mainCamera->GetViewMatrix();
+		auto projMatrix = MakeObliqueClippedFrustum(viewMatrix, m_mainCamera->GetProjectionMatrix(), clipPlane);
+
+		m_reflectCamera->SetViewMatrix(viewMatrix);
+		m_reflectCamera->SetProjectionMatrix(projMatrix);
+	}
+
+	m_mainViewport->SetCamera(m_reflectCamera);
+	m_refractRenderTarget->Clear();
+	m_refractRenderTarget->Draw(m_mainViewport);
+}
+
+void CApplication::SetupSkyCamera(const Palleon::CameraPtr& camera)
+{
+	m_skyCamera->SetProjectionMatrix(camera->GetProjectionMatrix());
+	auto viewMatrix = camera->GetViewMatrix();
+	viewMatrix(3, 0) = 0;
+	viewMatrix(3, 1) = -10;
+	viewMatrix(3, 2) = 0;
+	m_skyCamera->SetViewMatrix(viewMatrix);
 }
 
 void CApplication::NotifySizeChanged()
