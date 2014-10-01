@@ -198,5 +198,27 @@ public:
 		return result;
 	}
 
+	static CMatrix4 MakeReflect(float planeX, float planeY, float planeZ, float planeW)
+	{
+		auto result = CMatrix4::MakeIdentity();
+
+		result(0, 0) = 1 - 2 * planeX * planeX;
+		result(0, 1) =   - 2 * planeX * planeY;
+		result(0, 2) =   - 2 * planeX * planeZ;
+		result(0, 3) =   - 2 * planeX * planeW;
+
+		result(1, 0) =   - 2 * planeY * planeX;
+		result(1, 1) = 1 - 2 * planeY * planeY;
+		result(1, 2) =   - 2 * planeY * planeZ;
+		result(1, 3) =   - 2 * planeY * planeW;
+
+		result(2, 0) =   - 2 * planeZ * planeX;
+		result(2, 1) =   - 2 * planeZ * planeY;
+		result(2, 2) = 1 - 2 * planeZ * planeZ;
+		result(2, 3) =   - 2 * planeZ * planeW;
+
+		return result;
+	}
+
 	float coeff[16];
 };
