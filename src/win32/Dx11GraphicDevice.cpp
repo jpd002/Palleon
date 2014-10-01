@@ -548,6 +548,7 @@ void CDx11GraphicDevice::Draw()
 void CDx11GraphicDevice::DrawViewport(CViewport* viewport)
 {
 	DrawViewportShadowMap(viewport);
+	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	DrawViewportMainMap(viewport, m_outputBufferView, m_depthBufferView, m_realScreenSize.x, m_realScreenSize.y);
 }
 
@@ -566,10 +567,6 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport, ID3D11RenderTa
 	}
 
 	m_deviceContext->OMSetRenderTargets(1, &renderTarget, renderDepth);
-	if(renderDepth)
-	{
-		m_deviceContext->ClearDepthStencilView(renderDepth, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	}
 
 	auto camera = viewport->GetCamera();
 	assert(camera);

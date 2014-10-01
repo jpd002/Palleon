@@ -10,6 +10,7 @@ namespace Palleon
 	public:
 		virtual			~CRenderTarget();
 
+		virtual void	Clear() = 0;
 		virtual void	Draw(const ViewportPtr&) = 0;
 	};
 
