@@ -53,7 +53,10 @@ void CSceneDescriptor::Load(Framework::CStream& inputStream)
 	m_rootNode.children = LoadNode(rootNode);
 
 	auto layoutRootNode = document->Select("Scene/Layout");
-	m_layoutRootNode.children = LoadNode(layoutRootNode);
+	if(layoutRootNode)
+	{
+		m_layoutRootNode.children = LoadNode(layoutRootNode);
+	}
 }
 
 void CSceneDescriptor::LoadStyles(Framework::Xml::CNode* document)
