@@ -105,6 +105,8 @@
 		709E16EB186A689B00AEA8C7 /* EffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E6186A689B00AEA8C7 /* EffectProvider.h */; };
 		709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E7186A689B00AEA8C7 /* IAnimation.h */; };
 		709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E8186A689B00AEA8C7 /* RenderTarget.h */; };
+		709EAE7E19E635CE00E0B3F8 /* LayoutNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709EAE7D19E635CE00E0B3F8 /* LayoutNode.cpp */; };
+		709EAE8319E635D900E0B3F8 /* LayoutNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 709EAE8219E635D900E0B3F8 /* LayoutNode.h */; };
 		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
 		70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824B1635215200C40F25 /* TextureAnimation.cpp */; };
 		70B582531635216800C40F25 /* AnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B5824F1635216800C40F25 /* AnimationController.h */; };
@@ -310,6 +312,8 @@
 		709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowMapping.xcodeproj; path = ../samples/ShadowMapping/build_ios/ShadowMapping.xcodeproj; sourceTree = "<group>"; };
 		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_iphone/Framework.xcodeproj; sourceTree = "<group>"; };
 		709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boost.xcodeproj; path = ../../boost/build_iphone/boost.xcodeproj; sourceTree = "<group>"; };
+		709EAE7D19E635CE00E0B3F8 /* LayoutNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LayoutNode.cpp; path = ../src/LayoutNode.cpp; sourceTree = "<group>"; };
+		709EAE8219E635D900E0B3F8 /* LayoutNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LayoutNode.h; path = ../include/palleon/LayoutNode.h; sourceTree = "<group>"; };
 		70B5824A1635215200C40F25 /* RumbleAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RumbleAnimation.cpp; path = ../src/RumbleAnimation.cpp; sourceTree = "<group>"; };
 		70B5824B1635215200C40F25 /* TextureAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureAnimation.cpp; path = ../src/TextureAnimation.cpp; sourceTree = "<group>"; };
 		70B5824F1635216800C40F25 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationController.h; path = ../include/palleon/AnimationController.h; sourceTree = "<group>"; };
@@ -650,6 +654,8 @@
 				7E5C122D14F19F0800292DD3 /* ILayoutable.h */,
 				7E7D875513F71AC300AD9F7F /* InputManager.cpp */,
 				7E7D877C13F71AD900AD9F7F /* InputManager.h */,
+				709EAE7D19E635CE00E0B3F8 /* LayoutNode.cpp */,
+				709EAE8219E635D900E0B3F8 /* LayoutNode.h */,
 				7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */,
 				7E5C122F14F19F0800292DD3 /* NinePatchButton.h */,
 				7E5C122214F19EF700292DD3 /* SpriteButton.cpp */,
@@ -815,6 +821,7 @@
 				709C28EF1822088E00B6B2D0 /* FontDescriptor.h in Headers */,
 				70B582561635216800C40F25 /* TextureAnimation.h in Headers */,
 				70104E62167409F500807647 /* AudioClip.h in Headers */,
+				709EAE8319E635D900E0B3F8 /* LayoutNode.h in Headers */,
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
 				706F71C518F5D37400224718 /* GlEsEffect.h in Headers */,
 				70C6E550168570A8001544EB /* Emitter.h in Headers */,
@@ -1001,6 +1008,7 @@
 				70957E82194E9B240041191C /* MetalShadowMapEffectGenerator.cpp in Sources */,
 				706F71B918F5D35F00224718 /* GlEsUberEffectGenerator.cpp in Sources */,
 				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
+				709EAE7E19E635CE00E0B3F8 /* LayoutNode.cpp in Sources */,
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
 				709890681943D34D00D38411 /* MetalView.mm in Sources */,
 				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
