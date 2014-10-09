@@ -1,6 +1,8 @@
 #import <UIKit/UIKit.h>
 #include "palleon/ios/IosResourceManager.h"
 #include "palleon/GraphicDevice.h"
+#include "make_unique.h"
+#include "StdStream.h"
 
 using namespace Palleon;
 
@@ -34,3 +36,10 @@ std::string CIosResourceManager::MakeResourcePath(const std::string& name) const
 	NSString* fullPath = [NSString stringWithFormat: @"%@/data/%s", bundlePath, name.c_str()];
 	return std::string([fullPath UTF8String]);
 }
+
+CResourceManager::StreamPtr CIosResourceManager::MakeResourceStream(const std::string& name) const
+{
+	auto resourcePath = MakeResourcePath(name);
+	return std::make_unique<Framework::CStdStream>(resourcePath.c_str(), "rb");
+}
+
