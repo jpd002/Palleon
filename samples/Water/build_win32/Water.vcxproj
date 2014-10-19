@@ -79,15 +79,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Application.cpp" />
-    <ClCompile Include="..\src\Dx11WaterEffect.cpp" />
+    <ClCompile Include="..\src\Dx11ShaderGenerator.cpp" />
+    <ClCompile Include="..\src\PlatformEffect.cpp" />
+    <ClCompile Include="..\src\ShaderBuilder.cpp" />
     <ClCompile Include="..\src\TouchFreeCamera.cpp" />
-    <ClCompile Include="..\src\Dx11WaterEffectProvider.cpp" />
+    <ClCompile Include="..\src\WaterEffect.cpp" />
+    <ClCompile Include="..\src\WaterEffectProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Application.h" />
-    <ClInclude Include="..\src\Dx11WaterEffect.h" />
+    <ClInclude Include="..\src\Dx11ShaderGenerator.h" />
+    <ClInclude Include="..\src\PlatformEffect.h" />
+    <ClInclude Include="..\src\ShaderBuilder.h" />
     <ClInclude Include="..\src\TouchFreeCamera.h" />
-    <ClInclude Include="..\src\Dx11WaterEffectProvider.h" />
+    <ClInclude Include="..\src\WaterEffect.h" />
+    <ClInclude Include="..\src\WaterEffectProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Framework\build_win32\Framework.vcxproj">

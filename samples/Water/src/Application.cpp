@@ -1,6 +1,5 @@
 #include "Application.h"
-#include "Dx11WaterEffectProvider.h"
-#include "palleon/win32/Dx11GraphicDevice.h"
+#include "WaterEffectProvider.h"
 
 using namespace Water;
 
@@ -56,8 +55,7 @@ void CApplication::CreateScene()
 	static const float areaSize = 2048;
 
 	{
-		auto& graphicDevice = static_cast<Palleon::CDx11GraphicDevice&>(Palleon::CGraphicDevice::GetInstance());
-		m_waterEffectProvider = std::make_shared<CDx11WaterEffectProvider>(graphicDevice.GetDevice(), graphicDevice.GetDeviceContext());
+		m_waterEffectProvider = std::make_shared<CWaterEffectProvider>();
 	}
 
 	const unsigned int targetSize = 512;
