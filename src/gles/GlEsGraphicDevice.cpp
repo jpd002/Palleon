@@ -6,6 +6,7 @@
 #include "palleon/gles/GlEsShadowMapEffect.h"
 #include "palleon/Mesh.h"
 #include "palleon/MeshProvider.h"
+#include "palleon/Log.h"
 
 #define SHADOW_MAP_SIZE (1024)
 
@@ -385,19 +386,19 @@ void CGlEsGraphicDevice::CreateShadowMap()
 		switch(status)
 		{
 			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-				printf("Failed to build framebuffer: Incomplete Attachment.\r\n");
+				CLog::GetInstance().Print("Failed to build framebuffer: Incomplete Attachment.\r\n");
 				break;
 			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-				printf("Failed to build framebuffer: Incomplete Dimensions.\r\n");
+				CLog::GetInstance().Print("Failed to build framebuffer: Incomplete Dimensions.\r\n");
 				break;
 			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-				printf("Failed to build framebuffer: Missing Attachment.\r\n");
+				CLog::GetInstance().Print("Failed to build framebuffer: Missing Attachment.\r\n");
 				break;
 			case GL_FRAMEBUFFER_UNSUPPORTED:
-				printf("Failed to build framebuffer: Unsupported.\r\n");
+				CLog::GetInstance().Print("Failed to build framebuffer: Unsupported.\r\n");
 				break;
 			default:
-				printf("Failed to build framebuffer: Unknown Status(0x%x).\r\n", status);
+				CLog::GetInstance().Print("Failed to build framebuffer: Unknown Status(0x%x).\r\n", status);
 				break;
 		}
 		assert(0);
