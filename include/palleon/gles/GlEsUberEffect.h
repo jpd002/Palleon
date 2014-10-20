@@ -18,7 +18,7 @@ namespace Palleon
 						CGlEsUberEffect(const EFFECTCAPS&);
 		virtual			~CGlEsUberEffect();
 
-		virtual void	UpdateConstants(const GLESVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
+		virtual void	UpdateConstants(const VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
 				
 	private:
 		GLuint			m_viewProjMatrixHandle = -1;

@@ -47,7 +47,7 @@ CGlEsUberEffect::~CGlEsUberEffect()
 	
 }
 
-void CGlEsUberEffect::UpdateConstants(const GLESVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
+void CGlEsUberEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
 	auto meshColor = material->GetColor();
 	auto viewProjMatrix = viewportParams.viewMatrix * viewportParams.projMatrix;

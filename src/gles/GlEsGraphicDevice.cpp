@@ -127,7 +127,7 @@ void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport)
 	peggedViewMatrix(3, 1) = 0;
 	peggedViewMatrix(3, 2) = 0;
 	
-	GLESVIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.hasShadowMap = hasShadowMap;
@@ -179,7 +179,7 @@ void CGlEsGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 	
-	GLESVIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.viewMatrix = camera->GetViewMatrix();
@@ -232,7 +232,7 @@ bool CGlEsGraphicDevice::FillRenderQueue(const SceneNodePtr& node, CCamera* came
 	return true;
 }
 
-void CGlEsGraphicDevice::DrawMesh(const GLESVIEWPORT_PARAMS& viewportParams, CMesh* mesh, const GlEsEffectPtr& effect)
+void CGlEsGraphicDevice::DrawMesh(const VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const GlEsEffectPtr& effect)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 	

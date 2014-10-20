@@ -38,7 +38,7 @@ CGlEsShadowMapEffect::~CGlEsShadowMapEffect()
 	
 }
 
-void CGlEsShadowMapEffect::UpdateConstants(const GLESVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
+void CGlEsShadowMapEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
 	auto viewProjMatrix = viewportParams.viewMatrix * viewportParams.projMatrix;
 	glUniformMatrix4fv(m_viewProjMatrixHandle, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&viewProjMatrix));

@@ -39,7 +39,7 @@ namespace Palleon
 		void								DrawViewportShadowMap(CViewport*);
 		
 		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);
-		void								DrawMesh(const GLESVIEWPORT_PARAMS& viewportParams, CMesh* mesh, const GlEsEffectPtr& effect);
+		void								DrawMesh(const VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const GlEsEffectPtr& effect);
 
 		void								CreateShadowMap();
 		
