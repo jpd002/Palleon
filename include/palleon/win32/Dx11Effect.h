@@ -5,8 +5,6 @@
 #include <string>
 #include "Types.h"
 #include "win32/ComPtr.h"
-#include "palleon/Matrix4.h"
-#include "palleon/Material.h"
 #include "palleon/VertexBuffer.h"
 #include "palleon/Effect.h"
 
@@ -14,17 +12,6 @@ namespace Palleon
 {
 	class CDx11Effect;
 	typedef std::shared_ptr<CDx11Effect> Dx11EffectPtr;
-
-	class CViewport;
-
-	struct DX11VIEWPORT_PARAMS
-	{
-		CViewport*	viewport = nullptr;
-		CMatrix4	viewMatrix;
-		CMatrix4	projMatrix;
-		bool		hasShadowMap = false;
-		CMatrix4	shadowViewProjMatrix = CMatrix4::MakeIdentity();
-	};
 
 	class CDx11Effect : public CEffect
 	{
@@ -44,8 +31,6 @@ namespace Palleon
 		D3D11BufferPtr			GetVertexConstantBuffer() const;
 		D3D11BufferPtr			GetPixelConstantBuffer() const;
 		D3D11InputLayoutPtr		GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
-
-		virtual void			UpdateConstants(const DX11VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) = 0;
 
 	protected:
 		struct OffsetKeeper

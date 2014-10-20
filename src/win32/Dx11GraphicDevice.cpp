@@ -615,7 +615,7 @@ void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport, ID3D11RenderTa
 	peggedViewMatrix(3, 1) = 0;
 	peggedViewMatrix(3, 2) = 0;
 
-	DX11VIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.hasShadowMap = hasShadowMap;
@@ -672,7 +672,7 @@ void CDx11GraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 		}
 	);
 
-	DX11VIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.viewMatrix = camera->GetViewMatrix();
@@ -682,7 +682,7 @@ void CDx11GraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 	}
 }
 
-void CDx11GraphicDevice::DrawMesh(const DX11VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const Dx11EffectPtr& effect)
+void CDx11GraphicDevice::DrawMesh(const VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const Dx11EffectPtr& effect)
 {
 	if(mesh->GetPrimitiveCount() == 0) return;
 

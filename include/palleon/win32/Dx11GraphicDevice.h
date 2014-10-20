@@ -96,7 +96,7 @@ namespace Palleon
 
 		void							DrawViewport(CViewport*);
 		void							DrawViewportShadowMap(CViewport*);
-		void							DrawMesh(const DX11VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
+		void							DrawMesh(const VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
 
 		HWND													m_parentWnd;
 		CVector2												m_realScreenSize;
