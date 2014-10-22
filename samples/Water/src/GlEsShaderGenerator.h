@@ -1,18 +1,24 @@
 #include "ShaderBuilder.h"
 
-class CDx11ShaderGenerator
+class CGlEsShaderGenerator
 {
 public:
-	static std::string		Generate(const std::string&, const CShaderBuilder&);
+	enum SHADER_TYPE
+	{
+		SHADER_TYPE_VERTEX,
+		SHADER_TYPE_FRAGMENT
+	};
+
+	static std::string		Generate(const CShaderBuilder&, SHADER_TYPE);
 
 private:
-							CDx11ShaderGenerator(const CShaderBuilder&);
+							CGlEsShaderGenerator(const CShaderBuilder&, SHADER_TYPE);
 
-	std::string				Generate(const std::string&) const;
+	std::string				Generate() const;
 
-	std::string				GenerateInputStruct() const;
-	std::string				GenerateOutputStruct() const;
-	std::string				GenerateConstants() const;
+	std::string				GenerateInputs() const;
+	std::string				GenerateOutputs() const;
+	std::string				GenerateUniforms() const;
 	std::string				GenerateSamplers() const;
 
 	std::string				MakeSymbolName(const CShaderBuilder::SYMBOL&) const;
@@ -22,4 +28,5 @@ private:
 	std::string				PrintSymbolRef(const CShaderBuilder::SYMBOLREF&) const;
 
 	const CShaderBuilder&	m_shaderBuilder;
+	SHADER_TYPE				m_shaderType = SHADER_TYPE_VERTEX;
 };

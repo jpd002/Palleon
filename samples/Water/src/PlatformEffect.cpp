@@ -2,6 +2,8 @@
 #ifdef _WIN32
 #include "Dx11ShaderGenerator.h"
 #include "palleon/win32/Dx11GraphicDevice.h"
+#elif defined(__ANDROID__)
+#include "GlEsShaderGenerator.h"
 #endif
 
 using namespace Palleon;
@@ -61,6 +63,30 @@ CPlatformEffect::CPlatformEffect(const CShaderBuilder& vertexShader, const CShad
 		auto pixelShaderCode = CDx11ShaderGenerator::Generate("PixelProgram", pixelShader);
 		CompilePixelShader(pixelShaderCode);
 	}
+#elif defined(__ANDROID__)
+	AttributeBindingArray attributeBindings;
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position0"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV0, "a_texCoord0"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV1, "a_texCoord1"));
+	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_COLOR, "a_color"));
+	
+	auto vertexShaderSource = CGlEsShaderGenerator::Generate(vertexShader, CGlEsShaderGenerator::SHADER_TYPE_VERTEX);
+	auto pixelShaderSource = CGlEsShaderGenerator::Generate(pixelShader, CGlEsShaderGenerator::SHADER_TYPE_FRAGMENT);
+
+	Palleon::CLog::GetInstance().Print("PlatformEffect: Vertex Shader Source: %s", vertexShaderSource.c_str());
+	Palleon::CLog::GetInstance().Print("PlatformEffect: Pixel Shader Source: %s", pixelShaderSource.c_str());
+
+	BuildProgram(vertexShaderSource, pixelShaderSource, attributeBindings);
+	
+	for(const auto& symbol : vertexShader.GetSymbols())
+	{
+		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_UNIFORM) continue;
+		auto uniformName = vertexShader.GetUniformName(symbol);
+		auto location = glGetUniformLocation(m_program, uniformName.c_str());
+		//TODO: Look for error value
+		assert(location != -1);
+		m_vertexUniformLocations[uniformName] = location;
+	}
 #else
 	assert(0);
 #endif
@@ -70,8 +96,6 @@ CPlatformEffect::~CPlatformEffect()
 {
 
 }
-
-#ifdef _WIN32
 
 void CPlatformEffect::UpdateConstants(const Palleon::VIEWPORT_PARAMS& viewportParams, Palleon::CMaterial* material, const CMatrix4& worldMatrix)
 {
@@ -91,6 +115,8 @@ void CPlatformEffect::UpdateConstantsInner(const Palleon::VIEWPORT_PARAMS& viewp
 	SetConstant(g_texture2MatrixName, material->GetTextureMatrix(2));
 	SetConstant(g_texture3MatrixName, material->GetTextureMatrix(3));
 }
+
+#ifdef _WIN32
 
 void CPlatformEffect::SetConstant(const std::string& name, const CMatrix4& matrix)
 {
@@ -191,6 +217,54 @@ Palleon::CPlatformEffect::D3D11InputLayoutPtr CPlatformEffect::CreateInputLayout
 	return inputLayout;
 }
 
-#else
+#elif defined(__ANDROID__)
+
+void CPlatformEffect::BeginConstantsUpdate()
+{
+
+}
+
+void CPlatformEffect::EndConstantsUpdate()
+{
+
+}
+
+void CPlatformEffect::SetConstant(const std::string& name, const CMatrix4& matrix)
+{
+	auto constantLocationIterator = m_vertexUniformLocations.find(name);
+	if(constantLocationIterator == std::end(m_vertexUniformLocations))
+	{
+		return;
+	}
+
+	auto constantLocation = constantLocationIterator->second;
+	glUniformMatrix4fv(constantLocation, 1, GL_FALSE, reinterpret_cast<const GLfloat*>(&matrix));
+}
+
+void CPlatformEffect::SetConstant(const std::string& name, const CEffectParameter& param)
+{
+	auto constantLocationIterator = m_vertexUniformLocations.find(name);
+	if(constantLocationIterator == std::end(m_vertexUniformLocations))
+	{
+		return;
+	}
+
+	CVector4 value(0, 0, 0, 0);
+	if(param.IsScalar())
+	{
+		value.x = param.GetScalar();
+	}
+	else if(param.IsVector3())
+	{
+		value = CVector4(param.GetVector3(), 0);
+	}
+	else
+	{
+		assert(0);
+	}
+
+	auto constantLocation = constantLocationIterator->second;
+	glUniform4f(constantLocation, value.x, value.y, value.z, value.w);
+}
 
 #endif

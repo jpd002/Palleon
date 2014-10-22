@@ -1,37 +1,37 @@
-#include "Dx11ShaderGenerator.h"
+#include "GlEsShaderGenerator.h"
 #include "string_format.h"
 
-CDx11ShaderGenerator::CDx11ShaderGenerator(const CShaderBuilder& shaderBuilder)
+CGlEsShaderGenerator::CGlEsShaderGenerator(const CShaderBuilder& shaderBuilder, SHADER_TYPE shaderType)
 : m_shaderBuilder(shaderBuilder)
+, m_shaderType(shaderType)
 {
 
 }
 
-std::string CDx11ShaderGenerator::Generate(const std::string& methodName, const CShaderBuilder& shaderBuilder)
+std::string CGlEsShaderGenerator::Generate(const CShaderBuilder& shaderBuilder, SHADER_TYPE shaderType)
 {
-	CDx11ShaderGenerator generator(shaderBuilder);
-	return generator.Generate(methodName);
+	CGlEsShaderGenerator generator(shaderBuilder, shaderType);
+	return generator.Generate();
 }
 
-std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
+std::string CGlEsShaderGenerator::Generate() const
 {
 	std::string result;
 
-	result += GenerateInputStruct();
-	result += GenerateOutputStruct();
-	result += GenerateConstants();
+	result += GenerateInputs();
+	result += GenerateOutputs();
+	result += GenerateUniforms();
 	result += GenerateSamplers();
 
-	result += string_format("OUTPUT %s(INPUT input)\r\n", methodName.c_str());
+	result += "void main()\r\n";
 	result += "{\r\n";
-	result += "\tOUTPUT output;\r\n";
 
 	//Write all temps
 	for(const auto& symbol : m_shaderBuilder.GetSymbols())
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_TEMPORARY) continue;
 		auto temporaryValue = m_shaderBuilder.GetTemporaryValue(symbol);
-		result += string_format("\tfloat4 %s = float4(%f, %f, %f, %f);\r\n",
+		result += string_format("\tvec4 %s = vec4(%f, %f, %f, %f);\r\n",
 			MakeSymbolName(symbol).c_str(),
 			temporaryValue.x, temporaryValue.y, temporaryValue.z, temporaryValue.w);
 	}
@@ -58,23 +58,10 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 				PrintSymbolRef(src2Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_MULTIPLY:
-			if(
-				(src1Ref.symbol.type == CShaderBuilder::SYMBOL_TYPE_MATRIX) || 
-				(src2Ref.symbol.type == CShaderBuilder::SYMBOL_TYPE_MATRIX)
-				)
-			{
-				result += string_format("\t%s = mul(%s, %s);\r\n",
-					PrintSymbolRef(dstRef).c_str(),
-					PrintSymbolRef(src1Ref).c_str(),
-					PrintSymbolRef(src2Ref).c_str());
-			}
-			else
-			{
-				result += string_format("\t%s = %s * %s;\r\n",
-					PrintSymbolRef(dstRef).c_str(),
-					PrintSymbolRef(src1Ref).c_str(),
-					PrintSymbolRef(src2Ref).c_str());
-			}
+			result += string_format("\t%s = %s * %s;\r\n",
+				PrintSymbolRef(dstRef).c_str(),
+				PrintSymbolRef(src1Ref).c_str(),
+				PrintSymbolRef(src2Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_DIVIDE:
 			result += string_format("\t%s = %s / %s;\r\n",
@@ -101,14 +88,14 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 				PrintSymbolRef(src2Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_MIX:
-			result += string_format("\t%s = lerp(%s, %s, %s);\r\n",
+			result += string_format("\t%s = mix(%s, %s, %s);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
 				PrintSymbolRef(src1Ref).c_str(),
 				PrintSymbolRef(src2Ref).c_str(),
 				PrintSymbolRef(src3Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_NEWVECTOR2:
-			result += string_format("\t%s = float2(%s, %s);\r\n",
+			result += string_format("\t%s = vec2(%s, %s);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
 				PrintSymbolRef(src1Ref).c_str(),
 				PrintSymbolRef(src2Ref).c_str());
@@ -117,20 +104,20 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 			switch(statement.GetSourceCount())
 			{
 			case 2:
-				result += string_format("\t%s = float4(%s, %s);\r\n",
+				result += string_format("\t%s = vec4(%s, %s);\r\n",
 					PrintSymbolRef(dstRef).c_str(),
 					PrintSymbolRef(src1Ref).c_str(),
 					PrintSymbolRef(src2Ref).c_str());
 				break;
 			case 3:
-				result += string_format("\t%s = float4(%s, %s, %s);\r\n",
+				result += string_format("\t%s = vec4(%s, %s, %s);\r\n",
 					PrintSymbolRef(dstRef).c_str(),
 					PrintSymbolRef(src1Ref).c_str(),
 					PrintSymbolRef(src2Ref).c_str(),
 					PrintSymbolRef(src3Ref).c_str());
 				break;
 			case 4:
-				result += string_format("\t%s = float4(%s, %s, %s, %s);\r\n",
+				result += string_format("\t%s = vec4(%s, %s, %s, %s);\r\n",
 					PrintSymbolRef(dstRef).c_str(),
 					PrintSymbolRef(src1Ref).c_str(),
 					PrintSymbolRef(src2Ref).c_str(),
@@ -160,9 +147,10 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 				PrintSymbolRef(src1Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_SAMPLE:
-			result += string_format("\t%s = c_texture%d.Sample(c_sampler%d, %s);\r\n",
+			assert(src1Ref.symbol.location == CShaderBuilder::SYMBOL_LOCATION_TEXTURE);
+			result += string_format("\t%s = tex2D(c_sampler%d, %s);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
-				src1Ref.symbol.index, src1Ref.symbol.index,
+				src1Ref.symbol.index,
 				PrintSymbolRef(src2Ref).c_str());
 			break;
 		default:
@@ -170,80 +158,72 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 			break;
 		}
 	}
-
-	result += "\treturn output;\r\n";
+	
 	result += "}\r\n";
+
 	return result;
 }
 
-std::string CDx11ShaderGenerator::GenerateInputStruct() const
+std::string CGlEsShaderGenerator::GenerateInputs() const
 {
 	std::string result;
-	result += "struct INPUT\r\n";
-	result += "{\r\n";
+	const char* inputTag = (m_shaderType == SHADER_TYPE_VERTEX) ? "attribute" : "varying";
 	for(const auto& symbol : m_shaderBuilder.GetSymbols())
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_INPUT) continue;
 		auto semantic = m_shaderBuilder.GetInputSemantic(symbol);
-		result += string_format("\t%s %s : %s;\r\n",
-			MakeTypeName(symbol.type).c_str(),
-			MakeLocalSymbolName(symbol).c_str(), 
-			MakeSemanticName(semantic).c_str());
+		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION) continue;
+		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR) continue;
+		result += string_format("%s %s %s;\r\n",
+			inputTag, MakeTypeName(symbol.type).c_str(),
+			MakeLocalSymbolName(symbol).c_str());
 	}
-	result += "};\r\n";
 	return result;
 }
 
-std::string CDx11ShaderGenerator::GenerateOutputStruct() const
+std::string CGlEsShaderGenerator::GenerateOutputs() const
 {
 	std::string result;
-	result += "struct OUTPUT\r\n";
-	result += "{\r\n";
+	const char* inputTag = (m_shaderType == SHADER_TYPE_VERTEX) ? "varying" : "(invalid)";
 	for(const auto& symbol : m_shaderBuilder.GetSymbols())
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_OUTPUT) continue;
 		auto semantic = m_shaderBuilder.GetOutputSemantic(symbol);
-		result += string_format("\t%s %s : %s;\r\n",
-			MakeTypeName(symbol.type).c_str(),
-			MakeLocalSymbolName(symbol).c_str(),
-			MakeSemanticName(semantic).c_str());
+		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION) continue;
+		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR) continue;
+		result += string_format("%s %s %s;\r\n",
+			inputTag, MakeTypeName(symbol.type).c_str(),
+			MakeLocalSymbolName(symbol).c_str());
 	}
-	result += "};\r\n";
 	return result;
 }
 
-std::string CDx11ShaderGenerator::GenerateConstants() const
+std::string CGlEsShaderGenerator::GenerateUniforms() const
 {
 	std::string result;
-	result += "cbuffer Constants\r\n";
-	result += "{\r\n";
 	for(const auto& symbol : m_shaderBuilder.GetSymbols())
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_UNIFORM) continue;
-		auto constantType = (symbol.type == CShaderBuilder::SYMBOL_TYPE_MATRIX) ? "matrix" : "float4";
-		result += string_format("\t%s %s;\r\n",
+		auto constantType = (symbol.type == CShaderBuilder::SYMBOL_TYPE_MATRIX) ? "mat4" : "vec4";
+		result += string_format("uniform %s %s;\r\n",
 			constantType, MakeLocalSymbolName(symbol).c_str());
 	}
-	result += "};\r\n";
 	return result;
 }
 
-std::string CDx11ShaderGenerator::GenerateSamplers() const
+std::string CGlEsShaderGenerator::GenerateSamplers() const
 {
 	std::string result;
+	//Generate samplers/textures
 	for(const auto& symbol : m_shaderBuilder.GetSymbols())
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_TEXTURE) continue;
-		result += string_format("%s c_texture%d : register(t%d);\r\n",
-			MakeTypeName(symbol.type).c_str(),
-			symbol.index, symbol.index);
-		result += string_format("SamplerState c_sampler%d : register(s%d);\r\n",
-			symbol.index, symbol.index);
+		result += string_format("uniform sampler2D c_sampler%d;\r\n", symbol.index);
 	}
 	return result;
 }
 
-std::string CDx11ShaderGenerator::MakeSymbolName(const CShaderBuilder::SYMBOL& sym) const
+std::string CGlEsShaderGenerator::MakeSymbolName(const CShaderBuilder::SYMBOL& sym) const
 {
 	switch(sym.location)
 	{
@@ -251,10 +231,10 @@ std::string CDx11ShaderGenerator::MakeSymbolName(const CShaderBuilder::SYMBOL& s
 		return string_format("t%d", sym.index);
 		break;
 	case CShaderBuilder::SYMBOL_LOCATION_INPUT:
-		return string_format("input.%s", MakeLocalSymbolName(sym).c_str());
+		return MakeLocalSymbolName(sym);
 		break;
 	case CShaderBuilder::SYMBOL_LOCATION_OUTPUT:
-		return string_format("output.%s", MakeLocalSymbolName(sym).c_str());
+		return MakeLocalSymbolName(sym);
 		break;
 	case CShaderBuilder::SYMBOL_LOCATION_UNIFORM:
 		return MakeLocalSymbolName(sym);
@@ -266,14 +246,35 @@ std::string CDx11ShaderGenerator::MakeSymbolName(const CShaderBuilder::SYMBOL& s
 	}
 }
 
-std::string CDx11ShaderGenerator::MakeLocalSymbolName(const CShaderBuilder::SYMBOL& sym) const
+std::string CGlEsShaderGenerator::MakeLocalSymbolName(const CShaderBuilder::SYMBOL& sym) const
 {
 	switch(sym.location)
 	{
 	case CShaderBuilder::SYMBOL_LOCATION_INPUT:
-		return string_format("i%d", sym.index);
+		{
+			auto semantic = m_shaderBuilder.GetInputSemantic(sym);
+			const char* prefix = (m_shaderType == SHADER_TYPE_VERTEX) ? "a" : "v";
+			return string_format("%s_%s", prefix, MakeSemanticName(semantic).c_str());
+		}
+		break;
 	case CShaderBuilder::SYMBOL_LOCATION_OUTPUT:
-		return string_format("o%d", sym.index);
+		{
+			auto semantic = m_shaderBuilder.GetOutputSemantic(sym);
+			if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION)
+			{
+				return "gl_Position";
+			}
+			else if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR)
+			{
+				return "gl_FragColor";
+			}
+			else
+			{
+				const char* prefix = (m_shaderType == SHADER_TYPE_VERTEX) ? "v" : "invalid";
+				return string_format("%s_%s", prefix, MakeSemanticName(semantic).c_str());
+			}
+		}
+		break;
 	case CShaderBuilder::SYMBOL_LOCATION_UNIFORM:
 		return m_shaderBuilder.GetUniformName(sym);
 	default:
@@ -282,38 +283,34 @@ std::string CDx11ShaderGenerator::MakeLocalSymbolName(const CShaderBuilder::SYMB
 	}
 }
 
-std::string CDx11ShaderGenerator::MakeSemanticName(CShaderBuilder::SEMANTIC_INFO semantic)
+std::string CGlEsShaderGenerator::MakeSemanticName(CShaderBuilder::SEMANTIC_INFO semantic)
 {
 	switch(semantic.type)
 	{
 	case CShaderBuilder::SEMANTIC_POSITION:
-		return "POSITION";
+		return string_format("position%d", semantic.index);
 	case CShaderBuilder::SEMANTIC_TEXCOORD:
-		return string_format("TEXCOORD%d", semantic.index);
-	case CShaderBuilder::SEMANTIC_SYSTEM_POSITION:
-		return "SV_POSITION";
-	case CShaderBuilder::SEMANTIC_SYSTEM_COLOR:
-		return "SV_TARGET";
+		return string_format("texCoord%d", semantic.index);
 	default:
 		assert(false);
 		return "";
 	}
 }
 
-std::string CDx11ShaderGenerator::MakeTypeName(CShaderBuilder::SYMBOL_TYPE type)
+std::string CGlEsShaderGenerator::MakeTypeName(CShaderBuilder::SYMBOL_TYPE type)
 {
 	switch(type)
 	{
 	case CShaderBuilder::SYMBOL_TYPE_FLOAT:
 		return "float";
 	case CShaderBuilder::SYMBOL_TYPE_FLOAT2:
-		return "float2";
+		return "vec2";
 	case CShaderBuilder::SYMBOL_TYPE_FLOAT3:
-		return "float3";
+		return "vec3";
 	case CShaderBuilder::SYMBOL_TYPE_FLOAT4:
-		return "float4";
+		return "vec4";
 	case CShaderBuilder::SYMBOL_TYPE_MATRIX:
-		return "matrix";
+		return "mat4";
 	case CShaderBuilder::SYMBOL_TYPE_TEXTURE2D:
 		return "Texture2D";
 	default:
@@ -322,7 +319,7 @@ std::string CDx11ShaderGenerator::MakeTypeName(CShaderBuilder::SYMBOL_TYPE type)
 	}
 }
 
-std::string CDx11ShaderGenerator::PrintSymbolRef(const CShaderBuilder::SYMBOLREF& ref) const
+std::string CGlEsShaderGenerator::PrintSymbolRef(const CShaderBuilder::SYMBOLREF& ref) const
 {
 	auto symbolName = MakeSymbolName(ref.symbol);
 	if(ref.symbol.type == CShaderBuilder::SYMBOL_TYPE_MATRIX)

@@ -6,6 +6,12 @@ namespace Palleon
 {
 	typedef Palleon::CDx11Effect SpecificEffect;
 }
+#elif defined(__ANDROID__)
+#include "palleon/gles/GlEsEffect.h"
+namespace Palleon
+{
+	typedef Palleon::CGlEsEffect SpecificEffect;
+}
 #endif
 
 #include "ShaderBuilder.h"
@@ -27,6 +33,8 @@ namespace Palleon
 		static const char*		g_texture3MatrixName;
 
 	protected:
+		void					BeginConstantsUpdate();
+		void					EndConstantsUpdate();
 		virtual void			UpdateConstantsInner(const VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&);
 		void					SetConstant(const std::string&, const CMatrix4&);
 		void					SetConstant(const std::string&, const CEffectParameter&);
@@ -35,14 +43,14 @@ namespace Palleon
 #ifdef _WIN32
 		typedef std::map<std::string, uint32> UniformOffsetMap;
 
-		void					BeginConstantsUpdate();
-		void					EndConstantsUpdate();
 		D3D11InputLayoutPtr		CreateInputLayout(const Palleon::VERTEX_BUFFER_DESCRIPTOR&) override;
 
 		UniformOffsetMap		m_vertexUniformOffsets;
 		uint8*					m_constantBufferPtr = nullptr;
 #else
+		typedef std::map<std::string, GLuint> UniformLocationMap;
 
+		UniformLocationMap		m_vertexUniformLocations;
 #endif
 	};
 }

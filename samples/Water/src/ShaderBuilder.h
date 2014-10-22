@@ -255,30 +255,6 @@ public:
 
 	template <typename SymbolRefType> SymbolRefType CreateTemp();
 
-	template<>
-	SYMBOLREF_FLOAT CreateTemp<SYMBOLREF_FLOAT>()
-	{
-		return CreateTempFloat();
-	}
-
-	template<>
-	SYMBOLREF_FLOAT2 CreateTemp<SYMBOLREF_FLOAT2>()
-	{
-		return CreateTempFloat2();
-	}
-
-	template<>
-	SYMBOLREF_FLOAT3 CreateTemp<SYMBOLREF_FLOAT3>()
-	{
-		return CreateTempFloat3();
-	}
-
-	template<>
-	SYMBOLREF_FLOAT4 CreateTemp<SYMBOLREF_FLOAT4>()
-	{
-		return CreateTempFloat4();
-	}
-
 	template <typename SymbolRefType>
 	void Assign(const SymbolRefType& lhs, const SymbolRefType& rhs)
 	{
@@ -388,8 +364,6 @@ private:
 	typedef std::unordered_map<unsigned int, std::string> UniformNameMap;
 	typedef std::unordered_map<unsigned int, CVector4> TemporaryValueMap;
 
-	template<> void Assign<SYMBOLREF>(const SYMBOLREF&, const SYMBOLREF&);
-
 	SymbolArray				m_symbols;
 	StatementList			m_statements;
 	unsigned int			m_currentTempIndex = 0;
@@ -401,3 +375,33 @@ private:
 	UniformNameMap			m_uniformNames;
 	TemporaryValueMap		m_temporaryValues;
 };
+
+template<>
+inline CShaderBuilder::SYMBOLREF_FLOAT CShaderBuilder::CreateTemp<CShaderBuilder::SYMBOLREF_FLOAT>()
+{
+	return CreateTempFloat();
+}
+
+template<>
+inline CShaderBuilder::SYMBOLREF_FLOAT2 CShaderBuilder::CreateTemp<CShaderBuilder::SYMBOLREF_FLOAT2>()
+{
+	return CreateTempFloat2();
+}
+
+template<>
+inline CShaderBuilder::SYMBOLREF_FLOAT3 CShaderBuilder::CreateTemp<CShaderBuilder::SYMBOLREF_FLOAT3>()
+{
+	return CreateTempFloat3();
+}
+
+template<>
+inline CShaderBuilder::SYMBOLREF_FLOAT4 CShaderBuilder::CreateTemp<CShaderBuilder::SYMBOLREF_FLOAT4>()
+{
+	return CreateTempFloat4();
+}
+
+template<> 
+inline void CShaderBuilder::Assign<CShaderBuilder::SYMBOLREF>(const CShaderBuilder::SYMBOLREF&, const CShaderBuilder::SYMBOLREF&)
+{
+//	static_assert(false, "Cannot assign to generic symbol reference.");
+}
