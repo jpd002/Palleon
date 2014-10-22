@@ -1,5 +1,6 @@
 #include "palleon/gles/GlEsEffect.h"
 #include "palleon/VertexBuffer.h"
+#include "palleon/Log.h"
 
 using namespace Palleon;
 
@@ -74,15 +75,15 @@ GLuint CGlEsEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 	glShaderSource(shader, 1, &shaderSource, NULL);
 	glCompileShader(shader);
 	
-#if defined(_DEBUG)
+#if !defined(NDEBUG)
 	GLint logLength;
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
 	if(logLength > 0)
 	{
 		GLchar *log = new GLchar[logLength];
 		glGetShaderInfoLog(shader, logLength, &logLength, log);
-		printf("Failed to compile shader:\n%s", shaderSource);
-		printf("Shader compile log:\n%s", log);
+		Palleon::CLog::GetInstance().Print("Failed to compile shader:\n%s", shaderSource);
+		Palleon::CLog::GetInstance().Print("Shader compile log:\n%s", log);
 		delete [] log;
 	}
 #endif
@@ -100,14 +101,14 @@ GLuint CGlEsEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 
 void CGlEsEffect::DumpProgramLog(GLuint program)
 {
-#if defined(_DEBUG)
+#if !defined(NDEBUG)
 	GLint logLength;
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
 	if (logLength > 0)
 	{
 		GLchar *log = new GLchar[logLength];
 		glGetProgramInfoLog(program, logLength, &logLength, log);
-		printf("Program link log:\n%s", log);
+		Palleon::CLog::GetInstance().Print("Program link log:\n%s", log);
 		delete [] log;
 	}
 #endif
