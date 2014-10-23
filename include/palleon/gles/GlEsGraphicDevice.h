@@ -24,6 +24,8 @@ namespace Palleon
 		virtual CubeRenderTargetPtr			CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) override;
 		
 		void								SetFrameRate(float);
+
+		void								DrawViewportMainMap(CViewport*, uint32, uint32);
 		
 	protected:				
 		typedef std::vector<CMesh*> RenderQueue;
@@ -35,7 +37,6 @@ namespace Palleon
 		
 		void								DrawViewport(CViewport*);
 		
-		void								DrawViewportMainMap(CViewport*);
 		void								DrawViewportShadowMap(CViewport*);
 		
 		bool								FillRenderQueue(const SceneNodePtr&, CCamera*);

@@ -1,6 +1,7 @@
 #include "palleon/gles/GlEsGraphicDevice.h"
 #include "palleon/gles/GlEsVertexBuffer.h"
 #include "palleon/gles/GlEsTexture.h"
+#include "palleon/gles/GlEsRenderTarget.h"
 #include "palleon/gles/GlEsEffect.h"
 #include "palleon/gles/GlEsUberEffectProvider.h"
 #include "palleon/gles/GlEsShadowMapEffect.h"
@@ -58,6 +59,8 @@ void CGlEsGraphicDevice::SetMainFramebuffer(GLuint mainFramebuffer)
 
 void CGlEsGraphicDevice::Draw()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
+
 	glViewport(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
 	glScissor(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
 
@@ -94,15 +97,15 @@ void CGlEsGraphicDevice::Draw()
 void CGlEsGraphicDevice::DrawViewport(CViewport* viewport)
 {
 	DrawViewportShadowMap(viewport);
-	DrawViewportMainMap(viewport);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
+	DrawViewportMainMap(viewport, m_scaledScreenSize.x, m_scaledScreenSize.y);
 }
 
-void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport)
+void CGlEsGraphicDevice::DrawViewportMainMap(CViewport* viewport, uint32 width, uint32 height)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, m_mainFramebuffer);
-
-	glViewport(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
-	glScissor(0, 0, m_scaledScreenSize.x, m_scaledScreenSize.y);
+	glViewport(0, 0, width, height);
+	glScissor(0, 0, width, height);
 	
 	glDepthMask(GL_TRUE);
 	glClearDepthf(1.0f);
@@ -191,7 +194,7 @@ void CGlEsGraphicDevice::DrawViewportShadowMap(CViewport* viewport)
 
 VertexBufferPtr CGlEsGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
 {
-	return VertexBufferPtr(new CGlEsVertexBuffer(bufferDesc, m_hasVertexArrayObjects));
+	return std::make_shared<CGlEsVertexBuffer>(bufferDesc, m_hasVertexArrayObjects);
 }
 
 TexturePtr CGlEsGraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
@@ -206,7 +209,7 @@ TexturePtr CGlEsGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, u
 
 RenderTargetPtr CGlEsGraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
 {
-	return RenderTargetPtr();
+	return std::make_shared<CGlEsRenderTarget>(textureFormat, width, height);
 }
 
 CubeRenderTargetPtr CGlEsGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT textureFormat, uint32 size)
