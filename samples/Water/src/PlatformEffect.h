@@ -6,7 +6,7 @@ namespace Palleon
 {
 	typedef Palleon::CDx11Effect SpecificEffect;
 }
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) or defined(__APPLE__)
 #include "palleon/gles/GlEsEffect.h"
 namespace Palleon
 {
@@ -51,6 +51,10 @@ namespace Palleon
 		typedef std::map<std::string, GLuint> UniformLocationMap;
 
 		UniformLocationMap		m_vertexUniformLocations;
+		GLuint					m_sampler0Location = -1;
+		GLuint					m_sampler1Location = -1;
+		GLuint					m_sampler2Location = -1;
+		GLuint					m_sampler3Location = -1;
 #endif
 	};
 }

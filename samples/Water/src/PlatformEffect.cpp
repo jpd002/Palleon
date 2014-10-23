@@ -2,7 +2,7 @@
 #ifdef _WIN32
 #include "Dx11ShaderGenerator.h"
 #include "palleon/win32/Dx11GraphicDevice.h"
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) || defined(__APPLE__)
 #include "GlEsShaderGenerator.h"
 #endif
 
@@ -63,7 +63,7 @@ CPlatformEffect::CPlatformEffect(const CShaderBuilder& vertexShader, const CShad
 		auto pixelShaderCode = CDx11ShaderGenerator::Generate("PixelProgram", pixelShader);
 		CompilePixelShader(pixelShaderCode);
 	}
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) || defined(__APPLE__)
 	AttributeBindingArray attributeBindings;
 	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position0"));
 	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV0, "a_texCoord0"));
@@ -87,6 +87,12 @@ CPlatformEffect::CPlatformEffect(const CShaderBuilder& vertexShader, const CShad
 		assert(location != -1);
 		m_vertexUniformLocations[uniformName] = location;
 	}
+	
+	m_sampler0Location = glGetUniformLocation(m_program, "c_sampler0");
+	m_sampler1Location = glGetUniformLocation(m_program, "c_sampler1");
+	m_sampler2Location = glGetUniformLocation(m_program, "c_sampler2");
+	m_sampler3Location = glGetUniformLocation(m_program, "c_sampler3");
+	
 #else
 	assert(0);
 #endif
@@ -217,11 +223,14 @@ Palleon::CPlatformEffect::D3D11InputLayoutPtr CPlatformEffect::CreateInputLayout
 	return inputLayout;
 }
 
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) || defined(__APPLE__)
 
 void CPlatformEffect::BeginConstantsUpdate()
 {
-
+	glUniform1i(m_sampler0Location, 0);
+	glUniform1i(m_sampler1Location, 1);
+	glUniform1i(m_sampler2Location, 2);
+	glUniform1i(m_sampler3Location, 3);
 }
 
 void CPlatformEffect::EndConstantsUpdate()
