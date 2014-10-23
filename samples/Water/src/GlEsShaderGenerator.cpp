@@ -18,6 +18,11 @@ std::string CGlEsShaderGenerator::Generate() const
 {
 	std::string result;
 
+	if(m_shaderType == SHADER_TYPE_FRAGMENT)
+	{
+		result += "precision mediump float;\r\n";
+	}
+	
 	result += GenerateInputs();
 	result += GenerateOutputs();
 	result += GenerateUniforms();
@@ -137,7 +142,7 @@ std::string CGlEsShaderGenerator::Generate() const
 				PrintSymbolRef(src1Ref).c_str());
 			break;
 		case CShaderBuilder::STATEMENT_OP_SATURATE:
-			result += string_format("\t%s = saturate(%s);\r\n",
+			result += string_format("\t%s = clamp(%s, 0.0, 1.0);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
 				PrintSymbolRef(src1Ref).c_str());
 			break;
@@ -148,7 +153,7 @@ std::string CGlEsShaderGenerator::Generate() const
 			break;
 		case CShaderBuilder::STATEMENT_OP_SAMPLE:
 			assert(src1Ref.symbol.location == CShaderBuilder::SYMBOL_LOCATION_TEXTURE);
-			result += string_format("\t%s = tex2D(c_sampler%d, %s);\r\n",
+			result += string_format("\t%s = texture2D(c_sampler%d, %s);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
 				src1Ref.symbol.index,
 				PrintSymbolRef(src2Ref).c_str());
