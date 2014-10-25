@@ -23,9 +23,9 @@ CMetalShadowMapEffect::~CMetalShadowMapEffect()
 
 }
 
-void CMetalShadowMapEffect::UpdateConstants(uint8* constantBuffer, const METALVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
+void CMetalShadowMapEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
-	CONSTANTS* constants = reinterpret_cast<CONSTANTS*>(constantBuffer);
+	CONSTANTS* constants = reinterpret_cast<CONSTANTS*>(m_constantBuffer);
 	constants->worldViewProjMatrix = worldMatrix * viewportParams.viewMatrix * viewportParams.projMatrix;
 }
 

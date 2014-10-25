@@ -257,7 +257,7 @@ void CMetalGraphicDevice::DrawViewportMainMap(id<MTLRenderCommandEncoder> render
 	
 	bool hasShadowMap = shadowCamera != nullptr;
 	
-	METALVIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.viewMatrix = camera->GetViewMatrix();
@@ -300,7 +300,7 @@ void CMetalGraphicDevice::DrawViewportShadowMap(id<MTLRenderCommandEncoder> rend
 		}
 	);
 	
-	METALVIEWPORT_PARAMS viewportParams;
+	VIEWPORT_PARAMS viewportParams;
 	viewportParams.viewport = viewport;
 	viewportParams.projMatrix = camera->GetProjectionMatrix();
 	viewportParams.viewMatrix = camera->GetViewMatrix();
@@ -315,7 +315,7 @@ void CMetalGraphicDevice::DrawViewportShadowMap(id<MTLRenderCommandEncoder> rend
 	}
 }
 
-void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, unsigned int constantBufferOffset, const METALVIEWPORT_PARAMS& viewportParams, CMesh* mesh, const MetalEffectPtr& effect)
+void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, unsigned int constantBufferOffset, const VIEWPORT_PARAMS& viewportParams, CMesh* mesh, const MetalEffectPtr& effect)
 {
 	auto vertexBuffer = std::static_pointer_cast<CMetalVertexBuffer>(mesh->GetVertexBuffer());
 	assert(vertexBuffer);
@@ -325,8 +325,10 @@ void CMetalGraphicDevice::DrawMesh(id<MTLRenderCommandEncoder> renderEncoder, un
 	
 	auto vertexBufferHandle = vertexBuffer->GetVertexBufferHandle();
 	auto indexBufferHandle = vertexBuffer->GetIndexBufferHandle();
-		
-	effect->UpdateConstants(reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset, viewportParams, material.get(), mesh->GetWorldTransformation());
+	
+	uint8* constantBuffer = reinterpret_cast<uint8*>(m_constantBuffer.contents) + constantBufferOffset;
+	effect->SetConstantBuffer(constantBuffer);
+	effect->UpdateConstants(viewportParams, material.get(), mesh->GetWorldTransformation());
 	
 	CMetalEffect::PIPELINE_STATE_INFO pipelineStateInfo = {};
 	pipelineStateInfo.blendingMode = material->GetAlphaBlendingMode();

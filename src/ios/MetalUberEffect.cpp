@@ -29,23 +29,23 @@ CMetalUberEffect::~CMetalUberEffect()
 
 }
 
-void CMetalUberEffect::UpdateConstants(uint8* constantBuffer, const METALVIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
+void CMetalUberEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
 	if(m_worldMatrixOffset != -1)
 	{
-		*reinterpret_cast<CMatrix4*>(constantBuffer + m_worldMatrixOffset) = worldMatrix;
+		*reinterpret_cast<CMatrix4*>(m_constantBuffer + m_worldMatrixOffset) = worldMatrix;
 	}
 	if(m_viewProjMatrixOffset != -1)
 	{
-		*reinterpret_cast<CMatrix4*>(constantBuffer + m_viewProjMatrixOffset) = viewportParams.viewMatrix * viewportParams.projMatrix;
+		*reinterpret_cast<CMatrix4*>(m_constantBuffer + m_viewProjMatrixOffset) = viewportParams.viewMatrix * viewportParams.projMatrix;
 	}
 	if(m_shadowViewProjMatrixOffset != -1)
 	{
-		*reinterpret_cast<CMatrix4*>(constantBuffer + m_shadowViewProjMatrixOffset) = viewportParams.shadowViewProjMatrix;
+		*reinterpret_cast<CMatrix4*>(m_constantBuffer + m_shadowViewProjMatrixOffset) = viewportParams.shadowViewProjMatrix;
 	}
 	if(m_meshColorOffset != -1)
 	{
-		*reinterpret_cast<CColor*>(constantBuffer + m_meshColorOffset) = material->GetColor();
+		*reinterpret_cast<CColor*>(m_constantBuffer + m_meshColorOffset) = material->GetColor();
 	}
 }
 

@@ -49,7 +49,7 @@ namespace Palleon
 		void								DrawViewportMainMap(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
 		void								DrawViewportShadowMap(id<MTLRenderCommandEncoder>, CViewport*, unsigned int&);
 		
-		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const METALVIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
+		void								DrawMesh(id<MTLRenderCommandEncoder>, unsigned int, const VIEWPORT_PARAMS&, CMesh* mesh, const MetalEffectPtr& effect);
 		
 		void								SetupMainRenderPass(id<CAMetalDrawable>);
 		id<MTLSamplerState>					GetSamplerState(const SAMPLER_STATE_INFO&);

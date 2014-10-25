@@ -9,18 +9,6 @@
 
 namespace Palleon
 {
-	class CViewport;
-	class CMaterial;
-	
-	struct METALVIEWPORT_PARAMS
-	{
-		CViewport*	viewport = nullptr;
-		CMatrix4	viewMatrix;
-		CMatrix4	projMatrix;
-		bool		hasShadowMap = false;
-		CMatrix4	shadowViewProjMatrix = CMatrix4::MakeIdentity();
-	};
-	
 	class CMetalEffect : public CEffect
 	{
 	public:
@@ -36,8 +24,9 @@ namespace Palleon
 		id<MTLFunction>				GetFragmentShaderHandle() const;
 		id<MTLRenderPipelineState>	GetPipelineState(const PIPELINE_STATE_INFO&);
 		
-		virtual void				UpdateConstants(uint8*, const METALVIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) = 0;
 		virtual unsigned int		GetConstantsSize() const = 0;
+
+		void						SetConstantBuffer(uint8*);
 		
 	protected:
 		struct OffsetKeeper
@@ -63,6 +52,7 @@ namespace Palleon
 		id<MTLFunction>				m_vertexShader = nil;
 		id<MTLFunction>				m_fragmentShader = nil;
 		PipelineStateMap			m_pipelineStates;
+		uint8*						m_constantBuffer = nullptr;
 	};
 	
 	typedef std::shared_ptr<CMetalEffect> MetalEffectPtr;

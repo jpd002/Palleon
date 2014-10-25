@@ -85,6 +85,11 @@ id<MTLRenderPipelineState> CMetalEffect::GetPipelineState(const PIPELINE_STATE_I
 	return state;
 }
 
+void CMetalEffect::SetConstantBuffer(uint8* constantBuffer)
+{
+	m_constantBuffer = constantBuffer;
+}
+
 void CMetalEffect::CreateLibraryAndShaders(const std::string& librarySource)
 {
 	NSError* compileError = nil;
