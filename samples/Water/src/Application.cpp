@@ -8,8 +8,6 @@ using namespace Water;
 #define MAIN_CAMERA_FAR_Z	(4000.f)
 
 CApplication::CApplication()
-: m_mousePosition(0, 0)
-, m_elapsed(0)
 {
 	m_globalPackage = Palleon::CPackage::Create("global");
 
@@ -107,7 +105,7 @@ void CApplication::CreateScene()
 	//Water
 	{
 		auto plane = Palleon::CCubeMesh::Create();
-		plane->SetScale(CVector3(areaSize, 0, areaSize));
+		plane->SetScale(CVector3(areaSize, 1, areaSize));
 		plane->SetPosition(CVector3(0, 0, 0));
 		plane->GetMaterial()->SetCullingMode(Palleon::CULLING_CW);
 		plane->GetMaterial()->SetTexture(0, m_reflectRenderTarget);
@@ -188,18 +186,26 @@ CMatrix4 MakeObliqueClippedFrustum(const CMatrix4& viewMatrix, const CMatrix4& p
 
 	auto clipPlaneView = clipPlane * invViewMatrix;
 		
-	assert(clipPlaneView.w < 0);
+	//assert(clipPlaneView.w < 0);
 
 	auto clipSpaceCorner = CVector4(sgn(clipPlaneView.x), sgn(clipPlaneView.y), 1, 1);
 	clipSpaceCorner = clipSpaceCorner * invProjMatrix;
 
-	//This maybe depends on the graphics API because of the depth range
+	//This depends on the graphics API because of the depth range
+#if defined(PALLEON_WIN32)
 	auto c = clipPlaneView * (1.f / clipPlaneView.Dot(clipSpaceCorner));
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+	auto c = clipPlaneView * (2.f / clipPlaneView.Dot(clipSpaceCorner));
+#endif
 
 	auto clippedProjMatrix = projMatrix;
 	clippedProjMatrix(0, 2) = c.x;
 	clippedProjMatrix(1, 2) = c.y;
+#if defined(PALLEON_WIN32)
 	clippedProjMatrix(2, 2) = c.z;
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+	clippedProjMatrix(2, 2) = c.z + 1.f;
+#endif
 	clippedProjMatrix(3, 2) = c.w;
 	return clippedProjMatrix;
 }
@@ -219,13 +225,17 @@ void CApplication::Update(float dt)
 
 	{
 		float waterScale = 6;
-		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(m_elapsed / 25.f, m_elapsed / 50.f, 0);
+		float transX = static_cast<float>(m_elapsedInt % 10000) / 10000.f;
+		float transY = static_cast<float>(m_elapsedInt % 12000) / 12000.f;
+		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(transX, transY, 0);
 		m_waterPlane->GetMaterial()->SetTextureMatrix(2, waterBumpTextureMatrix);
 	}
 
 	{
 		float waterScale = 10;
-		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(-m_elapsed / 75.f, m_elapsed / 100.f, 0);
+		float transX = static_cast<float>(m_elapsedInt % 10000) / 10000.f;
+		float transY = static_cast<float>(m_elapsedInt % 14000) / 14000.f;
+		auto waterBumpTextureMatrix = CMatrix4::MakeScale(waterScale, waterScale, 1) * CMatrix4::MakeTranslation(-transX, transY, 0);
 		m_waterPlane->GetMaterial()->SetTextureMatrix(3, waterBumpTextureMatrix);
 	}
 
@@ -242,6 +252,7 @@ void CApplication::Update(float dt)
 	m_skyViewport->SetCamera(m_skyCamera);
 
 	m_elapsed += dt;
+	m_elapsedInt += (dt * 1000.f);
 }
 
 void CApplication::RefreshUiLayout()

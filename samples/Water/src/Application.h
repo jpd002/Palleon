@@ -59,7 +59,8 @@ namespace Water
 		CBox2						m_forwardButtonBoundingBox;
 		CBox2						m_backwardButtonBoundingBox;
 
-		CVector2					m_mousePosition;
-		float						m_elapsed;
+		CVector2					m_mousePosition = CVector2(0, 0);
+		float						m_elapsed = 0;
+		uint32						m_elapsedInt = 0;
 	};
 }

@@ -155,7 +155,11 @@ Palleon::CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
+#if defined(PALLEON_WIN32)
 					b.Negate(b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_Y)),
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+					b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_Y),
+#endif
 					b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
@@ -166,7 +170,11 @@ Palleon::CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
+#if defined(PALLEON_WIN32)
 					b.Negate(b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_Y)),
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+					b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_Y),
+#endif
 					b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
