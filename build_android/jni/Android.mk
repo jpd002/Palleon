@@ -15,6 +15,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/ButtonBase.cpp \
 						../../src/Camera.cpp \
 						../../src/CubeMesh.cpp \
+						../../src/EffectParameter.cpp \
 						../../src/gles/GlEsEffect.cpp \
 						../../src/gles/GlEsGraphicDevice.cpp \
 						../../src/gles/GlEsShadowMapEffect.cpp \
