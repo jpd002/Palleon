@@ -1,5 +1,7 @@
 #pragma once
 
+#include "palleon/PlatformDef.h"
+
 //Maths
 #include "palleon/MathDef.h"
 #include "palleon/Vector2.h"
@@ -38,6 +40,13 @@
 
 #include "palleon/TextureLoader.h"
 
+#if defined(PALLEON_WIN32)
+#include "palleon/win32/Dx11GenericEffect.h"
+#endif
+#if defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+#include "palleon/gles/GlEsGenericEffect.h"
+#endif
+
 //Animation
 #include "palleon/IAnimation.h"
 #include "palleon/AnimationController.h"
@@ -61,7 +70,7 @@
 #include "palleon/Application.h"
 #include "palleon/Log.h"
 
-#ifdef __ANDROID__
+#ifdef PALLEON_ANDROID
 extern void palleon_library_link();
 #else
 static void palleon_library_link() {}

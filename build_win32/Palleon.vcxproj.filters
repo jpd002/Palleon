@@ -32,6 +32,9 @@
     <Filter Include="Source Files\graphics\Basic Meshes">
       <UniqueIdentifier>{d7aea279-37a5-4bf6-85a1-75a2e19ec897}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\win32\GenericEffect">
+      <UniqueIdentifier>{1343f49f-b975-4383-8890-0f2b24ca30f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ConfigManager.cpp">
@@ -225,6 +228,18 @@
     </ClCompile>
     <ClCompile Include="..\src\win32\Dx11RenderTarget.cpp">
       <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\GenericEffect.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11ShaderGenerator.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\ShaderBuilder.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11GenericEffect.cpp">
+      <Filter>Source Files\win32\GenericEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -479,6 +494,21 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\win32\Dx11RenderTarget.h">
       <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\GenericEffect.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11ShaderGenerator.h">
+      <Filter>Source Files\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\PlatformDef.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\ShaderBuilder.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11GenericEffect.h">
+      <Filter>Source Files\win32\GenericEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

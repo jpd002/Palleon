@@ -21,16 +21,7 @@
     <ClCompile Include="..\src\TouchFreeCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ShaderBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Dx11ShaderGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WaterEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\PlatformEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\WaterEffectProvider.cpp">
@@ -44,16 +35,7 @@
     <ClInclude Include="..\src\TouchFreeCamera.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ShaderBuilder.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Dx11ShaderGenerator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\WaterEffect.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\PlatformEffect.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\WaterEffectProvider.h">

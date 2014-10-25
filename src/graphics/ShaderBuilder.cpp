@@ -1,4 +1,6 @@
-#include "ShaderBuilder.h"
+#include "palleon/graphics/ShaderBuilder.h"
+
+using namespace Palleon;
 
 CShaderBuilder::CShaderBuilder()
 {

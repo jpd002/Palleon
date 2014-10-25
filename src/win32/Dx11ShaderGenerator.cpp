@@ -1,5 +1,7 @@
-#include "Dx11ShaderGenerator.h"
+#include "palleon/win32/Dx11ShaderGenerator.h"
 #include "string_format.h"
+
+using namespace Palleon;
 
 CDx11ShaderGenerator::CDx11ShaderGenerator(const CShaderBuilder& shaderBuilder)
 : m_shaderBuilder(shaderBuilder)
@@ -286,13 +288,13 @@ std::string CDx11ShaderGenerator::MakeSemanticName(CShaderBuilder::SEMANTIC_INFO
 {
 	switch(semantic.type)
 	{
-	case CShaderBuilder::SEMANTIC_POSITION:
+	case SEMANTIC_POSITION:
 		return "POSITION";
-	case CShaderBuilder::SEMANTIC_TEXCOORD:
+	case SEMANTIC_TEXCOORD:
 		return string_format("TEXCOORD%d", semantic.index);
-	case CShaderBuilder::SEMANTIC_SYSTEM_POSITION:
+	case SEMANTIC_SYSTEM_POSITION:
 		return "SV_POSITION";
-	case CShaderBuilder::SEMANTIC_SYSTEM_COLOR:
+	case SEMANTIC_SYSTEM_COLOR:
 		return "SV_TARGET";
 	default:
 		assert(false);
@@ -331,25 +333,25 @@ std::string CDx11ShaderGenerator::PrintSymbolRef(const CShaderBuilder::SYMBOLREF
 	}
 	switch(ref.swizzle)
 	{
-	case CShaderBuilder::SWIZZLE_X:
+	case SWIZZLE_X:
 		return symbolName + ".x";
 		break;
-	case CShaderBuilder::SWIZZLE_Y:
+	case SWIZZLE_Y:
 		return symbolName + ".y";
 		break;
-	case CShaderBuilder::SWIZZLE_W:
+	case SWIZZLE_W:
 		return symbolName + ".w";
 		break;
-	case CShaderBuilder::SWIZZLE_XY:
+	case SWIZZLE_XY:
 		return symbolName + ".xy";
 		break;
-	case CShaderBuilder::SWIZZLE_XZ:
+	case SWIZZLE_XZ:
 		return symbolName + ".xz";
 		break;
-	case CShaderBuilder::SWIZZLE_XYZ:
+	case SWIZZLE_XYZ:
 		return symbolName + ".xyz";
 		break;
-	case CShaderBuilder::SWIZZLE_XYZW:
+	case SWIZZLE_XYZW:
 		return symbolName + ".xyzw";
 		break;
 	default:

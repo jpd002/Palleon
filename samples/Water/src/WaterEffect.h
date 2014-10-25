@@ -1,16 +1,15 @@
 #pragma once
 
 #include "PalleonEngine.h"
-#include "PlatformEffect.h"
 
-class CWaterEffect : public Palleon::CPlatformEffect
+class CWaterEffect : public Palleon::CPlatformGenericEffect
 {
 public:
-							CWaterEffect();
+					CWaterEffect();
 
-	void					UpdateConstantsInner(const Palleon::VIEWPORT_PARAMS&, Palleon::CMaterial*, const CMatrix4&) override;
+	void			UpdateSpecificConstants(const Palleon::VIEWPORT_PARAMS&, Palleon::CMaterial*, const CMatrix4&) override;
 
 private:
-	static CShaderBuilder	CreateVertexShader();
-	static CShaderBuilder	CreatePixelShader();
+	static Palleon::CShaderBuilder	CreateVertexShader();
+	static Palleon::CShaderBuilder	CreatePixelShader();
 };

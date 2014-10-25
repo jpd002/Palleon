@@ -4,7 +4,7 @@ static const char* g_cameraPositionUniformName = "c_cameraPosition";
 static const char* g_reflectViewProjMatrix = "c_reflectViewProjMatrix";
 
 CWaterEffect::CWaterEffect()
-: CPlatformEffect(CreateVertexShader(), CreatePixelShader())
+: Palleon::CPlatformGenericEffect(CreateVertexShader(), CreatePixelShader())
 {
 //	AttributeBindingArray attributeBindings;
 //	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position"));
@@ -13,10 +13,8 @@ CWaterEffect::CWaterEffect()
 //	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_COLOR, "a_color"));
 }
 
-void CWaterEffect::UpdateConstantsInner(const Palleon::VIEWPORT_PARAMS& viewportParams, Palleon::CMaterial* material, const CMatrix4& worldMatrix)
+void CWaterEffect::UpdateSpecificConstants(const Palleon::VIEWPORT_PARAMS& viewportParams, Palleon::CMaterial* material, const CMatrix4& worldMatrix)
 {
-	CPlatformEffect::UpdateConstantsInner(viewportParams, material, worldMatrix);
-
 	auto clipPlane = CVector4(0, 1, 0, 0);
 
 	auto reflectMatrix = CMatrix4::MakeReflect(clipPlane.x, clipPlane.y, clipPlane.z, clipPlane.w);
@@ -30,21 +28,21 @@ void CWaterEffect::UpdateConstantsInner(const Palleon::VIEWPORT_PARAMS& viewport
 	SetConstant(g_reflectViewProjMatrix, reflectViewMatrix * viewportParams.projMatrix);
 }
 
-CShaderBuilder CWaterEffect::CreateVertexShader()
+Palleon::CShaderBuilder CWaterEffect::CreateVertexShader()
 {
-	CShaderBuilder b;
+	Palleon::CShaderBuilder b;
 
 	//Inputs
-	const auto inputPosition = b.CreateInputFloat3(CShaderBuilder::SEMANTIC_POSITION);
-	const auto inputTexCoord = b.CreateInputFloat2(CShaderBuilder::SEMANTIC_TEXCOORD);
+	const auto inputPosition = b.CreateInputFloat3(Palleon::SEMANTIC_POSITION);
+	const auto inputTexCoord = b.CreateInputFloat2(Palleon::SEMANTIC_TEXCOORD);
 
 	//Outputs
-	const auto outputPosition = b.CreateOutputFloat4(CShaderBuilder::SEMANTIC_SYSTEM_POSITION);
-	const auto outputReflectPosition = b.CreateOutputFloat4(CShaderBuilder::SEMANTIC_TEXCOORD, 0);
-	const auto outputRefractPosition = b.CreateOutputFloat4(CShaderBuilder::SEMANTIC_TEXCOORD, 1);
-	const auto outputEyeVector = b.CreateOutputFloat3(CShaderBuilder::SEMANTIC_TEXCOORD, 2);
-	const auto outputBumpTexCoord0 = b.CreateOutputFloat2(CShaderBuilder::SEMANTIC_TEXCOORD, 3);
-	const auto outputBumpTexCoord1 = b.CreateOutputFloat2(CShaderBuilder::SEMANTIC_TEXCOORD, 4);
+	const auto outputPosition = b.CreateOutputFloat4(Palleon::SEMANTIC_SYSTEM_POSITION);
+	const auto outputReflectPosition = b.CreateOutputFloat4(Palleon::SEMANTIC_TEXCOORD, 0);
+	const auto outputRefractPosition = b.CreateOutputFloat4(Palleon::SEMANTIC_TEXCOORD, 1);
+	const auto outputEyeVector = b.CreateOutputFloat3(Palleon::SEMANTIC_TEXCOORD, 2);
+	const auto outputBumpTexCoord0 = b.CreateOutputFloat2(Palleon::SEMANTIC_TEXCOORD, 3);
+	const auto outputBumpTexCoord1 = b.CreateOutputFloat2(Palleon::SEMANTIC_TEXCOORD, 4);
 		
 	//Uniforms
 	const auto worldMatrix = b.CreateUniformMatrix(g_worldMatrixName);
@@ -63,34 +61,34 @@ CShaderBuilder CWaterEffect::CreateVertexShader()
 		b.Normalize(
 			b.Substract(
 				cameraPosition, 
-				b.SwizzleFloat3(worldPos, CShaderBuilder::SWIZZLE_XYZ)
+				b.SwizzleFloat3(worldPos, Palleon::SWIZZLE_XYZ)
 			)
 		);
 
 	b.Assign(outputPosition, screenPos);
 	b.Assign(outputEyeVector, eyeVector);
-	b.Assign(outputBumpTexCoord0, b.SwizzleFloat2(bumpTexCoord0, CShaderBuilder::SWIZZLE_XY));
-	b.Assign(outputBumpTexCoord1, b.SwizzleFloat2(bumpTexCoord1, CShaderBuilder::SWIZZLE_XY));
+	b.Assign(outputBumpTexCoord0, b.SwizzleFloat2(bumpTexCoord0, Palleon::SWIZZLE_XY));
+	b.Assign(outputBumpTexCoord1, b.SwizzleFloat2(bumpTexCoord1, Palleon::SWIZZLE_XY));
 	b.Assign(outputReflectPosition, b.Multiply(reflectViewProjMatrix, worldPos));
 	b.Assign(outputRefractPosition, screenPos);
 	
 	return b;
 }
 
-CShaderBuilder CWaterEffect::CreatePixelShader()
+Palleon::CShaderBuilder CWaterEffect::CreatePixelShader()
 {
-	CShaderBuilder b;
+	Palleon::CShaderBuilder b;
 
 	//Inputs
-	const auto inputPosition = b.CreateInputFloat4(CShaderBuilder::SEMANTIC_SYSTEM_POSITION);
-	const auto inputReflectPosition = b.CreateInputFloat4(CShaderBuilder::SEMANTIC_TEXCOORD, 0);
-	const auto inputRefractPosition = b.CreateInputFloat4(CShaderBuilder::SEMANTIC_TEXCOORD, 1);
-	const auto inputEyeVector = b.CreateInputFloat3(CShaderBuilder::SEMANTIC_TEXCOORD, 2);
-	const auto inputBumpTexCoord0 = b.CreateInputFloat2(CShaderBuilder::SEMANTIC_TEXCOORD, 3);
-	const auto inputBumpTexCoord1 = b.CreateInputFloat2(CShaderBuilder::SEMANTIC_TEXCOORD, 4);
+	const auto inputPosition = b.CreateInputFloat4(Palleon::SEMANTIC_SYSTEM_POSITION);
+	const auto inputReflectPosition = b.CreateInputFloat4(Palleon::SEMANTIC_TEXCOORD, 0);
+	const auto inputRefractPosition = b.CreateInputFloat4(Palleon::SEMANTIC_TEXCOORD, 1);
+	const auto inputEyeVector = b.CreateInputFloat3(Palleon::SEMANTIC_TEXCOORD, 2);
+	const auto inputBumpTexCoord0 = b.CreateInputFloat2(Palleon::SEMANTIC_TEXCOORD, 3);
+	const auto inputBumpTexCoord1 = b.CreateInputFloat2(Palleon::SEMANTIC_TEXCOORD, 4);
 
 	//Outputs
-	const auto outputColor = b.CreateOutputFloat4(CShaderBuilder::SEMANTIC_SYSTEM_COLOR);
+	const auto outputColor = b.CreateOutputFloat4(Palleon::SEMANTIC_SYSTEM_COLOR);
 
 	//Uniforms
 	const auto reflectTexture = b.CreateTexture2D(0);
@@ -112,8 +110,8 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 			b.Substract(
 				b.Multiply(
 					b.Add(
-						b.SwizzleFloat3(bump0, CShaderBuilder::SWIZZLE_XYZ),
-						b.SwizzleFloat3(bump1, CShaderBuilder::SWIZZLE_XYZ)
+						b.SwizzleFloat3(bump0, Palleon::SWIZZLE_XYZ),
+						b.SwizzleFloat3(bump1, Palleon::SWIZZLE_XYZ)
 					),
 					b.CreateConstant(0.5f, 0.5f, 0.5f)
 				),
@@ -126,7 +124,7 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 
 	auto perturbation = 
 		b.Multiply(
-			b.SwizzleFloat2(normal, CShaderBuilder::SWIZZLE_XZ),
+			b.SwizzleFloat2(normal, Palleon::SWIZZLE_XZ),
 			b.CreateConstant(waveLength, waveLength)
 		);
 
@@ -134,8 +132,8 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
-					b.SwizzleFloat(inputReflectPosition, CShaderBuilder::SWIZZLE_X),
-					b.SwizzleFloat(inputReflectPosition, CShaderBuilder::SWIZZLE_W)
+					b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_X),
+					b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
 			),
@@ -145,8 +143,8 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
-					b.SwizzleFloat(inputRefractPosition, CShaderBuilder::SWIZZLE_X),
-					b.SwizzleFloat(inputRefractPosition, CShaderBuilder::SWIZZLE_W)
+					b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_X),
+					b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
 			),
@@ -157,8 +155,8 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
-					b.Negate(b.SwizzleFloat(inputReflectPosition, CShaderBuilder::SWIZZLE_Y)),
-					b.SwizzleFloat(inputReflectPosition, CShaderBuilder::SWIZZLE_W)
+					b.Negate(b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_Y)),
+					b.SwizzleFloat(inputReflectPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
 			),
@@ -168,8 +166,8 @@ CShaderBuilder CWaterEffect::CreatePixelShader()
 		b.Add(
 			b.Divide(
 				b.Divide(
-					b.Negate(b.SwizzleFloat(inputRefractPosition, CShaderBuilder::SWIZZLE_Y)),
-					b.SwizzleFloat(inputRefractPosition, CShaderBuilder::SWIZZLE_W)
+					b.Negate(b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_Y)),
+					b.SwizzleFloat(inputRefractPosition, Palleon::SWIZZLE_W)
 				),
 				b.CreateConstant(2.0f)
 			),
