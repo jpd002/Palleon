@@ -1,6 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <list>
+#include <unordered_map>
+#include <cassert>
+#include <string>
 #include "palleon/Vector4.h"
 
 namespace Palleon

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include "GlEsEffect.h"
 #include "../graphics/GenericEffect.h"
 #include "../graphics/ShaderBuilder.h"
@@ -9,7 +10,7 @@ namespace Palleon
 	class CGlEsGenericEffect : public CGlEsEffect, public CGenericEffect
 	{
 	public:
-								CGlEsGenericEffect(CShaderBuilder&, CShaderBuilder&);
+								CGlEsGenericEffect(const CShaderBuilder&, const CShaderBuilder&);
 		virtual					~CGlEsGenericEffect();
 
 	protected:

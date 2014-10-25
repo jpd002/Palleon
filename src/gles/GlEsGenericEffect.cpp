@@ -4,7 +4,7 @@
 
 using namespace Palleon;
 
-CGlEsGenericEffect::CGlEsGenericEffect(CShaderBuilder& vertexShader, CShaderBuilder& pixelShader)
+CGlEsGenericEffect::CGlEsGenericEffect(const CShaderBuilder& vertexShader, const CShaderBuilder& pixelShader)
 {
 	AttributeBindingArray attributeBindings;
 	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position0"));

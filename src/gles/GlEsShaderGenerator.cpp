@@ -1,6 +1,8 @@
 #include "GlEsShaderGenerator.h"
 #include "string_format.h"
 
+using namespace Palleon;
+
 CGlEsShaderGenerator::CGlEsShaderGenerator(const CShaderBuilder& shaderBuilder, SHADER_TYPE shaderType)
 : m_shaderBuilder(shaderBuilder)
 , m_shaderType(shaderType)
@@ -177,8 +179,8 @@ std::string CGlEsShaderGenerator::GenerateInputs() const
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_INPUT) continue;
 		auto semantic = m_shaderBuilder.GetInputSemantic(symbol);
-		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION) continue;
-		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR) continue;
+		if(semantic.type == SEMANTIC_SYSTEM_POSITION) continue;
+		if(semantic.type == SEMANTIC_SYSTEM_COLOR) continue;
 		result += string_format("%s %s %s;\r\n",
 			inputTag, MakeTypeName(symbol.type).c_str(),
 			MakeLocalSymbolName(symbol).c_str());
@@ -194,8 +196,8 @@ std::string CGlEsShaderGenerator::GenerateOutputs() const
 	{
 		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_OUTPUT) continue;
 		auto semantic = m_shaderBuilder.GetOutputSemantic(symbol);
-		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION) continue;
-		if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR) continue;
+		if(semantic.type == SEMANTIC_SYSTEM_POSITION) continue;
+		if(semantic.type == SEMANTIC_SYSTEM_COLOR) continue;
 		result += string_format("%s %s %s;\r\n",
 			inputTag, MakeTypeName(symbol.type).c_str(),
 			MakeLocalSymbolName(symbol).c_str());
@@ -265,11 +267,11 @@ std::string CGlEsShaderGenerator::MakeLocalSymbolName(const CShaderBuilder::SYMB
 	case CShaderBuilder::SYMBOL_LOCATION_OUTPUT:
 		{
 			auto semantic = m_shaderBuilder.GetOutputSemantic(sym);
-			if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_POSITION)
+			if(semantic.type == SEMANTIC_SYSTEM_POSITION)
 			{
 				return "gl_Position";
 			}
-			else if(semantic.type == CShaderBuilder::SEMANTIC_SYSTEM_COLOR)
+			else if(semantic.type == SEMANTIC_SYSTEM_COLOR)
 			{
 				return "gl_FragColor";
 			}
@@ -292,9 +294,9 @@ std::string CGlEsShaderGenerator::MakeSemanticName(CShaderBuilder::SEMANTIC_INFO
 {
 	switch(semantic.type)
 	{
-	case CShaderBuilder::SEMANTIC_POSITION:
+	case SEMANTIC_POSITION:
 		return string_format("position%d", semantic.index);
-	case CShaderBuilder::SEMANTIC_TEXCOORD:
+	case SEMANTIC_TEXCOORD:
 		return string_format("texCoord%d", semantic.index);
 	default:
 		assert(false);
@@ -333,25 +335,25 @@ std::string CGlEsShaderGenerator::PrintSymbolRef(const CShaderBuilder::SYMBOLREF
 	}
 	switch(ref.swizzle)
 	{
-	case CShaderBuilder::SWIZZLE_X:
+	case SWIZZLE_X:
 		return symbolName + ".x";
 		break;
-	case CShaderBuilder::SWIZZLE_Y:
+	case SWIZZLE_Y:
 		return symbolName + ".y";
 		break;
-	case CShaderBuilder::SWIZZLE_W:
+	case SWIZZLE_W:
 		return symbolName + ".w";
 		break;
-	case CShaderBuilder::SWIZZLE_XY:
+	case SWIZZLE_XY:
 		return symbolName + ".xy";
 		break;
-	case CShaderBuilder::SWIZZLE_XZ:
+	case SWIZZLE_XZ:
 		return symbolName + ".xz";
 		break;
-	case CShaderBuilder::SWIZZLE_XYZ:
+	case SWIZZLE_XYZ:
 		return symbolName + ".xyz";
 		break;
-	case CShaderBuilder::SWIZZLE_XYZW:
+	case SWIZZLE_XYZW:
 		return symbolName + ".xyzw";
 		break;
 	default:
