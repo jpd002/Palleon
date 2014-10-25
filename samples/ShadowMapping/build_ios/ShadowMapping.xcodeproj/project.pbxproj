@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		70501AE81993559F0092F212 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7098906F1943D51C00D38411 /* Metal.framework */; };
+		709890721943D52400D38411 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709890711943D52400D38411 /* UIKit.framework */; };
+		709890741943D52B00D38411 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709890731943D52B00D38411 /* OpenGLES.framework */; };
 		709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FA186A721100AEA8C7 /* Foundation.framework */; };
 		709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FC186A721100AEA8C7 /* CoreGraphics.framework */; };
-		709E16FF186A721100AEA8C7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FE186A721100AEA8C7 /* UIKit.framework */; };
 		709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1700186A721100AEA8C7 /* GLKit.framework */; };
-		709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1702186A721100AEA8C7 /* OpenGLES.framework */; };
 		709E1758186A74BE00AEA8C7 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1754186A74BE00AEA8C7 /* Application.cpp */; };
 		709E1759186A74BE00AEA8C7 /* TouchFreeCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */; };
 		709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175A186A755100AEA8C7 /* libPalleon.a */; };
@@ -24,6 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7098906F1943D51C00D38411 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		709890711943D52400D38411 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		709890731943D52B00D38411 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		709E16F7186A721100AEA8C7 /* ShadowMapping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShadowMapping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		709E16FA186A721100AEA8C7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		709E16FC186A721100AEA8C7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,17 +57,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70501AE81993559F0092F212 /* Metal.framework in Frameworks */,
+				709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */,
+				709890741943D52B00D38411 /* OpenGLES.framework in Frameworks */,
+				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
+				709890721943D52400D38411 /* UIKit.framework in Frameworks */,
 				709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */,
+				709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */,
+				709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */,
 				709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */,
 				709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */,
 				709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */,
-				709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */,
 				709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */,
-				709E1703186A721100AEA8C7 /* OpenGLES.framework in Frameworks */,
-				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
-				709E16FF186A721100AEA8C7 /* UIKit.framework in Frameworks */,
-				709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */,
-				709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,9 @@
 		709E16F9186A721100AEA8C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				709890731943D52B00D38411 /* OpenGLES.framework */,
+				709890711943D52400D38411 /* UIKit.framework */,
+				7098906F1943D51C00D38411 /* Metal.framework */,
 				709E1771186A7C9100AEA8C7 /* QuartzCore.framework */,
 				709E176F186A7BAC00AEA8C7 /* libz.dylib */,
 				709E176B186A7B3500AEA8C7 /* libboost.a */,
@@ -231,6 +239,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShadowMapping-Prefix.pch";
 				INFOPLIST_FILE = "ShadowMapping-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -247,6 +256,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShadowMapping-Prefix.pch";
 				INFOPLIST_FILE = "ShadowMapping-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

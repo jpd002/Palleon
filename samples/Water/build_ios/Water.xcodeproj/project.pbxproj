@@ -22,6 +22,7 @@
 		709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176F186A7BAC00AEA8C7 /* libz.dylib */; };
 		709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1771186A7C9100AEA8C7 /* QuartzCore.framework */; };
 		709E177A186A7D5B00AEA8C7 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 709E1779186A7D5B00AEA8C7 /* data */; };
+		70BCE51E19FB7CBE009EA9EF /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BCE51D19FB7CBE009EA9EF /* Metal.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		70F5984219F7306A004B2D41 /* WaterEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5983C19F7306A004B2D41 /* WaterEffect.cpp */; };
 		70F5984319F7306A004B2D41 /* WaterEffectProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5983E19F7306A004B2D41 /* WaterEffectProvider.cpp */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		709E176F186A7BAC00AEA8C7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		709E1771186A7C9100AEA8C7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		709E1779186A7D5B00AEA8C7 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		70BCE51D19FB7CBE009EA9EF /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
 		70F5983C19F7306A004B2D41 /* WaterEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaterEffect.cpp; path = ../src/WaterEffect.cpp; sourceTree = "<group>"; };
 		70F5983D19F7306A004B2D41 /* WaterEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterEffect.h; path = ../src/WaterEffect.h; sourceTree = "<group>"; };
 		70F5983E19F7306A004B2D41 /* WaterEffectProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaterEffectProvider.cpp; path = ../src/WaterEffectProvider.cpp; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BCE51E19FB7CBE009EA9EF /* Metal.framework in Frameworks */,
 				709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */,
 				709890741943D52B00D38411 /* OpenGLES.framework in Frameworks */,
 				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
@@ -102,6 +105,7 @@
 		709E16F9186A721100AEA8C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				70BCE51D19FB7CBE009EA9EF /* Metal.framework */,
 				709890731943D52B00D38411 /* OpenGLES.framework */,
 				709890711943D52400D38411 /* UIKit.framework */,
 				7098906F1943D51C00D38411 /* Metal.framework */,
