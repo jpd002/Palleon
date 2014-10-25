@@ -1,0 +1,304 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		704A7E0419F8D704002451C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704A7E0319F8D704002451C5 /* Images.xcassets */; };
+		709890721943D52400D38411 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709890711943D52400D38411 /* UIKit.framework */; };
+		709890741943D52B00D38411 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709890731943D52B00D38411 /* OpenGLES.framework */; };
+		709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FA186A721100AEA8C7 /* Foundation.framework */; };
+		709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E16FC186A721100AEA8C7 /* CoreGraphics.framework */; };
+		709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1700186A721100AEA8C7 /* GLKit.framework */; };
+		709E1758186A74BE00AEA8C7 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1754186A74BE00AEA8C7 /* Application.cpp */; };
+		709E1759186A74BE00AEA8C7 /* TouchFreeCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */; };
+		709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175A186A755100AEA8C7 /* libPalleon.a */; };
+		709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E175C186A779800AEA8C7 /* AVFoundation.framework */; };
+		709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176B186A7B3500AEA8C7 /* libboost.a */; };
+		709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176C186A7B3500AEA8C7 /* libFramework.a */; };
+		709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E176F186A7BAC00AEA8C7 /* libz.dylib */; };
+		709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709E1771186A7C9100AEA8C7 /* QuartzCore.framework */; };
+		709E177A186A7D5B00AEA8C7 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 709E1779186A7D5B00AEA8C7 /* data */; };
+		70F5984219F7306A004B2D41 /* WaterEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5983C19F7306A004B2D41 /* WaterEffect.cpp */; };
+		70F5984319F7306A004B2D41 /* WaterEffectProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5983E19F7306A004B2D41 /* WaterEffectProvider.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		704A7E0319F8D704002451C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Water/Images.xcassets; sourceTree = "<group>"; };
+		7098906F1943D51C00D38411 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		709890711943D52400D38411 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		709890731943D52B00D38411 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		709E16F7186A721100AEA8C7 /* Water.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Water.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		709E16FA186A721100AEA8C7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		709E16FC186A721100AEA8C7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		709E16FE186A721100AEA8C7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		709E1700186A721100AEA8C7 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		709E1702186A721100AEA8C7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		709E1706186A721100AEA8C7 /* Water-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Water-Info.plist"; sourceTree = "<group>"; };
+		709E170C186A721100AEA8C7 /* Water-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Water-Prefix.pch"; sourceTree = "<group>"; };
+		709E1724186A721100AEA8C7 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		709E1754186A74BE00AEA8C7 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = ../src/Application.cpp; sourceTree = "<group>"; };
+		709E1755186A74BE00AEA8C7 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../src/Application.h; sourceTree = "<group>"; };
+		709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchFreeCamera.cpp; path = ../src/TouchFreeCamera.cpp; sourceTree = "<group>"; };
+		709E1757186A74BE00AEA8C7 /* TouchFreeCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchFreeCamera.h; path = ../src/TouchFreeCamera.h; sourceTree = "<group>"; };
+		709E175A186A755100AEA8C7 /* libPalleon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPalleon.a; path = "../../../../../Library/Developer/Xcode/DerivedData/Palleon-cqrzgjojsxrjapdxjjvcfeijgrqv/Build/Products/Debug-iphoneos/libPalleon.a"; sourceTree = "<group>"; };
+		709E175C186A779800AEA8C7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		709E176B186A7B3500AEA8C7 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = "../../../../boost/build_iphone/build/Debug-iphoneos/libboost.a"; sourceTree = "<group>"; };
+		709E176C186A7B3500AEA8C7 /* libFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFramework.a; path = "../../../../Framework/build_iphone/build/Debug-iphoneos/libFramework.a"; sourceTree = "<group>"; };
+		709E176F186A7BAC00AEA8C7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		709E1771186A7C9100AEA8C7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		709E1779186A7D5B00AEA8C7 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		70F5983C19F7306A004B2D41 /* WaterEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaterEffect.cpp; path = ../src/WaterEffect.cpp; sourceTree = "<group>"; };
+		70F5983D19F7306A004B2D41 /* WaterEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterEffect.h; path = ../src/WaterEffect.h; sourceTree = "<group>"; };
+		70F5983E19F7306A004B2D41 /* WaterEffectProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaterEffectProvider.cpp; path = ../src/WaterEffectProvider.cpp; sourceTree = "<group>"; };
+		70F5983F19F7306A004B2D41 /* WaterEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaterEffectProvider.h; path = ../src/WaterEffectProvider.h; sourceTree = "<group>"; };
+		70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Palleon.Samples.Common.Debug.xcconfig; path = ../../Palleon.Samples.Common.Debug.xcconfig; sourceTree = "<group>"; };
+		70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Palleon.Samples.Common.xcconfig; path = ../../Palleon.Samples.Common.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		709E16F4186A721100AEA8C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709E16FB186A721100AEA8C7 /* Foundation.framework in Frameworks */,
+				709890741943D52B00D38411 /* OpenGLES.framework in Frameworks */,
+				709E16FD186A721100AEA8C7 /* CoreGraphics.framework in Frameworks */,
+				709890721943D52400D38411 /* UIKit.framework in Frameworks */,
+				709E1772186A7C9100AEA8C7 /* QuartzCore.framework in Frameworks */,
+				709E1701186A721100AEA8C7 /* GLKit.framework in Frameworks */,
+				709E175D186A779800AEA8C7 /* AVFoundation.framework in Frameworks */,
+				709E1770186A7BAC00AEA8C7 /* libz.dylib in Frameworks */,
+				709E176D186A7B3500AEA8C7 /* libboost.a in Frameworks */,
+				709E176E186A7B3500AEA8C7 /* libFramework.a in Frameworks */,
+				709E175B186A755100AEA8C7 /* libPalleon.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		709E16EE186A721100AEA8C7 = {
+			isa = PBXGroup;
+			children = (
+				704A7E0319F8D704002451C5 /* Images.xcassets */,
+				709E1704186A721100AEA8C7 /* Source */,
+				709E16F9186A721100AEA8C7 /* Frameworks */,
+				709E16F8186A721100AEA8C7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		709E16F8186A721100AEA8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				709E16F7186A721100AEA8C7 /* Water.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		709E16F9186A721100AEA8C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				709890731943D52B00D38411 /* OpenGLES.framework */,
+				709890711943D52400D38411 /* UIKit.framework */,
+				7098906F1943D51C00D38411 /* Metal.framework */,
+				709E1771186A7C9100AEA8C7 /* QuartzCore.framework */,
+				709E176F186A7BAC00AEA8C7 /* libz.dylib */,
+				709E176B186A7B3500AEA8C7 /* libboost.a */,
+				709E176C186A7B3500AEA8C7 /* libFramework.a */,
+				709E175C186A779800AEA8C7 /* AVFoundation.framework */,
+				709E175A186A755100AEA8C7 /* libPalleon.a */,
+				709E16FA186A721100AEA8C7 /* Foundation.framework */,
+				709E16FC186A721100AEA8C7 /* CoreGraphics.framework */,
+				709E16FE186A721100AEA8C7 /* UIKit.framework */,
+				709E1700186A721100AEA8C7 /* GLKit.framework */,
+				709E1702186A721100AEA8C7 /* OpenGLES.framework */,
+				709E1724186A721100AEA8C7 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		709E1704186A721100AEA8C7 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				709E1754186A74BE00AEA8C7 /* Application.cpp */,
+				709E1755186A74BE00AEA8C7 /* Application.h */,
+				70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */,
+				70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */,
+				709E1705186A721100AEA8C7 /* Supporting Files */,
+				709E1756186A74BE00AEA8C7 /* TouchFreeCamera.cpp */,
+				709E1757186A74BE00AEA8C7 /* TouchFreeCamera.h */,
+				70F5983C19F7306A004B2D41 /* WaterEffect.cpp */,
+				70F5983D19F7306A004B2D41 /* WaterEffect.h */,
+				70F5983E19F7306A004B2D41 /* WaterEffectProvider.cpp */,
+				70F5983F19F7306A004B2D41 /* WaterEffectProvider.h */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		709E1705186A721100AEA8C7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				709E1779186A7D5B00AEA8C7 /* data */,
+				709E1706186A721100AEA8C7 /* Water-Info.plist */,
+				709E170C186A721100AEA8C7 /* Water-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		709E16F6186A721100AEA8C7 /* Water */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 709E1734186A721200AEA8C7 /* Build configuration list for PBXNativeTarget "Water" */;
+			buildPhases = (
+				709E16F3186A721100AEA8C7 /* Sources */,
+				709E16F4186A721100AEA8C7 /* Frameworks */,
+				709E16F5186A721100AEA8C7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Water;
+			productName = Water;
+			productReference = 709E16F7186A721100AEA8C7 /* Water.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		709E16EF186A721100AEA8C7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Virtual Applications";
+				TargetAttributes = {
+					709E16F6186A721100AEA8C7 = {
+						DevelopmentTeam = AGRWZ43CQ9;
+					};
+				};
+			};
+			buildConfigurationList = 709E16F2186A721100AEA8C7 /* Build configuration list for PBXProject "Water" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 709E16EE186A721100AEA8C7;
+			productRefGroup = 709E16F8186A721100AEA8C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				709E16F6186A721100AEA8C7 /* Water */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		709E16F5186A721100AEA8C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709E177A186A7D5B00AEA8C7 /* data in Resources */,
+				704A7E0419F8D704002451C5 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		709E16F3186A721100AEA8C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70F5984219F7306A004B2D41 /* WaterEffect.cpp in Sources */,
+				70F5984319F7306A004B2D41 /* WaterEffectProvider.cpp in Sources */,
+				709E1759186A74BE00AEA8C7 /* TouchFreeCamera.cpp in Sources */,
+				709E1758186A74BE00AEA8C7 /* Application.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		709E1732186A721200AEA8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		709E1733186A721200AEA8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+			};
+			name = Release;
+		};
+		709E1735186A721200AEA8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70FB856A18D4C84B0023A3C4 /* Palleon.Samples.Common.Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Water-Prefix.pch";
+				INFOPLIST_FILE = "Water-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		709E1736186A721200AEA8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70FB856B18D4C84B0023A3C4 /* Palleon.Samples.Common.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Water-Prefix.pch";
+				INFOPLIST_FILE = "Water-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		709E16F2186A721100AEA8C7 /* Build configuration list for PBXProject "Water" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709E1732186A721200AEA8C7 /* Debug */,
+				709E1733186A721200AEA8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		709E1734186A721200AEA8C7 /* Build configuration list for PBXNativeTarget "Water" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709E1735186A721200AEA8C7 /* Debug */,
+				709E1736186A721200AEA8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 709E16EF186A721100AEA8C7 /* Project object */;
+}
