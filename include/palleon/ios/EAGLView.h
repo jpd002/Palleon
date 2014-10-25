@@ -16,13 +16,13 @@
 	// The OpenGL ES names for the framebuffer and renderbuffer used to render to this view.
 	GLuint defaultFramebuffer, colorRenderbuffer, depthRenderbuffer;
 	
+	GLuint msFramebuffer, msColorRenderbuffer, msDepthRenderbuffer;
+	
 	BOOL hasRetinaDisplay;
 }
 
-@property (nonatomic, retain) EAGLContext *context;
+@property (nonatomic, retain) EAGLContext* context;
 
--(void)prepareContext;
--(void)setFramebuffer;
 -(BOOL)presentFramebuffer;
 -(BOOL)hasRetinaDisplay;
 -(GLint)getFramebuffer;

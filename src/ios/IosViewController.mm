@@ -5,6 +5,7 @@
 #import "palleon/ios/IosViewController.h"
 #import "palleon/ios/IosResourceManager.h"
 #import "palleon/ios/IosAudioManager.h"
+#import "palleon/ios/IosLog.h"
 #import "palleon/ConfigManager.h"
 #ifdef USE_METAL
 #import "palleon/ios/MetalView.h"
@@ -34,6 +35,7 @@ using namespace Palleon;
 	self = [super init];
 	if (self)
 	{
+		CIosLog::CreateInstance();
 		CIosResourceManager::CreateInstance();
 		CConfigManager::CreateInstance();
 		CConfigManager::GetInstance().GetConfig().RegisterPreferenceBoolean(PREFERENCE_SCREEN_ORIENTATION_PORTRAIT, false);
@@ -78,7 +80,6 @@ using namespace Palleon;
 #else
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	auto view = (EAGLView*)self.view;
-	[view prepareContext];
 	bool hasRetinaDisplay = [view hasRetinaDisplay];
 	CIosGraphicDevice::CreateInstance(hasRetinaDisplay, CVector2(screenBounds.size.width, screenBounds.size.height));
 #endif
@@ -96,7 +97,8 @@ using namespace Palleon;
 {
 #ifndef USE_METAL
 	EAGLView* glView = (EAGLView*)self.view;
-	[glView setFramebuffer];
+	[EAGLContext setCurrentContext: glView.context];
+	glBindFramebuffer(GL_FRAMEBUFFER, [glView getFramebuffer]);
 #endif
 	if(!m_application)
 	{
@@ -173,7 +175,7 @@ using namespace Palleon;
 	CGraphicDevice::GetInstance().Draw();
 #else
 	EAGLView* glView = (EAGLView*)self.view;
-	[glView setFramebuffer];
+	[EAGLContext setCurrentContext: glView.context];
 	m_application->Update(static_cast<float>(deltaTime));
 	static_cast<CGlEsGraphicDevice&>(CGraphicDevice::GetInstance()).SetMainFramebuffer([glView getFramebuffer]);
 	CGraphicDevice::GetInstance().Draw();

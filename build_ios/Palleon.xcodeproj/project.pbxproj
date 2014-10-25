@@ -60,11 +60,12 @@
 		70957E8A194E9B810041191C /* MetalShadowMapEffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 70957E89194E9B810041191C /* MetalShadowMapEffectProvider.h */; };
 		7096E31418E015960068769A /* ParseUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7096E31318E015960068769A /* ParseUtils.cpp */; };
 		7096E31A18E015A00068769A /* ParseUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7096E31918E015A00068769A /* ParseUtils.h */; };
+		7097D47B19F71C51008AF590 /* IosLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7097D47A19F71C51008AF590 /* IosLog.cpp */; };
+		7097D47D19F71C65008AF590 /* IosLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7097D47C19F71C65008AF590 /* IosLog.h */; };
 		70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7118D76D2100FA2ABE /* TextureLoader.cpp */; };
 		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
 		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
 		70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7B18D76DA400FA2ABE /* DdsImage.h */; };
-		709890681943D34D00D38411 /* MetalView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 709890671943D34D00D38411 /* MetalView.mm */; };
 		7098906E1943D36800D38411 /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098906D1943D36800D38411 /* MetalView.h */; };
 		709890761943DA1E00D38411 /* MetalGraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890751943DA1E00D38411 /* MetalGraphicDevice.cpp */; };
 		7098907A1943DB4A00D38411 /* MetalGraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890791943DB4A00D38411 /* MetalGraphicDevice.h */; };
@@ -74,7 +75,6 @@
 		709890821943E05700D38411 /* MetalTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890811943E05700D38411 /* MetalTexture.h */; };
 		7098908419451BB700D38411 /* MetalUberEffectProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098908319451BB700D38411 /* MetalUberEffectProvider.cpp */; };
 		7098908619451BDF00D38411 /* MetalUberEffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098908519451BDF00D38411 /* MetalUberEffectProvider.h */; };
-		709890881945201200D38411 /* MetalUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890871945201200D38411 /* MetalUberEffect.cpp */; };
 		7098908A1945202600D38411 /* MetalUberEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890891945202600D38411 /* MetalUberEffect.h */; };
 		7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7098908C1945212800D38411 /* MetalUberEffectGenerator.cpp */; };
 		7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */; };
@@ -113,10 +113,25 @@
 		70B582541635216800C40F25 /* AnimationCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582501635216800C40F25 /* AnimationCurve.h */; };
 		70B582551635216800C40F25 /* RumbleAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582511635216800C40F25 /* RumbleAnimation.h */; };
 		70B582561635216800C40F25 /* TextureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B582521635216800C40F25 /* TextureAnimation.h */; };
+		70BCE4FE19FB4A8F009EA9EF /* GlEsGenericEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BCE4FC19FB4A8F009EA9EF /* GlEsGenericEffect.cpp */; };
+		70BCE4FF19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BCE4FD19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp */; };
+		70BCE50719FB4A9D009EA9EF /* GlEsGenericEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BCE50519FB4A9D009EA9EF /* GlEsGenericEffect.h */; };
+		70BCE50819FB4A9D009EA9EF /* GlEsShaderGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BCE50619FB4A9D009EA9EF /* GlEsShaderGenerator.h */; };
+		70BCE50B19FB4C40009EA9EF /* GenericEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BCE50919FB4C40009EA9EF /* GenericEffect.cpp */; };
+		70BCE50C19FB4C40009EA9EF /* ShaderBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BCE50A19FB4C40009EA9EF /* ShaderBuilder.cpp */; };
+		70BCE50F19FB4C4E009EA9EF /* GenericEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BCE50D19FB4C4E009EA9EF /* GenericEffect.h */; };
+		70BCE51019FB4C4E009EA9EF /* ShaderBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */; };
+		70BCE51619FB7C45009EA9EF /* MetalUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890871945201200D38411 /* MetalUberEffect.cpp */; };
+		70BCE51C19FB7C97009EA9EF /* MetalView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 709890671943D34D00D38411 /* MetalView.mm */; };
+		70BE810B19F7525500ABBF36 /* GlEsRenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE810A19F7525500ABBF36 /* GlEsRenderTarget.cpp */; };
+		70BE811119F7526200ABBF36 /* GlEsRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE811019F7526200ABBF36 /* GlEsRenderTarget.h */; };
+		70BE811319F75D4C00ABBF36 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */; };
 		70C6E54D1685709E001544EB /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C6E54C1685709E001544EB /* Emitter.cpp */; };
 		70C6E550168570A8001544EB /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C6E54F168570A8001544EB /* Emitter.h */; };
 		70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70D498471907FC1800A6557C /* TextureConverters.cpp */; };
 		70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D498491907FC3400A6557C /* TextureConverters.h */; };
+		70F5982719F72D59004B2D41 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5982619F72D59004B2D41 /* Log.cpp */; };
+		70F5982C19F72D63004B2D41 /* Log.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F5982B19F72D63004B2D41 /* Log.h */; };
 		7E407F851401F8AD00431963 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F831401F8AD00431963 /* Frustum.h */; };
 		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
@@ -177,6 +192,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		703653CB19F9DB1500B6758E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = Framework;
+		};
 		709E174F186A739B00AEA8C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */;
@@ -184,19 +206,19 @@
 			remoteGlobalIDString = 709E16F7186A721100AEA8C7;
 			remoteInfo = ShadowMapping;
 		};
-		709E1763186A7B1B00AEA8C7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = Framework;
-		};
 		709E1769186A7B2A00AEA8C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 7EA960EE134D72490099591E;
 			remoteInfo = boost;
+		};
+		70F5983119F72F5C004B2D41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70F5982D19F72F5C004B2D41 /* Water.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 709E16F7186A721100AEA8C7;
+			remoteInfo = Water;
 		};
 		70FB857A18D4D7AA0023A3C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -263,6 +285,8 @@
 		70957E89194E9B810041191C /* MetalShadowMapEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalShadowMapEffectProvider.h; path = ../include/palleon/ios/MetalShadowMapEffectProvider.h; sourceTree = "<group>"; };
 		7096E31318E015960068769A /* ParseUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParseUtils.cpp; path = ../src/ParseUtils.cpp; sourceTree = "<group>"; };
 		7096E31918E015A00068769A /* ParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseUtils.h; path = ../include/palleon/ParseUtils.h; sourceTree = "<group>"; };
+		7097D47A19F71C51008AF590 /* IosLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosLog.cpp; path = ../src/ios/IosLog.cpp; sourceTree = "<group>"; };
+		7097D47C19F71C65008AF590 /* IosLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosLog.h; path = ../include/palleon/ios/IosLog.h; sourceTree = "<group>"; };
 		70983A7118D76D2100FA2ABE /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/TextureLoader.cpp; sourceTree = "<group>"; };
 		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
@@ -310,7 +334,7 @@
 		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../include/palleon/IAnimation.h; sourceTree = "<group>"; };
 		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../include/palleon/RenderTarget.h; sourceTree = "<group>"; };
 		709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowMapping.xcodeproj; path = ../samples/ShadowMapping/build_ios/ShadowMapping.xcodeproj; sourceTree = "<group>"; };
-		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_iphone/Framework.xcodeproj; sourceTree = "<group>"; };
+		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_ios/Framework.xcodeproj; sourceTree = "<group>"; };
 		709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boost.xcodeproj; path = ../../boost/build_iphone/boost.xcodeproj; sourceTree = "<group>"; };
 		709EAE7D19E635CE00E0B3F8 /* LayoutNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LayoutNode.cpp; path = ../src/LayoutNode.cpp; sourceTree = "<group>"; };
 		709EAE8219E635D900E0B3F8 /* LayoutNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LayoutNode.h; path = ../include/palleon/LayoutNode.h; sourceTree = "<group>"; };
@@ -320,10 +344,24 @@
 		70B582501635216800C40F25 /* AnimationCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationCurve.h; path = ../include/palleon/AnimationCurve.h; sourceTree = "<group>"; };
 		70B582511635216800C40F25 /* RumbleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RumbleAnimation.h; path = ../include/palleon/RumbleAnimation.h; sourceTree = "<group>"; };
 		70B582521635216800C40F25 /* TextureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureAnimation.h; path = ../include/palleon/TextureAnimation.h; sourceTree = "<group>"; };
+		70BCE4FC19FB4A8F009EA9EF /* GlEsGenericEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsGenericEffect.cpp; path = ../src/gles/GlEsGenericEffect.cpp; sourceTree = "<group>"; };
+		70BCE4FD19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsShaderGenerator.cpp; path = ../src/gles/GlEsShaderGenerator.cpp; sourceTree = "<group>"; };
+		70BCE50519FB4A9D009EA9EF /* GlEsGenericEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsGenericEffect.h; path = ../include/palleon/gles/GlEsGenericEffect.h; sourceTree = "<group>"; };
+		70BCE50619FB4A9D009EA9EF /* GlEsShaderGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsShaderGenerator.h; path = ../include/palleon/gles/GlEsShaderGenerator.h; sourceTree = "<group>"; };
+		70BCE50919FB4C40009EA9EF /* GenericEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenericEffect.cpp; path = ../src/graphics/GenericEffect.cpp; sourceTree = "<group>"; };
+		70BCE50A19FB4C40009EA9EF /* ShaderBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderBuilder.cpp; path = ../src/graphics/ShaderBuilder.cpp; sourceTree = "<group>"; };
+		70BCE50D19FB4C4E009EA9EF /* GenericEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericEffect.h; path = ../include/palleon/graphics/GenericEffect.h; sourceTree = "<group>"; };
+		70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderBuilder.h; path = ../include/palleon/graphics/ShaderBuilder.h; sourceTree = "<group>"; };
+		70BE810A19F7525500ABBF36 /* GlEsRenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsRenderTarget.cpp; path = ../src/gles/GlEsRenderTarget.cpp; sourceTree = "<group>"; };
+		70BE811019F7526200ABBF36 /* GlEsRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsRenderTarget.h; path = ../include/palleon/gles/GlEsRenderTarget.h; sourceTree = "<group>"; };
+		70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderTarget.cpp; path = ../src/RenderTarget.cpp; sourceTree = "<group>"; };
 		70C6E54C1685709E001544EB /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../src/Emitter.cpp; sourceTree = "<group>"; };
 		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/palleon/Emitter.h; sourceTree = "<group>"; };
 		70D498471907FC1800A6557C /* TextureConverters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureConverters.cpp; path = ../src/resources/TextureConverters.cpp; sourceTree = "<group>"; };
 		70D498491907FC3400A6557C /* TextureConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureConverters.h; path = ../include/palleon/resources/TextureConverters.h; sourceTree = "<group>"; };
+		70F5982619F72D59004B2D41 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = ../src/Log.cpp; sourceTree = "<group>"; };
+		70F5982B19F72D63004B2D41 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../include/palleon/Log.h; sourceTree = "<group>"; };
+		70F5982D19F72F5C004B2D41 /* Water.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Water.xcodeproj; path = ../samples/Water/build_ios/Water.xcodeproj; sourceTree = "<group>"; };
 		70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = QuakeViewer.xcodeproj; path = ../samples/QuakeViewer/build_ios/QuakeViewer.xcodeproj; sourceTree = "<group>"; };
 		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../include/palleon/Frustum.h; sourceTree = "<group>"; };
 		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/palleon/Plane.h; sourceTree = "<group>"; };
@@ -408,13 +446,27 @@
 			name = audio;
 			sourceTree = "<group>";
 		};
+		703653C819F9DB1500B6758E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				703653CC19F9DB1500B6758E /* libFramework.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		706F71A718F5D35000224718 /* gles */ = {
 			isa = PBXGroup;
 			children = (
 				706F71AC18F5D35F00224718 /* GlEsEffect.cpp */,
 				706F71BC18F5D37400224718 /* GlEsEffect.h */,
+				70BCE4FC19FB4A8F009EA9EF /* GlEsGenericEffect.cpp */,
+				70BCE50519FB4A9D009EA9EF /* GlEsGenericEffect.h */,
 				706F71AD18F5D35F00224718 /* GlEsGraphicDevice.cpp */,
 				706F71BD18F5D37400224718 /* GlEsGraphicDevice.h */,
+				70BE810A19F7525500ABBF36 /* GlEsRenderTarget.cpp */,
+				70BE811019F7526200ABBF36 /* GlEsRenderTarget.h */,
+				70BCE4FD19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp */,
+				70BCE50619FB4A9D009EA9EF /* GlEsShaderGenerator.h */,
 				706F71AE18F5D35F00224718 /* GlEsShadowMapEffect.cpp */,
 				706F71BE18F5D37400224718 /* GlEsShadowMapEffect.h */,
 				706F71AF18F5D35F00224718 /* GlEsTexture.cpp */,
@@ -488,6 +540,7 @@
 		709E1743186A724B00AEA8C7 /* Samples */ = {
 			isa = PBXGroup;
 			children = (
+				70F5982D19F72F5C004B2D41 /* Water.xcodeproj */,
 				70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */,
 				709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */,
 			);
@@ -511,14 +564,6 @@
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
-		709E1760186A7B1B00AEA8C7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				709E1764186A7B1B00AEA8C7 /* libFramework.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		709E1766186A7B2A00AEA8C7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,6 +583,14 @@
 				70B582521635216800C40F25 /* TextureAnimation.h */,
 			);
 			name = animation;
+			sourceTree = "<group>";
+		};
+		70F5982E19F72F5C004B2D41 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70F5983219F72F5C004B2D41 /* Water.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		70FB857518D4D7AA0023A3C4 /* Products */ = {
@@ -561,6 +614,8 @@
 				7078960916E45BBA00CFCE67 /* IosAudioManager.h */,
 				707895F716E45BAF00CFCE67 /* IosGraphicDevice.cpp */,
 				7078960B16E45BBA00CFCE67 /* IosGraphicDevice.h */,
+				7097D47A19F71C51008AF590 /* IosLog.cpp */,
+				7097D47C19F71C65008AF590 /* IosLog.h */,
 				707895F816E45BAF00CFCE67 /* IosResourceManager.cpp */,
 				7078960C16E45BBA00CFCE67 /* IosResourceManager.h */,
 				7078960F16E45BBA00CFCE67 /* IosViewController.h */,
@@ -613,6 +668,8 @@
 				70C6E54F168570A8001544EB /* Emitter.h */,
 				7035A93717166B530092A5CF /* EmitterModifier.cpp */,
 				7035A93B17166B630092A5CF /* EmitterModifier.h */,
+				70BCE50919FB4C40009EA9EF /* GenericEffect.cpp */,
+				70BCE50D19FB4C4E009EA9EF /* GenericEffect.h */,
 				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
 				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
 				709E16E7186A689B00AEA8C7 /* IAnimation.h */,
@@ -625,11 +682,14 @@
 				7E407F891401F8F300431963 /* MeshProvider.h */,
 				7E5C121E14F19EF700292DD3 /* NinePatch.cpp */,
 				7E5C122E14F19F0800292DD3 /* NinePatch.h */,
+				70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */,
 				709E16E8186A689B00AEA8C7 /* RenderTarget.h */,
 				709C28FC182209A000B6B2D0 /* Scene.cpp */,
 				709C28FE182209B200B6B2D0 /* Scene.h */,
 				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
 				7E7D878413F71AD900AD9F7F /* SceneNode.h */,
+				70BCE50A19FB4C40009EA9EF /* ShaderBuilder.cpp */,
+				70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */,
 				7E5C122114F19EF700292DD3 /* SphereMesh.cpp */,
 				7E5C123114F19F0800292DD3 /* SphereMesh.h */,
 				7E7D875B13F71AC300AD9F7F /* Sprite.cpp */,
@@ -735,6 +795,8 @@
 				706F71A718F5D35000224718 /* gles */,
 				7E5C123D14F19F1200292DD3 /* graphics */,
 				7E2885B813F862F800F606EB /* ios */,
+				70F5982619F72D59004B2D41 /* Log.cpp */,
+				70F5982B19F72D63004B2D41 /* Log.h */,
 				7E407F811401F88700431963 /* math */,
 				709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */,
 				7E407F8B1401F90500431963 /* PalleonEngine.h */,
@@ -765,10 +827,12 @@
 				7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */,
 				709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */,
 				7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */,
+				70F5982C19F72D63004B2D41 /* Log.h in Headers */,
 				7E7D879613F71AD900AD9F7F /* Label.h in Headers */,
 				709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */,
 				706F71CD18F5D37400224718 /* OpenGlEsDefs.h in Headers */,
 				7E7D879713F71AD900AD9F7F /* Material.h in Headers */,
+				7097D47D19F71C65008AF590 /* IosLog.h in Headers */,
 				709C28FF182209B200B6B2D0 /* Scene.h in Headers */,
 				706F71CA18F5D37400224718 /* GlEsUberEffectGenerator.h in Headers */,
 				7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */,
@@ -780,6 +844,7 @@
 				7E7D879F13F71AD900AD9F7F /* Texture.h in Headers */,
 				706F71C918F5D37400224718 /* GlEsUberEffect.h in Headers */,
 				7E7D87A013F71AD900AD9F7F /* Vector2.h in Headers */,
+				70BE811119F7526200ABBF36 /* GlEsRenderTarget.h in Headers */,
 				7E7D87A113F71AD900AD9F7F /* Vector3.h in Headers */,
 				7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */,
 				70271B9818D522F500777C53 /* AxisMesh.h in Headers */,
@@ -792,6 +857,7 @@
 				70271B7D18D5039000777C53 /* EffectParameter.h in Headers */,
 				7E407F861401F8AD00431963 /* Plane.h in Headers */,
 				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
+				70BCE51019FB4C4E009EA9EF /* ShaderBuilder.h in Headers */,
 				7E407F8C1401F90600431963 /* PalleonEngine.h in Headers */,
 				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
@@ -803,6 +869,7 @@
 				7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				706F71C818F5D37400224718 /* GlEsTexture.h in Headers */,
+				70BCE50F19FB4C4E009EA9EF /* GenericEffect.h in Headers */,
 				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
 				709E16EA186A689B00AEA8C7 /* Effect.h in Headers */,
 				709C28F31822088E00B6B2D0 /* Resource.h in Headers */,
@@ -825,6 +892,8 @@
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
 				706F71C518F5D37400224718 /* GlEsEffect.h in Headers */,
 				70C6E550168570A8001544EB /* Emitter.h in Headers */,
+				70BCE50819FB4A9D009EA9EF /* GlEsShaderGenerator.h in Headers */,
+				70BCE50719FB4A9D009EA9EF /* GlEsGenericEffect.h in Headers */,
 				7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */,
 				70957E8A194E9B810041191C /* MetalShadowMapEffectProvider.h in Headers */,
 				7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */,
@@ -894,7 +963,7 @@
 					ProjectRef = 709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */;
 				},
 				{
-					ProductGroup = 709E1760186A7B1B00AEA8C7 /* Products */;
+					ProductGroup = 703653C819F9DB1500B6758E /* Products */;
 					ProjectRef = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
 				},
 				{
@@ -905,6 +974,10 @@
 					ProductGroup = 709E174C186A739B00AEA8C7 /* Products */;
 					ProjectRef = 709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */;
 				},
+				{
+					ProductGroup = 70F5982E19F72F5C004B2D41 /* Products */;
+					ProjectRef = 70F5982D19F72F5C004B2D41 /* Water.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -914,6 +987,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		703653CC19F9DB1500B6758E /* libFramework.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFramework.a;
+			remoteRef = 703653CB19F9DB1500B6758E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		709E1750186A739B00AEA8C7 /* ShadowMapping.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -921,18 +1001,18 @@
 			remoteRef = 709E174F186A739B00AEA8C7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		709E1764186A7B1B00AEA8C7 /* libFramework.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFramework.a;
-			remoteRef = 709E1763186A7B1B00AEA8C7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		709E176A186A7B2A00AEA8C7 /* libboost.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libboost.a;
 			remoteRef = 709E1769186A7B2A00AEA8C7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		70F5983219F72F5C004B2D41 /* Water.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Water.app;
+			remoteRef = 70F5983119F72F5C004B2D41 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		70FB857B18D4D7AA0023A3C4 /* QuakeViewer.app */ = {
@@ -969,6 +1049,8 @@
 				7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */,
 				7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */,
 				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
+				70BCE4FE19FB4A8F009EA9EF /* GlEsGenericEffect.cpp in Sources */,
+				70BE811319F75D4C00ABBF36 /* RenderTarget.cpp in Sources */,
 				7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */,
 				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
 				70271B9518D522E400777C53 /* ConeMesh.cpp in Sources */,
@@ -984,16 +1066,20 @@
 				7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */,
 				7098907C1943E01500D38411 /* MetalVertexBuffer.cpp in Sources */,
 				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
+				7097D47B19F71C51008AF590 /* IosLog.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
 				70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */,
 				709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */,
-				709890881945201200D38411 /* MetalUberEffect.cpp in Sources */,
+				70BCE51619FB7C45009EA9EF /* MetalUberEffect.cpp in Sources */,
+				70BCE50C19FB4C40009EA9EF /* ShaderBuilder.cpp in Sources */,
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
 				70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */,
 				7098908419451BB700D38411 /* MetalUberEffectProvider.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				709C28E11822088000B6B2D0 /* ResourceManager.cpp in Sources */,
+				70F5982719F72D59004B2D41 /* Log.cpp in Sources */,
+				70BCE51C19FB7C97009EA9EF /* MetalView.mm in Sources */,
 				706F71B718F5D35F00224718 /* GlEsTexture.cpp in Sources */,
 				709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */,
 				709890801943E03D00D38411 /* MetalTexture.cpp in Sources */,
@@ -1010,8 +1096,9 @@
 				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
 				709EAE7E19E635CE00E0B3F8 /* LayoutNode.cpp in Sources */,
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
-				709890681943D34D00D38411 /* MetalView.mm in Sources */,
+				70BCE50B19FB4C40009EA9EF /* GenericEffect.cpp in Sources */,
 				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
+				70BE810B19F7525500ABBF36 /* GlEsRenderTarget.cpp in Sources */,
 				709C28E01822088000B6B2D0 /* Package.cpp in Sources */,
 				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,
 				7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */,
@@ -1021,6 +1108,7 @@
 				70957E79194D542A0041191C /* MetalShadowMapEffect.cpp in Sources */,
 				7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */,
 				7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */,
+				70BCE4FF19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
