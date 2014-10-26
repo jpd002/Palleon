@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Palleon", "Palleon.vcxproj", "{F800A366-7ACB-417C-A565-801FC00ADEA1}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Embedding", "..\samples\Emb
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PalleonEmbedClient", "PalleonEmbedClient.vcxproj", "{96467766-1448-43E2-9828-F05557CFC80E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Water", "..\samples\Water\build_win32\Water.vcxproj", "{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,16 +108,23 @@ Global
 		{96467766-1448-43E2-9828-F05557CFC80E}.Release|Win32.Build.0 = Release|Win32
 		{96467766-1448-43E2-9828-F05557CFC80E}.Release|x64.ActiveCfg = Release|x64
 		{96467766-1448-43E2-9828-F05557CFC80E}.Release|x64.Build.0 = Release|x64
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Debug|Win32.Build.0 = Debug|Win32
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Debug|x64.ActiveCfg = Debug|Win32
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|Win32.ActiveCfg = Release|Win32
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|Win32.Build.0 = Release|Win32
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{553CE050-A97E-4E6E-AE84-057A1F0FA45D} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
-		{4A0B5134-AB23-452D-8513-8225FA178356} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
 		{3AAC91DB-10BB-4DF0-B179-3BF2A92559AF} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
+		{4A0B5134-AB23-452D-8513-8225FA178356} = {89D8BBC0-BDE8-479A-BB81-B60F749D9F4B}
 		{BC6159A8-4F90-4F11-BBE3-F49D7ACC8834} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 		{5022B341-B9F9-4444-A4A7-14EA603E413F} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 		{C9690CE4-30CA-4285-8EB2-97D107CCF960} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
+		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 	EndGlobalSection
 EndGlobal
