@@ -2,7 +2,7 @@
 
 #include <d3d11.h>
 #include "Types.h"
-#include "../Texture.h"
+#include "../graphics/Texture.h"
 #include "Stream.h"
 
 namespace Palleon

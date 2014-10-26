@@ -1,5 +1,5 @@
 #include "palleon/resources/TextureResource.h"
-#include "palleon/TextureLoader.h"
+#include "palleon/graphics/TextureLoader.h"
 
 using namespace Palleon;
 

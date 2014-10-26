@@ -1,7 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
-#include "../VertexBuffer.h"
+#include "../graphics/VertexBuffer.h"
 
 namespace Palleon
 {

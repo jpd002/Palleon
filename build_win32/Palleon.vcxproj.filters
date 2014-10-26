@@ -49,44 +49,11 @@
     <ClCompile Include="..\src\Frustum.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Camera.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Label.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Material.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Mesh.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Sprite.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\SceneNode.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\NinePatchButton.cpp">
       <Filter>Source Files\widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Texture.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\VertexBuffer.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Viewport.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Widget.cpp">
       <Filter>Source Files\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\NinePatch.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\GraphicDevice.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ButtonBase.cpp">
       <Filter>Source Files\widgets</Filter>
@@ -99,12 +66,6 @@
     </ClCompile>
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp">
       <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\RenderTarget.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\CubeRenderTarget.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\TextureAnimation.cpp">
       <Filter>Source Files\animation</Filter>
@@ -124,9 +85,6 @@
     <ClCompile Include="..\src\AudioClip.cpp">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Emitter.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Win32ApplicationWindow.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
@@ -138,9 +96,6 @@
     </ClCompile>
     <ClCompile Include="..\src\win32\Dx11Texture.cpp">
       <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\EmitterModifier.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\resources\EmitterDescriptor.cpp">
       <Filter>Source Files\resources</Filter>
@@ -163,17 +118,11 @@
     <ClCompile Include="..\src\resources\Package.cpp">
       <Filter>Source Files\resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Scene.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\win32\Dx11Effect.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\src\win32\Dx11ShadowMapEffect.cpp">
       <Filter>Source Files\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\EffectParameter.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\win32\Dx11UberEffect.cpp">
       <Filter>Source Files\win32\UberEffect</Filter>
@@ -187,26 +136,8 @@
     <ClCompile Include="..\src\resources\DdsImage.cpp">
       <Filter>Source Files\resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\CubeMesh.cpp">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\SphereMesh.cpp">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ConeMesh.cpp">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\AxisMesh.cpp">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\TextureLoader.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ParseUtils.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\EffectParameterBag.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="Pch.cpp">
       <Filter>Source Files</Filter>
@@ -229,17 +160,86 @@
     <ClCompile Include="..\src\win32\Dx11RenderTarget.cpp">
       <Filter>Source Files\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11ShaderGenerator.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\win32\Dx11GenericEffect.cpp">
+      <Filter>Source Files\win32\GenericEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\EffectParameterBag.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Emitter.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\EmitterModifier.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\graphics\GenericEffect.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx11ShaderGenerator.cpp">
-      <Filter>Source Files\win32</Filter>
+    <ClCompile Include="..\src\graphics\GraphicDevice.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Label.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Material.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Mesh.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\NinePatch.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\RenderTarget.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Scene.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\SceneNode.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\src\graphics\ShaderBuilder.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\win32\Dx11GenericEffect.cpp">
-      <Filter>Source Files\win32\GenericEffect</Filter>
+    <ClCompile Include="..\src\graphics\Sprite.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Texture.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\TextureLoader.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\VertexBuffer.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Viewport.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\Camera.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\CubeRenderTarget.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\EffectParameter.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\AxisMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\CubeMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\ConeMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\graphics\SphereMesh.cpp">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,14 +258,8 @@
     <ClInclude Include="..\include\palleon\AudioManager.h">
       <Filter>Source Files\audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\AxisMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\Box2.h">
       <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Camera.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\ButtonBase.h">
       <Filter>Source Files\widgets</Filter>
@@ -273,20 +267,8 @@
     <ClInclude Include="..\include\palleon\CatmullRom.h">
       <Filter>Source Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\Color.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\ConeMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\ConfigManager.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\CubeMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\CubeRenderTarget.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\resources\DdsImage.h">
       <Filter>Source Files\resources</Filter>
@@ -315,23 +297,8 @@
     <ClInclude Include="..\include\palleon\win32\Dx11UberEffectProvider.h">
       <Filter>Source Files\win32\UberEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\Effect.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\EffectParameter.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\EffectProvider.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Emitter.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\resources\EmitterDescriptor.h">
       <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Mesh.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\Matrix4.h">
       <Filter>Source Files\math</Filter>
@@ -366,36 +333,6 @@
     <ClInclude Include="..\include\palleon\win32\Win32ResourceManager.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\Viewport.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\VertexBuffer.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Sprite.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\SceneNode.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Label.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\NinePatch.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Texture.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\TextureLoader.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\GraphicDevice.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Material.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\NinePatchButton.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
@@ -410,9 +347,6 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\Tween.h">
       <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Scene.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\resources\PvrImage.h">
       <Filter>Source Files\resources</Filter>
@@ -444,9 +378,6 @@
     <ClInclude Include="..\include\PalleonEngine.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\MeshProvider.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\resources\ResourceManager.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
@@ -459,26 +390,14 @@
     <ClInclude Include="..\include\palleon\IAnimation.h">
       <Filter>Source Files\animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\EmitterModifier.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\resources\FontDescriptor.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\InputManager.h">
       <Filter>Source Files\widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\RenderTarget.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\resources\Resource.h">
       <Filter>Source Files\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\SphereMesh.h">
-      <Filter>Source Files\graphics\Basic Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\EffectParameterBag.h">
-      <Filter>Source Files\graphics</Filter>
     </ClInclude>
     <ClInclude Include="Pch.h">
       <Filter>Source Files</Filter>
@@ -495,20 +414,101 @@
     <ClInclude Include="..\include\palleon\win32\Dx11RenderTarget.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\graphics\GenericEffect.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\win32\Dx11ShaderGenerator.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\PlatformDef.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Dx11GenericEffect.h">
+      <Filter>Source Files\win32\GenericEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Camera.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Color.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\CubeRenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Effect.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\EffectParameter.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\EffectParameterBag.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\EffectProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Emitter.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\EmitterModifier.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\GenericEffect.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\GraphicDevice.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Label.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Material.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Mesh.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\MeshProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\NinePatch.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\RenderTarget.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Scene.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\SceneNode.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\palleon\graphics\ShaderBuilder.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\win32\Dx11GenericEffect.h">
-      <Filter>Source Files\win32\GenericEffect</Filter>
+    <ClInclude Include="..\include\palleon\graphics\Sprite.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Texture.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\TextureLoader.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\VertexBuffer.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\Viewport.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\AxisMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\CubeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\ConeMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\SphereMesh.h">
+      <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
-#ifndef _WIDGET_H_
-#define _WIDGET_H_
+#pragma once
 
-#include "SceneNode.h"
+#include "graphics/SceneNode.h"
 #include "ILayoutable.h"
 
 namespace Palleon
@@ -29,5 +28,3 @@ namespace Palleon
 
 	typedef std::shared_ptr<CWidget> WidgetPtr;
 }
-
-#endif

@@ -5,8 +5,8 @@
 #include <string>
 #include "Types.h"
 #include "win32/ComPtr.h"
-#include "palleon/VertexBuffer.h"
-#include "palleon/Effect.h"
+#include "palleon/graphics/VertexBuffer.h"
+#include "palleon/graphics/Effect.h"
 
 namespace Palleon
 {

@@ -1,5 +1,5 @@
 #include "palleon/TextureAnimation.h"
-#include "palleon/Mesh.h"
+#include "palleon/graphics/Mesh.h"
 
 using namespace Palleon;
 

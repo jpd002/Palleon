@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Color.h"
+#include "palleon/Vector2.h"
+#include "palleon/Vector3.h"
+#include "palleon/graphics/Color.h"
 
 namespace Palleon
 {

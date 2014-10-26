@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../RenderTarget.h"
+#include "palleon/graphics/RenderTarget.h"
 
 namespace Palleon
 {

@@ -2,8 +2,8 @@
 
 #include <d3d11.h>
 #include <unordered_map>
-#include "palleon/GraphicDevice.h"
-#include "palleon/Mesh.h"
+#include "palleon/graphics/GraphicDevice.h"
+#include "palleon/graphics/Mesh.h"
 #include "palleon/win32/Dx11Effect.h"
 #include "win32/ComPtr.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Widget.h"
-#include "Label.h"
+#include "palleon/Widget.h"
+#include "palleon/graphics/Label.h"
 #include <boost/signals2.hpp>
 
 namespace Palleon

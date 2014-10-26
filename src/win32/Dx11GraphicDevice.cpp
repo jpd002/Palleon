@@ -5,8 +5,8 @@
 #include "palleon/win32/Dx11RenderTarget.h"
 #include "palleon/win32/Dx11UberEffectProvider.h"
 #include "palleon/win32/Dx11ShadowMapEffect.h"
-#include "palleon/Mesh.h"
-#include "palleon/MeshProvider.h"
+#include "palleon/graphics/Mesh.h"
+#include "palleon/graphics/MeshProvider.h"
 #include "palleon/MathOps.h"
 
 #define SHADOW_MAP_SIZE		2048

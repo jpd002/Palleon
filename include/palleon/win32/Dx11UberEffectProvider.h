@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "palleon/EffectProvider.h"
+#include "palleon/graphics/EffectProvider.h"
 #include "palleon/win32/Dx11Effect.h"
 
 namespace Palleon

@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
+#include "Sphere.h"
+#include "Ray.h"
 
 static CVector3 operator *(float lhs, const CVector3& rhs)
 {
@@ -49,4 +51,46 @@ static CVector4 operator *(const CMatrix4& lhs, const CVector4& rhs)
 	result.z = lhs(0, 2) * rhs.x + lhs(1, 2) * rhs.y + lhs(2, 2) * rhs.z + lhs(3, 2) * rhs.w;
 	result.w = lhs(0, 3) * rhs.x + lhs(1, 3) * rhs.y + lhs(2, 3) * rhs.z + lhs(3, 3) * rhs.w;
 	return result;
+}
+
+static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& ray)
+{
+	auto result = std::make_pair(false, CVector3(0, 0, 0));
+	auto vpc = sphere.position - ray.position;
+	if(vpc.Dot(ray.direction) < 0)
+	{
+		//Ray is pointing behind center (intersection still possible)
+		if(vpc.Length() > sphere.radius)
+		{
+			return result;
+		}
+	}
+	else
+	{
+		auto pc = ray.direction.Dot(vpc) * ray.direction;
+		auto opc = (sphere.position - pc);
+		if(opc.Length() > sphere.radius)
+		{
+			//Ray doesn't touch sphere
+			return result;
+		}
+
+		float dist = sqrt(sphere.radius * sphere.radius - opc.LengthSquared());
+
+		float d1 = 0;
+		if(vpc.Length() > sphere.radius)
+		{
+			//Origin outside sphere
+			d1 = opc.Length() - dist;
+		}
+		else
+		{
+			d1 = opc.Length() + dist;
+		}
+
+		result.first = true;
+		result.second = ray.position + ray.direction * d1;
+
+		return result;
+	}
 }

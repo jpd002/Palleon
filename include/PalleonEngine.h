@@ -23,22 +23,22 @@
 #include "palleon/resources/PvrImage.h"
 
 //Graphics
-#include "palleon/GraphicDevice.h"
+#include "palleon/graphics/GraphicDevice.h"
 
-#include "palleon/Mesh.h"
-#include "palleon/MeshProvider.h"
-#include "palleon/CubeMesh.h"
-#include "palleon/SphereMesh.h"
-#include "palleon/ConeMesh.h"
-#include "palleon/AxisMesh.h"
+#include "palleon/graphics/Mesh.h"
+#include "palleon/graphics/MeshProvider.h"
+#include "palleon/graphics/CubeMesh.h"
+#include "palleon/graphics/SphereMesh.h"
+#include "palleon/graphics/ConeMesh.h"
+#include "palleon/graphics/AxisMesh.h"
 
-#include "palleon/Label.h"
-#include "palleon/Sprite.h"
-#include "palleon/NinePatch.h"
-#include "palleon/Emitter.h"
-#include "palleon/EmitterModifier.h"
+#include "palleon/graphics/Label.h"
+#include "palleon/graphics/Sprite.h"
+#include "palleon/graphics/NinePatch.h"
+#include "palleon/graphics/Emitter.h"
+#include "palleon/graphics/EmitterModifier.h"
 
-#include "palleon/TextureLoader.h"
+#include "palleon/graphics/TextureLoader.h"
 
 #if defined(PALLEON_WIN32)
 #include "palleon/win32/Dx11GenericEffect.h"
@@ -63,7 +63,7 @@
 #include "palleon/AudioManager.h"
 
 //Scene
-#include "palleon/Scene.h"
+#include "palleon/graphics/Scene.h"
 #include "palleon/ParseUtils.h"
 
 #include "palleon/EmbedRemoteCall.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IAnimation.h"
-#include "Texture.h"
+#include "palleon/graphics/Texture.h"
 #include <vector>
 
 namespace Palleon

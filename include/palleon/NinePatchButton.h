@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ButtonBase.h"
-#include "NinePatch.h"
+#include "palleon/ButtonBase.h"
+#include "palleon/graphics/NinePatch.h"
 #include <boost/signals2.hpp>
 
 namespace Palleon

@@ -2,7 +2,7 @@
 #include "palleon/win32/Dx11UberEffectGenerator.h"
 #include "palleon/win32/Dx11VertexBuffer.h"
 #include "palleon/win32/Dx11UberEffect.h"
-#include "palleon/Mesh.h"
+#include "palleon/graphics/Mesh.h"
 
 using namespace Palleon;
 

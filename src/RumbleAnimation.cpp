@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "palleon/RumbleAnimation.h"
-#include "palleon/SceneNode.h"
+#include "palleon/graphics/SceneNode.h"
 #include "palleon/MathOps.h"
 
 using namespace Palleon;

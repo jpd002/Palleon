@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Material.h"
-#include "../Effect.h"
+#include "palleon/graphics/Material.h"
+#include "palleon/graphics/Effect.h"
 
 namespace Palleon
 {
