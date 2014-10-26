@@ -87,7 +87,11 @@ void CGlEsGraphicDevice::Draw()
 	//Make sure buffers don't leak somewhere else
 	if(m_hasVertexArrayObjects)
 	{
+#ifdef GL_ES_VERSION_3_0
+		glBindVertexArray(0);
+#else
 		glBindVertexArrayOES(0);
+#endif
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -315,7 +319,11 @@ void CGlEsGraphicDevice::DrawMesh(const VIEWPORT_PARAMS& viewportParams, CMesh* 
 	if(m_hasVertexArrayObjects)
 	{
 		GLuint vertexArray = vertexBufferGen->GetVertexArray();
+#ifdef GL_ES_VERSION_3_0
+		glBindVertexArray(vertexArray);
+#else
 		glBindVertexArrayOES(vertexArray);
+#endif
 		CHECKGLERROR();
 	}
 	else

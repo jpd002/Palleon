@@ -40,15 +40,27 @@ CGlEsVertexBuffer::CGlEsVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor,
 	//Create vertex array
 	if(useVertexArray)
 	{
+#ifdef GL_ES_VERSION_3_0
+		glGenVertexArrays(1, &m_vertexArray);
+#else
 		glGenVertexArraysOES(1, &m_vertexArray);
+#endif
 		CHECKGLERROR();
 		
+#ifdef GL_ES_VERSION_3_0
+		glBindVertexArray(m_vertexArray);
+#else
 		glBindVertexArrayOES(m_vertexArray);
+#endif
 		CHECKGLERROR();
 		
 		BindBuffers();
 		
+#ifdef GL_ES_VERSION_3_0
+		glBindVertexArray(0);
+#else
 		glBindVertexArrayOES(0);
+#endif
 	}
 }
 
@@ -56,7 +68,11 @@ CGlEsVertexBuffer::~CGlEsVertexBuffer()
 {
 	if(m_vertexArray != -1)
 	{
+#ifdef GL_ES_VERSION_3_0
+		glDeleteVertexArrays(1, &m_vertexArray);
+#else
 		glDeleteVertexArraysOES(1, &m_vertexArray);
+#endif
 	}
 	glDeleteBuffers(1, &m_vertexBuffer);
 	glDeleteBuffers(1, &m_indexBuffer);
