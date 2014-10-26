@@ -71,6 +71,7 @@ void CNinePatch::SetDescriptor(const CNinePatchDescriptor* descriptor)
 	assert(descriptor != nullptr);
 	m_descriptor = descriptor;
 	m_material->SetTexture(0, Palleon::CResourceManager::GetInstance().GetTexture(m_descriptor->GetTextureName()));
+	m_material->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_LERP);
 	m_status |= STATUS_VERTEXBUFFER_DIRTY;
 }
 
