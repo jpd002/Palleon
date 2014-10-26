@@ -12,13 +12,13 @@ void palleon_library_link()
 
 }
 
-void CAndroidActivity::Initialize(int width, int height)
+void CAndroidActivity::Initialize(int width, int height, float density)
 {
 	assert(!m_application);
 	
 	CAndroidLog::CreateInstance();
 	CAndroidResourceManager::CreateInstance();
-	CAndroidGraphicDevice::CreateInstance(width, height);
+	CAndroidGraphicDevice::CreateInstance(width, height, density);
 
 	m_application = CreateApplication();
 }
@@ -57,9 +57,9 @@ void CAndroidActivity::SetAssetManager(AAssetManager* assetManager)
 	m_assetManager = assetManager;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jint width, jint height)
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jint width, jint height, jfloat density)
 {
-	CAndroidActivity::GetInstance().Initialize(width, height);
+	CAndroidActivity::GetInstance().Initialize(width, height, density);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_update(JNIEnv* env, jobject obj)

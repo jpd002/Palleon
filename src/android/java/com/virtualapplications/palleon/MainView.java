@@ -3,10 +3,8 @@ package com.virtualapplications.palleon;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.util.*;
+import android.view.*;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -18,7 +16,8 @@ class MainView extends GLSurfaceView
 {
 	private static String TAG = "Palleon";
 	private static final boolean DEBUG = false;
-
+	private float _density = 1.0f;
+	
 	public MainView(Context context) 
 	{
 		super(context);
@@ -33,6 +32,11 @@ class MainView extends GLSurfaceView
 
 	private void init(boolean translucent, int depth, int stencil) 
 	{
+		WindowManager windowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics metrics = new DisplayMetrics();
+		windowManager.getDefaultDisplay().getMetrics(metrics);
+		_density = metrics.density;
+	
 		/* By default, GLSurfaceView() creates a RGB_565 opaque surface.
 		 * If we want a translucent one, we should change the surface's
 		 * format here, using PixelFormat.TRANSLUCENT for GL Surfaces
@@ -49,7 +53,7 @@ class MainView extends GLSurfaceView
 							 new ConfigChooser(8, 8, 8, 8, depth, stencil) :
 							 new ConfigChooser(5, 6, 5, 0, depth, stencil) );
 
-		setRenderer(new Renderer());
+		setRenderer(new Renderer(_density));
 	}
 
 	private static class ContextFactory implements GLSurfaceView.EGLContextFactory 
@@ -287,6 +291,13 @@ class MainView extends GLSurfaceView
 
 	private static class Renderer implements GLSurfaceView.Renderer 
 	{
+		private float _density;
+		
+		public Renderer(float density)
+		{
+			_density = density;
+		}
+		
 		@Override public void onDrawFrame(GL10 gl) 
 		{
 			NativeInterop.update();
@@ -294,7 +305,9 @@ class MainView extends GLSurfaceView
 
 		@Override public void onSurfaceChanged(GL10 gl, int width, int height) 
 		{
-			NativeInterop.initialize(width, height);
+			int scaledWidth = (int)((float)width / _density);
+			int scaledHeight = (int)((float)height / _density);
+			NativeInterop.initialize(scaledWidth, scaledHeight, _density);
 		}
 
 		@Override public void onSurfaceCreated(GL10 gl, EGLConfig config) 
@@ -308,8 +321,8 @@ class MainView extends GLSurfaceView
 		int action = event.getActionMasked();
 		int pointerIndex = event.getActionIndex();
 		int pointerId = event.getPointerId(pointerIndex);
-		float x = event.getX(pointerIndex);
-		float y = event.getY(pointerIndex);
+		float x = event.getX(pointerIndex) / _density;
+		float y = event.getY(pointerIndex) / _density;
 		switch(action)
 		{
 		case MotionEvent.ACTION_DOWN:

@@ -9,7 +9,7 @@ public class NativeInterop
 		 System.loadLibrary("PalleonApplication");
 	 }
 
-	 public static native void initialize(int width, int height);
+	 public static native void initialize(int width, int height, float density);
 	 public static native void update();
 	 public static native void setAssetManager(AssetManager assetManager);
 	 

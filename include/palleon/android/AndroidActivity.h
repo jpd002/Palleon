@@ -9,7 +9,7 @@ namespace Palleon
 	class CAndroidActivity : public CSingleton<CAndroidActivity>
 	{
 	public:
-		void					Initialize(int, int);
+		void					Initialize(int, int, float);
 		void					Update();
 		
 		AAssetManager*			GetAssetManager() const;

@@ -7,10 +7,10 @@ namespace Palleon
 	class CAndroidGraphicDevice : public CGlEsGraphicDevice
 	{
 	public:
-		static void						CreateInstance(int, int);
+		static void						CreateInstance(int, int, float);
 		
 	private:
-										CAndroidGraphicDevice(int, int);
+										CAndroidGraphicDevice(int, int, float);
 		virtual							~CAndroidGraphicDevice();
 	};
 }
