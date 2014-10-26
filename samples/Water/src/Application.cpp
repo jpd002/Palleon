@@ -124,8 +124,10 @@ void CApplication::CreateScene()
 
 void CApplication::CreateSky()
 {
-	auto skyTexturePath = Palleon::CResourceManager::GetInstance().MakeResourcePath("global/skybox.dds");
-	m_skyTexture = Palleon::CTextureLoader::CreateCubeTextureFromFile(skyTexturePath);
+	{
+		auto skyTextureStream = Palleon::CResourceManager::GetInstance().MakeResourceStream("global/skybox.dds");
+		m_skyTexture = Palleon::CTextureLoader::CreateCubeTextureFromStream(*skyTextureStream.get());
+	}
 
 	{
 		auto viewport = Palleon::CViewport::Create();
