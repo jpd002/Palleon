@@ -49,6 +49,7 @@ EffectProviderPtr CGraphicDevice::GetDefaultEffectProvider() const
 
 void CGraphicDevice::AddViewport(CViewport* viewport)
 {
+	assert(viewport != nullptr);
 	assert(std::find(std::begin(m_viewports), std::end(m_viewports), viewport) == std::end(m_viewports));
 	m_viewports.push_back(viewport);
 }
