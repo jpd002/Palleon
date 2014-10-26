@@ -17,13 +17,18 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/CubeMesh.cpp \
 						../../src/EffectParameter.cpp \
 						../../src/gles/GlEsEffect.cpp \
+						../../src/gles/GlEsGenericEffect.cpp \
 						../../src/gles/GlEsGraphicDevice.cpp \
+						../../src/gles/GlEsShaderGenerator.cpp \
 						../../src/gles/GlEsShadowMapEffect.cpp \
 						../../src/gles/GlEsTexture.cpp \
+						../../src/gles/GlEsRenderTarget.cpp \
 						../../src/gles/GlEsUberEffect.cpp \
 						../../src/gles/GlEsUberEffectGenerator.cpp \
 						../../src/gles/GlEsUberEffectProvider.cpp \
 						../../src/gles/GlEsVertexBuffer.cpp \
+						../../src/graphics/GenericEffect.cpp \
+						../../src/graphics/ShaderBuilder.cpp \
 						../../src/GraphicDevice.cpp \
 						../../src/InputManager.cpp \
 						../../src/Label.cpp \
@@ -34,6 +39,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/NinePatch.cpp \
 						../../src/NinePatchButton.cpp \
 						../../src/ParseUtils.cpp \
+						../../src/RenderTarget.cpp \
 						../../src/resources/DdsImage.cpp \
 						../../src/resources/EmitterDescriptor.cpp \
 						../../src/resources/FontDescriptor.cpp \
