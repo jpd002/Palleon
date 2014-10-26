@@ -3,6 +3,8 @@
 using namespace Palleon;
 
 CCamera::CCamera()
+: m_viewMatrix(CMatrix4::MakeIdentity())
+, m_projMatrix(CMatrix4::MakeIdentity())
 {
 
 }
@@ -14,7 +16,7 @@ CCamera::~CCamera()
 
 CameraPtr CCamera::Create()
 {
-	return CameraPtr(new CCamera());
+	return std::make_shared<CCamera>();
 }
 
 void CCamera::SetupOrthoCamera(float width, float height)
