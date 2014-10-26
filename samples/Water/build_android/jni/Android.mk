@@ -22,9 +22,6 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE			:= libPalleonApplication
 LOCAL_SRC_FILES			:=	../../src/Application.cpp \
-							../../src/PlatformEffect.cpp \
-							../../src/GlEsShaderGenerator.cpp \
-							../../src/ShaderBuilder.cpp \
 							../../src/TouchFreeCamera.cpp \
 							../../src/WaterEffect.cpp \
 							../../src/WaterEffectProvider.cpp
