@@ -6,14 +6,14 @@ using namespace Palleon;
 
 CGlEsEffect::CGlEsEffect()
 {
-	
+
 }
 
 CGlEsEffect::~CGlEsEffect()
 {
 	if(m_program != -1)
 	{
-		glDeleteProgram(m_program);		
+		glDeleteProgram(m_program);
 	}
 }
 
@@ -80,10 +80,10 @@ GLuint CGlEsEffect::CompileShader(const char* shaderSource, GLenum shaderType)
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
 	if(logLength > 0)
 	{
-		GLchar *log = new GLchar[logLength];
+		GLchar* log = new GLchar[logLength];
 		glGetShaderInfoLog(shader, logLength, &logLength, log);
-		Palleon::CLog::GetInstance().Print("Failed to compile shader:\n%s", shaderSource);
-		Palleon::CLog::GetInstance().Print("Shader compile log:\n%s", log);
+		CLog::GetInstance().Print("Failed to compile shader:\n%s", shaderSource);
+		CLog::GetInstance().Print("Shader compile log:\n%s", log);
 		delete [] log;
 	}
 #endif
@@ -106,9 +106,9 @@ void CGlEsEffect::DumpProgramLog(GLuint program)
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
 	if (logLength > 0)
 	{
-		GLchar *log = new GLchar[logLength];
+		GLchar* log = new GLchar[logLength];
 		glGetProgramInfoLog(program, logLength, &logLength, log);
-		Palleon::CLog::GetInstance().Print("Program link log:\n%s", log);
+		CLog::GetInstance().Print("Program link log:\n%s", log);
 		delete [] log;
 	}
 #endif

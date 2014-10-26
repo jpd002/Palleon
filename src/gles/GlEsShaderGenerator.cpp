@@ -1,4 +1,4 @@
-#include "GlEsShaderGenerator.h"
+#include "palleon/gles/GlEsShaderGenerator.h"
 #include "string_format.h"
 
 using namespace Palleon;
