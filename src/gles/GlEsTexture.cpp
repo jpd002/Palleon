@@ -110,7 +110,7 @@ void CGlEsTexture::UpdateTarget(GLenum bindTarget, GLenum texImageTarget, const 
 			internalFormat = GL_RGBA;
 			format = GL_RGBA;
 			break;
-		case TEXTURE_FORMAT_BGRA8888:			
+		case TEXTURE_FORMAT_BGRA8888:
 #ifdef GL_BGRA		//Only supported on iOS
 			internalFormat = GL_RGBA;
 			format = GL_BGRA;
@@ -122,16 +122,18 @@ void CGlEsTexture::UpdateTarget(GLenum bindTarget, GLenum texImageTarget, const 
 			data = decodedTexture.data();
 			break;
 #endif
+#ifdef GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG
 		case TEXTURE_FORMAT_PVRTC4:
 			internalFormat = GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG;
 			useCompressed = true;
 			imageSize = (m_width * m_height) / 2;
 			break;
+#endif
 		case TEXTURE_FORMAT_DXT1:
 			internalFormat = GL_RGB;
 			format = GL_RGB;
 			decodedTexture = CTextureConverters::Dxt1ToRgb(m_width, m_height, data);
-			data = decodedTexture.data();			
+			data = decodedTexture.data();
 			break;
 		default:
 			assert(0);
