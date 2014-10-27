@@ -293,6 +293,19 @@ CShaderBuilder::SYMBOLREF_FLOAT4 CShaderBuilder::CreateConstant(float v1, float 
 	return ref;
 }
 
+CShaderBuilder::SYMBOLREF_FLOAT CShaderBuilder::CreateUniformFloat(const std::string& name)
+{
+	SYMBOL sym;
+	sym.index		= m_currentTempIndex++;
+	sym.type		= SYMBOL_TYPE_FLOAT;
+	sym.location	= SYMBOL_LOCATION_UNIFORM;
+	m_symbols.push_back(sym);
+
+	m_uniformNames.insert(std::make_pair(sym.index, name));
+
+	return SYMBOLREF_FLOAT(sym, SWIZZLE_X);
+}
+
 CShaderBuilder::SYMBOLREF_FLOAT3 CShaderBuilder::CreateUniformFloat3(const std::string& name)
 {
 	SYMBOL sym;
@@ -375,14 +388,6 @@ CShaderBuilder::SYMBOLREF_FLOAT CShaderBuilder::Negate(const SYMBOLREF_FLOAT& sr
 	m_statements.push_back(statement);
 
 	return result;
-}
-
-CShaderBuilder::SYMBOLREF_FLOAT CShaderBuilder::SwizzleFloat(const SYMBOLREF_FLOAT4& src1, SWIZZLE_TYPE swizzle)
-{
-	SYMBOLREF_FLOAT ref;
-	ref.symbol = src1.symbol;
-	ref.swizzle = swizzle;
-	return ref;
 }
 
 CShaderBuilder::SYMBOLREF_FLOAT3 CShaderBuilder::SwizzleFloat3(const SYMBOLREF_FLOAT4& src1, SWIZZLE_TYPE swizzle)

@@ -80,6 +80,17 @@ namespace Palleon
 
 		struct SYMBOLREF_FLOAT
 		{
+			SYMBOLREF_FLOAT()
+			{
+		
+			}
+
+			SYMBOLREF_FLOAT(const SYMBOL& symbol, SWIZZLE_TYPE swizzle)
+				: symbol(symbol), swizzle(swizzle)
+			{
+		
+			}
+
 			SYMBOL			symbol;
 			SWIZZLE_TYPE	swizzle = SWIZZLE_X;
 		};
@@ -168,6 +179,7 @@ namespace Palleon
 			STATEMENT_OP_NEGATE,
 			STATEMENT_OP_SATURATE,
 			STATEMENT_OP_NORMALIZE,
+			STATEMENT_OP_LENGTH,
 			STATEMENT_OP_SAMPLE,
 		};
 
@@ -254,6 +266,7 @@ namespace Palleon
 		SYMBOLREF_FLOAT3		CreateTempFloat3();
 		SYMBOLREF_FLOAT4		CreateTempFloat4();
 
+		SYMBOLREF_FLOAT			CreateUniformFloat(const std::string&);
 		SYMBOLREF_FLOAT3		CreateUniformFloat3(const std::string&);
 		SYMBOLREF_MATRIX		CreateUniformMatrix(const std::string&);
 
@@ -345,9 +358,24 @@ namespace Palleon
 			return dst;
 		}
 
+		template <typename SymbolRefType>
+		SYMBOLREF_FLOAT Length(const SymbolRefType& src1)
+		{
+			auto dst = CreateTempFloat();
+			m_statements.push_back(STATEMENT(STATEMENT_OP_LENGTH, dst, src1));
+			return dst;
+		}
+
 		SYMBOLREF_FLOAT4		Sample(const SYMBOLREF&, const SYMBOLREF_FLOAT2&);
 
-		SYMBOLREF_FLOAT			SwizzleFloat(const SYMBOLREF_FLOAT4&, SWIZZLE_TYPE);
+		template <typename SymbolRefType>
+		SYMBOLREF_FLOAT SwizzleFloat(const SymbolRefType& src1, SWIZZLE_TYPE swizzle)
+		{
+			SYMBOLREF_FLOAT ref;
+			ref.symbol = src1.symbol;
+			ref.swizzle = swizzle;
+			return ref;
+		}
 
 		template <typename SymbolRefType>
 		SYMBOLREF_FLOAT2 SwizzleFloat2(const SymbolRefType& src1, SWIZZLE_TYPE swizzle)

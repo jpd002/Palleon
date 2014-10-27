@@ -161,6 +161,11 @@ std::string CDx11ShaderGenerator::Generate(const std::string& methodName) const
 				PrintSymbolRef(dstRef).c_str(),
 				PrintSymbolRef(src1Ref).c_str());
 			break;
+		case CShaderBuilder::STATEMENT_OP_LENGTH:
+			result += string_format("\t%s = length(%s);\r\n",
+				PrintSymbolRef(dstRef).c_str(),
+				PrintSymbolRef(src1Ref).c_str());
+			break;
 		case CShaderBuilder::STATEMENT_OP_SAMPLE:
 			result += string_format("\t%s = c_texture%d.Sample(c_sampler%d, %s);\r\n",
 				PrintSymbolRef(dstRef).c_str(),
@@ -338,6 +343,9 @@ std::string CDx11ShaderGenerator::PrintSymbolRef(const CShaderBuilder::SYMBOLREF
 		break;
 	case SWIZZLE_Y:
 		return symbolName + ".y";
+		break;
+	case SWIZZLE_Z:
+		return symbolName + ".z";
 		break;
 	case SWIZZLE_W:
 		return symbolName + ".w";

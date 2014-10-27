@@ -9,7 +9,7 @@ namespace Palleon
 	class CDx11GenericEffect : public CDx11Effect, public CGenericEffect
 	{
 	public:
-								CDx11GenericEffect(CShaderBuilder&, CShaderBuilder&);
+								CDx11GenericEffect(const EffectInputBindingArray&, const CShaderBuilder&, const CShaderBuilder&);
 		virtual					~CDx11GenericEffect();
 
 	protected:
@@ -26,7 +26,10 @@ namespace Palleon
 		D3D11InputLayoutPtr		CreateInputLayout(const Palleon::VERTEX_BUFFER_DESCRIPTOR&) override;
 
 		UniformOffsetMap		m_vertexUniformOffsets;
-		uint8*					m_constantBufferPtr = nullptr;
+		UniformOffsetMap		m_pixelUniformOffsets;
+		uint8*					m_vertexConstantBufferPtr = nullptr;
+		uint8*					m_pixelConstantBufferPtr = nullptr;
+		EffectInputBindingArray	m_inputBindings;
 	};
 
 	typedef CDx11GenericEffect CPlatformGenericEffect;
