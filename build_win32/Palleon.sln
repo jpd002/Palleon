@@ -36,6 +36,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PalleonEmbedClient", "Palle
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Water", "..\samples\Water\build_win32\Water.vcxproj", "{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GodRays", "..\samples\GodRays\build_win32\GodRays.vcxproj", "{B85C478E-E518-4B3D-882B-9B44995A8A68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -114,6 +116,12 @@ Global
 		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|Win32.ActiveCfg = Release|Win32
 		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|Win32.Build.0 = Release|Win32
 		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9}.Release|x64.ActiveCfg = Release|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Debug|Win32.Build.0 = Debug|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Debug|x64.ActiveCfg = Debug|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Release|Win32.ActiveCfg = Release|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Release|Win32.Build.0 = Release|Win32
+		{B85C478E-E518-4B3D-882B-9B44995A8A68}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,5 +134,6 @@ Global
 		{5022B341-B9F9-4444-A4A7-14EA603E413F} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 		{C9690CE4-30CA-4285-8EB2-97D107CCF960} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 		{5A279806-8A68-4F81-B5FD-3EED1B2FB3F9} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
+		{B85C478E-E518-4B3D-882B-9B44995A8A68} = {0567878D-1785-4B68-A9A4-9654996BE6D1}
 	EndGlobalSection
 EndGlobal
