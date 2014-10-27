@@ -1,16 +1,20 @@
 #include "WaterEffect.h"
 
-static const char* g_cameraPositionUniformName = "c_cameraPosition";
-static const char* g_reflectViewProjMatrix = "c_reflectViewProjMatrix";
+static const char* g_cameraPositionUniformName = "v_cameraPosition";
+static const char* g_reflectViewProjMatrix = "v_reflectViewProjMatrix";
 
 CWaterEffect::CWaterEffect()
-: Palleon::CPlatformGenericEffect(CreateVertexShader(), CreatePixelShader())
+: Palleon::CPlatformGenericEffect(CreateInputBindings(), CreateVertexShader(), CreatePixelShader())
 {
-//	AttributeBindingArray attributeBindings;
-//	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position"));
-//	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV0, "a_texCoord0"));
-//	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_UV1, "a_texCoord1"));
-//	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_COLOR, "a_color"));
+
+}
+
+Palleon::EffectInputBindingArray CWaterEffect::CreateInputBindings()
+{
+	Palleon::EffectInputBindingArray inputBindings;
+	inputBindings.push_back(Palleon::EFFECTINPUTBINDING(Palleon::VERTEX_ITEM_ID_POSITION,	Palleon::SEMANTIC_POSITION, 0));
+	inputBindings.push_back(Palleon::EFFECTINPUTBINDING(Palleon::VERTEX_ITEM_ID_UV0,		Palleon::SEMANTIC_TEXCOORD, 0));
+	return inputBindings;
 }
 
 void CWaterEffect::UpdateSpecificConstants(const Palleon::VIEWPORT_PARAMS& viewportParams, Palleon::CMaterial* material, const CMatrix4& worldMatrix)

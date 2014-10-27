@@ -10,6 +10,7 @@ public:
 	void			UpdateSpecificConstants(const Palleon::VIEWPORT_PARAMS&, Palleon::CMaterial*, const CMatrix4&) override;
 
 private:
-	static Palleon::CShaderBuilder	CreateVertexShader();
-	static Palleon::CShaderBuilder	CreatePixelShader();
+	static Palleon::EffectInputBindingArray		CreateInputBindings();
+	static Palleon::CShaderBuilder				CreateVertexShader();
+	static Palleon::CShaderBuilder				CreatePixelShader();
 };
