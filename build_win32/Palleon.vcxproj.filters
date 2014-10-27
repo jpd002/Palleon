@@ -510,5 +510,8 @@
     <ClInclude Include="..\include\palleon\graphics\SphereMesh.h">
       <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\palleon\graphics\GenericEffectProvider.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

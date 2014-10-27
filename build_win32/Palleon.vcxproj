@@ -132,6 +132,7 @@
     <ClInclude Include="..\include\palleon\graphics\Emitter.h" />
     <ClInclude Include="..\include\palleon\graphics\EmitterModifier.h" />
     <ClInclude Include="..\include\palleon\graphics\GenericEffect.h" />
+    <ClInclude Include="..\include\palleon\graphics\GenericEffectProvider.h" />
     <ClInclude Include="..\include\palleon\graphics\GraphicDevice.h" />
     <ClInclude Include="..\include\palleon\graphics\Label.h" />
     <ClInclude Include="..\include\palleon\graphics\Material.h" />
