@@ -46,6 +46,7 @@
 #if defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
 #include "palleon/gles/GlEsGenericEffect.h"
 #endif
+#include "palleon/graphics/GenericEffectProvider.h"
 
 //Animation
 #include "palleon/IAnimation.h"
