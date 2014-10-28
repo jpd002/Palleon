@@ -1,6 +1,6 @@
 #pragma once
 
-#include "palleon/EffectProvider.h"
+#include "palleon/graphics/EffectProvider.h"
 
 namespace Palleon
 {

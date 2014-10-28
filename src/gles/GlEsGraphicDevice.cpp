@@ -5,8 +5,8 @@
 #include "palleon/gles/GlEsEffect.h"
 #include "palleon/gles/GlEsUberEffectProvider.h"
 #include "palleon/gles/GlEsShadowMapEffect.h"
-#include "palleon/Mesh.h"
-#include "palleon/MeshProvider.h"
+#include "palleon/graphics/Mesh.h"
+#include "palleon/graphics/MeshProvider.h"
 #include "palleon/Log.h"
 
 #define SHADOW_MAP_SIZE (1024)

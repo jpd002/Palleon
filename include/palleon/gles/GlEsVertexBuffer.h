@@ -1,6 +1,6 @@
 #pragma once
 
-#include "palleon/VertexBuffer.h"
+#include "palleon/graphics/VertexBuffer.h"
 #include "OpenGlEsDefs.h"
 
 namespace Palleon

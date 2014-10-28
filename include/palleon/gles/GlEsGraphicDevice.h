@@ -2,8 +2,8 @@
 
 #include <vector>
 #include "OpenGlEsDefs.h"
-#include "palleon/GraphicDevice.h"
-#include "palleon/Mesh.h"
+#include "palleon/graphics/GraphicDevice.h"
+#include "palleon/graphics/Mesh.h"
 #include "palleon/gles/GlEsEffect.h"
 
 namespace Palleon

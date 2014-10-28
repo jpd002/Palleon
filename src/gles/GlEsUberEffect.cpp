@@ -1,5 +1,5 @@
 #include "palleon/gles/GlEsUberEffect.h"
-#include "palleon/VertexBuffer.h"
+#include "palleon/graphics/VertexBuffer.h"
 
 using namespace Palleon;
 

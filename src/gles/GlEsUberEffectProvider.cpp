@@ -1,4 +1,4 @@
-#include "palleon/Mesh.h"
+#include "palleon/graphics/Mesh.h"
 #include "palleon/gles/GlEsUberEffectProvider.h"
 #include "palleon/gles/GlEsUberEffect.h"
 

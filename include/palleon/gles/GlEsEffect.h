@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "palleon/Effect.h"
+#include "palleon/graphics/Effect.h"
 #include "palleon/gles/OpenGlEsDefs.h"
 
 namespace Palleon

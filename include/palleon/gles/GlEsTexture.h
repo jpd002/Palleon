@@ -2,7 +2,7 @@
 
 #include <string>
 #include "Types.h"
-#include "palleon/Texture.h"
+#include "palleon/graphics/Texture.h"
 #include "OpenGlEsDefs.h"
 
 namespace Palleon
