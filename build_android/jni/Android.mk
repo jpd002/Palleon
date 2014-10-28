@@ -13,9 +13,6 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/android/AndroidResourceManager.cpp \
 						../../src/Box2.cpp \
 						../../src/ButtonBase.cpp \
-						../../src/Camera.cpp \
-						../../src/CubeMesh.cpp \
-						../../src/EffectParameter.cpp \
 						../../src/gles/GlEsEffect.cpp \
 						../../src/gles/GlEsGenericEffect.cpp \
 						../../src/gles/GlEsGraphicDevice.cpp \
@@ -27,19 +24,30 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/gles/GlEsUberEffectGenerator.cpp \
 						../../src/gles/GlEsUberEffectProvider.cpp \
 						../../src/gles/GlEsVertexBuffer.cpp \
+						../../src/graphics/Camera.cpp \
+						../../src/graphics/CubeMesh.cpp \
+						../../src/graphics/EffectParameter.cpp \
 						../../src/graphics/GenericEffect.cpp \
+						../../src/graphics/GraphicDevice.cpp \
+						../../src/graphics/Material.cpp \
+						../../src/graphics/Mesh.cpp \
+						../../src/graphics/NinePatch.cpp \
+						../../src/graphics/RenderTarget.cpp \
+						../../src/graphics/Scene.cpp \
+						../../src/graphics/SceneNode.cpp \
 						../../src/graphics/ShaderBuilder.cpp \
-						../../src/GraphicDevice.cpp \
+						../../src/graphics/SphereMesh.cpp \
+						../../src/graphics/Sprite.cpp \
+						../../src/graphics/Texture.cpp \
+						../../src/graphics/TextureLoader.cpp \
+						../../src/graphics/VertexBuffer.cpp \
+						../../src/graphics/Viewport.cpp \
 						../../src/InputManager.cpp \
-						../../src/Label.cpp \
+						../../src/graphics/Label.cpp \
 						../../src/LayoutNode.cpp \
 						../../src/Log.cpp \
-						../../src/Material.cpp \
-						../../src/Mesh.cpp \
-						../../src/NinePatch.cpp \
 						../../src/NinePatchButton.cpp \
 						../../src/ParseUtils.cpp \
-						../../src/RenderTarget.cpp \
 						../../src/resources/DdsImage.cpp \
 						../../src/resources/EmitterDescriptor.cpp \
 						../../src/resources/FontDescriptor.cpp \
@@ -49,15 +57,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/resources/ResourceManager.cpp \
 						../../src/resources/TextureConverters.cpp \
 						../../src/resources/TextureResource.cpp \
-						../../src/Scene.cpp \
-						../../src/SceneNode.cpp \
-						../../src/SphereMesh.cpp \
-						../../src/Sprite.cpp \
 						../../src/SpriteButton.cpp \
-						../../src/Texture.cpp \
-						../../src/TextureLoader.cpp \
-						../../src/VertexBuffer.cpp \
-						../../src/Viewport.cpp \
 						../../src/Widget.cpp
 LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
