@@ -4,7 +4,7 @@
 
 using namespace Palleon;
 
-CGlEsGenericEffect::CGlEsGenericEffect(const CShaderBuilder& vertexShader, const CShaderBuilder& pixelShader)
+CGlEsGenericEffect::CGlEsGenericEffect(const EffectInputBindingArray&, const CShaderBuilder& vertexShader, const CShaderBuilder& pixelShader)
 {
 	AttributeBindingArray attributeBindings;
 	attributeBindings.push_back(std::make_pair(VERTEX_ITEM_ID_POSITION, "a_position0"));
@@ -27,7 +27,17 @@ CGlEsGenericEffect::CGlEsGenericEffect(const CShaderBuilder& vertexShader, const
 		auto location = glGetUniformLocation(m_program, uniformName.c_str());
 		//TODO: Look for error value
 		assert(location != -1);
-		m_vertexUniformLocations[uniformName] = location;
+		m_uniformLocations[uniformName] = location;
+	}
+
+	for(const auto& symbol : pixelShader.GetSymbols())
+	{
+		if(symbol.location != CShaderBuilder::SYMBOL_LOCATION_UNIFORM) continue;
+		auto uniformName = pixelShader.GetUniformName(symbol);
+		auto location = glGetUniformLocation(m_program, uniformName.c_str());
+		//TODO: Look for error value
+		assert(location != -1);
+		m_uniformLocations[uniformName] = location;
 	}
 	
 	m_sampler0Location = glGetUniformLocation(m_program, "c_sampler0");
@@ -54,8 +64,8 @@ void CGlEsGenericEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, 
 
 void CGlEsGenericEffect::SetConstant(const std::string& name, const CMatrix4& matrix)
 {
-	auto constantLocationIterator = m_vertexUniformLocations.find(name);
-	if(constantLocationIterator == std::end(m_vertexUniformLocations))
+	auto constantLocationIterator = m_uniformLocations.find(name);
+	if(constantLocationIterator == std::end(m_uniformLocations))
 	{
 		return;
 	}
@@ -66,8 +76,8 @@ void CGlEsGenericEffect::SetConstant(const std::string& name, const CMatrix4& ma
 
 void CGlEsGenericEffect::SetConstant(const std::string& name, const CEffectParameter& param)
 {
-	auto constantLocationIterator = m_vertexUniformLocations.find(name);
-	if(constantLocationIterator == std::end(m_vertexUniformLocations))
+	auto constantLocationIterator = m_uniformLocations.find(name);
+	if(constantLocationIterator == std::end(m_uniformLocations))
 	{
 		return;
 	}

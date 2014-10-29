@@ -10,7 +10,7 @@ namespace Palleon
 	class CGlEsGenericEffect : public CGlEsEffect, public CGenericEffect
 	{
 	public:
-								CGlEsGenericEffect(const CShaderBuilder&, const CShaderBuilder&);
+								CGlEsGenericEffect(const EffectInputBindingArray&, const CShaderBuilder&, const CShaderBuilder&);
 		virtual					~CGlEsGenericEffect();
 
 	protected:
@@ -21,7 +21,7 @@ namespace Palleon
 	private:
 		typedef std::map<std::string, GLuint> UniformLocationMap;
 
-		UniformLocationMap		m_vertexUniformLocations;
+		UniformLocationMap		m_uniformLocations;
 		GLuint					m_sampler0Location = -1;
 		GLuint					m_sampler1Location = -1;
 		GLuint					m_sampler2Location = -1;

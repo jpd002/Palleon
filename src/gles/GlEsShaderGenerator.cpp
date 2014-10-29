@@ -153,6 +153,11 @@ std::string CGlEsShaderGenerator::Generate() const
 				PrintSymbolRef(dstRef).c_str(),
 				PrintSymbolRef(src1Ref).c_str());
 			break;
+		case CShaderBuilder::STATEMENT_OP_LENGTH:
+			result += string_format("\t%s = length(%s);\r\n",
+				PrintSymbolRef(dstRef).c_str(),
+				PrintSymbolRef(src1Ref).c_str());
+			break;
 		case CShaderBuilder::STATEMENT_OP_SAMPLE:
 			assert(src1Ref.symbol.location == CShaderBuilder::SYMBOL_LOCATION_TEXTURE);
 			result += string_format("\t%s = texture2D(c_sampler%d, %s);\r\n",
