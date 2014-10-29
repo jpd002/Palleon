@@ -1,5 +1,6 @@
 #include "FullscreenQuad.h"
 #include "palleon/graphics/GraphicDevice.h"
+#include "palleon/PlatformDef.h"
 
 using namespace Palleon;
 
@@ -10,7 +11,7 @@ static const int g_vertexCount = 3;
 static const float s_positions[g_vertexCount * 3] =
 {
 	 3, -1, 0,
- 	-1, -1, 0,
+	-1, -1, 0,
 	-1,  3, 0,
 };
 
@@ -18,9 +19,15 @@ static const float s_positions[g_vertexCount * 3] =
 //v = 1 - (id % 2) * 2
 static const float s_texCoords[g_vertexCount * 2] =
 {
+#if defined(PALLEON_WIN32)
 	2,  1,
 	0,  1,
 	0, -1,
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+	2,  0,
+	0,  0,
+	0,  2,
+#endif
 };
 
 CFullscreenQuad::CFullscreenQuad()
