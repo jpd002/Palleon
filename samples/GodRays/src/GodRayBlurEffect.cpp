@@ -80,7 +80,7 @@ Palleon::CShaderBuilder CGodRayBlurEffect::CreatePixelShader()
 	{
 		texColors[i] = b.Sample(texture, texCoords[i]);
 		texColors[i] = b.Multiply(texColors[i], b.NewFloat4(illuminationDecay, illuminationDecay, illuminationDecay, illuminationDecay));
-		illuminationDecay = b.Multiply(illuminationDecay, b.CreateConstant(0.85f));
+		illuminationDecay = b.Multiply(illuminationDecay, b.CreateConstant(0.835f));
 	}
 
 	auto colorSum = texColors[0];

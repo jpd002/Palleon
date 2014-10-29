@@ -18,13 +18,13 @@ CApplication::CApplication()
 	m_godRayBlurEffectProvider = std::make_shared<Palleon::CGenericEffectProvider<CGodRayBlurEffect>>();
 	m_godRayCompositeEffectProvider = std::make_shared<Palleon::CGenericEffectProvider<CGodRayCompositeEffect>>();
 
-	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScreenSize();
-	auto scaledScreenSize = screenSize / 4.f;
+	auto screenSize = Palleon::CGraphicDevice::GetInstance().GetScaledScreenSize();
+	auto postScreenSize = screenSize / 4.f;
 
 	m_sceneRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, screenSize.x, screenSize.y);
-	m_unblurredRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, scaledScreenSize.x, scaledScreenSize.y);
-	m_blurredRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, scaledScreenSize.x, scaledScreenSize.y);
-	m_finalRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, scaledScreenSize.x, scaledScreenSize.y);
+	m_unblurredRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, postScreenSize.x, postScreenSize.y);
+	m_blurredRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, postScreenSize.x, postScreenSize.y);
+	m_finalRenderTarget = Palleon::CGraphicDevice::GetInstance().CreateRenderTarget(Palleon::TEXTURE_FORMAT_BGRA8888, postScreenSize.x, postScreenSize.y);
 
 	CreateScene();
 	CreatePostProcess();
@@ -174,14 +174,17 @@ void CApplication::Update(float dt)
 	auto worldViewProjMatrix = m_lightNode->GetWorldTransformation() * m_sceneCamera->GetViewMatrix() * m_sceneCamera->GetProjectionMatrix();
 	auto screenLightPos = worldViewProjMatrix * CVector4(0, 0, 0, 1);
 	auto normalizedLightPos = screenLightPos.xyz() / screenLightPos.w;
+#if defined(PALLEON_WIN32)
 	auto texLightPos = (CVector3(normalizedLightPos.x, -normalizedLightPos.y, normalizedLightPos.z) / 2.f) + CVector3(0.5f, 0.5f, 0.5f);
-
+#elif defined(PALLEON_IOS) || defined(PALLEON_ANDROID)
+	auto texLightPos = (CVector3(normalizedLightPos.x, normalizedLightPos.y, normalizedLightPos.z) / 2.f) + CVector3(0.5f, 0.5f, 0.5f);
+#endif
 	{
 		m_blurredRenderTarget->Clear();
 
 		m_postProcessMesh->SetEffectProvider(m_godRayBlurEffectProvider);
 		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_screenLightPosUniformName, Palleon::CEffectParameter(texLightPos));
-		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.50f));
+		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.25f));
 		m_postProcessMesh->GetMaterial()->SetTexture(0, m_unblurredRenderTarget);
 		m_postProcessMesh->GetMaterial()->SetTexture(1, Palleon::TexturePtr());
 		m_postProcessMesh->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_NONE);
@@ -190,7 +193,7 @@ void CApplication::Update(float dt)
 
 		m_postProcessMesh->SetEffectProvider(m_godRayBlurEffectProvider);
 		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_screenLightPosUniformName, Palleon::CEffectParameter(texLightPos));
-		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.75f));
+		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.50f));
 		m_postProcessMesh->GetMaterial()->SetTexture(0, m_unblurredRenderTarget);
 		m_postProcessMesh->GetMaterial()->SetTexture(1, Palleon::TexturePtr());
 		m_postProcessMesh->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_ADD);
@@ -203,7 +206,7 @@ void CApplication::Update(float dt)
 
 		m_postProcessMesh->SetEffectProvider(m_godRayBlurEffectProvider);
 		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_screenLightPosUniformName, Palleon::CEffectParameter(texLightPos));
-		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.50f));
+		m_postProcessMesh->GetMaterial()->SetEffectParameter(CGodRayBlurEffect::g_densityUniformName, Palleon::CEffectParameter(0.75f));
 		m_postProcessMesh->GetMaterial()->SetTexture(0, m_blurredRenderTarget);
 		m_postProcessMesh->GetMaterial()->SetTexture(1, Palleon::TexturePtr());
 		m_postProcessMesh->GetMaterial()->SetAlphaBlendingMode(Palleon::ALPHA_BLENDING_NONE);
