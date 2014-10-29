@@ -53,6 +53,7 @@ static CVector4 operator *(const CMatrix4& lhs, const CVector4& rhs)
 	return result;
 }
 
+#if 0
 static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& ray)
 {
 	auto result = std::make_pair(false, CVector3(0, 0, 0));
@@ -94,3 +95,4 @@ static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& r
 		return result;
 	}
 }
+#endif
