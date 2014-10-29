@@ -23,6 +23,7 @@ namespace Palleon
 		virtual void						Draw() = 0;
 
 		CVector2							GetScreenSize() const;
+		CVector2							GetScaledScreenSize() const;
 
 		uint32								GetDrawCallCount() const;
 		float								GetFrameRate() const;
@@ -51,10 +52,11 @@ namespace Palleon
 		static CGraphicDevice*				m_instance;
 
 		ViewportList						m_viewports;
-		CVector2							m_screenSize;
+		CVector2							m_screenSize = CVector2(0, 0);
+		CVector2							m_scaledScreenSize = CVector2(0, 0);
 
-		uint32								m_drawCallCount;
-		float								m_frameRate;
+		uint32								m_drawCallCount = 0;
+		float								m_frameRate = 0;
 
 		EffectProviderPtr					m_defaultEffectProvider;
 	};

@@ -33,9 +33,9 @@ static const GLenum g_stencilFunc[STENCIL_FUNCTION_MAX] =
 };
 
 CGlEsGraphicDevice::CGlEsGraphicDevice(const CVector2& screenSize, float dpiScale)
-: m_scaledScreenSize(screenSize * dpiScale)
 {
 	m_screenSize = screenSize;
+	m_scaledScreenSize = screenSize * dpiScale;
 	m_renderQueue.reserve(0x10000);
 	m_defaultEffectProvider = std::make_shared<CGlEsUberEffectProvider>();
 }

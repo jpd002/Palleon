@@ -9,9 +9,6 @@ using namespace Palleon;
 CGraphicDevice* CGraphicDevice::m_instance = nullptr;
 
 CGraphicDevice::CGraphicDevice()
-: m_screenSize(0, 0)
-, m_drawCallCount(0)
-, m_frameRate(0)
 {
 
 }
@@ -30,6 +27,11 @@ CGraphicDevice& CGraphicDevice::GetInstance()
 CVector2 CGraphicDevice::GetScreenSize() const
 {
 	return m_screenSize;
+}
+
+CVector2 CGraphicDevice::GetScaledScreenSize() const
+{
+	return m_scaledScreenSize;
 }
 
 uint32 CGraphicDevice::GetDrawCallCount() const
