@@ -11,14 +11,6 @@
 		70104E5F167409EB00807647 /* AudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70104E5D167409EB00807647 /* AudioManager.cpp */; };
 		70104E62167409F500807647 /* AudioClip.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E60167409F500807647 /* AudioClip.h */; };
 		70104E63167409F500807647 /* AudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 70104E61167409F500807647 /* AudioManager.h */; };
-		70271B7718D5037B00777C53 /* EffectParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271B7618D5037B00777C53 /* EffectParameter.cpp */; };
-		70271B7D18D5039000777C53 /* EffectParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70271B7C18D5039000777C53 /* EffectParameter.h */; };
-		70271B9418D522E400777C53 /* AxisMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271B9218D522E400777C53 /* AxisMesh.cpp */; };
-		70271B9518D522E400777C53 /* ConeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70271B9318D522E400777C53 /* ConeMesh.cpp */; };
-		70271B9818D522F500777C53 /* AxisMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70271B9618D522F500777C53 /* AxisMesh.h */; };
-		70271B9918D522F500777C53 /* ConeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70271B9718D522F500777C53 /* ConeMesh.h */; };
-		7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7035A93717166B530092A5CF /* EmitterModifier.cpp */; };
-		7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 7035A93B17166B630092A5CF /* EmitterModifier.h */; };
 		7056B40D198717E000EF9810 /* EmbedRemoteCall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7056B40C198717E000EF9810 /* EmbedRemoteCall.cpp */; };
 		7056B413198717E900EF9810 /* EmbedRemoteCall.h in Headers */ = {isa = PBXBuildFile; fileRef = 7056B412198717E900EF9810 /* EmbedRemoteCall.h */; };
 		706F71B418F5D35F00224718 /* GlEsEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 706F71AC18F5D35F00224718 /* GlEsEffect.cpp */; };
@@ -62,8 +54,6 @@
 		7096E31A18E015A00068769A /* ParseUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7096E31918E015A00068769A /* ParseUtils.h */; };
 		7097D47B19F71C51008AF590 /* IosLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7097D47A19F71C51008AF590 /* IosLog.cpp */; };
 		7097D47D19F71C65008AF590 /* IosLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7097D47C19F71C65008AF590 /* IosLog.h */; };
-		70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7118D76D2100FA2ABE /* TextureLoader.cpp */; };
-		70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7718D76D3400FA2ABE /* TextureLoader.h */; };
 		70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70983A7918D76D8600FA2ABE /* DdsImage.cpp */; };
 		70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 70983A7B18D76DA400FA2ABE /* DdsImage.h */; };
 		7098906E1943D36800D38411 /* MetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098906D1943D36800D38411 /* MetalView.h */; };
@@ -80,8 +70,6 @@
 		7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */; };
 		709890911945235100D38411 /* MetalEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890901945235100D38411 /* MetalEffect.cpp */; };
 		709890931945236400D38411 /* MetalEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709890921945236400D38411 /* MetalEffect.h */; };
-		709C0B381911351C00947774 /* EffectParameterBag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C0B371911351C00947774 /* EffectParameterBag.cpp */; };
-		709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C0B3D1911352A00947774 /* EffectParameterBag.h */; };
 		709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */; };
 		709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D71822088000B6B2D0 /* FontDescriptor.cpp */; };
 		709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */; };
@@ -98,13 +86,7 @@
 		709C28F41822088E00B6B2D0 /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EA1822088E00B6B2D0 /* ResourceManager.h */; };
 		709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */; };
 		709C28F61822088E00B6B2D0 /* TextureResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28EC1822088E00B6B2D0 /* TextureResource.h */; };
-		709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709C28FC182209A000B6B2D0 /* Scene.cpp */; };
-		709C28FF182209B200B6B2D0 /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 709C28FE182209B200B6B2D0 /* Scene.h */; };
-		709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */; };
-		709E16EA186A689B00AEA8C7 /* Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E5186A689B00AEA8C7 /* Effect.h */; };
-		709E16EB186A689B00AEA8C7 /* EffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E6186A689B00AEA8C7 /* EffectProvider.h */; };
 		709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E7186A689B00AEA8C7 /* IAnimation.h */; };
-		709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 709E16E8186A689B00AEA8C7 /* RenderTarget.h */; };
 		709EAE7E19E635CE00E0B3F8 /* LayoutNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709EAE7D19E635CE00E0B3F8 /* LayoutNode.cpp */; };
 		709EAE8319E635D900E0B3F8 /* LayoutNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 709EAE8219E635D900E0B3F8 /* LayoutNode.h */; };
 		70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B5824A1635215200C40F25 /* RumbleAnimation.cpp */; };
@@ -123,11 +105,59 @@
 		70BCE51019FB4C4E009EA9EF /* ShaderBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */; };
 		70BCE51619FB7C45009EA9EF /* MetalUberEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709890871945201200D38411 /* MetalUberEffect.cpp */; };
 		70BCE51C19FB7C97009EA9EF /* MetalView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 709890671943D34D00D38411 /* MetalView.mm */; };
+		70BE10CB1A008AF2002DC26A /* AxisMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B41A008AF2002DC26A /* AxisMesh.cpp */; };
+		70BE10CC1A008AF2002DC26A /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B51A008AF2002DC26A /* Camera.cpp */; };
+		70BE10CD1A008AF2002DC26A /* ConeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B61A008AF2002DC26A /* ConeMesh.cpp */; };
+		70BE10CE1A008AF2002DC26A /* CubeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B71A008AF2002DC26A /* CubeMesh.cpp */; };
+		70BE10CF1A008AF2002DC26A /* CubeRenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B81A008AF2002DC26A /* CubeRenderTarget.cpp */; };
+		70BE10D01A008AF2002DC26A /* EffectParameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10B91A008AF2002DC26A /* EffectParameter.cpp */; };
+		70BE10D11A008AF2002DC26A /* EffectParameterBag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BA1A008AF2002DC26A /* EffectParameterBag.cpp */; };
+		70BE10D21A008AF2002DC26A /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BB1A008AF2002DC26A /* Emitter.cpp */; };
+		70BE10D31A008AF2002DC26A /* EmitterModifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BC1A008AF2002DC26A /* EmitterModifier.cpp */; };
+		70BE10D41A008AF2002DC26A /* GraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BD1A008AF2002DC26A /* GraphicDevice.cpp */; };
+		70BE10D51A008AF2002DC26A /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BE1A008AF2002DC26A /* Label.cpp */; };
+		70BE10D61A008AF2002DC26A /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10BF1A008AF2002DC26A /* Material.cpp */; };
+		70BE10D71A008AF2002DC26A /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C01A008AF2002DC26A /* Mesh.cpp */; };
+		70BE10D81A008AF2002DC26A /* NinePatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C11A008AF2002DC26A /* NinePatch.cpp */; };
+		70BE10D91A008AF2002DC26A /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C21A008AF2002DC26A /* RenderTarget.cpp */; };
+		70BE10DA1A008AF2002DC26A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C31A008AF2002DC26A /* Scene.cpp */; };
+		70BE10DB1A008AF2002DC26A /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C41A008AF2002DC26A /* SceneNode.cpp */; };
+		70BE10DC1A008AF2002DC26A /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C51A008AF2002DC26A /* SphereMesh.cpp */; };
+		70BE10DD1A008AF2002DC26A /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C61A008AF2002DC26A /* Sprite.cpp */; };
+		70BE10DE1A008AF2002DC26A /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C71A008AF2002DC26A /* Texture.cpp */; };
+		70BE10DF1A008AF2002DC26A /* TextureLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C81A008AF2002DC26A /* TextureLoader.cpp */; };
+		70BE10E01A008AF2002DC26A /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10C91A008AF2002DC26A /* VertexBuffer.cpp */; };
+		70BE10E11A008AF2002DC26A /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE10CA1A008AF2002DC26A /* Viewport.cpp */; };
+		70BE10FE1A008B12002DC26A /* AxisMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E21A008B12002DC26A /* AxisMesh.h */; };
+		70BE10FF1A008B12002DC26A /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E31A008B12002DC26A /* Camera.h */; };
+		70BE11001A008B12002DC26A /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E41A008B12002DC26A /* Color.h */; };
+		70BE11011A008B12002DC26A /* ConeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E51A008B12002DC26A /* ConeMesh.h */; };
+		70BE11021A008B12002DC26A /* CubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E61A008B12002DC26A /* CubeMesh.h */; };
+		70BE11031A008B12002DC26A /* CubeRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E71A008B12002DC26A /* CubeRenderTarget.h */; };
+		70BE11041A008B12002DC26A /* Effect.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E81A008B12002DC26A /* Effect.h */; };
+		70BE11051A008B12002DC26A /* EffectParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10E91A008B12002DC26A /* EffectParameter.h */; };
+		70BE11061A008B12002DC26A /* EffectParameterBag.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10EA1A008B12002DC26A /* EffectParameterBag.h */; };
+		70BE11071A008B12002DC26A /* EffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10EB1A008B12002DC26A /* EffectProvider.h */; };
+		70BE11081A008B12002DC26A /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10EC1A008B12002DC26A /* Emitter.h */; };
+		70BE11091A008B12002DC26A /* EmitterModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10ED1A008B12002DC26A /* EmitterModifier.h */; };
+		70BE110A1A008B12002DC26A /* GenericEffectProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10EE1A008B12002DC26A /* GenericEffectProvider.h */; };
+		70BE110B1A008B12002DC26A /* GraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10EF1A008B12002DC26A /* GraphicDevice.h */; };
+		70BE110C1A008B12002DC26A /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F01A008B12002DC26A /* Label.h */; };
+		70BE110D1A008B12002DC26A /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F11A008B12002DC26A /* Material.h */; };
+		70BE110E1A008B12002DC26A /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F21A008B12002DC26A /* Mesh.h */; };
+		70BE110F1A008B12002DC26A /* MeshProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F31A008B12002DC26A /* MeshProvider.h */; };
+		70BE11101A008B12002DC26A /* NinePatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F41A008B12002DC26A /* NinePatch.h */; };
+		70BE11111A008B12002DC26A /* RenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F51A008B12002DC26A /* RenderTarget.h */; };
+		70BE11121A008B12002DC26A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F61A008B12002DC26A /* Scene.h */; };
+		70BE11131A008B12002DC26A /* SceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F71A008B12002DC26A /* SceneNode.h */; };
+		70BE11141A008B12002DC26A /* SphereMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F81A008B12002DC26A /* SphereMesh.h */; };
+		70BE11151A008B12002DC26A /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10F91A008B12002DC26A /* Sprite.h */; };
+		70BE11161A008B12002DC26A /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10FA1A008B12002DC26A /* Texture.h */; };
+		70BE11171A008B12002DC26A /* TextureLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10FB1A008B12002DC26A /* TextureLoader.h */; };
+		70BE11181A008B12002DC26A /* VertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10FC1A008B12002DC26A /* VertexBuffer.h */; };
+		70BE11191A008B12002DC26A /* Viewport.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE10FD1A008B12002DC26A /* Viewport.h */; };
 		70BE810B19F7525500ABBF36 /* GlEsRenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE810A19F7525500ABBF36 /* GlEsRenderTarget.cpp */; };
 		70BE811119F7526200ABBF36 /* GlEsRenderTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BE811019F7526200ABBF36 /* GlEsRenderTarget.h */; };
-		70BE811319F75D4C00ABBF36 /* RenderTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */; };
-		70C6E54D1685709E001544EB /* Emitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C6E54C1685709E001544EB /* Emitter.cpp */; };
-		70C6E550168570A8001544EB /* Emitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C6E54F168570A8001544EB /* Emitter.h */; };
 		70D498481907FC1800A6557C /* TextureConverters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70D498471907FC1800A6557C /* TextureConverters.cpp */; };
 		70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D498491907FC3400A6557C /* TextureConverters.h */; };
 		70F5982719F72D59004B2D41 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F5982619F72D59004B2D41 /* Log.cpp */; };
@@ -135,59 +165,31 @@
 		7E407F851401F8AD00431963 /* Frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F831401F8AD00431963 /* Frustum.h */; };
 		7E407F861401F8AD00431963 /* Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F841401F8AD00431963 /* Plane.h */; };
 		7E407F881401F8C000431963 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E407F871401F8C000431963 /* Frustum.cpp */; };
-		7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F891401F8F300431963 /* MeshProvider.h */; };
 		7E407F8C1401F90600431963 /* PalleonEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E407F8B1401F90500431963 /* PalleonEngine.h */; };
 		7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */; };
 		7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */; };
-		7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121E14F19EF700292DD3 /* NinePatch.cpp */; };
 		7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */; };
-		7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C122114F19EF700292DD3 /* SphereMesh.cpp */; };
 		7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E5C122214F19EF700292DD3 /* SpriteButton.cpp */; };
 		7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122B14F19F0800292DD3 /* ButtonBase.h */; };
 		7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122C14F19F0800292DD3 /* ConfigManager.h */; };
 		7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122D14F19F0800292DD3 /* ILayoutable.h */; };
-		7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122E14F19F0800292DD3 /* NinePatch.h */; };
 		7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C122F14F19F0800292DD3 /* NinePatchButton.h */; };
-		7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123114F19F0800292DD3 /* SphereMesh.h */; };
 		7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123214F19F0800292DD3 /* SpriteButton.h */; };
 		7E5C123C14F19F0800292DD3 /* Tween.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5C123314F19F0800292DD3 /* Tween.h */; };
 		7E7D873F13F719E500AD9F7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7D873E13F719E500AD9F7F /* Foundation.framework */; };
 		7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D874E13F71AC300AD9F7F /* Box2.cpp */; };
-		7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875013F71AC300AD9F7F /* Camera.cpp */; };
 		7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */; };
-		7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */; };
-		7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */; };
 		7E7D876713F71AC300AD9F7F /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875513F71AC300AD9F7F /* InputManager.cpp */; };
-		7E7D876813F71AC300AD9F7F /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875613F71AC300AD9F7F /* Label.cpp */; };
-		7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875713F71AC300AD9F7F /* Material.cpp */; };
-		7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875813F71AC300AD9F7F /* Mesh.cpp */; };
-		7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */; };
-		7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875B13F71AC300AD9F7F /* Sprite.cpp */; };
-		7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875C13F71AC300AD9F7F /* Texture.cpp */; };
-		7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */; };
-		7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875E13F71AC300AD9F7F /* Viewport.cpp */; };
 		7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7D875F13F71AC300AD9F7F /* Widget.cpp */; };
 		7E7D878C13F71AD900AD9F7F /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877313F71AD900AD9F7F /* Application.h */; };
 		7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877413F71AD900AD9F7F /* Box2.h */; };
-		7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877613F71AD900AD9F7F /* Camera.h */; };
 		7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877713F71AD900AD9F7F /* CatmullRom.h */; };
-		7E7D879113F71AD900AD9F7F /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877813F71AD900AD9F7F /* Color.h */; };
-		7E7D879213F71AD900AD9F7F /* CubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877913F71AD900AD9F7F /* CubeMesh.h */; };
-		7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */; };
 		7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877C13F71AD900AD9F7F /* InputManager.h */; };
-		7E7D879613F71AD900AD9F7F /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877D13F71AD900AD9F7F /* Label.h */; };
-		7E7D879713F71AD900AD9F7F /* Material.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877E13F71AD900AD9F7F /* Material.h */; };
 		7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D877F13F71AD900AD9F7F /* MathDef.h */; };
 		7E7D879913F71AD900AD9F7F /* Matrix4.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878013F71AD900AD9F7F /* Matrix4.h */; };
-		7E7D879A13F71AD900AD9F7F /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878113F71AD900AD9F7F /* Mesh.h */; };
 		7E7D879B13F71AD900AD9F7F /* Quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878213F71AD900AD9F7F /* Quaternion.h */; };
-		7E7D879D13F71AD900AD9F7F /* SceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878413F71AD900AD9F7F /* SceneNode.h */; };
-		7E7D879E13F71AD900AD9F7F /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878513F71AD900AD9F7F /* Sprite.h */; };
-		7E7D879F13F71AD900AD9F7F /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878613F71AD900AD9F7F /* Texture.h */; };
 		7E7D87A013F71AD900AD9F7F /* Vector2.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878713F71AD900AD9F7F /* Vector2.h */; };
 		7E7D87A113F71AD900AD9F7F /* Vector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878813F71AD900AD9F7F /* Vector3.h */; };
-		7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878913F71AD900AD9F7F /* VertexBuffer.h */; };
-		7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878A13F71AD900AD9F7F /* Viewport.h */; };
 		7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E7D878B13F71AD900AD9F7F /* Widget.h */; };
 /* End PBXBuildFile section */
 
@@ -213,6 +215,13 @@
 			remoteGlobalIDString = 7EA960EE134D72490099591E;
 			remoteInfo = boost;
 		};
+		70BE112E1A008D4C002DC26A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 70BE112A1A008D4C002DC26A /* GodRays.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 709E16F7186A721100AEA8C7;
+			remoteInfo = GodRays;
+		};
 		70F5983119F72F5C004B2D41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 70F5982D19F72F5C004B2D41 /* Water.xcodeproj */;
@@ -234,16 +243,8 @@
 		70104E5D167409EB00807647 /* AudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AudioManager.cpp; path = ../src/AudioManager.cpp; sourceTree = "<group>"; };
 		70104E60167409F500807647 /* AudioClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioClip.h; path = ../include/palleon/AudioClip.h; sourceTree = "<group>"; };
 		70104E61167409F500807647 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = ../include/palleon/AudioManager.h; sourceTree = "<group>"; };
-		70271B7618D5037B00777C53 /* EffectParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameter.cpp; path = ../src/EffectParameter.cpp; sourceTree = "<group>"; };
-		70271B7C18D5039000777C53 /* EffectParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameter.h; path = ../include/palleon/EffectParameter.h; sourceTree = "<group>"; };
-		70271B9218D522E400777C53 /* AxisMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AxisMesh.cpp; path = ../src/AxisMesh.cpp; sourceTree = "<group>"; };
-		70271B9318D522E400777C53 /* ConeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConeMesh.cpp; path = ../src/ConeMesh.cpp; sourceTree = "<group>"; };
-		70271B9618D522F500777C53 /* AxisMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AxisMesh.h; path = ../include/palleon/AxisMesh.h; sourceTree = "<group>"; };
-		70271B9718D522F500777C53 /* ConeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConeMesh.h; path = ../include/palleon/ConeMesh.h; sourceTree = "<group>"; };
 		702BFDC318D4C0C800BA18A9 /* GeneralSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GeneralSettings.xcconfig; sourceTree = SOURCE_ROOT; };
 		702BFDC418D4C0C800BA18A9 /* GeneralSettingsDebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = GeneralSettingsDebug.xcconfig; sourceTree = SOURCE_ROOT; };
-		7035A93717166B530092A5CF /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../src/EmitterModifier.cpp; sourceTree = "<group>"; };
-		7035A93B17166B630092A5CF /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../include/palleon/EmitterModifier.h; sourceTree = "<group>"; };
 		7056B40C198717E000EF9810 /* EmbedRemoteCall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmbedRemoteCall.cpp; path = ../src/EmbedRemoteCall.cpp; sourceTree = "<group>"; };
 		7056B412198717E900EF9810 /* EmbedRemoteCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmbedRemoteCall.h; path = ../include/palleon/EmbedRemoteCall.h; sourceTree = "<group>"; };
 		706F71AC18F5D35F00224718 /* GlEsEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsEffect.cpp; path = ../src/gles/GlEsEffect.cpp; sourceTree = "<group>"; };
@@ -287,8 +288,6 @@
 		7096E31918E015A00068769A /* ParseUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseUtils.h; path = ../include/palleon/ParseUtils.h; sourceTree = "<group>"; };
 		7097D47A19F71C51008AF590 /* IosLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IosLog.cpp; path = ../src/ios/IosLog.cpp; sourceTree = "<group>"; };
 		7097D47C19F71C65008AF590 /* IosLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IosLog.h; path = ../include/palleon/ios/IosLog.h; sourceTree = "<group>"; };
-		70983A7118D76D2100FA2ABE /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/TextureLoader.cpp; sourceTree = "<group>"; };
-		70983A7718D76D3400FA2ABE /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/TextureLoader.h; sourceTree = "<group>"; };
 		70983A7918D76D8600FA2ABE /* DdsImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DdsImage.cpp; path = ../src/resources/DdsImage.cpp; sourceTree = "<group>"; };
 		70983A7B18D76DA400FA2ABE /* DdsImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DdsImage.h; path = ../include/palleon/resources/DdsImage.h; sourceTree = "<group>"; };
 		709890671943D34D00D38411 /* MetalView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MetalView.mm; path = ../src/ios/MetalView.mm; sourceTree = "<group>"; };
@@ -307,8 +306,6 @@
 		7098908E1945213F00D38411 /* MetalUberEffectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalUberEffectGenerator.h; path = ../include/palleon/ios/MetalUberEffectGenerator.h; sourceTree = "<group>"; };
 		709890901945235100D38411 /* MetalEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MetalEffect.cpp; path = ../src/ios/MetalEffect.cpp; sourceTree = "<group>"; };
 		709890921945236400D38411 /* MetalEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetalEffect.h; path = ../include/palleon/ios/MetalEffect.h; sourceTree = "<group>"; };
-		709C0B371911351C00947774 /* EffectParameterBag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameterBag.cpp; path = ../src/EffectParameterBag.cpp; sourceTree = "<group>"; };
-		709C0B3D1911352A00947774 /* EffectParameterBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameterBag.h; path = ../include/palleon/EffectParameterBag.h; sourceTree = "<group>"; };
 		709C28D61822088000B6B2D0 /* EmitterDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterDescriptor.cpp; path = ../src/resources/EmitterDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D71822088000B6B2D0 /* FontDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FontDescriptor.cpp; path = ../src/resources/FontDescriptor.cpp; sourceTree = "<group>"; };
 		709C28D81822088000B6B2D0 /* NinePatchDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchDescriptor.cpp; path = ../src/resources/NinePatchDescriptor.cpp; sourceTree = "<group>"; };
@@ -325,14 +322,8 @@
 		709C28EA1822088E00B6B2D0 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResourceManager.h; path = ../include/palleon/resources/ResourceManager.h; sourceTree = "<group>"; };
 		709C28EB1822088E00B6B2D0 /* SceneDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneDescriptor.h; path = ../include/palleon/resources/SceneDescriptor.h; sourceTree = "<group>"; };
 		709C28EC1822088E00B6B2D0 /* TextureResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureResource.h; path = ../include/palleon/resources/TextureResource.h; sourceTree = "<group>"; };
-		709C28FC182209A000B6B2D0 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../src/Scene.cpp; sourceTree = "<group>"; };
-		709C28FE182209B200B6B2D0 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../include/palleon/Scene.h; sourceTree = "<group>"; };
 		709C3B1A18D4BC8A006DAF2C /* Palleon-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Palleon-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeRenderTarget.h; path = ../include/palleon/CubeRenderTarget.h; sourceTree = "<group>"; };
-		709E16E5186A689B00AEA8C7 /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../include/palleon/Effect.h; sourceTree = "<group>"; };
-		709E16E6186A689B00AEA8C7 /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../include/palleon/EffectProvider.h; sourceTree = "<group>"; };
 		709E16E7186A689B00AEA8C7 /* IAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAnimation.h; path = ../include/palleon/IAnimation.h; sourceTree = "<group>"; };
-		709E16E8186A689B00AEA8C7 /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../include/palleon/RenderTarget.h; sourceTree = "<group>"; };
 		709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShadowMapping.xcodeproj; path = ../samples/ShadowMapping/build_ios/ShadowMapping.xcodeproj; sourceTree = "<group>"; };
 		709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Framework.xcodeproj; path = ../../Framework/build_ios/Framework.xcodeproj; sourceTree = "<group>"; };
 		709E1765186A7B2A00AEA8C7 /* boost.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = boost.xcodeproj; path = ../../boost/build_iphone/boost.xcodeproj; sourceTree = "<group>"; };
@@ -352,11 +343,60 @@
 		70BCE50A19FB4C40009EA9EF /* ShaderBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderBuilder.cpp; path = ../src/graphics/ShaderBuilder.cpp; sourceTree = "<group>"; };
 		70BCE50D19FB4C4E009EA9EF /* GenericEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericEffect.h; path = ../include/palleon/graphics/GenericEffect.h; sourceTree = "<group>"; };
 		70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderBuilder.h; path = ../include/palleon/graphics/ShaderBuilder.h; sourceTree = "<group>"; };
+		70BE10B41A008AF2002DC26A /* AxisMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AxisMesh.cpp; path = ../src/graphics/AxisMesh.cpp; sourceTree = "<group>"; };
+		70BE10B51A008AF2002DC26A /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../src/graphics/Camera.cpp; sourceTree = "<group>"; };
+		70BE10B61A008AF2002DC26A /* ConeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConeMesh.cpp; path = ../src/graphics/ConeMesh.cpp; sourceTree = "<group>"; };
+		70BE10B71A008AF2002DC26A /* CubeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubeMesh.cpp; path = ../src/graphics/CubeMesh.cpp; sourceTree = "<group>"; };
+		70BE10B81A008AF2002DC26A /* CubeRenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubeRenderTarget.cpp; path = ../src/graphics/CubeRenderTarget.cpp; sourceTree = "<group>"; };
+		70BE10B91A008AF2002DC26A /* EffectParameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameter.cpp; path = ../src/graphics/EffectParameter.cpp; sourceTree = "<group>"; };
+		70BE10BA1A008AF2002DC26A /* EffectParameterBag.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EffectParameterBag.cpp; path = ../src/graphics/EffectParameterBag.cpp; sourceTree = "<group>"; };
+		70BE10BB1A008AF2002DC26A /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../src/graphics/Emitter.cpp; sourceTree = "<group>"; };
+		70BE10BC1A008AF2002DC26A /* EmitterModifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EmitterModifier.cpp; path = ../src/graphics/EmitterModifier.cpp; sourceTree = "<group>"; };
+		70BE10BD1A008AF2002DC26A /* GraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GraphicDevice.cpp; path = ../src/graphics/GraphicDevice.cpp; sourceTree = "<group>"; };
+		70BE10BE1A008AF2002DC26A /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = ../src/graphics/Label.cpp; sourceTree = "<group>"; };
+		70BE10BF1A008AF2002DC26A /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Material.cpp; path = ../src/graphics/Material.cpp; sourceTree = "<group>"; };
+		70BE10C01A008AF2002DC26A /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mesh.cpp; path = ../src/graphics/Mesh.cpp; sourceTree = "<group>"; };
+		70BE10C11A008AF2002DC26A /* NinePatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatch.cpp; path = ../src/graphics/NinePatch.cpp; sourceTree = "<group>"; };
+		70BE10C21A008AF2002DC26A /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderTarget.cpp; path = ../src/graphics/RenderTarget.cpp; sourceTree = "<group>"; };
+		70BE10C31A008AF2002DC26A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = ../src/graphics/Scene.cpp; sourceTree = "<group>"; };
+		70BE10C41A008AF2002DC26A /* SceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneNode.cpp; path = ../src/graphics/SceneNode.cpp; sourceTree = "<group>"; };
+		70BE10C51A008AF2002DC26A /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SphereMesh.cpp; path = ../src/graphics/SphereMesh.cpp; sourceTree = "<group>"; };
+		70BE10C61A008AF2002DC26A /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../src/graphics/Sprite.cpp; sourceTree = "<group>"; };
+		70BE10C71A008AF2002DC26A /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = ../src/graphics/Texture.cpp; sourceTree = "<group>"; };
+		70BE10C81A008AF2002DC26A /* TextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureLoader.cpp; path = ../src/graphics/TextureLoader.cpp; sourceTree = "<group>"; };
+		70BE10C91A008AF2002DC26A /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../src/graphics/VertexBuffer.cpp; sourceTree = "<group>"; };
+		70BE10CA1A008AF2002DC26A /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Viewport.cpp; path = ../src/graphics/Viewport.cpp; sourceTree = "<group>"; };
+		70BE10E21A008B12002DC26A /* AxisMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AxisMesh.h; path = ../include/palleon/graphics/AxisMesh.h; sourceTree = "<group>"; };
+		70BE10E31A008B12002DC26A /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../include/palleon/graphics/Camera.h; sourceTree = "<group>"; };
+		70BE10E41A008B12002DC26A /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../include/palleon/graphics/Color.h; sourceTree = "<group>"; };
+		70BE10E51A008B12002DC26A /* ConeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConeMesh.h; path = ../include/palleon/graphics/ConeMesh.h; sourceTree = "<group>"; };
+		70BE10E61A008B12002DC26A /* CubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeMesh.h; path = ../include/palleon/graphics/CubeMesh.h; sourceTree = "<group>"; };
+		70BE10E71A008B12002DC26A /* CubeRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeRenderTarget.h; path = ../include/palleon/graphics/CubeRenderTarget.h; sourceTree = "<group>"; };
+		70BE10E81A008B12002DC26A /* Effect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Effect.h; path = ../include/palleon/graphics/Effect.h; sourceTree = "<group>"; };
+		70BE10E91A008B12002DC26A /* EffectParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameter.h; path = ../include/palleon/graphics/EffectParameter.h; sourceTree = "<group>"; };
+		70BE10EA1A008B12002DC26A /* EffectParameterBag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectParameterBag.h; path = ../include/palleon/graphics/EffectParameterBag.h; sourceTree = "<group>"; };
+		70BE10EB1A008B12002DC26A /* EffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EffectProvider.h; path = ../include/palleon/graphics/EffectProvider.h; sourceTree = "<group>"; };
+		70BE10EC1A008B12002DC26A /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/palleon/graphics/Emitter.h; sourceTree = "<group>"; };
+		70BE10ED1A008B12002DC26A /* EmitterModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EmitterModifier.h; path = ../include/palleon/graphics/EmitterModifier.h; sourceTree = "<group>"; };
+		70BE10EE1A008B12002DC26A /* GenericEffectProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericEffectProvider.h; path = ../include/palleon/graphics/GenericEffectProvider.h; sourceTree = "<group>"; };
+		70BE10EF1A008B12002DC26A /* GraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphicDevice.h; path = ../include/palleon/graphics/GraphicDevice.h; sourceTree = "<group>"; };
+		70BE10F01A008B12002DC26A /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../include/palleon/graphics/Label.h; sourceTree = "<group>"; };
+		70BE10F11A008B12002DC26A /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../include/palleon/graphics/Material.h; sourceTree = "<group>"; };
+		70BE10F21A008B12002DC26A /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = ../include/palleon/graphics/Mesh.h; sourceTree = "<group>"; };
+		70BE10F31A008B12002DC26A /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../include/palleon/graphics/MeshProvider.h; sourceTree = "<group>"; };
+		70BE10F41A008B12002DC26A /* NinePatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatch.h; path = ../include/palleon/graphics/NinePatch.h; sourceTree = "<group>"; };
+		70BE10F51A008B12002DC26A /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTarget.h; path = ../include/palleon/graphics/RenderTarget.h; sourceTree = "<group>"; };
+		70BE10F61A008B12002DC26A /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scene.h; path = ../include/palleon/graphics/Scene.h; sourceTree = "<group>"; };
+		70BE10F71A008B12002DC26A /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../include/palleon/graphics/SceneNode.h; sourceTree = "<group>"; };
+		70BE10F81A008B12002DC26A /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../include/palleon/graphics/SphereMesh.h; sourceTree = "<group>"; };
+		70BE10F91A008B12002DC26A /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../include/palleon/graphics/Sprite.h; sourceTree = "<group>"; };
+		70BE10FA1A008B12002DC26A /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../include/palleon/graphics/Texture.h; sourceTree = "<group>"; };
+		70BE10FB1A008B12002DC26A /* TextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureLoader.h; path = ../include/palleon/graphics/TextureLoader.h; sourceTree = "<group>"; };
+		70BE10FC1A008B12002DC26A /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../include/palleon/graphics/VertexBuffer.h; sourceTree = "<group>"; };
+		70BE10FD1A008B12002DC26A /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../include/palleon/graphics/Viewport.h; sourceTree = "<group>"; };
+		70BE112A1A008D4C002DC26A /* GodRays.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GodRays.xcodeproj; path = ../samples/GodRays/build_ios/GodRays.xcodeproj; sourceTree = "<group>"; };
 		70BE810A19F7525500ABBF36 /* GlEsRenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GlEsRenderTarget.cpp; path = ../src/gles/GlEsRenderTarget.cpp; sourceTree = "<group>"; };
 		70BE811019F7526200ABBF36 /* GlEsRenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GlEsRenderTarget.h; path = ../include/palleon/gles/GlEsRenderTarget.h; sourceTree = "<group>"; };
-		70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderTarget.cpp; path = ../src/RenderTarget.cpp; sourceTree = "<group>"; };
-		70C6E54C1685709E001544EB /* Emitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Emitter.cpp; path = ../src/Emitter.cpp; sourceTree = "<group>"; };
-		70C6E54F168570A8001544EB /* Emitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Emitter.h; path = ../include/palleon/Emitter.h; sourceTree = "<group>"; };
 		70D498471907FC1800A6557C /* TextureConverters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureConverters.cpp; path = ../src/resources/TextureConverters.cpp; sourceTree = "<group>"; };
 		70D498491907FC3400A6557C /* TextureConverters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureConverters.h; path = ../include/palleon/resources/TextureConverters.h; sourceTree = "<group>"; };
 		70F5982619F72D59004B2D41 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Log.cpp; path = ../src/Log.cpp; sourceTree = "<group>"; };
@@ -366,60 +406,32 @@
 		7E407F831401F8AD00431963 /* Frustum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Frustum.h; path = ../include/palleon/Frustum.h; sourceTree = "<group>"; };
 		7E407F841401F8AD00431963 /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = ../include/palleon/Plane.h; sourceTree = "<group>"; };
 		7E407F871401F8C000431963 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Frustum.cpp; path = ../src/Frustum.cpp; sourceTree = "<group>"; };
-		7E407F891401F8F300431963 /* MeshProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeshProvider.h; path = ../include/palleon/MeshProvider.h; sourceTree = "<group>"; };
 		7E407F8B1401F90500431963 /* PalleonEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PalleonEngine.h; path = ../include/PalleonEngine.h; sourceTree = "<group>"; };
 		7E5C121C14F19EF700292DD3 /* ButtonBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonBase.cpp; path = ../src/ButtonBase.cpp; sourceTree = "<group>"; };
 		7E5C121D14F19EF700292DD3 /* ConfigManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigManager.cpp; path = ../src/ConfigManager.cpp; sourceTree = "<group>"; };
-		7E5C121E14F19EF700292DD3 /* NinePatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatch.cpp; path = ../src/NinePatch.cpp; sourceTree = "<group>"; };
 		7E5C121F14F19EF700292DD3 /* NinePatchButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NinePatchButton.cpp; path = ../src/NinePatchButton.cpp; sourceTree = "<group>"; };
-		7E5C122114F19EF700292DD3 /* SphereMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SphereMesh.cpp; path = ../src/SphereMesh.cpp; sourceTree = "<group>"; };
 		7E5C122214F19EF700292DD3 /* SpriteButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteButton.cpp; path = ../src/SpriteButton.cpp; sourceTree = "<group>"; };
 		7E5C122B14F19F0800292DD3 /* ButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonBase.h; path = ../include/palleon/ButtonBase.h; sourceTree = "<group>"; };
 		7E5C122C14F19F0800292DD3 /* ConfigManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConfigManager.h; path = ../include/palleon/ConfigManager.h; sourceTree = "<group>"; };
 		7E5C122D14F19F0800292DD3 /* ILayoutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILayoutable.h; path = ../include/palleon/ILayoutable.h; sourceTree = "<group>"; };
-		7E5C122E14F19F0800292DD3 /* NinePatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatch.h; path = ../include/palleon/NinePatch.h; sourceTree = "<group>"; };
 		7E5C122F14F19F0800292DD3 /* NinePatchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinePatchButton.h; path = ../include/palleon/NinePatchButton.h; sourceTree = "<group>"; };
-		7E5C123114F19F0800292DD3 /* SphereMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SphereMesh.h; path = ../include/palleon/SphereMesh.h; sourceTree = "<group>"; };
 		7E5C123214F19F0800292DD3 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteButton.h; path = ../include/palleon/SpriteButton.h; sourceTree = "<group>"; };
 		7E5C123314F19F0800292DD3 /* Tween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tween.h; path = ../include/palleon/Tween.h; sourceTree = "<group>"; };
 		7E7D873B13F719E500AD9F7F /* libPalleon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPalleon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E7D873E13F719E500AD9F7F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7E7D874E13F71AC300AD9F7F /* Box2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2.cpp; path = ../src/Box2.cpp; sourceTree = "<group>"; };
-		7E7D875013F71AC300AD9F7F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Camera.cpp; path = ../src/Camera.cpp; sourceTree = "<group>"; };
 		7E7D875113F71AC300AD9F7F /* CatmullRom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CatmullRom.cpp; path = ../src/CatmullRom.cpp; sourceTree = "<group>"; };
-		7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CubeMesh.cpp; path = ../src/CubeMesh.cpp; sourceTree = "<group>"; };
-		7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GraphicDevice.cpp; path = ../src/GraphicDevice.cpp; sourceTree = "<group>"; };
 		7E7D875513F71AC300AD9F7F /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputManager.cpp; path = ../src/InputManager.cpp; sourceTree = "<group>"; };
-		7E7D875613F71AC300AD9F7F /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = ../src/Label.cpp; sourceTree = "<group>"; };
-		7E7D875713F71AC300AD9F7F /* Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Material.cpp; path = ../src/Material.cpp; sourceTree = "<group>"; };
-		7E7D875813F71AC300AD9F7F /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Mesh.cpp; path = ../src/Mesh.cpp; sourceTree = "<group>"; };
-		7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneNode.cpp; path = ../src/SceneNode.cpp; sourceTree = "<group>"; };
-		7E7D875B13F71AC300AD9F7F /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../src/Sprite.cpp; sourceTree = "<group>"; };
-		7E7D875C13F71AC300AD9F7F /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Texture.cpp; path = ../src/Texture.cpp; sourceTree = "<group>"; };
-		7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBuffer.cpp; path = ../src/VertexBuffer.cpp; sourceTree = "<group>"; };
-		7E7D875E13F71AC300AD9F7F /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Viewport.cpp; path = ../src/Viewport.cpp; sourceTree = "<group>"; };
 		7E7D875F13F71AC300AD9F7F /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../src/Widget.cpp; sourceTree = "<group>"; };
 		7E7D877313F71AD900AD9F7F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = ../include/palleon/Application.h; sourceTree = "<group>"; };
 		7E7D877413F71AD900AD9F7F /* Box2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2.h; path = ../include/palleon/Box2.h; sourceTree = "<group>"; };
-		7E7D877613F71AD900AD9F7F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Camera.h; path = ../include/palleon/Camera.h; sourceTree = "<group>"; };
 		7E7D877713F71AD900AD9F7F /* CatmullRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatmullRom.h; path = ../include/palleon/CatmullRom.h; sourceTree = "<group>"; };
-		7E7D877813F71AD900AD9F7F /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Color.h; path = ../include/palleon/Color.h; sourceTree = "<group>"; };
-		7E7D877913F71AD900AD9F7F /* CubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubeMesh.h; path = ../include/palleon/CubeMesh.h; sourceTree = "<group>"; };
-		7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GraphicDevice.h; path = ../include/palleon/GraphicDevice.h; sourceTree = "<group>"; };
 		7E7D877C13F71AD900AD9F7F /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputManager.h; path = ../include/palleon/InputManager.h; sourceTree = "<group>"; };
-		7E7D877D13F71AD900AD9F7F /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../include/palleon/Label.h; sourceTree = "<group>"; };
-		7E7D877E13F71AD900AD9F7F /* Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Material.h; path = ../include/palleon/Material.h; sourceTree = "<group>"; };
 		7E7D877F13F71AD900AD9F7F /* MathDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MathDef.h; path = ../include/palleon/MathDef.h; sourceTree = "<group>"; };
 		7E7D878013F71AD900AD9F7F /* Matrix4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix4.h; path = ../include/palleon/Matrix4.h; sourceTree = "<group>"; };
-		7E7D878113F71AD900AD9F7F /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mesh.h; path = ../include/palleon/Mesh.h; sourceTree = "<group>"; };
 		7E7D878213F71AD900AD9F7F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Quaternion.h; path = ../include/palleon/Quaternion.h; sourceTree = "<group>"; };
-		7E7D878413F71AD900AD9F7F /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneNode.h; path = ../include/palleon/SceneNode.h; sourceTree = "<group>"; };
-		7E7D878513F71AD900AD9F7F /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../include/palleon/Sprite.h; sourceTree = "<group>"; };
-		7E7D878613F71AD900AD9F7F /* Texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture.h; path = ../include/palleon/Texture.h; sourceTree = "<group>"; };
 		7E7D878713F71AD900AD9F7F /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = ../include/palleon/Vector2.h; sourceTree = "<group>"; };
 		7E7D878813F71AD900AD9F7F /* Vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector3.h; path = ../include/palleon/Vector3.h; sourceTree = "<group>"; };
-		7E7D878913F71AD900AD9F7F /* VertexBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBuffer.h; path = ../include/palleon/VertexBuffer.h; sourceTree = "<group>"; };
-		7E7D878A13F71AD900AD9F7F /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Viewport.h; path = ../include/palleon/Viewport.h; sourceTree = "<group>"; };
 		7E7D878B13F71AD900AD9F7F /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../include/palleon/Widget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -540,9 +552,10 @@
 		709E1743186A724B00AEA8C7 /* Samples */ = {
 			isa = PBXGroup;
 			children = (
-				70F5982D19F72F5C004B2D41 /* Water.xcodeproj */,
+				70BE112A1A008D4C002DC26A /* GodRays.xcodeproj */,
 				70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */,
 				709E174B186A739B00AEA8C7 /* ShadowMapping.xcodeproj */,
+				70F5982D19F72F5C004B2D41 /* Water.xcodeproj */,
 			);
 			name = Samples;
 			sourceTree = "<group>";
@@ -583,6 +596,14 @@
 				70B582521635216800C40F25 /* TextureAnimation.h */,
 			);
 			name = animation;
+			sourceTree = "<group>";
+		};
+		70BE112B1A008D4C002DC26A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70BE112F1A008D4C002DC26A /* GodRays.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		70F5982E19F72F5C004B2D41 /* Products */ = {
@@ -648,60 +669,62 @@
 		7E5C123D14F19F1200292DD3 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				70271B9218D522E400777C53 /* AxisMesh.cpp */,
-				70271B9618D522F500777C53 /* AxisMesh.h */,
-				7E7D875013F71AC300AD9F7F /* Camera.cpp */,
-				7E7D877613F71AD900AD9F7F /* Camera.h */,
-				7E7D877813F71AD900AD9F7F /* Color.h */,
-				70271B9318D522E400777C53 /* ConeMesh.cpp */,
-				70271B9718D522F500777C53 /* ConeMesh.h */,
-				7E7D875213F71AC300AD9F7F /* CubeMesh.cpp */,
-				7E7D877913F71AD900AD9F7F /* CubeMesh.h */,
-				709E16E4186A689B00AEA8C7 /* CubeRenderTarget.h */,
-				709E16E5186A689B00AEA8C7 /* Effect.h */,
-				70271B7618D5037B00777C53 /* EffectParameter.cpp */,
-				70271B7C18D5039000777C53 /* EffectParameter.h */,
-				709C0B371911351C00947774 /* EffectParameterBag.cpp */,
-				709C0B3D1911352A00947774 /* EffectParameterBag.h */,
-				709E16E6186A689B00AEA8C7 /* EffectProvider.h */,
-				70C6E54C1685709E001544EB /* Emitter.cpp */,
-				70C6E54F168570A8001544EB /* Emitter.h */,
-				7035A93717166B530092A5CF /* EmitterModifier.cpp */,
-				7035A93B17166B630092A5CF /* EmitterModifier.h */,
+				70BE10B41A008AF2002DC26A /* AxisMesh.cpp */,
+				70BE10E21A008B12002DC26A /* AxisMesh.h */,
+				70BE10B51A008AF2002DC26A /* Camera.cpp */,
+				70BE10E31A008B12002DC26A /* Camera.h */,
+				70BE10E41A008B12002DC26A /* Color.h */,
+				70BE10B61A008AF2002DC26A /* ConeMesh.cpp */,
+				70BE10E51A008B12002DC26A /* ConeMesh.h */,
+				70BE10B71A008AF2002DC26A /* CubeMesh.cpp */,
+				70BE10E61A008B12002DC26A /* CubeMesh.h */,
+				70BE10B81A008AF2002DC26A /* CubeRenderTarget.cpp */,
+				70BE10E71A008B12002DC26A /* CubeRenderTarget.h */,
+				70BE10E81A008B12002DC26A /* Effect.h */,
+				70BE10B91A008AF2002DC26A /* EffectParameter.cpp */,
+				70BE10E91A008B12002DC26A /* EffectParameter.h */,
+				70BE10BA1A008AF2002DC26A /* EffectParameterBag.cpp */,
+				70BE10EA1A008B12002DC26A /* EffectParameterBag.h */,
+				70BE10EB1A008B12002DC26A /* EffectProvider.h */,
+				70BE10BB1A008AF2002DC26A /* Emitter.cpp */,
+				70BE10EC1A008B12002DC26A /* Emitter.h */,
+				70BE10BC1A008AF2002DC26A /* EmitterModifier.cpp */,
+				70BE10ED1A008B12002DC26A /* EmitterModifier.h */,
 				70BCE50919FB4C40009EA9EF /* GenericEffect.cpp */,
 				70BCE50D19FB4C4E009EA9EF /* GenericEffect.h */,
-				7E7D875413F71AC300AD9F7F /* GraphicDevice.cpp */,
-				7E7D877B13F71AD900AD9F7F /* GraphicDevice.h */,
+				70BE10EE1A008B12002DC26A /* GenericEffectProvider.h */,
+				70BE10BD1A008AF2002DC26A /* GraphicDevice.cpp */,
+				70BE10EF1A008B12002DC26A /* GraphicDevice.h */,
 				709E16E7186A689B00AEA8C7 /* IAnimation.h */,
-				7E7D875613F71AC300AD9F7F /* Label.cpp */,
-				7E7D877D13F71AD900AD9F7F /* Label.h */,
-				7E7D875713F71AC300AD9F7F /* Material.cpp */,
-				7E7D877E13F71AD900AD9F7F /* Material.h */,
-				7E7D875813F71AC300AD9F7F /* Mesh.cpp */,
-				7E7D878113F71AD900AD9F7F /* Mesh.h */,
-				7E407F891401F8F300431963 /* MeshProvider.h */,
-				7E5C121E14F19EF700292DD3 /* NinePatch.cpp */,
-				7E5C122E14F19F0800292DD3 /* NinePatch.h */,
-				70BE811219F75D4C00ABBF36 /* RenderTarget.cpp */,
-				709E16E8186A689B00AEA8C7 /* RenderTarget.h */,
-				709C28FC182209A000B6B2D0 /* Scene.cpp */,
-				709C28FE182209B200B6B2D0 /* Scene.h */,
-				7E7D875A13F71AC300AD9F7F /* SceneNode.cpp */,
-				7E7D878413F71AD900AD9F7F /* SceneNode.h */,
+				70BE10BE1A008AF2002DC26A /* Label.cpp */,
+				70BE10F01A008B12002DC26A /* Label.h */,
+				70BE10BF1A008AF2002DC26A /* Material.cpp */,
+				70BE10F11A008B12002DC26A /* Material.h */,
+				70BE10C01A008AF2002DC26A /* Mesh.cpp */,
+				70BE10F21A008B12002DC26A /* Mesh.h */,
+				70BE10F31A008B12002DC26A /* MeshProvider.h */,
+				70BE10C11A008AF2002DC26A /* NinePatch.cpp */,
+				70BE10F41A008B12002DC26A /* NinePatch.h */,
+				70BE10C21A008AF2002DC26A /* RenderTarget.cpp */,
+				70BE10F51A008B12002DC26A /* RenderTarget.h */,
+				70BE10C31A008AF2002DC26A /* Scene.cpp */,
+				70BE10F61A008B12002DC26A /* Scene.h */,
+				70BE10C41A008AF2002DC26A /* SceneNode.cpp */,
+				70BE10F71A008B12002DC26A /* SceneNode.h */,
 				70BCE50A19FB4C40009EA9EF /* ShaderBuilder.cpp */,
 				70BCE50E19FB4C4E009EA9EF /* ShaderBuilder.h */,
-				7E5C122114F19EF700292DD3 /* SphereMesh.cpp */,
-				7E5C123114F19F0800292DD3 /* SphereMesh.h */,
-				7E7D875B13F71AC300AD9F7F /* Sprite.cpp */,
-				7E7D878513F71AD900AD9F7F /* Sprite.h */,
-				7E7D875C13F71AC300AD9F7F /* Texture.cpp */,
-				7E7D878613F71AD900AD9F7F /* Texture.h */,
-				70983A7118D76D2100FA2ABE /* TextureLoader.cpp */,
-				70983A7718D76D3400FA2ABE /* TextureLoader.h */,
-				7E7D875D13F71AC300AD9F7F /* VertexBuffer.cpp */,
-				7E7D878913F71AD900AD9F7F /* VertexBuffer.h */,
-				7E7D875E13F71AC300AD9F7F /* Viewport.cpp */,
-				7E7D878A13F71AD900AD9F7F /* Viewport.h */,
+				70BE10C51A008AF2002DC26A /* SphereMesh.cpp */,
+				70BE10F81A008B12002DC26A /* SphereMesh.h */,
+				70BE10C61A008AF2002DC26A /* Sprite.cpp */,
+				70BE10F91A008B12002DC26A /* Sprite.h */,
+				70BE10C71A008AF2002DC26A /* Texture.cpp */,
+				70BE10FA1A008B12002DC26A /* Texture.h */,
+				70BE10C81A008AF2002DC26A /* TextureLoader.cpp */,
+				70BE10FB1A008B12002DC26A /* TextureLoader.h */,
+				70BE10C91A008AF2002DC26A /* VertexBuffer.cpp */,
+				70BE10FC1A008B12002DC26A /* VertexBuffer.h */,
+				70BE10CA1A008AF2002DC26A /* Viewport.cpp */,
+				70BE10FD1A008B12002DC26A /* Viewport.h */,
 			);
 			name = graphics;
 			sourceTree = "<group>";
@@ -815,72 +838,69 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BE11001A008B12002DC26A /* Color.h in Headers */,
+				70BE11171A008B12002DC26A /* TextureLoader.h in Headers */,
 				7E7D878C13F71AD900AD9F7F /* Application.h in Headers */,
-				70983A7818D76D3400FA2ABE /* TextureLoader.h in Headers */,
 				7E7D878D13F71AD900AD9F7F /* Box2.h in Headers */,
 				7098906E1943D36800D38411 /* MetalView.h in Headers */,
-				7E7D878F13F71AD900AD9F7F /* Camera.h in Headers */,
 				7E7D879013F71AD900AD9F7F /* CatmullRom.h in Headers */,
-				7E7D879113F71AD900AD9F7F /* Color.h in Headers */,
-				7E7D879213F71AD900AD9F7F /* CubeMesh.h in Headers */,
 				709C28F61822088E00B6B2D0 /* TextureResource.h in Headers */,
-				7E7D879413F71AD900AD9F7F /* GraphicDevice.h in Headers */,
-				709E16E9186A689B00AEA8C7 /* CubeRenderTarget.h in Headers */,
 				7E7D879513F71AD900AD9F7F /* InputManager.h in Headers */,
 				70F5982C19F72D63004B2D41 /* Log.h in Headers */,
-				7E7D879613F71AD900AD9F7F /* Label.h in Headers */,
-				709E16ED186A689B00AEA8C7 /* RenderTarget.h in Headers */,
 				706F71CD18F5D37400224718 /* OpenGlEsDefs.h in Headers */,
-				7E7D879713F71AD900AD9F7F /* Material.h in Headers */,
 				7097D47D19F71C65008AF590 /* IosLog.h in Headers */,
-				709C28FF182209B200B6B2D0 /* Scene.h in Headers */,
+				70BE11071A008B12002DC26A /* EffectProvider.h in Headers */,
 				706F71CA18F5D37400224718 /* GlEsUberEffectGenerator.h in Headers */,
+				70BE110A1A008B12002DC26A /* GenericEffectProvider.h in Headers */,
+				70BE11081A008B12002DC26A /* Emitter.h in Headers */,
+				70BE11121A008B12002DC26A /* Scene.h in Headers */,
 				7E7D879813F71AD900AD9F7F /* MathDef.h in Headers */,
 				7E7D879913F71AD900AD9F7F /* Matrix4.h in Headers */,
-				7E7D879A13F71AD900AD9F7F /* Mesh.h in Headers */,
 				7E7D879B13F71AD900AD9F7F /* Quaternion.h in Headers */,
-				7E7D879D13F71AD900AD9F7F /* SceneNode.h in Headers */,
-				7E7D879E13F71AD900AD9F7F /* Sprite.h in Headers */,
-				7E7D879F13F71AD900AD9F7F /* Texture.h in Headers */,
 				706F71C918F5D37400224718 /* GlEsUberEffect.h in Headers */,
 				7E7D87A013F71AD900AD9F7F /* Vector2.h in Headers */,
 				70BE811119F7526200ABBF36 /* GlEsRenderTarget.h in Headers */,
 				7E7D87A113F71AD900AD9F7F /* Vector3.h in Headers */,
-				7E7D87A213F71AD900AD9F7F /* VertexBuffer.h in Headers */,
-				70271B9818D522F500777C53 /* AxisMesh.h in Headers */,
-				7E7D87A313F71AD900AD9F7F /* Viewport.h in Headers */,
 				709C28F11822088E00B6B2D0 /* Package.h in Headers */,
 				709C28F41822088E00B6B2D0 /* ResourceManager.h in Headers */,
 				706F71CB18F5D37400224718 /* GlEsUberEffectProvider.h in Headers */,
 				7E7D87A413F71AD900AD9F7F /* Widget.h in Headers */,
 				7E407F851401F8AD00431963 /* Frustum.h in Headers */,
-				70271B7D18D5039000777C53 /* EffectParameter.h in Headers */,
 				7E407F861401F8AD00431963 /* Plane.h in Headers */,
-				7E407F8A1401F8F300431963 /* MeshProvider.h in Headers */,
+				70BE10FF1A008B12002DC26A /* Camera.h in Headers */,
 				70BCE51019FB4C4E009EA9EF /* ShaderBuilder.h in Headers */,
+				70BE110D1A008B12002DC26A /* Material.h in Headers */,
 				7E407F8C1401F90600431963 /* PalleonEngine.h in Headers */,
 				7E5C123414F19F0800292DD3 /* ButtonBase.h in Headers */,
 				7E5C123514F19F0800292DD3 /* ConfigManager.h in Headers */,
+				70BE11111A008B12002DC26A /* RenderTarget.h in Headers */,
 				70957E7F194D544B0041191C /* MetalShadowMapEffect.h in Headers */,
 				709C28EE1822088E00B6B2D0 /* EmitterDescriptor.h in Headers */,
 				70983A7C18D76DA400FA2ABE /* DdsImage.h in Headers */,
+				70BE110F1A008B12002DC26A /* MeshProvider.h in Headers */,
+				70BE11021A008B12002DC26A /* CubeMesh.h in Headers */,
 				7098908619451BDF00D38411 /* MetalUberEffectProvider.h in Headers */,
+				70BE11091A008B12002DC26A /* EmitterModifier.h in Headers */,
 				7056B413198717E900EF9810 /* EmbedRemoteCall.h in Headers */,
 				7098908F1945213F00D38411 /* MetalUberEffectGenerator.h in Headers */,
 				7E5C123614F19F0800292DD3 /* ILayoutable.h in Headers */,
 				706F71C818F5D37400224718 /* GlEsTexture.h in Headers */,
 				70BCE50F19FB4C4E009EA9EF /* GenericEffect.h in Headers */,
-				7E5C123714F19F0800292DD3 /* NinePatch.h in Headers */,
-				709E16EA186A689B00AEA8C7 /* Effect.h in Headers */,
+				70BE11141A008B12002DC26A /* SphereMesh.h in Headers */,
 				709C28F31822088E00B6B2D0 /* Resource.h in Headers */,
+				70BE11101A008B12002DC26A /* NinePatch.h in Headers */,
 				70957E86194E9B4A0041191C /* MetalShadowMapEffectGenerator.h in Headers */,
+				70BE11161A008B12002DC26A /* Texture.h in Headers */,
 				706F71CC18F5D37400224718 /* GlEsVertexBuffer.h in Headers */,
 				7E5C123814F19F0800292DD3 /* NinePatchButton.h in Headers */,
+				70BE11181A008B12002DC26A /* VertexBuffer.h in Headers */,
 				709890931945236400D38411 /* MetalEffect.h in Headers */,
+				70BE11131A008B12002DC26A /* SceneNode.h in Headers */,
 				709C28F21822088E00B6B2D0 /* PvrImage.h in Headers */,
-				7E5C123A14F19F0800292DD3 /* SphereMesh.h in Headers */,
 				7E5C123B14F19F0800292DD3 /* SpriteButton.h in Headers */,
+				70BE11151A008B12002DC26A /* Sprite.h in Headers */,
 				7E5C123C14F19F0800292DD3 /* Tween.h in Headers */,
+				70BE110E1A008B12002DC26A /* Mesh.h in Headers */,
 				70B582531635216800C40F25 /* AnimationController.h in Headers */,
 				70B582541635216800C40F25 /* AnimationCurve.h in Headers */,
 				70B582551635216800C40F25 /* RumbleAnimation.h in Headers */,
@@ -891,31 +911,35 @@
 				709EAE8319E635D900E0B3F8 /* LayoutNode.h in Headers */,
 				70104E63167409F500807647 /* AudioManager.h in Headers */,
 				706F71C518F5D37400224718 /* GlEsEffect.h in Headers */,
-				70C6E550168570A8001544EB /* Emitter.h in Headers */,
 				70BCE50819FB4A9D009EA9EF /* GlEsShaderGenerator.h in Headers */,
 				70BCE50719FB4A9D009EA9EF /* GlEsGenericEffect.h in Headers */,
 				7078961116E45BBA00CFCE67 /* EAGLView.h in Headers */,
 				70957E8A194E9B810041191C /* MetalShadowMapEffectProvider.h in Headers */,
 				7078961216E45BBA00CFCE67 /* IosAppDelegate.h in Headers */,
+				70BE11031A008B12002DC26A /* CubeRenderTarget.h in Headers */,
 				709890821943E05700D38411 /* MetalTexture.h in Headers */,
 				7078961316E45BBA00CFCE67 /* IosAudioClip.h in Headers */,
 				7078961416E45BBA00CFCE67 /* IosAudioManager.h in Headers */,
 				7098907A1943DB4A00D38411 /* MetalGraphicDevice.h in Headers */,
+				70BE110C1A008B12002DC26A /* Label.h in Headers */,
 				709C28F51822088E00B6B2D0 /* SceneDescriptor.h in Headers */,
 				7096E31A18E015A00068769A /* ParseUtils.h in Headers */,
+				70BE11051A008B12002DC26A /* EffectParameter.h in Headers */,
 				70D4984A1907FC3400A6557C /* TextureConverters.h in Headers */,
 				7098907E1943E02400D38411 /* MetalVertexBuffer.h in Headers */,
+				70BE11041A008B12002DC26A /* Effect.h in Headers */,
+				70BE11191A008B12002DC26A /* Viewport.h in Headers */,
 				7078961616E45BBA00CFCE67 /* IosGraphicDevice.h in Headers */,
-				709C0B3E1911352A00947774 /* EffectParameterBag.h in Headers */,
-				70271B9918D522F500777C53 /* ConeMesh.h in Headers */,
+				70BE11011A008B12002DC26A /* ConeMesh.h in Headers */,
+				70BE11061A008B12002DC26A /* EffectParameterBag.h in Headers */,
 				706F71C618F5D37400224718 /* GlEsGraphicDevice.h in Headers */,
 				709E16EC186A689B00AEA8C7 /* IAnimation.h in Headers */,
 				706F71C718F5D37400224718 /* GlEsShadowMapEffect.h in Headers */,
+				70BE110B1A008B12002DC26A /* GraphicDevice.h in Headers */,
+				70BE10FE1A008B12002DC26A /* AxisMesh.h in Headers */,
 				7078961716E45BBA00CFCE67 /* IosResourceManager.h in Headers */,
 				709C28F01822088E00B6B2D0 /* NinePatchDescriptor.h in Headers */,
 				7078961A16E45BBA00CFCE67 /* IosViewController.h in Headers */,
-				709E16EB186A689B00AEA8C7 /* EffectProvider.h in Headers */,
-				7035A93D17166B630092A5CF /* EmitterModifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,6 +991,10 @@
 					ProjectRef = 709E175F186A7B1B00AEA8C7 /* Framework.xcodeproj */;
 				},
 				{
+					ProductGroup = 70BE112B1A008D4C002DC26A /* Products */;
+					ProjectRef = 70BE112A1A008D4C002DC26A /* GodRays.xcodeproj */;
+				},
+				{
 					ProductGroup = 70FB857518D4D7AA0023A3C4 /* Products */;
 					ProjectRef = 70FB857418D4D7AA0023A3C4 /* QuakeViewer.xcodeproj */;
 				},
@@ -1008,6 +1036,13 @@
 			remoteRef = 709E1769186A7B2A00AEA8C7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		70BE112F1A008D4C002DC26A /* GodRays.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = GodRays.app;
+			remoteRef = 70BE112E1A008D4C002DC26A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		70F5983219F72F5C004B2D41 /* Water.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -1030,47 +1065,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E7D876013F71AC300AD9F7F /* Box2.cpp in Sources */,
-				7E7D876213F71AC300AD9F7F /* Camera.cpp in Sources */,
 				7E7D876313F71AC300AD9F7F /* CatmullRom.cpp in Sources */,
-				7E7D876413F71AC300AD9F7F /* CubeMesh.cpp in Sources */,
 				709890761943DA1E00D38411 /* MetalGraphicDevice.cpp in Sources */,
-				70271B7718D5037B00777C53 /* EffectParameter.cpp in Sources */,
 				706F71B518F5D35F00224718 /* GlEsGraphicDevice.cpp in Sources */,
-				7E7D876613F71AC300AD9F7F /* GraphicDevice.cpp in Sources */,
+				70BE10DA1A008AF2002DC26A /* Scene.cpp in Sources */,
+				70BE10CD1A008AF2002DC26A /* ConeMesh.cpp in Sources */,
 				7E7D876713F71AC300AD9F7F /* InputManager.cpp in Sources */,
+				70BE10CB1A008AF2002DC26A /* AxisMesh.cpp in Sources */,
 				706F71BB18F5D35F00224718 /* GlEsVertexBuffer.cpp in Sources */,
+				70BE10D61A008AF2002DC26A /* Material.cpp in Sources */,
 				70957E88194E9B6B0041191C /* MetalShadowMapEffectProvider.cpp in Sources */,
 				706F71B418F5D35F00224718 /* GlEsEffect.cpp in Sources */,
-				7E7D876813F71AC300AD9F7F /* Label.cpp in Sources */,
-				7E7D876913F71AC300AD9F7F /* Material.cpp in Sources */,
-				7E7D876A13F71AC300AD9F7F /* Mesh.cpp in Sources */,
 				709C28DD1822088000B6B2D0 /* EmitterDescriptor.cpp in Sources */,
 				7056B40D198717E000EF9810 /* EmbedRemoteCall.cpp in Sources */,
-				7E7D876C13F71AC300AD9F7F /* SceneNode.cpp in Sources */,
+				70BE10D51A008AF2002DC26A /* Label.cpp in Sources */,
 				7098908D1945212800D38411 /* MetalUberEffectGenerator.cpp in Sources */,
-				7E7D876D13F71AC300AD9F7F /* Sprite.cpp in Sources */,
+				70BE10E11A008AF2002DC26A /* Viewport.cpp in Sources */,
 				70BCE4FE19FB4A8F009EA9EF /* GlEsGenericEffect.cpp in Sources */,
-				70BE811319F75D4C00ABBF36 /* RenderTarget.cpp in Sources */,
-				7E7D876E13F71AC300AD9F7F /* Texture.cpp in Sources */,
-				7E7D876F13F71AC300AD9F7F /* VertexBuffer.cpp in Sources */,
-				70271B9518D522E400777C53 /* ConeMesh.cpp in Sources */,
-				7E7D877013F71AC300AD9F7F /* Viewport.cpp in Sources */,
 				7E7D877113F71AC300AD9F7F /* Widget.cpp in Sources */,
 				709890911945235100D38411 /* MetalEffect.cpp in Sources */,
 				706F71BA18F5D35F00224718 /* GlEsUberEffectProvider.cpp in Sources */,
+				70BE10CF1A008AF2002DC26A /* CubeRenderTarget.cpp in Sources */,
+				70BE10D21A008AF2002DC26A /* Emitter.cpp in Sources */,
 				7E407F881401F8C000431963 /* Frustum.cpp in Sources */,
 				7E5C122314F19EF700292DD3 /* ButtonBase.cpp in Sources */,
 				7E5C122414F19EF700292DD3 /* ConfigManager.cpp in Sources */,
-				7E5C122514F19EF700292DD3 /* NinePatch.cpp in Sources */,
 				706F71B618F5D35F00224718 /* GlEsShadowMapEffect.cpp in Sources */,
 				7E5C122614F19EF700292DD3 /* NinePatchButton.cpp in Sources */,
 				7098907C1943E01500D38411 /* MetalVertexBuffer.cpp in Sources */,
-				7E5C122814F19EF700292DD3 /* SphereMesh.cpp in Sources */,
 				7097D47B19F71C51008AF590 /* IosLog.cpp in Sources */,
 				7E5C122914F19EF700292DD3 /* SpriteButton.cpp in Sources */,
 				70B5824D1635215200C40F25 /* RumbleAnimation.cpp in Sources */,
-				70983A7218D76D2100FA2ABE /* TextureLoader.cpp in Sources */,
-				709C28FD182209A000B6B2D0 /* Scene.cpp in Sources */,
+				70BE10D91A008AF2002DC26A /* RenderTarget.cpp in Sources */,
 				70BCE51619FB7C45009EA9EF /* MetalUberEffect.cpp in Sources */,
 				70BCE50C19FB4C40009EA9EF /* ShaderBuilder.cpp in Sources */,
 				709C28E31822088000B6B2D0 /* TextureResource.cpp in Sources */,
@@ -1078,36 +1104,46 @@
 				7098908419451BB700D38411 /* MetalUberEffectProvider.cpp in Sources */,
 				70B5824E1635215200C40F25 /* TextureAnimation.cpp in Sources */,
 				709C28E11822088000B6B2D0 /* ResourceManager.cpp in Sources */,
+				70BE10D71A008AF2002DC26A /* Mesh.cpp in Sources */,
 				70F5982719F72D59004B2D41 /* Log.cpp in Sources */,
+				70BE10E01A008AF2002DC26A /* VertexBuffer.cpp in Sources */,
 				70BCE51C19FB7C97009EA9EF /* MetalView.mm in Sources */,
 				706F71B718F5D35F00224718 /* GlEsTexture.cpp in Sources */,
 				709C28DE1822088000B6B2D0 /* FontDescriptor.cpp in Sources */,
 				709890801943E03D00D38411 /* MetalTexture.cpp in Sources */,
+				70BE10D31A008AF2002DC26A /* EmitterModifier.cpp in Sources */,
 				70104E5E167409EB00807647 /* AudioClip.cpp in Sources */,
 				70104E5F167409EB00807647 /* AudioManager.cpp in Sources */,
 				709C28E21822088000B6B2D0 /* SceneDescriptor.cpp in Sources */,
-				70C6E54D1685709E001544EB /* Emitter.cpp in Sources */,
-				709C0B381911351C00947774 /* EffectParameterBag.cpp in Sources */,
 				70983A7A18D76D8600FA2ABE /* DdsImage.cpp in Sources */,
 				709C28DF1822088000B6B2D0 /* NinePatchDescriptor.cpp in Sources */,
+				70BE10DF1A008AF2002DC26A /* TextureLoader.cpp in Sources */,
 				707895FC16E45BAF00CFCE67 /* EAGLView.mm in Sources */,
 				70957E82194E9B240041191C /* MetalShadowMapEffectGenerator.cpp in Sources */,
 				706F71B918F5D35F00224718 /* GlEsUberEffectGenerator.cpp in Sources */,
 				707895FD16E45BAF00CFCE67 /* IosAppDelegate.mm in Sources */,
+				70BE10DC1A008AF2002DC26A /* SphereMesh.cpp in Sources */,
 				709EAE7E19E635CE00E0B3F8 /* LayoutNode.cpp in Sources */,
+				70BE10DE1A008AF2002DC26A /* Texture.cpp in Sources */,
+				70BE10D11A008AF2002DC26A /* EffectParameterBag.cpp in Sources */,
 				707895FE16E45BAF00CFCE67 /* IosAudioClip.cpp in Sources */,
+				70BE10D81A008AF2002DC26A /* NinePatch.cpp in Sources */,
+				70BE10D01A008AF2002DC26A /* EffectParameter.cpp in Sources */,
+				70BE10DD1A008AF2002DC26A /* Sprite.cpp in Sources */,
 				70BCE50B19FB4C40009EA9EF /* GenericEffect.cpp in Sources */,
 				707895FF16E45BAF00CFCE67 /* IosAudioManager.cpp in Sources */,
 				70BE810B19F7525500ABBF36 /* GlEsRenderTarget.cpp in Sources */,
 				709C28E01822088000B6B2D0 /* Package.cpp in Sources */,
+				70BE10CC1A008AF2002DC26A /* Camera.cpp in Sources */,
 				7078960116E45BAF00CFCE67 /* IosGraphicDevice.cpp in Sources */,
+				70BE10DB1A008AF2002DC26A /* SceneNode.cpp in Sources */,
+				70BE10D41A008AF2002DC26A /* GraphicDevice.cpp in Sources */,
 				7078960216E45BAF00CFCE67 /* IosResourceManager.cpp in Sources */,
 				706F71B818F5D35F00224718 /* GlEsUberEffect.cpp in Sources */,
-				70271B9418D522E400777C53 /* AxisMesh.cpp in Sources */,
+				70BE10CE1A008AF2002DC26A /* CubeMesh.cpp in Sources */,
 				7096E31418E015960068769A /* ParseUtils.cpp in Sources */,
 				70957E79194D542A0041191C /* MetalShadowMapEffect.cpp in Sources */,
 				7078960516E45BAF00CFCE67 /* IosViewController.mm in Sources */,
-				7035A93917166B530092A5CF /* EmitterModifier.cpp in Sources */,
 				70BCE4FF19FB4A8F009EA9EF /* GlEsShaderGenerator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
