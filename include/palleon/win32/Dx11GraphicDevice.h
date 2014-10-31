@@ -99,7 +99,6 @@ namespace Palleon
 		void							DrawMesh(const VIEWPORT_PARAMS&, CMesh*, const Dx11EffectPtr&);
 
 		HWND													m_parentWnd;
-		CVector2												m_realScreenSize;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
 		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;

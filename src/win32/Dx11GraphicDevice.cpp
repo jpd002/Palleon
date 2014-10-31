@@ -28,9 +28,9 @@ const DXGI_FORMAT CDx11GraphicDevice::g_textureFormats[TEXTURE_FORMAT_MAX] =
 
 CDx11GraphicDevice::CDx11GraphicDevice(HWND parentWnd, const CVector2& screenSize, const CVector2& realScreenSize)
 : m_parentWnd(parentWnd)
-, m_realScreenSize(realScreenSize)
 {
 	m_screenSize = screenSize;
+	m_scaledScreenSize = realScreenSize;
 	m_renderQueue.reserve(0x1000);
 
 	if(parentWnd == NULL)
@@ -60,8 +60,8 @@ void CDx11GraphicDevice::CreateDevice()
 	HRESULT result = S_OK;
 
 	swapChainDesc.BufferCount							= 1;
-	swapChainDesc.BufferDesc.Width						= static_cast<UINT>(m_realScreenSize.x);
-	swapChainDesc.BufferDesc.Height						= static_cast<UINT>(m_realScreenSize.y);
+	swapChainDesc.BufferDesc.Width						= static_cast<UINT>(m_scaledScreenSize.x);
+	swapChainDesc.BufferDesc.Height						= static_cast<UINT>(m_scaledScreenSize.y);
 	swapChainDesc.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator		= 0;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator	= 1;
@@ -128,8 +128,8 @@ void CDx11GraphicDevice::CreateWindowlessOutputBuffer()
 	{
 		D3D11_TEXTURE2D_DESC renderTargetDesc = {};
 
-		renderTargetDesc.Width				= static_cast<UINT>(m_realScreenSize.x);
-		renderTargetDesc.Height				= static_cast<UINT>(m_realScreenSize.y);
+		renderTargetDesc.Width				= static_cast<UINT>(m_scaledScreenSize.x);
+		renderTargetDesc.Height				= static_cast<UINT>(m_scaledScreenSize.y);
 		renderTargetDesc.MipLevels			= 1;
 		renderTargetDesc.ArraySize			= 1;
 		renderTargetDesc.Format				= DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -160,8 +160,8 @@ void CDx11GraphicDevice::CreateDepthBuffer()
 	{
 		D3D11_TEXTURE2D_DESC depthBufferDesc = {};
 
-		depthBufferDesc.Width				= static_cast<UINT>(m_realScreenSize.x);
-		depthBufferDesc.Height				= static_cast<UINT>(m_realScreenSize.y);
+		depthBufferDesc.Width				= static_cast<UINT>(m_scaledScreenSize.x);
+		depthBufferDesc.Height				= static_cast<UINT>(m_scaledScreenSize.y);
 		depthBufferDesc.MipLevels			= 1;
 		depthBufferDesc.ArraySize			= 1;
 		depthBufferDesc.Format				= DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -303,11 +303,11 @@ void CDx11GraphicDevice::SetOutputBufferSize(const CVector2& screenSize, const C
 	m_depthBufferView.Reset();
 
 	m_screenSize = screenSize;
-	m_realScreenSize = realScreenSize;
+	m_scaledScreenSize = realScreenSize;
 
 	if(!m_swapChain.IsEmpty())
 	{
-		HRESULT result = m_swapChain->ResizeBuffers(1, m_realScreenSize.x, realScreenSize.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		HRESULT result = m_swapChain->ResizeBuffers(1, m_scaledScreenSize.x, realScreenSize.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 		assert(SUCCEEDED(result));
 
 		CreateOutputBuffer();
@@ -549,7 +549,7 @@ void CDx11GraphicDevice::DrawViewport(CViewport* viewport)
 {
 	DrawViewportShadowMap(viewport);
 	m_deviceContext->ClearDepthStencilView(m_depthBufferView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	DrawViewportMainMap(viewport, m_outputBufferView, m_depthBufferView, m_realScreenSize.x, m_realScreenSize.y);
+	DrawViewportMainMap(viewport, m_outputBufferView, m_depthBufferView, m_scaledScreenSize.x, m_scaledScreenSize.y);
 }
 
 void CDx11GraphicDevice::DrawViewportMainMap(CViewport* viewport, ID3D11RenderTargetView* renderTarget, ID3D11DepthStencilView* renderDepth, uint32 width, uint32 height)
