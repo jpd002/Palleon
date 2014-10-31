@@ -1,4 +1,6 @@
 #include "palleon/graphics/Camera.h"
+#include "palleon/Vector4.h"
+#include "palleon/MathOps.h"
 
 using namespace Palleon;
 
@@ -206,4 +208,21 @@ CFrustum CCamera::GetFrustum() const
 	}
 
 	return result;
+}
+
+CRay CCamera::Unproject(const CVector2& winPos) const
+{
+	auto viewProjMatrix = m_viewMatrix * m_projMatrix;
+	auto viewProjMatrixInv = viewProjMatrix.Inverse();
+
+	CVector4 winPosNear(0, 0, 0, 1);
+	CVector4 winPosFar(0, 0, 1, 1);
+
+	auto finalPosNear = viewProjMatrixInv * winPosNear;
+	auto finalPosFar = viewProjMatrixInv * winPosFar;
+
+	auto posNear = finalPosNear.xyz() / finalPosNear.w;
+	auto posFar = finalPosFar.xyz() / finalPosFar.w;
+
+	return CRay(posNear, (posFar - posNear).Normalize());
 }

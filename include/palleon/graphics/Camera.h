@@ -2,8 +2,10 @@
 
 #include <memory>
 #include "palleon/Matrix4.h"
+#include "palleon/Vector2.h"
 #include "palleon/Vector3.h"
 #include "palleon/Frustum.h"
+#include "palleon/Ray.h"
 
 namespace Palleon
 {
@@ -37,6 +39,8 @@ namespace Palleon
 		const CMatrix4&		GetViewMatrix() const;
 
 		CFrustum			GetFrustum() const;
+
+		CRay				Unproject(const CVector2&) const;
 
 	protected:
 		CMatrix4			m_viewMatrix;
