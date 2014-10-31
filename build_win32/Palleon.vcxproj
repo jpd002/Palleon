@@ -161,6 +161,7 @@
     <ClInclude Include="..\include\palleon\Plane.h" />
     <ClInclude Include="..\include\palleon\PlatformDef.h" />
     <ClInclude Include="..\include\palleon\Quaternion.h" />
+    <ClInclude Include="..\include\palleon\Ray.h" />
     <ClInclude Include="..\include\palleon\resources\DdsImage.h" />
     <ClInclude Include="..\include\palleon\resources\EmitterDescriptor.h" />
     <ClInclude Include="..\include\palleon\resources\FontDescriptor.h" />

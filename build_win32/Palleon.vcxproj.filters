@@ -513,5 +513,8 @@
     <ClInclude Include="..\include\palleon\graphics\GenericEffectProvider.h">
       <Filter>Source Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\palleon\Ray.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

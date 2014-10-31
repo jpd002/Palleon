@@ -53,10 +53,10 @@ static CVector4 operator *(const CMatrix4& lhs, const CVector4& rhs)
 	return result;
 }
 
-#if 0
 static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& ray)
 {
 	auto result = std::make_pair(false, CVector3(0, 0, 0));
+	//vpc = Position of the sphere relative to the ray's origin
 	auto vpc = sphere.position - ray.position;
 	if(vpc.Dot(ray.direction) < 0)
 	{
@@ -68,25 +68,28 @@ static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& r
 	}
 	else
 	{
+		//pc = vpc projected on the ray's direction
 		auto pc = ray.direction.Dot(vpc) * ray.direction;
-		auto opc = (sphere.position - pc);
+		//opc = Remainder of the position vector
+		auto opc = (pc - vpc);
 		if(opc.Length() > sphere.radius)
 		{
 			//Ray doesn't touch sphere
 			return result;
 		}
 
+		//c = sqrt(a^2 - b^2)
 		float dist = sqrt(sphere.radius * sphere.radius - opc.LengthSquared());
 
 		float d1 = 0;
 		if(vpc.Length() > sphere.radius)
 		{
 			//Origin outside sphere
-			d1 = opc.Length() - dist;
+			d1 = pc.Length() - dist;
 		}
 		else
 		{
-			d1 = opc.Length() + dist;
+			d1 = pc.Length() + dist;
 		}
 
 		result.first = true;
@@ -95,4 +98,3 @@ static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& r
 		return result;
 	}
 }
-#endif
