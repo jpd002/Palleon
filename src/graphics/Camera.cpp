@@ -215,8 +215,8 @@ CRay CCamera::Unproject(const CVector2& winPos) const
 	auto viewProjMatrix = m_viewMatrix * m_projMatrix;
 	auto viewProjMatrixInv = viewProjMatrix.Inverse();
 
-	CVector4 winPosNear(0, 0, 0, 1);
-	CVector4 winPosFar(0, 0, 1, 1);
+	CVector4 winPosNear(winPos.x, -winPos.y, 0, 1);
+	CVector4 winPosFar(winPos.x, -winPos.y, 1, 1);
 
 	auto finalPosNear = viewProjMatrixInv * winPosNear;
 	auto finalPosFar = viewProjMatrixInv * winPosFar;
