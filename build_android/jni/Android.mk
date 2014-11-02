@@ -27,6 +27,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/graphics/Camera.cpp \
 						../../src/graphics/CubeMesh.cpp \
 						../../src/graphics/EffectParameter.cpp \
+						../../src/graphics/EffectParameterBag.cpp \
 						../../src/graphics/GenericEffect.cpp \
 						../../src/graphics/GraphicDevice.cpp \
 						../../src/graphics/Material.cpp \
