@@ -133,6 +133,11 @@ public:
 			);
 	}
 
+	bool IsNull() const
+	{
+		return (x == 0) && (y == 0) && (z == 0);
+	}
+
 	CVector2 xy() const
 	{
 		return CVector2(x, y);
