@@ -11,6 +11,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/android/AndroidGraphicDevice.cpp \
 						../../src/android/AndroidLog.cpp \
 						../../src/android/AndroidResourceManager.cpp \
+						../../src/AudioManager.cpp \
 						../../src/Box2.cpp \
 						../../src/ButtonBase.cpp \
 						../../src/gles/GlEsEffect.cpp \
@@ -28,6 +29,8 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/graphics/CubeMesh.cpp \
 						../../src/graphics/EffectParameter.cpp \
 						../../src/graphics/EffectParameterBag.cpp \
+						../../src/graphics/Emitter.cpp \
+						../../src/graphics/EmitterModifier.cpp \
 						../../src/graphics/GenericEffect.cpp \
 						../../src/graphics/GraphicDevice.cpp \
 						../../src/graphics/Material.cpp \
@@ -58,7 +61,9 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/resources/ResourceManager.cpp \
 						../../src/resources/TextureConverters.cpp \
 						../../src/resources/TextureResource.cpp \
+						../../src/RumbleAnimation.cpp \
 						../../src/SpriteButton.cpp \
+						../../src/TextureAnimation.cpp \
 						../../src/Widget.cpp
 LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
