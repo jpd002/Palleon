@@ -66,18 +66,7 @@ void CMesh::SetBoundingSphere(const CSphere& boundingSphere)
 
 CSphere CMesh::GetWorldBoundingSphere() const
 {
-	auto boundingSphere = m_boundingSphere;
-	const auto& worldMatrix = GetWorldTransformation();
-	boundingSphere.position += CVector3(worldMatrix(3, 0), worldMatrix(3, 1), worldMatrix(3, 2));
-	auto transformedRadius = CVector3(boundingSphere.radius, boundingSphere.radius, boundingSphere.radius) * worldMatrix;
-	boundingSphere.radius = 
-		std::max<float>(
-			fabs(transformedRadius.x), 
-		std::max<float>(
-			fabs(transformedRadius.y), 
-			fabs(transformedRadius.z))
-		);
-	return boundingSphere;
+	return Transform(m_boundingSphere, GetWorldTransformation());
 }
 
 bool CMesh::GetIsPeggedToOrigin() const
