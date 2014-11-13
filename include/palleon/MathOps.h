@@ -5,6 +5,7 @@
 #include "Vector4.h"
 #include "Matrix4.h"
 #include "Sphere.h"
+#include "Plane.h"
 #include "Ray.h"
 
 static CVector3 operator *(float lhs, const CVector3& rhs)
@@ -97,4 +98,36 @@ static std::pair<bool, CVector3> Intersects(const CSphere& sphere, const CRay& r
 
 		return result;
 	}
+}
+
+static std::pair<bool, CVector3> Intersects(const CPlane& plane, const CRay& ray)
+{
+	auto result = std::make_pair(false, CVector3(0, 0, 0));
+	auto planeNormal = CVector3(plane.a, plane.b, plane.c);
+	auto dirDot = planeNormal.Dot(ray.direction);
+	if(dirDot == 0)
+	{
+		//No intersection
+		return result;
+	}
+	auto t = -(ray.position.Dot(planeNormal) - plane.d) / dirDot;
+	auto p = ray.position + t * ray.direction;
+	result.first = true;
+	result.second = p;
+	return result;
+}
+
+static CSphere Transform(const CSphere& sphere, const CMatrix4& transformMatrix)
+{
+	auto result = sphere;
+	result.position += CVector3(transformMatrix(3, 0), transformMatrix(3, 1), transformMatrix(3, 2));
+	auto transformedRadius = CVector3(result.radius, result.radius, result.radius) * transformMatrix;
+	result.radius = 
+		std::max<float>(
+			fabs(transformedRadius.x), 
+		std::max<float>(
+			fabs(transformedRadius.y), 
+			fabs(transformedRadius.z))
+		);
+	return result;
 }
