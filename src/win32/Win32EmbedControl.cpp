@@ -333,6 +333,34 @@ long CWin32EmbedControl::OnTimer(WPARAM)
 		}
 	}
 
+	if(m_embedClientActive)
+	{
+		SAFEARRAY* events = nullptr;
+		auto application = m_embedClient.GetApplication();
+		result = application->GetEvents(&events);
+		assert(SUCCEEDED(result));
+		if(events != nullptr)
+		{
+			void* eventStrings = nullptr;
+			result = SafeArrayAccessData(events, &eventStrings);
+			assert(SUCCEEDED(result));
+			
+			assert(events->cDims == 1);
+			assert(events->rgsabound[0].lLbound == 0);
+			for(unsigned int i = 0; i < events->rgsabound[0].cElements; i++)
+			{
+				BSTR eventStringValue = reinterpret_cast<BSTR*>(eventStrings)[i];
+				NotificationRaised(string_cast<std::string>(eventStringValue));
+			}
+			
+			result = SafeArrayUnaccessData(events);
+			assert(SUCCEEDED(result));
+
+			result = SafeArrayDestroy(events);
+			assert(SUCCEEDED(result));
+		}
+	}
+
 	static const float clearColor[4] = { 0, 0, 0, 0 };
 	m_deviceContext->ClearRenderTargetView(m_outputTextureView, clearColor);
 

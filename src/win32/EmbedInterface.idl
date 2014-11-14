@@ -44,4 +44,8 @@ interface IEmbedApplication : IUnknown
 		[in] BSTR command,
 		[out, retval] BSTR* result
 	);
+
+	HRESULT GetEvents(
+		[out, retval] SAFEARRAY(BSTR)* result
+	);
 };

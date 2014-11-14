@@ -1,6 +1,7 @@
 #include "palleon/win32/Win32EmbedServer.h"
 #include "palleon/win32/Win32ResourceManager.h"
 #include "palleon/win32/Dx11GraphicDevice.h"
+#include "palleon/win32/Win32EmbedManager.h"
 #include "MemStream.h"
 #include "win32/ComPtr.h"
 #include "win32/ComStreamAdapter.h"
@@ -12,6 +13,7 @@ CWin32EmbedServer::CWin32EmbedServer()
 {
 	CWin32ResourceManager::CreateInstance();
 	CDx11GraphicDevice::CreateInstance(NULL, CVector2(640, 480), CVector2(640, 480));
+	CWin32EmbedManager::CreateInstance();
 
 	m_application = CreateApplication(true);
 }
@@ -188,5 +190,24 @@ STDMETHODIMP CWin32EmbedServer::NotifyExternalCommand(BSTR command, BSTR* result
 	{
 		(*result) = SysAllocString(string_cast<std::wstring>(commandResult.c_str()).c_str());
 	}
+	return S_OK;
+}
+
+STDMETHODIMP CWin32EmbedServer::GetEvents(SAFEARRAY** events)
+{
+	const auto& pendingEvents = static_cast<CWin32EmbedManager&>(CEmbedManager::GetInstance()).GetPendingEvents();
+	if(!pendingEvents.empty())
+	{
+		(*events) = SafeArrayCreateVector(VT_BSTR, 0, pendingEvents.size());
+		for(unsigned int i = 0; i < pendingEvents.size(); i++)
+		{
+			const auto& rpc = pendingEvents[i];
+			long index = 0;
+			BSTR value = SysAllocString(string_cast<std::wstring>(rpc.ToString()).c_str());
+			SafeArrayPutElement(*events, &index, value);
+			SysFreeString(value);
+		}
+	}
+	static_cast<CWin32EmbedManager&>(CEmbedManager::GetInstance()).ClearPendingEvents();
 	return S_OK;
 }

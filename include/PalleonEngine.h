@@ -68,6 +68,8 @@
 #include "palleon/ParseUtils.h"
 
 #include "palleon/EmbedRemoteCall.h"
+#include "palleon/EmbedManager.h"
+
 #include "palleon/Application.h"
 #include "palleon/Log.h"
 

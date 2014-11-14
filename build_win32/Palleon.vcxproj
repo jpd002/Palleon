@@ -25,6 +25,7 @@
     <ClCompile Include="..\src\ButtonBase.cpp" />
     <ClCompile Include="..\src\CatmullRom.cpp" />
     <ClCompile Include="..\src\ConfigManager.cpp" />
+    <ClCompile Include="..\src\EmbedManager.cpp" />
     <ClCompile Include="..\src\EmbedRemoteCall.cpp" />
     <ClCompile Include="..\src\Frustum.cpp" />
     <ClCompile Include="..\src\graphics\AxisMesh.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="..\src\win32\Win32ApplicationWindow.cpp" />
     <ClCompile Include="..\src\win32\Win32AudioClip.cpp" />
     <ClCompile Include="..\src\win32\Win32AudioManager.cpp" />
+    <ClCompile Include="..\src\win32\Win32EmbedManager.cpp" />
     <ClCompile Include="..\src\win32\Win32EmbedServer.cpp" />
     <ClCompile Include="..\src\win32\Win32Main.cpp" />
     <ClCompile Include="..\src\win32\Win32ResourceManager.cpp" />
@@ -117,6 +119,7 @@
     <ClInclude Include="..\include\palleon\ButtonBase.h" />
     <ClInclude Include="..\include\palleon\CatmullRom.h" />
     <ClInclude Include="..\include\palleon\ConfigManager.h" />
+    <ClInclude Include="..\include\palleon\EmbedManager.h" />
     <ClInclude Include="..\include\palleon\EmbedRemoteCall.h" />
     <ClInclude Include="..\include\palleon\Frustum.h" />
     <ClInclude Include="..\include\palleon\graphics\AxisMesh.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="..\include\palleon\win32\Win32ApplicationWindow.h" />
     <ClInclude Include="..\include\palleon\win32\Win32AudioClip.h" />
     <ClInclude Include="..\include\palleon\win32\Win32AudioManager.h" />
+    <ClInclude Include="..\include\palleon\win32\Win32EmbedManager.h" />
     <ClInclude Include="..\include\palleon\win32\Win32EmbedServer.h" />
     <ClInclude Include="..\include\palleon\win32\Win32ResourceManager.h" />
     <ClInclude Include="Pch.h" />

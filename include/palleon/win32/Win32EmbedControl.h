@@ -13,6 +13,7 @@ namespace Palleon
 	{
 	public:
 		typedef boost::signals2::signal<void (CWin32EmbedControl*)> ErrorRaisedEventType;
+		typedef boost::signals2::signal<void (const std::string&)> NotificationRaisedEventType;
 
 										CWin32EmbedControl(HWND, const RECT&, const std::tstring&, const std::tstring&);
 		virtual							~CWin32EmbedControl();
@@ -23,6 +24,7 @@ namespace Palleon
 
 		std::string						ExecuteCommand(const std::string&);
 
+		NotificationRaisedEventType		NotificationRaised;
 		ErrorRaisedEventType			ErrorRaised;
 
 	protected:

@@ -33,6 +33,7 @@ namespace Palleon
 		STDMETHODIMP			NotifyKeyUp(unsigned int) override;
 
 		STDMETHODIMP			NotifyExternalCommand(BSTR, BSTR*) override;
+		STDMETHODIMP			GetEvents(SAFEARRAY**) override;
 
 	private:
 		void					WriteInterfaceToConsole();

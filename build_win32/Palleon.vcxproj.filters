@@ -241,6 +241,12 @@
     <ClCompile Include="..\src\graphics\SphereMesh.cpp">
       <Filter>Source Files\graphics\Basic Meshes</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\win32\Win32EmbedManager.cpp">
+      <Filter>Source Files\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EmbedManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\palleon\AnimationController.h">
@@ -515,6 +521,12 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\Ray.h">
       <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\EmbedManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\palleon\win32\Win32EmbedManager.h">
+      <Filter>Source Files\win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
