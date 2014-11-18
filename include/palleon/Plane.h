@@ -1,6 +1,6 @@
-#ifndef _PLANE_H_
-#define _PLANE_H_
+#pragma once
 
+#include "Vector3.h"
 #include <math.h>
 
 class CPlane
@@ -8,11 +8,15 @@ class CPlane
 public:
 	CPlane()
 	{
-
 	}
 
 	CPlane(float a, float b, float c, float d)
 		: a(a), b(b), c(c), d(d)
+	{
+	}
+
+	CPlane(const CVector3& normal, float d)
+		: a(normal.x), b(normal.y), c(normal.z), d(d)
 	{
 	}
 
@@ -31,5 +35,3 @@ public:
 	float c;
 	float d;
 };
-
-#endif
