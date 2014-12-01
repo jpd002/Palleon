@@ -101,8 +101,17 @@
   <ItemGroup>
     <Manifest Include="Embedding.manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\NuGetPackages\boost.1.57.0.0\build\native\boost.targets" Condition="Exists('..\..\..\..\NuGetPackages\boost.1.57.0.0\build\native\boost.targets')" />
   </ImportGroup>
-  <Import Project="..\..\Palleon.Samples.NuGet.props" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューターにはない NuGet パッケージを参照しています。これらをダウンロードするには、NuGet パッケージの復元を有効にしてください。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。不足しているファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\NuGetPackages\boost.1.57.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\NuGetPackages\boost.1.57.0.0\build\native\boost.targets'))" />
+  </Target>
 </Project>

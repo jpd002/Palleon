@@ -32,4 +32,7 @@
       <Filter>ソース ファイル</Filter>
     </Manifest>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

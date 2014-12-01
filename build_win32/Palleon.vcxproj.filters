@@ -514,4 +514,7 @@
       <Filter>Source Files\win32</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
