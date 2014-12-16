@@ -1,6 +1,6 @@
 #include "palleon/graphics/Camera.h"
-#include "palleon/Vector4.h"
-#include "palleon/MathOps.h"
+#include "math/Vector4.h"
+#include "math/MathOps.h"
 
 using namespace Palleon;
 

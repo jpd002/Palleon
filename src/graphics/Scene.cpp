@@ -11,6 +11,7 @@
 #include "layout/HorizontalLayout.h"
 #include "layout/LayoutStretch.h"
 #include "palleon/LayoutNode.h"
+#include "math/MathStringUtils.h"
 
 using namespace Palleon;
 
@@ -113,7 +114,7 @@ float GetValueFromItemInfo<float>(const CSceneDescriptor::ItemInfo& itemInfo, co
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
 	{
-		return ParseFloat(valueIterator->second);
+		return MathStringUtils::ParseFloat(valueIterator->second);
 	}
 	else
 	{
@@ -127,7 +128,7 @@ CVector2 GetValueFromItemInfo<CVector2>(const CSceneDescriptor::ItemInfo& itemIn
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
 	{
-		return ParseVector2(valueIterator->second);
+		return MathStringUtils::ParseVector2(valueIterator->second);
 	}
 	else
 	{
@@ -141,7 +142,7 @@ CVector3 GetValueFromItemInfo<CVector3>(const CSceneDescriptor::ItemInfo& itemIn
 	auto valueIterator = itemInfo.find(propertyName);
 	if(valueIterator != std::end(itemInfo))
 	{
-		return ParseVector3(valueIterator->second);
+		return MathStringUtils::ParseVector3(valueIterator->second);
 	}
 	else
 	{

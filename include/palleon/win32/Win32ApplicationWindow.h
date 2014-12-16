@@ -2,8 +2,8 @@
 
 #include "Types.h"
 #include "win32/Window.h"
+#include "math/Vector2.h"
 #include "../Application.h"
-#include "../Vector2.h"
 
 namespace Palleon
 {

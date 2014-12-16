@@ -1,7 +1,6 @@
-#ifndef _BOX_H_
-#define _BOX_H_
+#pragma once
 
-#include  "Vector2.h"
+#include "math/Vector2.h"
 
 class CBox2
 {
@@ -20,5 +19,3 @@ public:
 	CVector2	position;
 	CVector2	size;
 };
-
-#endif

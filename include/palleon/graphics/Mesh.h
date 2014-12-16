@@ -4,7 +4,7 @@
 #include "palleon/graphics/VertexBuffer.h"
 #include "palleon/graphics/Material.h"
 #include "palleon/graphics/EffectProvider.h"
-#include "palleon/Sphere.h"
+#include "math/Sphere.h"
 
 namespace Palleon
 {

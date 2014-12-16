@@ -3,10 +3,10 @@
 #include <vector>
 #include <functional>
 #include <memory>
-#include "palleon/Vector3.h"
-#include "palleon/Quaternion.h"
+#include "math/Vector3.h"
+#include "math/Matrix4.h"
+#include "math/Quaternion.h"
 #include "palleon/AnimationController.h"
-#include "palleon/Matrix4.h"
 
 namespace Palleon
 {

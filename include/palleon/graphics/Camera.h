@@ -1,11 +1,11 @@
 #pragma once
 
 #include <memory>
-#include "palleon/Matrix4.h"
-#include "palleon/Vector2.h"
-#include "palleon/Vector3.h"
+#include "math/Matrix4.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
+#include "math/Ray.h"
 #include "palleon/Frustum.h"
-#include "palleon/Ray.h"
 
 namespace Palleon
 {

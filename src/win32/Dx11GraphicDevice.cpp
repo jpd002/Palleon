@@ -7,7 +7,7 @@
 #include "palleon/win32/Dx11ShadowMapEffect.h"
 #include "palleon/graphics/Mesh.h"
 #include "palleon/graphics/MeshProvider.h"
-#include "palleon/MathOps.h"
+#include "math/MathOps.h"
 
 #define SHADOW_MAP_SIZE		2048
 #define SAMPLE_COUNT		1

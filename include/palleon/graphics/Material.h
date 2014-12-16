@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
+#include "math/Matrix4.h"
 #include "palleon/resources/ResourceManager.h"
 #include "palleon/graphics/Color.h"
-#include "palleon/Matrix4.h"
 #include "palleon/graphics/EffectParameterBag.h"
 
 namespace Palleon

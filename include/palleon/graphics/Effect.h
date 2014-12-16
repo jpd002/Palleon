@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "palleon/Matrix4.h"
+#include "math/Matrix4.h"
 #include "palleon/graphics/Material.h"
 
 namespace Palleon

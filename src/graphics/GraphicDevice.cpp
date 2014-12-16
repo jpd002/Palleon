@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <algorithm>
 #include "palleon/graphics/GraphicDevice.h"
-#include "palleon/Vector3.h"
-#include "palleon/Vector2.h"
+#include "math/Vector3.h"
+#include "math/Vector2.h"
 
 using namespace Palleon;
 

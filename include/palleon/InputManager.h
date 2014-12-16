@@ -1,6 +1,6 @@
 #pragma once
 
-#include "palleon/Vector2.h"
+#include "math/Vector2.h"
 #include "palleon/graphics/SceneNode.h"
 
 namespace Palleon

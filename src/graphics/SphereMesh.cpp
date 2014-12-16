@@ -1,6 +1,6 @@
 #include "palleon/graphics/SphereMesh.h"
 #include "palleon/graphics/GraphicDevice.h"
-#include "palleon/MathDef.h"
+#include "math/MathDef.h"
 
 using namespace Palleon;
 

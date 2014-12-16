@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Plane.h"
-#include "Sphere.h"
-#include "Vector3.h"
+#include "math/Plane.h"
+#include "math/Sphere.h"
+#include "math/Vector3.h"
 
 class CFrustum
 {

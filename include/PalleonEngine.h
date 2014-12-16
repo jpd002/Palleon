@@ -3,15 +3,15 @@
 #include "palleon/PlatformDef.h"
 
 //Maths
-#include "palleon/MathDef.h"
-#include "palleon/Vector2.h"
-#include "palleon/Vector3.h"
-#include "palleon/Vector4.h"
-#include "palleon/Matrix4.h"
-#include "palleon/Quaternion.h"
+#include "math/MathDef.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
+#include "math/Vector4.h"
+#include "math/Matrix4.h"
+#include "math/MathOps.h"
+#include "math/Quaternion.h"
 #include "palleon/Box2.h"
 #include "palleon/Tween.h"
-#include "palleon/MathOps.h"
 
 //Resources
 #include "palleon/resources/ResourceManager.h"

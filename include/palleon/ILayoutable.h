@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "palleon/Vector2.h"
-#include "palleon/Vector3.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
 
 namespace Palleon
 {

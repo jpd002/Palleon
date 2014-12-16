@@ -306,27 +306,6 @@
     <ClInclude Include="..\include\palleon\resources\EmitterDescriptor.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\Matrix4.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Vector2.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Vector3.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Vector4.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Sphere.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Quaternion.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Plane.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\win32\Win32ApplicationWindow.h">
       <Filter>Source Files\win32</Filter>
     </ClInclude>
@@ -360,9 +339,6 @@
     <ClInclude Include="..\include\palleon\ParseUtils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\palleon\MathDef.h">
-      <Filter>Source Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\palleon\resources\Package.h">
       <Filter>Source Files\resources</Filter>
     </ClInclude>
@@ -377,9 +353,6 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\ILayoutable.h">
       <Filter>Source Files\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\MathOps.h">
-      <Filter>Source Files\math</Filter>
     </ClInclude>
     <ClInclude Include="..\include\PalleonEngine.h">
       <Filter>Source Files</Filter>
@@ -518,9 +491,6 @@
     </ClInclude>
     <ClInclude Include="..\include\palleon\graphics\GenericEffectProvider.h">
       <Filter>Source Files\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\palleon\Ray.h">
-      <Filter>Source Files\math</Filter>
     </ClInclude>
     <ClInclude Include="..\include\palleon\EmbedManager.h">
       <Filter>Source Files</Filter>

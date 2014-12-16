@@ -1,11 +1,11 @@
 #pragma once
 
-#include "palleon/MathOps.h"
+#include <vector>
+#include "math/MathOps.h"
 #include "palleon/IAnimation.h"
 #include "palleon/graphics/SceneNode.h"
 #include "palleon/graphics/Mesh.h"
 #include "palleon/Tween.h"
-#include <vector>
 
 namespace Palleon
 {

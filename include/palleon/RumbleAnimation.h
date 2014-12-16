@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IAnimation.h"
-#include "Vector3.h"
+#include "math/Vector3.h"
 
 namespace Palleon
 {
