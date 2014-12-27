@@ -6,9 +6,9 @@
 
 using namespace Palleon;
 
-CDx11Texture::CDx11Texture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, ID3D11Texture2D* texture)
+CDx11Texture::CDx11Texture(ID3D11Device* device, CDx11ContextManager& contextManager, ID3D11Texture2D* texture)
 : m_device(device)
-, m_deviceContext(deviceContext)
+, m_contextManager(contextManager)
 , m_texture(texture)
 , m_textureView(nullptr)
 {
@@ -28,7 +28,7 @@ CDx11Texture::~CDx11Texture()
 	}
 }
 
-TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
+TexturePtr CDx11Texture::Create(ID3D11Device* device, CDx11ContextManager& contextManager, TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
 	assert(mipCount > 0);
 
@@ -51,7 +51,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 		assert(SUCCEEDED(result));
 	}
 
-	auto result = std::make_shared<CDx11Texture>(device, deviceContext, texture);
+	auto result = std::make_shared<CDx11Texture>(device, contextManager, texture);
 	result->m_format = textureFormat;
 	result->m_width = width;
 	result->m_height = height;
@@ -59,7 +59,7 @@ TexturePtr CDx11Texture::Create(ID3D11Device* device, ID3D11DeviceContext* devic
 	return result;
 }
 
-TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, ID3D11DeviceContext* deviceContext, TEXTURE_FORMAT textureFormat, uint32 size)
+TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, CDx11ContextManager& contextManager, TEXTURE_FORMAT textureFormat, uint32 size)
 {
 	auto specTextureFormat = CDx11GraphicDevice::g_textureFormats[textureFormat];
 
@@ -81,7 +81,7 @@ TexturePtr CDx11Texture::CreateCube(ID3D11Device* device, ID3D11DeviceContext* d
 		assert(SUCCEEDED(result));
 	}
 
-	auto result = std::make_shared<CDx11Texture>(device, deviceContext, texture);
+	auto result = std::make_shared<CDx11Texture>(device, contextManager, texture);
 	result->m_format = textureFormat;
 	result->m_width = size;
 	result->m_height = size;
@@ -125,6 +125,7 @@ void CDx11Texture::UpdateCubeFace(TEXTURE_CUBE_FACE face, const void* data)
 
 void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, unsigned int width, unsigned int height, const void* data)
 {
+	auto deviceContext = m_contextManager.GetCurrentDeviceContext();
 	auto srcPitches = GetTexturePitches(m_format, width, height);
 
 	if(m_format == TEXTURE_FORMAT_RGB888)
@@ -154,11 +155,11 @@ void CDx11Texture::UpdateSurface(unsigned int subresourceIndex, unsigned int wid
 			srcPtr += srcPitches.first;
 			dstPtr += cvtPitch;
 		}
-		m_deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, conversionBuffer.data(), cvtPitch, cvtDepthPitch);
+		deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, conversionBuffer.data(), cvtPitch, cvtDepthPitch);
 	}
 	else
 	{
-		m_deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, data, srcPitches.first, srcPitches.second);
+		deviceContext->UpdateSubresource(m_texture, subresourceIndex, nullptr, data, srcPitches.first, srcPitches.second);
 	}
 }
 

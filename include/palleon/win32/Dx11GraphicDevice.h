@@ -2,9 +2,12 @@
 
 #include <d3d11.h>
 #include <unordered_map>
+#include <deque>
+#include <mutex>
 #include "palleon/graphics/GraphicDevice.h"
 #include "palleon/graphics/Mesh.h"
 #include "palleon/win32/Dx11Effect.h"
+#include "palleon/win32/Dx11ContextManager.h"
 #include "win32/ComPtr.h"
 
 namespace Palleon
@@ -18,6 +21,8 @@ namespace Palleon
 		virtual void					Draw() override;
 		void							DrawViewportMainMap(CViewport*, ID3D11RenderTargetView*, ID3D11DepthStencilView*, uint32, uint32);
 
+		virtual SharedGraphicContextPtr	CreateSharedContext() override;
+
 		virtual VertexBufferPtr			CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) override;
 
 		virtual TexturePtr				CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32) override;
@@ -29,6 +34,10 @@ namespace Palleon
 		ID3D11Device*					GetDevice() const;
 		ID3D11DeviceContext*			GetDeviceContext() const;
 		HWND							GetParentWindow() const;
+
+		void							CreateDeviceContextForThread();
+		void							DestroyDeviceContextForThread();
+		void							FlushDeviceContextForThread();
 
 		HANDLE							GetOutputBufferSharedHandle();
 		void							SetOutputBufferSize(const CVector2&, const CVector2&);
@@ -76,6 +85,9 @@ namespace Palleon
 		typedef Framework::Win32::CComPtr<ID3D11SamplerState> D3D11SamplerStatePtr;
 		typedef std::unordered_map<uint32, D3D11SamplerStatePtr> SamplerStateMap;
 
+		typedef Framework::Win32::CComPtr<ID3D11DeviceContext> D3D11DeviceContextPtr;
+		typedef Framework::Win32::CComPtr<ID3D11CommandList> D3D11CommandListPtr;
+
 		typedef std::vector<CMesh*> RenderQueue;
 
 										CDx11GraphicDevice(HWND, const CVector2&, const CVector2&);
@@ -100,7 +112,7 @@ namespace Palleon
 
 		HWND													m_parentWnd;
 		Framework::Win32::CComPtr<ID3D11Device>					m_device;
-		Framework::Win32::CComPtr<ID3D11DeviceContext>			m_deviceContext;
+		D3D11DeviceContextPtr									m_deviceContext;
 		Framework::Win32::CComPtr<IDXGISwapChain>				m_swapChain;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_outputBuffer;
 		Framework::Win32::CComPtr<IDXGIKeyedMutex>				m_outputBufferMutex;
@@ -122,5 +134,8 @@ namespace Palleon
 		RenderQueue						m_renderQueue;
 
 		Dx11EffectPtr					m_shadowMapEffect;
+		CDx11ContextManager				m_contextManager;
+		std::deque<D3D11CommandListPtr>	m_pendingCommandLists;
+		std::mutex						m_pendingCommandListMutex;
 	};
 }

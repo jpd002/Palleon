@@ -75,6 +75,8 @@
     <ClCompile Include="..\src\win32\Dx11RenderTarget.cpp" />
     <ClCompile Include="..\src\win32\Dx11ShaderGenerator.cpp" />
     <ClCompile Include="..\src\win32\Dx11ShadowMapEffect.cpp" />
+    <ClCompile Include="..\src\win32\Dx11ContextManager.cpp" />
+    <ClCompile Include="..\src\win32\Dx11SharedGraphicContext.cpp" />
     <ClCompile Include="..\src\win32\Dx11Texture.cpp" />
     <ClCompile Include="..\src\win32\Dx11UberEffect.cpp" />
     <ClCompile Include="..\src\win32\Dx11UberEffectGenerator.cpp" />
@@ -146,6 +148,7 @@
     <ClInclude Include="..\include\palleon\graphics\Scene.h" />
     <ClInclude Include="..\include\palleon\graphics\SceneNode.h" />
     <ClInclude Include="..\include\palleon\graphics\ShaderBuilder.h" />
+    <ClInclude Include="..\include\palleon\graphics\SharedGraphicContext.h" />
     <ClInclude Include="..\include\palleon\graphics\SphereMesh.h" />
     <ClInclude Include="..\include\palleon\graphics\Sprite.h" />
     <ClInclude Include="..\include\palleon\graphics\Texture.h" />
@@ -180,6 +183,8 @@
     <ClInclude Include="..\include\palleon\win32\Dx11RenderTarget.h" />
     <ClInclude Include="..\include\palleon\win32\Dx11ShaderGenerator.h" />
     <ClInclude Include="..\include\palleon\win32\Dx11ShadowMapEffect.h" />
+    <ClInclude Include="..\include\palleon\win32\Dx11ContextManager.h" />
+    <ClInclude Include="..\include\palleon\win32\Dx11SharedGraphicContext.h" />
     <ClInclude Include="..\include\palleon\win32\Dx11Texture.h" />
     <ClInclude Include="..\include\palleon\win32\Dx11UberEffect.h" />
     <ClInclude Include="..\include\palleon\win32\Dx11UberEffectGenerator.h" />

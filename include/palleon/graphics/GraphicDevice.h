@@ -4,6 +4,7 @@
 #include <string>
 #include "Types.h"
 #include "palleon/graphics/Viewport.h"
+#include "palleon/graphics/SharedGraphicContext.h"
 #include "palleon/graphics/VertexBuffer.h"
 #include "palleon/graphics/Texture.h"
 #include "palleon/graphics/RenderTarget.h"
@@ -27,6 +28,8 @@ namespace Palleon
 
 		uint32								GetDrawCallCount() const;
 		float								GetFrameRate() const;
+
+		virtual SharedGraphicContextPtr		CreateSharedContext() = 0;
 
 		virtual VertexBufferPtr				CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&) = 0;
 

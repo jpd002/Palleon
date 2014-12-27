@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "palleon/win32/Dx11GraphicDevice.h"
+#include "palleon/win32/Dx11SharedGraphicContext.h"
 #include "palleon/win32/Dx11VertexBuffer.h"
 #include "palleon/win32/Dx11Texture.h"
 #include "palleon/win32/Dx11RenderTarget.h"
@@ -85,7 +86,9 @@ void CDx11GraphicDevice::CreateDevice()
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, deviceCreationFlags, &featureLevel, 1, D3D11_SDK_VERSION, 
 		&swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
 	assert(SUCCEEDED(result));
-	
+
+	m_contextManager.SetCurrentDeviceContext(m_deviceContext);
+
 	CreateOutputBuffer();
 }
 
@@ -103,6 +106,8 @@ void CDx11GraphicDevice::CreateWindowlessDevice()
 	result = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, deviceCreationFlags, &featureLevel, 1,
 		D3D11_SDK_VERSION, &m_device, nullptr, &m_deviceContext);
 	assert(SUCCEEDED(result));
+
+	m_contextManager.SetCurrentDeviceContext(m_deviceContext);
 
 	CreateWindowlessOutputBuffer();
 }
@@ -277,6 +282,32 @@ HWND CDx11GraphicDevice::GetParentWindow() const
 	return m_parentWnd;
 }
 
+void CDx11GraphicDevice::CreateDeviceContextForThread()
+{
+	D3D11DeviceContextPtr deferredContext;
+	HRESULT result = m_device->CreateDeferredContext(0, &deferredContext);
+	assert(SUCCEEDED(result));
+	m_contextManager.SetCurrentDeviceContext(deferredContext);
+}
+
+void CDx11GraphicDevice::DestroyDeviceContextForThread()
+{
+	FlushDeviceContextForThread();
+	m_contextManager.SetCurrentDeviceContext(D3D11DeviceContextPtr());
+}
+
+void CDx11GraphicDevice::FlushDeviceContextForThread()
+{
+	auto deviceContext = m_contextManager.GetCurrentDeviceContext();
+	Framework::Win32::CComPtr<ID3D11CommandList> commandList;
+	HRESULT result = deviceContext->FinishCommandList(FALSE, &commandList);
+	assert(SUCCEEDED(result));
+	{
+		std::lock_guard<std::mutex> pendingCommandListMutexLock(m_pendingCommandListMutex);
+		m_pendingCommandLists.push_back(commandList);
+	}
+}
+
 HANDLE CDx11GraphicDevice::GetOutputBufferSharedHandle()
 {
 	HRESULT result = S_OK;
@@ -323,19 +354,24 @@ void CDx11GraphicDevice::SetFrameRate(float frameRate)
 	m_frameRate = frameRate;
 }
 
+SharedGraphicContextPtr CDx11GraphicDevice::CreateSharedContext()
+{
+	return std::make_shared<CDx11SharedGraphicContext>();
+}
+
 VertexBufferPtr CDx11GraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& bufferDesc)
 {
-	return std::make_shared<CDx11VertexBuffer>(m_device, m_deviceContext, bufferDesc);
+	return std::make_shared<CDx11VertexBuffer>(m_device, m_contextManager, bufferDesc);
 }
 
 TexturePtr CDx11GraphicDevice::CreateTexture(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height, uint32 mipCount)
 {
-	return CDx11Texture::Create(m_device, m_deviceContext, textureFormat, width, height, mipCount);
+	return CDx11Texture::Create(m_device, m_contextManager, textureFormat, width, height, mipCount);
 }
 
 TexturePtr CDx11GraphicDevice::CreateCubeTexture(TEXTURE_FORMAT textureFormat, uint32 size)
 {
-	return CDx11Texture::CreateCube(m_device, m_deviceContext, textureFormat, size);
+	return CDx11Texture::CreateCube(m_device, m_contextManager, textureFormat, size);
 }
 
 RenderTargetPtr CDx11GraphicDevice::CreateRenderTarget(TEXTURE_FORMAT textureFormat, uint32 width, uint32 height)
@@ -517,6 +553,15 @@ void CDx11GraphicDevice::Draw()
 	if(!m_outputBufferMutex.IsEmpty())
 	{
 		result = m_outputBufferMutex->AcquireSync(0, INFINITE);
+	}
+
+	{
+		std::lock_guard<std::mutex> pendingCommandListMutexLock(m_pendingCommandListMutex);
+		for(const auto& commandList : m_pendingCommandLists)
+		{
+			m_deviceContext->ExecuteCommandList(commandList, FALSE);
+		}
+		m_pendingCommandLists.clear();
 	}
 
 	static const float clearColor[4] = { 0, 0, 0, 0 };

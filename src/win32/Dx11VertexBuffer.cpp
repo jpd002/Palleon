@@ -4,11 +4,9 @@
 
 using namespace Palleon;
 
-CDx11VertexBuffer::CDx11VertexBuffer(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const VERTEX_BUFFER_DESCRIPTOR& descriptor)
+CDx11VertexBuffer::CDx11VertexBuffer(ID3D11Device* device, CDx11ContextManager& contextManager, const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)
-, m_vertexBuffer(nullptr)
-, m_indexBuffer(nullptr)
-, m_deviceContext(deviceContext)
+, m_contextManager(contextManager)
 {
 	HRESULT result = S_OK;
 
@@ -45,20 +43,22 @@ CDx11VertexBuffer::~CDx11VertexBuffer()
 
 void CDx11VertexBuffer::UnlockVertices(uint32)
 {
+	auto deviceContext = m_contextManager.GetCurrentDeviceContext();
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-	HRESULT result = m_deviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	HRESULT result = deviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
 	memcpy(mappedResource.pData, m_shadowVertexBuffer, m_descriptor.GetVertexBufferSize());
-	m_deviceContext->Unmap(m_vertexBuffer, 0);
+	deviceContext->Unmap(m_vertexBuffer, 0);
 }
 
 void CDx11VertexBuffer::UnlockIndices()
 {
+	auto deviceContext = m_contextManager.GetCurrentDeviceContext();
 	D3D11_MAPPED_SUBRESOURCE mappedResource = {};
-	HRESULT result = m_deviceContext->Map(m_indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	HRESULT result = deviceContext->Map(m_indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	assert(SUCCEEDED(result));
 	memcpy(mappedResource.pData, m_shadowIndexBuffer, m_descriptor.indexCount * sizeof(uint16));
-	m_deviceContext->Unmap(m_indexBuffer, 0);
+	deviceContext->Unmap(m_indexBuffer, 0);
 }
 
 ID3D11Buffer* CDx11VertexBuffer::GetVertexBuffer() const
