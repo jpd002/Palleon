@@ -200,7 +200,7 @@ long CWin32ApplicationWindow::OnLeftButtonUp(int, int)
 long CWin32ApplicationWindow::OnKeyDown(WPARAM keyCode, LPARAM flags)
 {
 	//Check repeat flag
-	if((flags & 0x40000000) == 0)
+	if((HIWORD(flags) & KF_REPEAT) == 0)
 	{
 		auto translatedKeyCode = TranslateKeyCode(keyCode);
 		if(translatedKeyCode != KEY_CODE_NONE)
