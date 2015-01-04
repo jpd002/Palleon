@@ -15,7 +15,7 @@ CSpriteButton::~CSpriteButton()
 
 SpriteButtonPtr CSpriteButton::Create()
 {
-	return SpriteButtonPtr(new CSpriteButton());
+	return std::make_shared<CSpriteButton>();
 }
 
 void CSpriteButton::SetReleasedTexture(const TexturePtr& texture)
@@ -30,9 +30,9 @@ void CSpriteButton::SetPressedTexture(const TexturePtr& texture)
 	UpdateButtonState();
 }
 
-void CSpriteButton::SetBackgroundAlphaBlendingMode(ALPHA_BLENDING_MODE alphaBlendingMode)
+SpritePtr CSpriteButton::GetBackgroundSprite() const
 {
-	m_background->GetMaterial()->SetAlphaBlendingMode(alphaBlendingMode);
+	return m_background;
 }
 
 void CSpriteButton::SetSize(const CVector2& size)

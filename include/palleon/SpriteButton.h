@@ -17,10 +17,10 @@ namespace Palleon
 
 		static SpriteButtonPtr	Create();
 
+		SpritePtr				GetBackgroundSprite() const;
+
 		void					SetReleasedTexture(const TexturePtr&);
 		void					SetPressedTexture(const TexturePtr&);
-
-		void					SetBackgroundAlphaBlendingMode(Palleon::ALPHA_BLENDING_MODE);
 
 		virtual void			SetSize(const CVector2&) override;
 

@@ -330,6 +330,7 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor* descriptor, const CScene
 		auto size = GetValueFromItemInfo<CVector2>(nodeDesc.properties, "Size", CVector2(1, 1));
 		auto font = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Font", "");
 		auto text = GetValueFromItemInfo<std::string>(nodeDesc.properties, "Text", "");
+		auto material = GetMaterialFromItemInfo(nodeDesc.properties);
 		auto releasedTexture = GetValueFromItemInfo<std::string>(nodeDesc.properties, "ReleasedTexture", "");
 		auto pressedTexture = GetValueFromItemInfo<std::string>(nodeDesc.properties, "PressedTexture", "");
 
@@ -338,6 +339,10 @@ SceneNodePtr CScene::CreateNode(const CSceneDescriptor* descriptor, const CScene
 		if(!font.empty())
 		{
 			button->SetFont(CResourceManager::GetInstance().GetResource<CFontDescriptor>(font));
+		}
+		if(material)
+		{
+			button->GetBackgroundSprite()->SetMaterial(material);
 		}
 		if(!releasedTexture.empty())
 		{
