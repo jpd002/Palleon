@@ -21,3 +21,8 @@ void CAndroidGraphicDevice::CreateInstance(int width, int height, float density)
 	if(m_instance != nullptr) return;
 	m_instance = new CAndroidGraphicDevice(width, height, density);
 }
+
+SharedGraphicContextPtr CAndroidGraphicDevice::CreateSharedContext()
+{
+	return SharedGraphicContextPtr();
+}

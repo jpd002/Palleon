@@ -9,6 +9,8 @@ namespace Palleon
 	public:
 		static void						CreateInstance(int, int, float);
 		
+		virtual SharedGraphicContextPtr	CreateSharedContext() override;
+		
 	private:
 										CAndroidGraphicDevice(int, int, float);
 		virtual							~CAndroidGraphicDevice();
