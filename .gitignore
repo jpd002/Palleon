@@ -1,5 +1,7 @@
-*.sdf
 Debug
 Release
 *.ipch
+*.user
 *.userprops
+*.sdf
+*.suo
