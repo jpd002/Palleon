@@ -1,9 +1,9 @@
 LOCAL_PATH:= $(call my-dir)
 
-include $(CLEAR_VARS)
+include $(LOCAL_PATH)/ExternalDependencies.mk
+FRAMEWORK_PATH		:= $(realpath $(LOCAL_PATH))/../../../Framework/
 
-BOOST_PATH			:= /cygdrive/c/Components/boost_trunk/
-FRAMEWORK_PATH		:= /cygdrive/c/Projects/Framework/
+include $(CLEAR_VARS)
 
 LOCAL_MODULE		:= libPalleon
 LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
