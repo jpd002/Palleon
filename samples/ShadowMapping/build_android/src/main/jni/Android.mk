@@ -1,8 +1,10 @@
 LOCAL_PATH := $(call my-dir)
 
-BOOST_PATH				:= /cygdrive/c/Components/boost_trunk
-FRAMEWORK_PATH			:= /cygdrive/c/Projects/Framework
-PALLEON_PATH			:= /cygdrive/c/Projects/Palleon
+FRAMEWORK_PATH := $(realpath $(LOCAL_PATH))/../../../../../../../Framework
+PALLEON_PATH   := $(realpath $(LOCAL_PATH))/../../../../../../
+PROJECT_PATH   := $(realpath $(LOCAL_PATH))/../../../../
+
+include $(PROJECT_PATH)/../ExternalDependencies.mk
 
 include $(CLEAR_VARS)
 
@@ -21,8 +23,8 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE			:= libPalleonApplication
-LOCAL_SRC_FILES			:=	../../src/Application.cpp \
-							../../src/TouchFreeCamera.cpp
+LOCAL_SRC_FILES			:=	$(PROJECT_PATH)/src/Application.cpp \
+							$(PROJECT_PATH)/src/TouchFreeCamera.cpp
 LOCAL_C_INCLUDES		:= $(BOOST_PATH) $(FRAMEWORK_PATH)/include $(PALLEON_PATH)/include
 LOCAL_CPP_FEATURES		:= exceptions rtti
 LOCAL_LDLIBS 			:= -lz -llog -landroid -lGLESv3 -lEGL
