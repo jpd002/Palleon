@@ -5,3 +5,13 @@ Release
 *.userprops
 *.sdf
 *.suo
+.gradle
+
+# For main library project on Android
+build_android/obj
+build_android/libs
+
+# For sample projects on Android
+**/build_android/build
+**/build_android/src/main/libs
+**/build_android/src/main/obj
