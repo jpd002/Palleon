@@ -25,7 +25,7 @@ namespace Palleon
 		virtual void			SetSize(const CVector2&) override;
 
 	protected:
-		void					UpdateButtonState();
+		void					UpdateButtonState() override;
 
 		SpritePtr				m_background;
 

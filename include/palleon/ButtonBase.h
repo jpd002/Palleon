@@ -20,7 +20,7 @@ namespace Palleon
 		void				SetText(const std::string&);
 		void				SetFont(const CFontDescriptor*);
 
-		virtual void		SetSize(const CVector2&);
+		virtual void		SetSize(const CVector2&) override;
 
 		virtual void		OnTouchPressed(bool) override;
 		virtual void		OnTouchReleased(bool) override;
