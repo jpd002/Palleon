@@ -1,5 +1,6 @@
 #include <jni.h>
 #include <cassert>
+#include "android/AssetManager.h"
 #include "palleon/android/AndroidActivity.h"
 #include "palleon/android/AndroidGraphicDevice.h"
 #include "palleon/android/AndroidLog.h"
@@ -47,16 +48,6 @@ void CAndroidActivity::NotifyMouseUp()
 	m_application->NotifyMouseUp();
 }
 
-AAssetManager* CAndroidActivity::GetAssetManager() const
-{
-	return m_assetManager;
-}
-
-void CAndroidActivity::SetAssetManager(AAssetManager* assetManager)
-{
-	m_assetManager = assetManager;
-}
-
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jint width, jint height, jfloat density)
 {
 	CAndroidActivity::GetInstance().Initialize(width, height, density);
@@ -71,7 +62,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInt
 {
 	auto assetManager = AAssetManager_fromJava(env, assetManagerJava);
 	assert(assetManager != nullptr);
-	CAndroidActivity::GetInstance().SetAssetManager(assetManager);
+	Framework::Android::CAssetManager::GetInstance().SetAssetManager(assetManager);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_notifyMouseMove(JNIEnv* env, jobject obj, jint x, jint y)

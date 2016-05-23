@@ -12,15 +12,11 @@ namespace Palleon
 		void					Initialize(int, int, float);
 		void					Update();
 		
-		AAssetManager*			GetAssetManager() const;
-		void					SetAssetManager(AAssetManager*);
-		
 		void					NotifyMouseMove(int, int);
 		void					NotifyMouseDown();
 		void					NotifyMouseUp();
 		
 	private:
 		CApplication*			m_application = nullptr;
-		AAssetManager*			m_assetManager = nullptr;
 	};
 }
