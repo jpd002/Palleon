@@ -6,6 +6,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #elif defined(PALLEON_ANDROID)
+#include <EGL/egl.h>
 #include <GLES3/gl3.h>
 #define GL_GLEXT_PROTOTYPES
 #include <GLES3/gl3ext.h>

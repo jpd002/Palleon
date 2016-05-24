@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <android/native_window_jni.h>
 #include <cassert>
 #include "android/AssetManager.h"
 #include "palleon/android/AndroidActivity.h"
@@ -13,21 +14,28 @@ void palleon_library_link()
 
 }
 
-void CAndroidActivity::Initialize(int width, int height, float density)
+void CAndroidActivity::Initialize(ANativeWindow* nativeWindow, int width, int height, float density)
 {
 	assert(!m_application);
 	
 	CAndroidLog::CreateInstance();
 	CAndroidResourceManager::CreateInstance();
-	CAndroidGraphicDevice::CreateInstance(width, height, density);
+	CAndroidGraphicDevice::CreateInstance(nativeWindow, width, height, density);
 
 	m_application = CreateApplication();
 }
 
-void CAndroidActivity::Update()
+void CAndroidActivity::Update(uint64 frameTime)
 {
-	m_application->Update(1.f / 60.f);
+	float dt = 1.f / 60.f;
+	if(m_lastFrameTime != 0)
+	{
+		dt = static_cast<float>(frameTime - m_lastFrameTime) / 1000000000.f;
+	}
+	m_lastFrameTime = frameTime;
+	m_application->Update(dt);
 	CAndroidGraphicDevice::GetInstance().Draw();
+	static_cast<CAndroidGraphicDevice&>(CAndroidGraphicDevice::GetInstance()).PresentBackBuffer();
 }
 
 void CAndroidActivity::NotifyMouseMove(int x, int y)
@@ -48,14 +56,15 @@ void CAndroidActivity::NotifyMouseUp()
 	m_application->NotifyMouseUp();
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jint width, jint height, jfloat density)
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_initialize(JNIEnv* env, jobject obj, jobject nativeSurface, jint width, jint height, jfloat density)
 {
-	CAndroidActivity::GetInstance().Initialize(width, height, density);
+	auto nativeWindow = ANativeWindow_fromSurface(env, nativeSurface);
+	CAndroidActivity::GetInstance().Initialize(nativeWindow, width, height, density);
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_update(JNIEnv* env, jobject obj)
+extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_update(JNIEnv* env, jobject obj, jlong frameTime)
 {
-	CAndroidActivity::GetInstance().Update();
+	CAndroidActivity::GetInstance().Update(frameTime);
 }
 
 extern "C" JNIEXPORT void JNICALL Java_com_virtualapplications_palleon_NativeInterop_setAssetManager(JNIEnv* env, jobject obj, jobject assetManagerJava)
