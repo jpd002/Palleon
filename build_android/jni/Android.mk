@@ -10,6 +10,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/android/AndroidGlEsGraphicDevice.cpp \
 						../../src/android/AndroidLog.cpp \
 						../../src/android/AndroidResourceManager.cpp \
+						../../src/android/AndroidVulkanGraphicDevice.cpp \
 						../../src/AudioManager.cpp \
 						../../src/Box2.cpp \
 						../../src/ButtonBase.cpp \
@@ -64,8 +65,9 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/RumbleAnimation.cpp \
 						../../src/SpriteButton.cpp \
 						../../src/TextureAnimation.cpp \
+						../../src/vulkan/VulkanGraphicDevice.cpp \
 						../../src/Widget.cpp
-LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
+LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
 
 include $(BUILD_STATIC_LIBRARY)
