@@ -1,8 +1,8 @@
 LOCAL_PATH := $(call my-dir)
 
-FRAMEWORK_PATH := $(realpath $(LOCAL_PATH))/../../../../../../../Framework
-PALLEON_PATH   := $(realpath $(LOCAL_PATH))/../../../../../../
-PROJECT_PATH   := $(realpath $(LOCAL_PATH))/../../../../
+FRAMEWORK_PATH := $(realpath $(LOCAL_PATH)/../../../../../../../Framework)
+PALLEON_PATH   := $(realpath $(LOCAL_PATH)/../../../../../../)
+PROJECT_PATH   := $(realpath $(LOCAL_PATH)/../../../../)
 
 include $(PROJECT_PATH)/../ExternalDependencies.mk
 
