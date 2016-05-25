@@ -3,11 +3,20 @@
 #include <cassert>
 #include "android/AssetManager.h"
 #include "palleon/android/AndroidActivity.h"
-#include "palleon/android/AndroidGraphicDevice.h"
 #include "palleon/android/AndroidLog.h"
 #include "palleon/android/AndroidResourceManager.h"
 
 using namespace Palleon;
+
+#define USE_VULKAN
+
+#ifdef USE_VULKAN
+#include "palleon/android/AndroidVulkanGraphicDevice.h"
+typedef CAndroidVulkanGraphicDevice CAndroidGraphicDevice;
+#else
+#include "palleon/android/AndroidGlEsGraphicDevice.h"
+typedef CAndroidGlEsGraphicDevice CAndroidGraphicDevice;
+#endif
 
 void palleon_library_link()
 {

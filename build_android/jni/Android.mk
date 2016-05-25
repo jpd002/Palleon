@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE		:= libPalleon
 LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
-						../../src/android/AndroidGraphicDevice.cpp \
+						../../src/android/AndroidGlEsGraphicDevice.cpp \
 						../../src/android/AndroidLog.cpp \
 						../../src/android/AndroidResourceManager.cpp \
 						../../src/AudioManager.cpp \
