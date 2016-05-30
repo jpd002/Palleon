@@ -18,6 +18,8 @@ namespace Palleon
 										CAndroidVulkanGraphicDevice(ANativeWindow*, int, int, float);
 		virtual							~CAndroidVulkanGraphicDevice();
 		
+		void							CreateSurface();
+		
 		ANativeWindow*					m_window = nullptr;
 	};
 }

@@ -1,4 +1,6 @@
 #include "palleon/android/AndroidVulkanGraphicDevice.h"
+#include "palleon/Log.h"
+#include "vulkan/StructDefs.h"
 
 using namespace Palleon;
 
@@ -6,6 +8,7 @@ CAndroidVulkanGraphicDevice::CAndroidVulkanGraphicDevice(ANativeWindow* nativeWi
 : CVulkanGraphicDevice(CVector2(width, height), density)
 , m_window(nativeWindow)
 {
+	CreateSurface();
 	Initialize();
 }
 
@@ -24,6 +27,19 @@ void CAndroidVulkanGraphicDevice::CreateInstance(ANativeWindow* nativeWindow, in
 SharedGraphicContextPtr CAndroidVulkanGraphicDevice::CreateSharedContext()
 {
 	return SharedGraphicContextPtr();
+}
+
+void CAndroidVulkanGraphicDevice::CreateSurface()
+{
+	assert(!m_vkInstance.IsEmpty());
+	
+	auto surfaceCreateInfo = Framework::Vulkan::AndroidSurfaceCreateInfoKHR();
+	surfaceCreateInfo.window = m_window;
+	
+	auto result = m_vkInstance.vkCreateAndroidSurfaceKHR(m_vkInstance, &surfaceCreateInfo, nullptr, &m_surface);
+	CHECKVULKANERROR(result);
+	
+	CLog::GetInstance().Print("Created surface.");
 }
 
 void CAndroidVulkanGraphicDevice::PresentBackBuffer()

@@ -28,9 +28,36 @@ namespace Palleon
 		void       CreateInstance();
 		void       CreateDevice(VkPhysicalDevice);
 		
-		std::vector<VkPhysicalDevice>    GetPhysicalDevices();
+		VkRenderPass    CreateRenderPass(VkFormat);
+		
+		VkCommandPool                CreateCommandPool(uint32_t);
+		std::vector<VkCommandBuffer> AllocateCommandBuffers(VkCommandPool, uint32_t);
+		void                         FreeCommandBuffer(VkCommandPool, VkCommandBuffer);
+		
+		void       CreateSwapChain(VkSurfaceFormatKHR, VkExtent2D);
+		void       PrepareSwapChainImages();
+		void       CreateSwapChainImageViews(VkFormat);
+		void       CreateSwapChainFramebuffers(VkRenderPass, VkExtent2D);
+		
+		std::vector<VkPhysicalDevice>   GetPhysicalDevices();
+		std::vector<uint32_t>           GetRenderQueueFamilies(VkPhysicalDevice);
+		std::vector<VkSurfaceFormatKHR> GetDeviceSurfaceFormats(VkPhysicalDevice);
+		
+		void                            BuildClearCommandList(VkCommandBuffer, VkImage, VkExtent2D, VkRenderPass, VkFramebuffer);
 		
 		Framework::Vulkan::CInstance    m_vkInstance;
+		VkSurfaceKHR                    m_surface = VK_NULL_HANDLE;
+		VkExtent2D                      m_surfaceExtents;
 		Framework::Vulkan::CDevice      m_device;
+		VkQueue                         m_queue = VK_NULL_HANDLE;
+		VkCommandPool                   m_commandPool = VK_NULL_HANDLE;
+		VkRenderPass                    m_renderPass = VK_NULL_HANDLE;
+		VkSemaphore                     m_imageAcquireSemaphore = VK_NULL_HANDLE;
+		VkSemaphore                     m_renderCompleteSemaphore = VK_NULL_HANDLE;
+		VkSwapchainKHR                  m_swapChain = VK_NULL_HANDLE;
+		std::vector<VkImage>            m_swapChainImages;
+		std::vector<VkImageView>        m_swapChainImageViews;
+		
+		std::vector<VkFramebuffer>      m_swapChainFramebuffers;
 	};
 }
