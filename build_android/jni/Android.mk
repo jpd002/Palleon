@@ -66,6 +66,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/SpriteButton.cpp \
 						../../src/TextureAnimation.cpp \
 						../../src/vulkan/VulkanGraphicDevice.cpp \
+						../../src/vulkan/VulkanTexture.cpp \
 						../../src/Widget.cpp
 LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
