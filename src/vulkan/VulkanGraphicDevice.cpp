@@ -1,4 +1,5 @@
 #include "palleon/vulkan/VulkanGraphicDevice.h"
+#include "palleon/vulkan/VulkanVertexBuffer.h"
 #include "palleon/vulkan/VulkanTexture.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
@@ -111,9 +112,9 @@ void CVulkanGraphicDevice::Draw()
 	FreeCommandBuffer(m_commandPool, commandBuffer);
 }
 
-VertexBufferPtr CVulkanGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR&)
+VertexBufferPtr CVulkanGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 {
-	return VertexBufferPtr();
+	return std::make_shared<CVulkanVertexBuffer>(descriptor);
 }
 
 TexturePtr CVulkanGraphicDevice::CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32)
