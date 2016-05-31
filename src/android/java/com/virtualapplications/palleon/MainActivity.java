@@ -25,6 +25,7 @@ public class MainActivity extends Activity
 	private static String TAG = "Palleon";
 	private float _density = 1.0f;
 	SurfaceView _view;
+	FrameCallback _frameCallback = new FrameCallback();
 	
 	@Override protected void onCreate(Bundle icicle) 
 	{
@@ -50,20 +51,13 @@ public class MainActivity extends Activity
 		holder.addCallback(new SurfaceCallback());
 	}
 	
-	@Override 
-	protected void onPause() 
+	@Override
+	protected void onPause()
 	{
+		Choreographer.getInstance().removeFrameCallback(_frameCallback);
 		super.onPause();
-		//_view.onPause();
 	}
 	
-	@Override 
-	protected void onResume() 
-	{
-		super.onResume();
-		//_view.onResume();
-	}
-
 	private class SurfaceCallback implements SurfaceHolder.Callback
 	{
 		@Override 
@@ -74,8 +68,7 @@ public class MainActivity extends Activity
 			int scaledWidth = (int)((float)width / _density);
 			int scaledHeight = (int)((float)height / _density);
 			NativeInterop.initialize(surface, scaledWidth, scaledHeight, _density);
-			Choreographer.getInstance().postFrameCallback(new FrameCallback());
-			//_view.postOnAnimation(_updateRunnable);
+			Choreographer.getInstance().postFrameCallback(_frameCallback);
 		}
 		
 		@Override 
@@ -92,15 +85,15 @@ public class MainActivity extends Activity
 	}
 	
 	private class FrameCallback implements Choreographer.FrameCallback
-	{		
+	{
 		@Override
 		public void doFrame(long frameTime)
 		{
 			NativeInterop.update(frameTime);
-			Choreographer.getInstance().postFrameCallback(new FrameCallback());
+			Choreographer.getInstance().postFrameCallback(_frameCallback);
 		}
 	}
-		
+	
 	private class TouchListener implements View.OnTouchListener
 	{
 		@Override 
