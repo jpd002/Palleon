@@ -116,7 +116,7 @@ void CVulkanGraphicDevice::Draw()
 
 VertexBufferPtr CVulkanGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 {
-	return std::make_shared<CVulkanVertexBuffer>(descriptor);
+	return std::make_shared<CVulkanVertexBuffer>(m_device, m_physicalDeviceMemoryProperties, descriptor);
 }
 
 TexturePtr CVulkanGraphicDevice::CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32)
