@@ -30,6 +30,8 @@ void CVulkanGraphicDevice::Initialize()
 	assert(surfaceFormats.size() > 0);
 	auto surfaceFormat = surfaceFormats[0];
 	
+	m_vkInstance.vkGetPhysicalDeviceMemoryProperties(physicalDevice, &m_physicalDeviceMemoryProperties);
+	
 	{
 		VkSurfaceCapabilitiesKHR surfaceCaps = {};
 		auto result = m_vkInstance.vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, m_surface, &surfaceCaps);
