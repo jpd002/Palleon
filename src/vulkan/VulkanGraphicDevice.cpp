@@ -4,6 +4,18 @@
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
 
+#ifdef _TRIANGLEDRAW_TEST
+#include "vulkan/ShaderModule.h"
+#include "android/AssetStream.h"
+
+struct Vertex
+{
+	CVector4 position;
+	CVector4 color;
+};
+
+#endif
+
 using namespace Palleon;
 
 CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
@@ -65,6 +77,11 @@ void CVulkanGraphicDevice::Initialize()
 		auto result = m_device.vkCreateSemaphore(m_device, &semaphoreCreateInfo, nullptr, &m_renderCompleteSemaphore);
 		CHECKVULKANERROR(result);
 	}
+	
+#ifdef _TRIANGLEDRAW_TEST
+	CreateTriangleDrawPipeline();
+	CreateTriangleVertexBuffer();
+#endif
 }
 
 void CVulkanGraphicDevice::Draw()
@@ -354,6 +371,170 @@ std::vector<VkSurfaceFormatKHR> CVulkanGraphicDevice::GetDeviceSurfaceFormats(Vk
 	return surfaceFormats;
 }
 
+#ifdef _TRIANGLEDRAW_TEST
+
+void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
+{
+	VkResult result = VK_SUCCESS;
+	
+	auto pipelineCacheCreateInfo = Framework::Vulkan::PipelineCacheCreateInfo();
+	VkPipelineCache pipelineCache = VK_NULL_HANDLE;
+	result = m_device.vkCreatePipelineCache(m_device, &pipelineCacheCreateInfo, nullptr, &pipelineCache);
+	CHECKVULKANERROR(result);
+	
+	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
+	VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
+	result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &pipelineLayout);
+	CHECKVULKANERROR(result);
+
+	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
+	inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+	// Specify our two attributes, Position and Color.
+	VkVertexInputAttributeDescription attributes[2] = { { 0 } };
+	//Position
+	attributes[0].location = 0; // Position in shader specifies layout(location = 0) to link with this attribute.
+	attributes[0].binding  = 0; // Uses vertex buffer #0.
+	attributes[0].format   = VK_FORMAT_R32G32B32A32_SFLOAT;
+	attributes[0].offset   = 0;
+	//Color 
+	attributes[1].location = 1; // Color in shader specifies layout(location = 1) to link with this attribute.
+	attributes[1].binding  = 0; // Uses vertex buffer #0.
+	attributes[1].format   = VK_FORMAT_R32G32B32A32_SFLOAT;
+	attributes[1].offset   = 4 * sizeof(float);
+	
+	VkVertexInputBindingDescription binding = { 0 };
+	binding.binding   = 0;
+	binding.stride    = sizeof(Vertex);
+	binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+	
+	auto vertexInputInfo = Framework::Vulkan::PipelineVertexInputStateCreateInfo();
+	vertexInputInfo.vertexBindingDescriptionCount   = 1;
+	vertexInputInfo.pVertexBindingDescriptions      = &binding;
+	vertexInputInfo.vertexAttributeDescriptionCount = 2;
+	vertexInputInfo.pVertexAttributeDescriptions    = attributes;
+
+	auto rasterStateInfo = Framework::Vulkan::PipelineRasterizationStateCreateInfo();
+	rasterStateInfo.polygonMode             = VK_POLYGON_MODE_FILL;
+	rasterStateInfo.cullMode                = VK_CULL_MODE_BACK_BIT;
+	rasterStateInfo.frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+	rasterStateInfo.depthClampEnable        = false;
+	rasterStateInfo.rasterizerDiscardEnable = false;
+	rasterStateInfo.depthBiasEnable         = false;
+	rasterStateInfo.lineWidth               = 1.0f;
+	
+	// Our attachment will write to all color channels, but no blending is enabled.
+	VkPipelineColorBlendAttachmentState blendAttachment = { 0 };
+	blendAttachment.blendEnable    = false;
+	blendAttachment.colorWriteMask = 0xf;
+	
+	auto colorBlendStateInfo = Framework::Vulkan::PipelineColorBlendStateCreateInfo();
+	colorBlendStateInfo.attachmentCount = 1;
+	colorBlendStateInfo.pAttachments    = &blendAttachment;
+	
+	auto viewportStateInfo = Framework::Vulkan::PipelineViewportStateCreateInfo();
+	viewportStateInfo.viewportCount = 1;
+	viewportStateInfo.scissorCount  = 1;
+	
+	auto depthStencilStateInfo = Framework::Vulkan::PipelineDepthStencilStateCreateInfo();
+	depthStencilStateInfo.depthTestEnable       = false;
+	depthStencilStateInfo.depthWriteEnable      = false;
+	depthStencilStateInfo.depthBoundsTestEnable = false;
+	depthStencilStateInfo.stencilTestEnable     = false;
+	
+	auto multisampleStateInfo = Framework::Vulkan::PipelineMultisampleStateCreateInfo();
+	multisampleStateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	static const VkDynamicState dynamicStates[] = 
+	{
+		VK_DYNAMIC_STATE_VIEWPORT,
+		VK_DYNAMIC_STATE_SCISSOR,
+	};
+	auto dynamicStateInfo = Framework::Vulkan::PipelineDynamicStateCreateInfo();
+	dynamicStateInfo.pDynamicStates    = dynamicStates;
+	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
+	
+	Framework::Android::CAssetStream vertexShaderStream("triangle.vert.spv");
+	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, vertexShaderStream);
+	
+	Framework::Android::CAssetStream pixelShaderStream("triangle.frag.spv");
+	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, pixelShaderStream);
+	
+	// Load our SPIR-V shaders.
+	VkPipelineShaderStageCreateInfo shaderStages[2] = {
+		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
+		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
+	};
+
+	// We have two pipeline stages, vertex and fragment.
+	shaderStages[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
+	shaderStages[0].module = vertexShaderModule;
+	shaderStages[0].pName  = "main";
+	shaderStages[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
+	shaderStages[1].module = pixelShaderModule;
+	shaderStages[1].pName  = "main";
+
+	auto pipelineCreateInfo = Framework::Vulkan::GraphicsPipelineCreateInfo();
+	pipelineCreateInfo.stageCount          = 2;
+	pipelineCreateInfo.pStages             = shaderStages;
+	pipelineCreateInfo.pInputAssemblyState = &inputAssemblyInfo;
+	pipelineCreateInfo.pVertexInputState   = &vertexInputInfo;
+	pipelineCreateInfo.pRasterizationState = &rasterStateInfo;
+	pipelineCreateInfo.pColorBlendState    = &colorBlendStateInfo;
+	pipelineCreateInfo.pViewportState      = &viewportStateInfo;
+	pipelineCreateInfo.pDepthStencilState  = &depthStencilStateInfo;
+	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
+	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
+	pipelineCreateInfo.renderPass          = m_renderPass;
+	pipelineCreateInfo.layout              = pipelineLayout;
+	
+	result = m_device.vkCreateGraphicsPipelines(m_device, pipelineCache, 1, &pipelineCreateInfo, nullptr, &m_triangleDrawPipeline);
+	CHECKVULKANERROR(result);
+}
+
+void CVulkanGraphicDevice::CreateTriangleVertexBuffer()
+{
+	uint32 currentOffset = 0;
+	unsigned int currentVertexItem = 0;
+
+	VERTEX_BUFFER_DESCRIPTOR descriptor = {};
+	descriptor.vertexCount = 3;
+	descriptor.indexCount  = 0;
+
+	//Position Item
+	{
+		auto& vertexItem = descriptor.vertexItems[currentVertexItem++];
+		vertexItem.id = VERTEX_ITEM_ID_POSITION;
+		vertexItem.offset = currentOffset;
+		vertexItem.size = sizeof(CVector4);
+		currentOffset += vertexItem.size;
+	}
+	
+	//Color Item
+	{
+		auto& vertexItem = descriptor.vertexItems[currentVertexItem++];
+		vertexItem.id = VERTEX_ITEM_ID_COLOR;
+		vertexItem.offset = currentOffset;
+		vertexItem.size = sizeof(CVector4);
+		currentOffset += vertexItem.size;
+	}
+	
+	m_triangleVertexBuffer = CreateVertexBuffer(descriptor);
+	
+	static const Vertex vertexData[] = 
+	{
+		{ CVector4(-0.5f, -0.5f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
+		{ CVector4(-0.5f, +0.5f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
+		{ CVector4(+0.5f, -0.5f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
+	};
+	
+	auto vertices = reinterpret_cast<uint8*>(m_triangleVertexBuffer->LockVertices());
+	memcpy(vertices, vertexData, sizeof(vertexData));
+	m_triangleVertexBuffer->UnlockVertices();
+}
+
+#endif
+
 //////////////////////////////////////////////////////////////
 //Command Pool Stuff
 //////////////////////////////////////////////////////////////
@@ -564,7 +745,6 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 	VkClearColorValue defaultClearColor = { { 0.0f, 0.0f, color, 1.0f } };
 	t += 0.01f;
 	
-#if 1
 	VkClearValue clearValue;
 	clearValue.color = defaultClearColor;
 	
@@ -577,25 +757,30 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 	
 	m_device.vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	
-	//VkViewport viewport = {};
-	//viewport.width    = renderAreaExtent.width;
-	//viewport.height   = renderAreaExtent.height;
-	//viewport.maxDepth = 1.0f;
-	//m_device.vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+#ifdef _TRIANGLEDRAW_TEST
+	m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_triangleDrawPipeline);
 	
-	//VkRect2D scissor = {};
-	//scissor.extent  = renderAreaExtent;
-	//scissor.extent.width = 32;
-	//scissor.extent.height = 32;
-	//m_device.vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+	VkViewport viewport = {};
+	viewport.width    = renderAreaExtent.width;
+	viewport.height   = renderAreaExtent.height;
+	viewport.maxDepth = 1.0f;
+	m_device.vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+	
+	VkRect2D scissor = {};
+	scissor.extent  = renderAreaExtent;
+	m_device.vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+	
+	{
+		auto vertexBuffer = static_cast<CVulkanVertexBuffer*>(m_triangleVertexBuffer.get())->GetVertexBuffer();
+		VkDeviceSize offset = 0;
+		m_device.vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertexBuffer, &offset);
+	}
+	
+	m_device.vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+#endif
 	
 	m_device.vkCmdEndRenderPass(commandBuffer);
-#else
-	VkImageSubresourceRange imageSubresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-	//m_device.vkCmdClearColorImage(commandBuffer, swapChainImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &defaultClearColor, 1, &imageSubresourceRange);
-	m_device.vkCmdClearColorImage(commandBuffer, swapChainImage, VK_IMAGE_LAYOUT_GENERAL, &defaultClearColor, 1, &imageSubresourceRange);
-#endif
-		
+	
 	//Transition image from attachment to present
 	{
 		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();

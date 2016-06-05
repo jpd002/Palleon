@@ -4,6 +4,8 @@
 #include "vulkan/Device.h"
 #include "palleon/graphics/GraphicDevice.h"
 
+//#define _TRIANGLEDRAW_TEST
+
 namespace Palleon
 {
 	class CVulkanGraphicDevice : public CGraphicDevice
@@ -45,6 +47,11 @@ namespace Palleon
 		
 		void                            BuildClearCommandList(VkCommandBuffer, VkImage, VkExtent2D, VkRenderPass, VkFramebuffer);
 		
+#ifdef _TRIANGLEDRAW_TEST
+		void                            CreateTriangleDrawPipeline();
+		void                            CreateTriangleVertexBuffer();
+#endif
+		
 		Framework::Vulkan::CInstance     m_vkInstance;
 		VkSurfaceKHR                     m_surface = VK_NULL_HANDLE;
 		VkExtent2D                       m_surfaceExtents;
@@ -60,5 +67,10 @@ namespace Palleon
 		std::vector<VkImageView>         m_swapChainImageViews;
 		
 		std::vector<VkFramebuffer>       m_swapChainFramebuffers;
+		
+#ifdef _TRIANGLEDRAW_TEST
+		VkPipeline                       m_triangleDrawPipeline;
+		VertexBufferPtr                  m_triangleVertexBuffer;
+#endif
 	};
 }
