@@ -1,6 +1,7 @@
 #include "palleon/resources/DdsImage.h"
 #include <assert.h>
 #include <stdexcept>
+#include <cstring>
 
 using namespace Palleon;
 

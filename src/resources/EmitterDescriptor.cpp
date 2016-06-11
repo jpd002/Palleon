@@ -2,6 +2,7 @@
 #include "xml/Parser.h"
 #include "xml/Utils.h"
 #include <memory>
+#include <cstring>
 
 using namespace Palleon;
 

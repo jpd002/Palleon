@@ -3,6 +3,7 @@
 #include "Types.h"
 #include "math/Vector2.h"
 #include "math/Vector3.h"
+#include <cstring>
 #include <memory>
 #include <array>
 #include <functional>

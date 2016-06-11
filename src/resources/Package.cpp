@@ -1,5 +1,6 @@
 #include <memory>
 #include <assert.h>
+#include <cstring>
 #include "palleon/resources/Package.h"
 #include "palleon/resources/ResourceManager.h"
 #include "palleon/resources/FontDescriptor.h"
