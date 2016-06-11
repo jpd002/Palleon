@@ -21,6 +21,8 @@ namespace Palleon
 		RenderTargetPtr        CreateRenderTarget(TEXTURE_FORMAT, uint32, uint32) override;
 		CubeRenderTargetPtr    CreateCubeRenderTarget(TEXTURE_FORMAT, uint32) override;
 		
+		SharedGraphicContextPtr CreateSharedContext() override;
+		
 	protected:
 		           CVulkanGraphicDevice(const CVector2&, float);
 		virtual    ~CVulkanGraphicDevice();

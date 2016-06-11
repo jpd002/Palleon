@@ -12,8 +12,6 @@ namespace Palleon
 		
 		void							PresentBackBuffer();
 		
-		virtual SharedGraphicContextPtr	CreateSharedContext() override;
-		
 	private:
 										CAndroidVulkanGraphicDevice(ANativeWindow*, int, int, float);
 		virtual							~CAndroidVulkanGraphicDevice();

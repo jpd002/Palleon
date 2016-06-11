@@ -156,6 +156,11 @@ CubeRenderTargetPtr CVulkanGraphicDevice::CreateCubeRenderTarget(TEXTURE_FORMAT,
 	return CubeRenderTargetPtr();
 }
 
+SharedGraphicContextPtr CVulkanGraphicDevice::CreateSharedContext()
+{
+	return SharedGraphicContextPtr();
+}
+
 void CVulkanGraphicDevice::CreateInstance()
 {
 	assert(m_vkInstance.IsEmpty());

@@ -24,11 +24,6 @@ void CAndroidVulkanGraphicDevice::CreateInstance(ANativeWindow* nativeWindow, in
 	m_instance = new CAndroidVulkanGraphicDevice(nativeWindow, width, height, density);
 }
 
-SharedGraphicContextPtr CAndroidVulkanGraphicDevice::CreateSharedContext()
-{
-	return SharedGraphicContextPtr();
-}
-
 void CAndroidVulkanGraphicDevice::CreateSurface()
 {
 	assert(!m_vkInstance.IsEmpty());
