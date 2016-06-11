@@ -32,6 +32,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/graphics/EmitterModifier.cpp \
 						../../src/graphics/GenericEffect.cpp \
 						../../src/graphics/GraphicDevice.cpp \
+						../../src/graphics/Label.cpp \
 						../../src/graphics/Material.cpp \
 						../../src/graphics/Mesh.cpp \
 						../../src/graphics/NinePatch.cpp \
@@ -46,7 +47,6 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/graphics/VertexBuffer.cpp \
 						../../src/graphics/Viewport.cpp \
 						../../src/InputManager.cpp \
-						../../src/graphics/Label.cpp \
 						../../src/LayoutNode.cpp \
 						../../src/Log.cpp \
 						../../src/NinePatchButton.cpp \
