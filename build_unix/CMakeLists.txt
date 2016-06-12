@@ -52,6 +52,9 @@ add_library(Palleon
 	../src/unix/UnixLog.cpp
 	../src/unix/UnixMain.cpp
 	../src/unix/UnixResourceManager.cpp
+	../src/vulkan/VulkanGraphicDevice.cpp
+	../src/vulkan/VulkanTexture.cpp
+	../src/vulkan/VulkanVertexBuffer.cpp
 	../src/Widget.cpp
 )
 
