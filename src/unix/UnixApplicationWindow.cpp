@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cassert>
 #include "palleon/unix/UnixApplicationWindow.h"
+#include "palleon/unix/UnixLog.h"
 #include "palleon/unix/UnixResourceManager.h"
 
 using namespace Palleon;
@@ -25,6 +26,7 @@ CUnixApplicationWindow::CUnixApplicationWindow()
 	xcb_map_window(m_connection, m_window);
 	xcb_flush(m_connection);
 
+	CUnixLog::CreateInstance();
 	CUnixResourceManager::CreateInstance();
 
 	m_application = CreateApplication();

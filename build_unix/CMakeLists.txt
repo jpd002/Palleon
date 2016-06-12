@@ -48,6 +48,7 @@ add_library(Palleon
 	../src/SpriteButton.cpp
 	../src/TextureAnimation.cpp
 	../src/unix/UnixApplicationWindow.cpp
+	../src/unix/UnixLog.cpp
 	../src/unix/UnixMain.cpp
 	../src/unix/UnixResourceManager.cpp
 	../src/Widget.cpp
