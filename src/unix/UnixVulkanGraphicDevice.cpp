@@ -36,8 +36,7 @@ void CUnixVulkanGraphicDevice::CreateSurface()
 	surfaceCreateInfo.connection = m_connection;
 	surfaceCreateInfo.window     = m_window;
 
-	auto result = m_vkInstance.vkCreateXcbSurfaceKHR(m_vkInstance, &surfaceCreateInfo, 
-nullptr, &m_surface);
+	auto result = m_vkInstance.vkCreateXcbSurfaceKHR(m_vkInstance, &surfaceCreateInfo, nullptr, &m_surface);
 	CHECKVULKANERROR(result);
 
 	CLog::GetInstance().Print("Created surface.");
