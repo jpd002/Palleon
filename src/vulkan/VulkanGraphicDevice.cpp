@@ -18,9 +18,17 @@ struct Vertex
 
 using namespace Palleon;
 
+VKAPI_ATTR VkBool32 VKAPI_CALL DebugReportCallback(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location,
+	int32_t messageCode, const char* pLayerPrefix, const char* pMessage, void* pUserData)
+{
+	CLog::GetInstance().Print("%s: %s", pLayerPrefix, pMessage);
+	return VK_FALSE;
+}
+
 CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 {
 	CreateInstance();
+	CreateDebugReportCallback();
 }
 
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
@@ -194,6 +202,20 @@ void CVulkanGraphicDevice::CreateInstance()
 	m_vkInstance = Framework::Vulkan::CInstance(instanceCreateInfo);
 	
 	CLog::GetInstance().Print("Created Vulkan instance.");
+}
+
+void CVulkanGraphicDevice::CreateDebugReportCallback()
+{
+	if(m_vkInstance.vkCreateDebugReportCallbackEXT == nullptr) return;
+
+	auto callbackCreateInfo = Framework::Vulkan::DebugReportCallbackCreateInfoEXT();
+	callbackCreateInfo.flags       = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
+	callbackCreateInfo.pfnCallback = &DebugReportCallback;
+
+	auto result = m_vkInstance.vkCreateDebugReportCallbackEXT(m_vkInstance, &callbackCreateInfo, nullptr, &m_debugReportCallback);
+	CHECKVULKANERROR(result);
+
+	CLog::GetInstance().Print("Created debug report callback.");
 }
 
 void CVulkanGraphicDevice::CreateDevice(VkPhysicalDevice physicalDevice)

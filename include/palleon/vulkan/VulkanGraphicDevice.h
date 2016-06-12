@@ -30,6 +30,7 @@ namespace Palleon
 		void       Initialize();
 		
 		void       CreateInstance();
+		void       CreateDebugReportCallback();
 		void       CreateDevice(VkPhysicalDevice);
 		
 		VkRenderPass    CreateRenderPass(VkFormat);
@@ -55,6 +56,7 @@ namespace Palleon
 #endif
 		
 		Framework::Vulkan::CInstance     m_vkInstance;
+		VkDebugReportCallbackEXT         m_debugReportCallback = VK_NULL_HANDLE;
 		VkSurfaceKHR                     m_surface = VK_NULL_HANDLE;
 		VkExtent2D                       m_surfaceExtents;
 		Framework::Vulkan::CDevice       m_device;
