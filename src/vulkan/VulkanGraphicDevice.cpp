@@ -174,7 +174,11 @@ void CVulkanGraphicDevice::CreateInstance()
 	std::vector<const char*> enabledExtensions;
 	//enabledExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	enabledExtensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
+#if defined(VK_USE_PLATFORM_ANDROID_KHR)
 	enabledExtensions.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
+#elif defined(VK_USE_PLATFORM_XCB_KHR)
+	enabledExtensions.push_back(VK_KHR_XCB_SURFACE_EXTENSION_NAME);
+#endif
 	
 	std::vector<const char*> enabledLayers;
 	//enabledLayers.push_back("VK_LAYER_GOOGLE_threading");
