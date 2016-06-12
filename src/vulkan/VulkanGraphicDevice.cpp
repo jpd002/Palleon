@@ -6,7 +6,7 @@
 
 #ifdef _TRIANGLEDRAW_TEST
 #include "vulkan/ShaderModule.h"
-#include "android/AssetStream.h"
+#include "palleon/resources/ResourceManager.h"
 
 struct Vertex
 {
@@ -459,11 +459,11 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 	dynamicStateInfo.pDynamicStates    = dynamicStates;
 	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
 	
-	Framework::Android::CAssetStream vertexShaderStream("triangle.vert.spv");
-	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, vertexShaderStream);
+	auto vertexShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.vert.spv");
+	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, *vertexShaderStream);
 	
-	Framework::Android::CAssetStream pixelShaderStream("triangle.frag.spv");
-	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, pixelShaderStream);
+	auto pixelShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.frag.spv");
+	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, *pixelShaderStream);
 	
 	// Load our SPIR-V shaders.
 	VkPipelineShaderStageCreateInfo shaderStages[2] = {
