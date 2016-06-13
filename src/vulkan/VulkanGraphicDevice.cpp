@@ -33,7 +33,15 @@ CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
-	
+#ifdef _TRIANGLEDRAW_TEST
+	m_triangleVertexBuffer.reset();
+#endif
+	m_device.Reset();
+	if(m_debugReportCallback != VK_NULL_HANDLE)
+	{
+		m_vkInstance.vkDestroyDebugReportCallbackEXT(m_vkInstance, m_debugReportCallback, nullptr);
+		m_debugReportCallback = VK_NULL_HANDLE;
+	}
 }
 
 void CVulkanGraphicDevice::Initialize()
