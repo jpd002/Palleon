@@ -2,6 +2,7 @@
 
 #include "vulkan/Instance.h"
 #include "vulkan/Device.h"
+#include "vulkan/CommandBufferPool.h"
 #include "palleon/graphics/GraphicDevice.h"
 
 //#define _TRIANGLEDRAW_TEST
@@ -35,10 +36,6 @@ namespace Palleon
 		
 		VkRenderPass    CreateRenderPass(VkFormat);
 		
-		VkCommandPool                CreateCommandPool(uint32_t);
-		std::vector<VkCommandBuffer> AllocateCommandBuffers(VkCommandPool, uint32_t);
-		void                         FreeCommandBuffer(VkCommandPool, VkCommandBuffer);
-		
 		void       CreateSwapChain(VkSurfaceFormatKHR, VkExtent2D);
 		void       PrepareSwapChainImages();
 		void       CreateSwapChainImageViews(VkFormat);
@@ -60,9 +57,10 @@ namespace Palleon
 		VkSurfaceKHR                     m_surface = VK_NULL_HANDLE;
 		VkExtent2D                       m_surfaceExtents;
 		Framework::Vulkan::CDevice       m_device;
+		Framework::Vulkan::CCommandBufferPool m_commandBufferPool;
+
 		VkPhysicalDeviceMemoryProperties m_physicalDeviceMemoryProperties;
 		VkQueue                          m_queue = VK_NULL_HANDLE;
-		VkCommandPool                    m_commandPool = VK_NULL_HANDLE;
 		VkRenderPass                     m_renderPass = VK_NULL_HANDLE;
 		VkSemaphore                      m_imageAcquireSemaphore = VK_NULL_HANDLE;
 		VkSemaphore                      m_renderCompleteSemaphore = VK_NULL_HANDLE;

@@ -36,6 +36,7 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 #ifdef _TRIANGLEDRAW_TEST
 	m_triangleVertexBuffer.reset();
 #endif
+	m_commandBufferPool.Reset();
 	m_device.Reset();
 	if(m_debugReportCallback != VK_NULL_HANDLE)
 	{
@@ -72,7 +73,7 @@ void CVulkanGraphicDevice::Initialize()
 	CreateDevice(physicalDevice);
 	m_device.vkGetDeviceQueue(m_device, renderQueueFamily, 0, &m_queue);
 	
-	m_commandPool = CreateCommandPool(renderQueueFamilies[0]);
+	m_commandBufferPool = Framework::Vulkan::CCommandBufferPool(m_device, renderQueueFamily);
 	
 	m_renderPass = CreateRenderPass(surfaceFormat.format);
 	
@@ -102,8 +103,8 @@ void CVulkanGraphicDevice::Initialize()
 
 void CVulkanGraphicDevice::Draw()
 {
-	auto commandBuffers = AllocateCommandBuffers(m_commandPool, 1);
-	auto commandBuffer = commandBuffers[0];
+	m_commandBufferPool.ResetBuffers();
+	auto commandBuffer = m_commandBufferPool.AllocateBuffer();
 	
 	VkResult result = VK_SUCCESS;
 	
@@ -141,10 +142,8 @@ void CVulkanGraphicDevice::Draw()
 		CHECKVULKANERROR(result);
 	}
 	
-	//result = device.vkQueueWaitIdle(queue);
-	//CheckResult(result);
-	
-	FreeCommandBuffer(m_commandPool, commandBuffer);
+	result = m_device.vkQueueWaitIdle(m_queue);
+	CHECKVULKANERROR(result);
 }
 
 VertexBufferPtr CVulkanGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DESCRIPTOR& descriptor)
@@ -575,50 +574,6 @@ void CVulkanGraphicDevice::CreateTriangleVertexBuffer()
 #endif
 
 //////////////////////////////////////////////////////////////
-//Command Pool Stuff
-//////////////////////////////////////////////////////////////
-
-VkCommandPool CVulkanGraphicDevice::CreateCommandPool(uint32_t queueFamilyIndex)
-{
-	assert(!m_device.IsEmpty());
-	
-	auto commandPoolCreateInfo = Framework::Vulkan::CommandPoolCreateInfo();
-	commandPoolCreateInfo.queueFamilyIndex = queueFamilyIndex;
-	commandPoolCreateInfo.flags            = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-
-	VkCommandPool commandPool = VK_NULL_HANDLE;
-	auto result = m_device.vkCreateCommandPool(m_device, &commandPoolCreateInfo, nullptr, &commandPool);
-	CHECKVULKANERROR(result);
-	
-	CLog::GetInstance().Print("Created command pool");
-	
-	return commandPool;
-}
-
-std::vector<VkCommandBuffer> CVulkanGraphicDevice::AllocateCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount)
-{
-	assert(!m_device.IsEmpty());
-	
-	auto bufferAllocateInfo = Framework::Vulkan::CommandBufferAllocateInfo();
-	bufferAllocateInfo.commandPool        = commandPool;
-	bufferAllocateInfo.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-	bufferAllocateInfo.commandBufferCount = commandBufferCount;
-	
-	std::vector<VkCommandBuffer> commandBuffers(commandBufferCount);
-	auto result = m_device.vkAllocateCommandBuffers(m_device, &bufferAllocateInfo, commandBuffers.data());
-	CHECKVULKANERROR(result);
-	
-	return commandBuffers;
-}
-
-void CVulkanGraphicDevice::FreeCommandBuffer(VkCommandPool commandPool, VkCommandBuffer commandBuffer)
-{
-	assert(!m_device.IsEmpty());
-	
-	m_device.vkFreeCommandBuffers(m_device, commandPool, 1, &commandBuffer);
-}
-
-//////////////////////////////////////////////////////////////
 //Swap Chain Stuff
 //////////////////////////////////////////////////////////////
 
@@ -660,11 +615,10 @@ void CVulkanGraphicDevice::CreateSwapChain(VkSurfaceFormatKHR surfaceFormat, VkE
 void CVulkanGraphicDevice::PrepareSwapChainImages()
 {
 	assert(!m_device.IsEmpty());
-	assert(m_commandPool != VK_NULL_HANDLE);
+	assert(!m_commandBufferPool.IsEmpty());
 	
 	VkResult result = VK_SUCCESS;
-	auto commandBuffers = AllocateCommandBuffers(m_commandPool, 1);
-	auto commandBuffer = commandBuffers[0];
+	auto commandBuffer = m_commandBufferPool.AllocateBuffer();
 	
 	auto commandBufferBeginInfo = Framework::Vulkan::CommandBufferBeginInfo();
 	result = m_device.vkBeginCommandBuffer(commandBuffer, &commandBufferBeginInfo);
@@ -695,8 +649,6 @@ void CVulkanGraphicDevice::PrepareSwapChainImages()
 
 	result = m_device.vkQueueWaitIdle(m_queue);
 	CHECKVULKANERROR(result);
-	
-	FreeCommandBuffer(m_commandPool, commandBuffer);
 }
 
 void CVulkanGraphicDevice::CreateSwapChainImageViews(VkFormat colorFormat)
