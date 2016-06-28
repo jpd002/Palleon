@@ -420,9 +420,16 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 	result = m_device.vkCreatePipelineCache(m_device, &pipelineCacheCreateInfo, nullptr, &pipelineCache);
 	CHECKVULKANERROR(result);
 	
+	VkPushConstantRange pushConstantInfo = {};
+	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+	pushConstantInfo.offset     = 0;
+	pushConstantInfo.size       = sizeof(CVector4);
+	
 	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
-	VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
-	result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &pipelineLayout);
+	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
+	pipelineLayoutCreateInfo.pPushConstantRanges = &pushConstantInfo;
+	
+	result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &m_triangleDrawPipelineLayout);
 	CHECKVULKANERROR(result);
 
 	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
@@ -524,7 +531,7 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
 	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
 	pipelineCreateInfo.renderPass          = m_renderPass;
-	pipelineCreateInfo.layout              = pipelineLayout;
+	pipelineCreateInfo.layout              = m_triangleDrawPipelineLayout;
 	
 	result = m_device.vkCreateGraphicsPipelines(m_device, pipelineCache, 1, &pipelineCreateInfo, nullptr, &m_triangleDrawPipeline);
 	CHECKVULKANERROR(result);
@@ -766,6 +773,9 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 		VkDeviceSize offset = 0;
 		m_device.vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertexBuffer, &offset);
 	}
+
+	CVector4 positionOffset(color, 0, 0, 0);
+	m_device.vkCmdPushConstants(commandBuffer, m_triangleDrawPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(CVector4), &positionOffset);
 	
 	m_device.vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 #endif

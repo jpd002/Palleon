@@ -71,7 +71,8 @@ namespace Palleon
 		std::vector<VkFramebuffer>       m_swapChainFramebuffers;
 		
 #ifdef _TRIANGLEDRAW_TEST
-		VkPipeline                       m_triangleDrawPipeline;
+		VkPipelineLayout                 m_triangleDrawPipelineLayout = VK_NULL_HANDLE;
+		VkPipeline                       m_triangleDrawPipeline = VK_NULL_HANDLE;
 		VertexBufferPtr                  m_triangleVertexBuffer;
 #endif
 	};
