@@ -37,6 +37,10 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 	m_triangleVertexBuffer.reset();
 #endif
 	m_commandBufferPool.Reset();
+	for(auto swapChainImageView : m_swapChainImageViews)
+	{
+		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
+	}
 	m_device.Reset();
 	if(m_debugReportCallback != VK_NULL_HANDLE)
 	{
