@@ -41,6 +41,8 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 	{
 		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
 	}
+	m_device.vkDestroySemaphore(m_device, m_renderCompleteSemaphore, nullptr);
+	m_device.vkDestroySemaphore(m_device, m_imageAcquireSemaphore, nullptr);
 	m_device.Reset();
 	if(m_debugReportCallback != VK_NULL_HANDLE)
 	{
