@@ -157,12 +157,12 @@ VertexBufferPtr CVulkanGraphicDevice::CreateVertexBuffer(const VERTEX_BUFFER_DES
 	return std::make_shared<CVulkanVertexBuffer>(m_device, m_physicalDeviceMemoryProperties, descriptor);
 }
 
-TexturePtr CVulkanGraphicDevice::CreateTexture(TEXTURE_FORMAT, uint32, uint32, uint32)
+TexturePtr CVulkanGraphicDevice::CreateTexture(TEXTURE_FORMAT format, uint32 width, uint32 height, uint32 mipCount)
 {
-	return std::make_shared<CVulkanTexture>();
+	return std::make_shared<CVulkanTexture>(m_device, m_physicalDeviceMemoryProperties, m_queue, m_commandBufferPool, format, width, height);
 }
 
-TexturePtr CVulkanGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT, uint32)
+TexturePtr CVulkanGraphicDevice::CreateCubeTexture(TEXTURE_FORMAT, uint32 size)
 {
 	return std::make_shared<CVulkanTexture>();
 }

@@ -1,24 +1,8 @@
 #include "palleon/vulkan/VulkanVertexBuffer.h"
+#include "palleon/vulkan/VulkanUtils.h"
 #include "vulkan/StructDefs.h"
 
 using namespace Palleon;
-
-static uint32 GetMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties& memoryProperties, uint32 deviceRequirements, uint32 hostRequirements)
-{
-	for(uint32 i = 0; i < VK_MAX_MEMORY_TYPES; i++)
-	{
-		if(deviceRequirements & (1 << i))
-		{
-			const auto& memoryType = memoryProperties.memoryTypes[i];
-			if((memoryType.propertyFlags & hostRequirements) == hostRequirements)
-			{
-				return i;
-			}
-		}
-	}
-	assert(false);
-	return 0;
-}
 
 CVulkanVertexBuffer::CVulkanVertexBuffer(Framework::Vulkan::CDevice& device, const VkPhysicalDeviceMemoryProperties& memoryProperties, const VERTEX_BUFFER_DESCRIPTOR& descriptor)
 : CVertexBuffer(descriptor)
