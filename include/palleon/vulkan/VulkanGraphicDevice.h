@@ -50,6 +50,7 @@ namespace Palleon
 #ifdef _TRIANGLEDRAW_TEST
 		void                            CreateTriangleDrawPipeline();
 		void                            CreateTriangleVertexBuffer();
+		void                            CreateTriangleTexture();
 #endif
 		
 		Framework::Vulkan::CInstance     m_vkInstance;
@@ -71,9 +72,14 @@ namespace Palleon
 		std::vector<VkFramebuffer>       m_swapChainFramebuffers;
 		
 #ifdef _TRIANGLEDRAW_TEST
+		VkDescriptorSetLayout            m_triangleDrawDescriptorSetLayout = VK_NULL_HANDLE;
+		VkDescriptorPool                 m_triangleDrawDescriptorPool = VK_NULL_HANDLE;
 		VkPipelineLayout                 m_triangleDrawPipelineLayout = VK_NULL_HANDLE;
+		VkDescriptorSet                  m_triangleDrawDescriptorSet = VK_NULL_HANDLE;
 		VkPipeline                       m_triangleDrawPipeline = VK_NULL_HANDLE;
+		VkSampler                        m_triangleDrawSampler = VK_NULL_HANDLE;
 		VertexBufferPtr                  m_triangleVertexBuffer;
+		TexturePtr                       m_triangleTexture;
 #endif
 	};
 }

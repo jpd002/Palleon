@@ -35,6 +35,11 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
 #ifdef _TRIANGLEDRAW_TEST
 	m_triangleVertexBuffer.reset();
+	m_triangleTexture.reset();
+	m_device.vkDestroyDescriptorSetLayout(m_device, m_triangleDrawDescriptorSetLayout, nullptr);
+	m_device.vkDestroyDescriptorPool(m_device, m_triangleDrawDescriptorPool, nullptr);
+	m_device.vkDestroyPipeline(m_device, m_triangleDrawPipeline, nullptr);
+	m_device.vkDestroySampler(m_device, m_triangleDrawSampler, nullptr);
 #endif
 	m_commandBufferPool.Reset();
 	for(auto swapChainImageView : m_swapChainImageViews)
@@ -104,6 +109,7 @@ void CVulkanGraphicDevice::Initialize()
 #ifdef _TRIANGLEDRAW_TEST
 	CreateTriangleDrawPipeline();
 	CreateTriangleVertexBuffer();
+	CreateTriangleTexture();
 #endif
 }
 
@@ -421,6 +427,37 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 {
 	VkResult result = VK_SUCCESS;
 	
+	//Create Descriptor Set Layout
+	{
+		VkDescriptorSetLayoutBinding setLayoutBinding = {};
+		setLayoutBinding.binding         = 0;
+		setLayoutBinding.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		setLayoutBinding.descriptorCount = 1;
+		setLayoutBinding.stageFlags      = VK_SHADER_STAGE_FRAGMENT_BIT;
+		
+		auto setLayoutCreateInfo = Framework::Vulkan::DescriptorSetLayoutCreateInfo();
+		setLayoutCreateInfo.bindingCount = 1;
+		setLayoutCreateInfo.pBindings    = &setLayoutBinding;
+		
+		result = m_device.vkCreateDescriptorSetLayout(m_device, &setLayoutCreateInfo, nullptr, &m_triangleDrawDescriptorSetLayout);
+		CHECKVULKANERROR(result);
+	}
+	
+	//Create Descriptor Pool
+	{
+		VkDescriptorPoolSize descriptorPoolSize = {};
+		descriptorPoolSize.type            = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorPoolSize.descriptorCount = 1;
+		
+		auto descriptorPoolCreateInfo = Framework::Vulkan::DescriptorPoolCreateInfo();
+		descriptorPoolCreateInfo.poolSizeCount = 1;
+		descriptorPoolCreateInfo.pPoolSizes    = &descriptorPoolSize;
+		descriptorPoolCreateInfo.maxSets       = 1;
+		
+		result = m_device.vkCreateDescriptorPool(m_device, &descriptorPoolCreateInfo, nullptr, &m_triangleDrawDescriptorPool);
+		CHECKVULKANERROR(result);
+	}
+	
 	auto pipelineCacheCreateInfo = Framework::Vulkan::PipelineCacheCreateInfo();
 	VkPipelineCache pipelineCache = VK_NULL_HANDLE;
 	result = m_device.vkCreatePipelineCache(m_device, &pipelineCacheCreateInfo, nullptr, &pipelineCache);
@@ -432,8 +469,10 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 	pushConstantInfo.size       = sizeof(CVector4);
 	
 	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
+	pipelineLayoutCreateInfo.setLayoutCount         = 1;
+	pipelineLayoutCreateInfo.pSetLayouts            = &m_triangleDrawDescriptorSetLayout;
 	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
-	pipelineLayoutCreateInfo.pPushConstantRanges = &pushConstantInfo;
+	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
 	
 	result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &m_triangleDrawPipelineLayout);
 	CHECKVULKANERROR(result);
@@ -582,6 +621,67 @@ void CVulkanGraphicDevice::CreateTriangleVertexBuffer()
 	auto vertices = reinterpret_cast<uint8*>(m_triangleVertexBuffer->LockVertices());
 	memcpy(vertices, vertexData, sizeof(vertexData));
 	m_triangleVertexBuffer->UnlockVertices();
+}
+
+void CVulkanGraphicDevice::CreateTriangleTexture()
+{
+	VkResult result = VK_SUCCESS;
+	
+	static const int textureWidth = 32;
+	static const int textureHeight = 32;
+	static const int pixelCount = textureWidth * textureHeight;
+	
+	m_triangleTexture = CreateTexture(TEXTURE_FORMAT_RGBA8888, textureWidth, textureHeight, 1);
+	
+	auto textureData = new uint32[pixelCount];
+	for(uint32 i = 0; i < pixelCount; i++)
+	{
+		textureData[i] = 0xFF008000;
+	}
+	m_triangleTexture->Update(0, textureData);
+	delete [] textureData;
+	
+	//Create Sampler
+	{
+		auto samplerCreateInfo = Framework::Vulkan::SamplerCreateInfo();
+		samplerCreateInfo.magFilter    = VK_FILTER_LINEAR;
+		samplerCreateInfo.minFilter    = VK_FILTER_LINEAR;
+		samplerCreateInfo.mipmapMode   = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		
+		result = m_device.vkCreateSampler(m_device, &samplerCreateInfo, nullptr, &m_triangleDrawSampler);
+		CHECKVULKANERROR(result);
+	}
+
+	//Allocate Descriptor Set
+	{
+		auto setAllocateInfo = Framework::Vulkan::DescriptorSetAllocateInfo();
+		setAllocateInfo.descriptorPool     = m_triangleDrawDescriptorPool;
+		setAllocateInfo.descriptorSetCount = 1;
+		setAllocateInfo.pSetLayouts        = &m_triangleDrawDescriptorSetLayout;
+		
+		result = m_device.vkAllocateDescriptorSets(m_device, &setAllocateInfo, &m_triangleDrawDescriptorSet);
+		CHECKVULKANERROR(result);
+	}
+	
+	//Update Descriptor Set
+	{
+		VkDescriptorImageInfo descriptorImageInfo = {};
+		descriptorImageInfo.sampler     = m_triangleDrawSampler;
+		descriptorImageInfo.imageView   = reinterpret_cast<VkImageView>(m_triangleTexture->GetHandle());
+		descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		
+		auto writeSet = Framework::Vulkan::WriteDescriptorSet();
+		writeSet.dstSet          = m_triangleDrawDescriptorSet;
+		writeSet.dstBinding      = 0;
+		writeSet.descriptorCount = 1;
+		writeSet.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		writeSet.pImageInfo      = &descriptorImageInfo;
+		
+		m_device.vkUpdateDescriptorSets(m_device, 1, &writeSet, 0, nullptr);
+	}
 }
 
 #endif
@@ -782,6 +882,8 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 
 	CVector4 positionOffset(color, 0, 0, 0);
 	m_device.vkCmdPushConstants(commandBuffer, m_triangleDrawPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(CVector4), &positionOffset);
+	
+	m_device.vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_triangleDrawPipelineLayout, 0, 1, &m_triangleDrawDescriptorSet, 0, nullptr);
 	
 	m_device.vkCmdDraw(commandBuffer, 3, 1, 0, 0);
 #endif
