@@ -14,6 +14,12 @@ struct Vertex
 	CVector4 color;
 };
 
+struct PushConstants
+{
+	CMatrix4 viewProjMatrix;
+	CMatrix4 worldMatrix;
+};
+
 #endif
 
 using namespace Palleon;
@@ -466,7 +472,7 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 	VkPushConstantRange pushConstantInfo = {};
 	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 	pushConstantInfo.offset     = 0;
-	pushConstantInfo.size       = sizeof(CVector4);
+	pushConstantInfo.size       = sizeof(PushConstants);
 	
 	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
 	pipelineLayoutCreateInfo.setLayoutCount         = 1;
@@ -506,7 +512,7 @@ void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
 
 	auto rasterStateInfo = Framework::Vulkan::PipelineRasterizationStateCreateInfo();
 	rasterStateInfo.polygonMode             = VK_POLYGON_MODE_FILL;
-	rasterStateInfo.cullMode                = VK_CULL_MODE_BACK_BIT;
+	rasterStateInfo.cullMode                = VK_CULL_MODE_NONE;
 	rasterStateInfo.frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 	rasterStateInfo.depthClampEnable        = false;
 	rasterStateInfo.rasterizerDiscardEnable = false;
@@ -613,9 +619,12 @@ void CVulkanGraphicDevice::CreateTriangleVertexBuffer()
 	
 	static const Vertex vertexData[] = 
 	{
-		{ CVector4(-0.5f, -0.5f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
-		{ CVector4(-0.5f, +0.5f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
-		{ CVector4(+0.5f, -0.5f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
+//		{ CVector4(-0.5f, -0.5f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
+//		{ CVector4(-0.5f, +0.5f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
+//		{ CVector4(+0.5f, -0.5f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
+		{ CVector4( 0.0f,  0.0f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
+		{ CVector4( 0.0f, 90.0f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
+		{ CVector4(90.0f,  0.0f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
 	};
 	
 	auto vertices = reinterpret_cast<uint8*>(m_triangleVertexBuffer->LockVertices());
@@ -880,8 +889,14 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 		m_device.vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertexBuffer, &offset);
 	}
 
-	CVector4 positionOffset(color, 0, 0, 0);
-	m_device.vkCmdPushConstants(commandBuffer, m_triangleDrawPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(CVector4), &positionOffset);
+	auto camera = CCamera::Create();
+	camera->SetupOrthoCamera(renderAreaExtent.width, renderAreaExtent.height);
+	
+	PushConstants pushConstants;
+	pushConstants.viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	pushConstants.worldMatrix = CMatrix4::MakeTranslation(50, 50, 0);
+	
+	m_device.vkCmdPushConstants(commandBuffer, m_triangleDrawPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
 	
 	m_device.vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_triangleDrawPipelineLayout, 0, 1, &m_triangleDrawDescriptorSet, 0, nullptr);
 	
