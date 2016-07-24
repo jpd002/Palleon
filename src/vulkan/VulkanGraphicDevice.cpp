@@ -1,7 +1,6 @@
 #include "palleon/vulkan/VulkanGraphicDevice.h"
 #include "palleon/vulkan/VulkanVertexBuffer.h"
 #include "palleon/vulkan/VulkanTexture.h"
-#include "palleon/graphics/Mesh.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
 #include "vulkan/ShaderModule.h"
@@ -666,8 +665,18 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 		m_device.vkCmdPushConstants(commandBuffer, m_defaultPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(DefaultPushConstants), &pushConstants);
 		
 		auto primitiveCount = mesh->GetPrimitiveCount();
-		assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_LIST);
-		m_device.vkCmdDrawIndexed(commandBuffer, primitiveCount * 3, 1, 0, 0, 0);
+		uint32 indexCount = 0;
+		switch(mesh->GetPrimitiveType())
+		{
+		case PRIMITIVE_TRIANGLE_LIST:
+			indexCount = primitiveCount * 3;
+			break;
+		case PRIMITIVE_TRIANGLE_STRIP:
+			indexCount = primitiveCount + 2;
+			break;
+		}
+		
+		m_device.vkCmdDrawIndexed(commandBuffer, indexCount, 1, 0, 0, 0);
 	}
 	
 	m_device.vkCmdEndRenderPass(commandBuffer);
@@ -692,22 +701,31 @@ VkPipeline CVulkanGraphicDevice::GetPipelineForMesh(CMesh* mesh)
 {
 	assert(m_defaultPipelineLayout != VK_NULL_HANDLE);
 	
+	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
+	
 	VkPipeline pipeline = VK_NULL_HANDLE;
 	
-	assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_LIST);
-	//assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_STRIP);
+	VULKAN_PIPELINE_KEY pipelineKey;
+	pipelineKey.primitiveType = mesh->GetPrimitiveType();
+	pipelineKey.vertexItems   = vertexBufferDescriptor.vertexItems;
 	
-	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
-	auto pipelineIterator = m_pipelines.find(vertexBufferDescriptor.vertexItems);
+	auto pipelineIterator = m_pipelines.find(pipelineKey);
 	if(pipelineIterator != std::end(m_pipelines))
 	{
 		return pipelineIterator->second;
 	}
-
+	
 	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
-	inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-	//inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-
+	switch(mesh->GetPrimitiveType())
+	{
+	case PRIMITIVE_TRIANGLE_LIST:
+		inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+		break;
+	case PRIMITIVE_TRIANGLE_STRIP:
+		inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+		break;
+	}
+	
 	std::vector<VkVertexInputAttributeDescription> attributeDescs;
 	for(const auto& vertexItem : vertexBufferDescriptor.vertexItems)
 	{
@@ -839,7 +857,7 @@ VkPipeline CVulkanGraphicDevice::GetPipelineForMesh(CMesh* mesh)
 	auto result = m_device.vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline);
 	CHECKVULKANERROR(result);
 	
-	m_pipelines.insert(std::make_pair(vertexBufferDescriptor.vertexItems, pipeline));
+	m_pipelines.insert(std::make_pair(pipelineKey, pipeline));
 	
 	return pipeline;
 }

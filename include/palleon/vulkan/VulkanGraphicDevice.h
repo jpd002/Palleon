@@ -4,6 +4,43 @@
 #include "vulkan/Device.h"
 #include "vulkan/CommandBufferPool.h"
 #include "palleon/graphics/GraphicDevice.h"
+#include "palleon/graphics/Mesh.h"
+
+namespace Palleon
+{
+	struct VULKAN_PIPELINE_KEY
+	{
+		bool operator ==(const VULKAN_PIPELINE_KEY& rhs) const
+		{
+			return
+				(primitiveType == rhs.primitiveType) &&
+				(vertexItems == rhs.vertexItems);
+		}
+		
+		PRIMITIVE_TYPE   primitiveType = PRIMITIVE_INVALID;
+		VERTEX_ITEMS_KEY vertexItems = VertexItemArray();
+	};
+}
+
+namespace std
+{
+	template <>
+	struct hash<Palleon::VULKAN_PIPELINE_KEY>
+	{
+		size_t operator ()(const Palleon::VULKAN_PIPELINE_KEY& key) const
+		{
+			using namespace Palleon;
+			
+			uLong crc = crc32(0L, Z_NULL, 0);
+			crc = crc32(crc, reinterpret_cast<const Bytef*>(&key.primitiveType), sizeof(PRIMITIVE_TYPE));
+			crc = crc32(
+				crc, 
+				reinterpret_cast<const Bytef*>(key.vertexItems.vertexItems.data()), 
+				sizeof(Palleon::VERTEX_ITEM) * key.vertexItems.vertexItems.size());
+			return crc;
+		}
+	};
+}
 
 namespace Palleon
 {
@@ -23,7 +60,7 @@ namespace Palleon
 		SharedGraphicContextPtr CreateSharedContext() override;
 		
 	protected:
-		typedef std::unordered_map<VERTEX_ITEMS_KEY, VkPipeline> PipelineMap;
+		typedef std::unordered_map<VULKAN_PIPELINE_KEY, VkPipeline> PipelineMap;
 		typedef std::vector<CMesh*> RenderQueue;
 		
 		           CVulkanGraphicDevice(const CVector2&, float);
