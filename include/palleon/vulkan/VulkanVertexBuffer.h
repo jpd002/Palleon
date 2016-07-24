@@ -15,10 +15,17 @@ namespace Palleon
 		void    UnlockIndices() override;
 		
 		VkBuffer GetVertexBuffer() const;
+		VkBuffer GetIndexBuffer() const;
 		
 	private:
+		VkDeviceMemory                 AllocateAndBindBufferMemory(VkBuffer, const VkPhysicalDeviceMemoryProperties&);
+		
 		Framework::Vulkan::CDevice*    m_device = nullptr;
-		VkBuffer                       m_bufferHandle = VK_NULL_HANDLE;
-		VkDeviceMemory                 m_bufferMemoryHandle = VK_NULL_HANDLE;
+		
+		VkBuffer                       m_vertexBufferHandle = VK_NULL_HANDLE;
+		VkBuffer                       m_indexBufferHandle = VK_NULL_HANDLE;
+		
+		VkDeviceMemory                 m_vertexBufferMemoryHandle = VK_NULL_HANDLE;
+		VkDeviceMemory                 m_indexBufferMemoryHandle = VK_NULL_HANDLE;
 	};
 }
