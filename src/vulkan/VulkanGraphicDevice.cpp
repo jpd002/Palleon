@@ -1,26 +1,16 @@
 #include "palleon/vulkan/VulkanGraphicDevice.h"
 #include "palleon/vulkan/VulkanVertexBuffer.h"
 #include "palleon/vulkan/VulkanTexture.h"
+#include "palleon/graphics/Mesh.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
-
-#ifdef _TRIANGLEDRAW_TEST
 #include "vulkan/ShaderModule.h"
-#include "palleon/resources/ResourceManager.h"
 
-struct Vertex
-{
-	CVector4 position;
-	CVector4 color;
-};
-
-struct PushConstants
+struct DefaultPushConstants
 {
 	CMatrix4 viewProjMatrix;
 	CMatrix4 worldMatrix;
 };
-
-#endif
 
 using namespace Palleon;
 
@@ -39,14 +29,6 @@ CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
-#ifdef _TRIANGLEDRAW_TEST
-	m_triangleVertexBuffer.reset();
-	m_triangleTexture.reset();
-	m_device.vkDestroyDescriptorSetLayout(m_device, m_triangleDrawDescriptorSetLayout, nullptr);
-	m_device.vkDestroyDescriptorPool(m_device, m_triangleDrawDescriptorPool, nullptr);
-	m_device.vkDestroyPipeline(m_device, m_triangleDrawPipeline, nullptr);
-	m_device.vkDestroySampler(m_device, m_triangleDrawSampler, nullptr);
-#endif
 	m_commandBufferPool.Reset();
 	for(auto swapChainImageView : m_swapChainImageViews)
 	{
@@ -112,17 +94,15 @@ void CVulkanGraphicDevice::Initialize()
 		CHECKVULKANERROR(result);
 	}
 	
-#ifdef _TRIANGLEDRAW_TEST
-	CreateTriangleDrawPipeline();
-	CreateTriangleVertexBuffer();
-	CreateTriangleTexture();
-#endif
+	m_screenSize = CVector2(m_surfaceExtents.width, m_surfaceExtents.height);
+	m_scaledScreenSize = m_screenSize;
+	
+	CreateDefaultPipelineLayout();
 }
 
 void CVulkanGraphicDevice::Draw()
 {
 	m_commandBufferPool.ResetBuffers();
-	auto commandBuffer = m_commandBufferPool.AllocateBuffer();
 	
 	VkResult result = VK_SUCCESS;
 	
@@ -133,7 +113,56 @@ void CVulkanGraphicDevice::Draw()
 	auto swapChainImage = m_swapChainImages[imageIndex];
 	auto framebuffer = m_swapChainFramebuffers[imageIndex];
 	
-	BuildClearCommandList(commandBuffer, swapChainImage, m_surfaceExtents, m_renderPass, framebuffer);
+	auto commandBuffer = m_commandBufferPool.AllocateBuffer();
+	auto commandBufferBeginInfo = Framework::Vulkan::CommandBufferBeginInfo();
+	commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+	result = m_device.vkBeginCommandBuffer(commandBuffer, &commandBufferBeginInfo);
+	CHECKVULKANERROR(result);
+	
+	//Transition image from present to color attachment
+	{
+		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();
+		imageMemoryBarrier.image               = swapChainImage;
+		imageMemoryBarrier.oldLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
+		//imageMemoryBarrier.srcAccessMask       = VK_ACCESS_MEMORY_READ_BIT;
+		imageMemoryBarrier.newLayout           = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		imageMemoryBarrier.dstAccessMask       = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.subresourceRange    = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+		
+		m_device.vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
+	}
+	
+	int currViewport = 0;
+	for(const auto& viewport : m_viewports)
+	{
+		if(currViewport == 0)
+		{
+			DrawViewport(commandBuffer, viewport, framebuffer, m_surfaceExtents);
+		}
+		currViewport++;
+	}
+	
+	//Transition image from attachment to present
+	{
+		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();
+		imageMemoryBarrier.image               = swapChainImage;
+		imageMemoryBarrier.oldLayout           = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		imageMemoryBarrier.srcAccessMask       = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+		imageMemoryBarrier.newLayout           = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+		imageMemoryBarrier.dstAccessMask       = VK_ACCESS_MEMORY_READ_BIT;
+		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.subresourceRange    = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+		
+		m_device.vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
+	}
+	
+	result = m_device.vkEndCommandBuffer(commandBuffer);
+	CHECKVULKANERROR(result);
 	
 	{
 		VkPipelineStageFlags pipelineStageFlags = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
@@ -427,274 +456,6 @@ std::vector<VkSurfaceFormatKHR> CVulkanGraphicDevice::GetDeviceSurfaceFormats(Vk
 	return surfaceFormats;
 }
 
-#ifdef _TRIANGLEDRAW_TEST
-
-void CVulkanGraphicDevice::CreateTriangleDrawPipeline()
-{
-	VkResult result = VK_SUCCESS;
-	
-	//Create Descriptor Set Layout
-	{
-		VkDescriptorSetLayoutBinding setLayoutBinding = {};
-		setLayoutBinding.binding         = 0;
-		setLayoutBinding.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		setLayoutBinding.descriptorCount = 1;
-		setLayoutBinding.stageFlags      = VK_SHADER_STAGE_FRAGMENT_BIT;
-		
-		auto setLayoutCreateInfo = Framework::Vulkan::DescriptorSetLayoutCreateInfo();
-		setLayoutCreateInfo.bindingCount = 1;
-		setLayoutCreateInfo.pBindings    = &setLayoutBinding;
-		
-		result = m_device.vkCreateDescriptorSetLayout(m_device, &setLayoutCreateInfo, nullptr, &m_triangleDrawDescriptorSetLayout);
-		CHECKVULKANERROR(result);
-	}
-	
-	//Create Descriptor Pool
-	{
-		VkDescriptorPoolSize descriptorPoolSize = {};
-		descriptorPoolSize.type            = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		descriptorPoolSize.descriptorCount = 1;
-		
-		auto descriptorPoolCreateInfo = Framework::Vulkan::DescriptorPoolCreateInfo();
-		descriptorPoolCreateInfo.poolSizeCount = 1;
-		descriptorPoolCreateInfo.pPoolSizes    = &descriptorPoolSize;
-		descriptorPoolCreateInfo.maxSets       = 1;
-		
-		result = m_device.vkCreateDescriptorPool(m_device, &descriptorPoolCreateInfo, nullptr, &m_triangleDrawDescriptorPool);
-		CHECKVULKANERROR(result);
-	}
-	
-	auto pipelineCacheCreateInfo = Framework::Vulkan::PipelineCacheCreateInfo();
-	VkPipelineCache pipelineCache = VK_NULL_HANDLE;
-	result = m_device.vkCreatePipelineCache(m_device, &pipelineCacheCreateInfo, nullptr, &pipelineCache);
-	CHECKVULKANERROR(result);
-	
-	VkPushConstantRange pushConstantInfo = {};
-	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-	pushConstantInfo.offset     = 0;
-	pushConstantInfo.size       = sizeof(PushConstants);
-	
-	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
-	pipelineLayoutCreateInfo.setLayoutCount         = 1;
-	pipelineLayoutCreateInfo.pSetLayouts            = &m_triangleDrawDescriptorSetLayout;
-	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
-	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
-	
-	result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &m_triangleDrawPipelineLayout);
-	CHECKVULKANERROR(result);
-
-	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
-	inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-	// Specify our two attributes, Position and Color.
-	VkVertexInputAttributeDescription attributes[2] = { { 0 } };
-	//Position
-	attributes[0].location = 0; // Position in shader specifies layout(location = 0) to link with this attribute.
-	attributes[0].binding  = 0; // Uses vertex buffer #0.
-	attributes[0].format   = VK_FORMAT_R32G32B32A32_SFLOAT;
-	attributes[0].offset   = 0;
-	//Color 
-	attributes[1].location = 1; // Color in shader specifies layout(location = 1) to link with this attribute.
-	attributes[1].binding  = 0; // Uses vertex buffer #0.
-	attributes[1].format   = VK_FORMAT_R32G32B32A32_SFLOAT;
-	attributes[1].offset   = 4 * sizeof(float);
-	
-	VkVertexInputBindingDescription binding = { 0 };
-	binding.binding   = 0;
-	binding.stride    = sizeof(Vertex);
-	binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	
-	auto vertexInputInfo = Framework::Vulkan::PipelineVertexInputStateCreateInfo();
-	vertexInputInfo.vertexBindingDescriptionCount   = 1;
-	vertexInputInfo.pVertexBindingDescriptions      = &binding;
-	vertexInputInfo.vertexAttributeDescriptionCount = 2;
-	vertexInputInfo.pVertexAttributeDescriptions    = attributes;
-
-	auto rasterStateInfo = Framework::Vulkan::PipelineRasterizationStateCreateInfo();
-	rasterStateInfo.polygonMode             = VK_POLYGON_MODE_FILL;
-	rasterStateInfo.cullMode                = VK_CULL_MODE_NONE;
-	rasterStateInfo.frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
-	rasterStateInfo.depthClampEnable        = false;
-	rasterStateInfo.rasterizerDiscardEnable = false;
-	rasterStateInfo.depthBiasEnable         = false;
-	rasterStateInfo.lineWidth               = 1.0f;
-	
-	// Our attachment will write to all color channels, but no blending is enabled.
-	VkPipelineColorBlendAttachmentState blendAttachment = { 0 };
-	blendAttachment.blendEnable    = false;
-	blendAttachment.colorWriteMask = 0xf;
-	
-	auto colorBlendStateInfo = Framework::Vulkan::PipelineColorBlendStateCreateInfo();
-	colorBlendStateInfo.attachmentCount = 1;
-	colorBlendStateInfo.pAttachments    = &blendAttachment;
-	
-	auto viewportStateInfo = Framework::Vulkan::PipelineViewportStateCreateInfo();
-	viewportStateInfo.viewportCount = 1;
-	viewportStateInfo.scissorCount  = 1;
-	
-	auto depthStencilStateInfo = Framework::Vulkan::PipelineDepthStencilStateCreateInfo();
-	depthStencilStateInfo.depthTestEnable       = false;
-	depthStencilStateInfo.depthWriteEnable      = false;
-	depthStencilStateInfo.depthBoundsTestEnable = false;
-	depthStencilStateInfo.stencilTestEnable     = false;
-	
-	auto multisampleStateInfo = Framework::Vulkan::PipelineMultisampleStateCreateInfo();
-	multisampleStateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-
-	static const VkDynamicState dynamicStates[] = 
-	{
-		VK_DYNAMIC_STATE_VIEWPORT,
-		VK_DYNAMIC_STATE_SCISSOR,
-	};
-	auto dynamicStateInfo = Framework::Vulkan::PipelineDynamicStateCreateInfo();
-	dynamicStateInfo.pDynamicStates    = dynamicStates;
-	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
-	
-	auto vertexShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.vert.spv");
-	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, *vertexShaderStream);
-	
-	auto pixelShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.frag.spv");
-	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, *pixelShaderStream);
-	
-	// Load our SPIR-V shaders.
-	VkPipelineShaderStageCreateInfo shaderStages[2] = {
-		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
-		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
-	};
-
-	// We have two pipeline stages, vertex and fragment.
-	shaderStages[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = vertexShaderModule;
-	shaderStages[0].pName  = "main";
-	shaderStages[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = pixelShaderModule;
-	shaderStages[1].pName  = "main";
-
-	auto pipelineCreateInfo = Framework::Vulkan::GraphicsPipelineCreateInfo();
-	pipelineCreateInfo.stageCount          = 2;
-	pipelineCreateInfo.pStages             = shaderStages;
-	pipelineCreateInfo.pInputAssemblyState = &inputAssemblyInfo;
-	pipelineCreateInfo.pVertexInputState   = &vertexInputInfo;
-	pipelineCreateInfo.pRasterizationState = &rasterStateInfo;
-	pipelineCreateInfo.pColorBlendState    = &colorBlendStateInfo;
-	pipelineCreateInfo.pViewportState      = &viewportStateInfo;
-	pipelineCreateInfo.pDepthStencilState  = &depthStencilStateInfo;
-	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
-	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
-	pipelineCreateInfo.renderPass          = m_renderPass;
-	pipelineCreateInfo.layout              = m_triangleDrawPipelineLayout;
-	
-	result = m_device.vkCreateGraphicsPipelines(m_device, pipelineCache, 1, &pipelineCreateInfo, nullptr, &m_triangleDrawPipeline);
-	CHECKVULKANERROR(result);
-}
-
-void CVulkanGraphicDevice::CreateTriangleVertexBuffer()
-{
-	uint32 currentOffset = 0;
-	unsigned int currentVertexItem = 0;
-
-	VERTEX_BUFFER_DESCRIPTOR descriptor = {};
-	descriptor.vertexCount = 3;
-	descriptor.indexCount  = 0;
-
-	//Position Item
-	{
-		auto& vertexItem = descriptor.vertexItems[currentVertexItem++];
-		vertexItem.id = VERTEX_ITEM_ID_POSITION;
-		vertexItem.offset = currentOffset;
-		vertexItem.size = sizeof(CVector4);
-		currentOffset += vertexItem.size;
-	}
-	
-	//Color Item
-	{
-		auto& vertexItem = descriptor.vertexItems[currentVertexItem++];
-		vertexItem.id = VERTEX_ITEM_ID_COLOR;
-		vertexItem.offset = currentOffset;
-		vertexItem.size = sizeof(CVector4);
-		currentOffset += vertexItem.size;
-	}
-	
-	m_triangleVertexBuffer = CreateVertexBuffer(descriptor);
-	
-	static const Vertex vertexData[] = 
-	{
-//		{ CVector4(-0.5f, -0.5f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
-//		{ CVector4(-0.5f, +0.5f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
-//		{ CVector4(+0.5f, -0.5f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
-		{ CVector4( 0.0f,  0.0f, 0.0f, 1.0f), CVector4(1.0f, 0.0f, 0.0f, 1.0f) },
-		{ CVector4( 0.0f, 90.0f, 0.0f, 1.0f), CVector4(0.0f, 1.0f, 0.0f, 1.0f) },
-		{ CVector4(90.0f,  0.0f, 0.0f, 1.0f), CVector4(0.0f, 0.0f, 1.0f, 1.0f) },
-	};
-	
-	auto vertices = reinterpret_cast<uint8*>(m_triangleVertexBuffer->LockVertices());
-	memcpy(vertices, vertexData, sizeof(vertexData));
-	m_triangleVertexBuffer->UnlockVertices();
-}
-
-void CVulkanGraphicDevice::CreateTriangleTexture()
-{
-	VkResult result = VK_SUCCESS;
-	
-	static const int textureWidth = 32;
-	static const int textureHeight = 32;
-	static const int pixelCount = textureWidth * textureHeight;
-	
-	m_triangleTexture = CreateTexture(TEXTURE_FORMAT_RGBA8888, textureWidth, textureHeight, 1);
-	
-	auto textureData = new uint32[pixelCount];
-	for(uint32 i = 0; i < pixelCount; i++)
-	{
-		textureData[i] = 0xFF008000;
-	}
-	m_triangleTexture->Update(0, textureData);
-	delete [] textureData;
-	
-	//Create Sampler
-	{
-		auto samplerCreateInfo = Framework::Vulkan::SamplerCreateInfo();
-		samplerCreateInfo.magFilter    = VK_FILTER_LINEAR;
-		samplerCreateInfo.minFilter    = VK_FILTER_LINEAR;
-		samplerCreateInfo.mipmapMode   = VK_SAMPLER_MIPMAP_MODE_NEAREST;
-		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-		
-		result = m_device.vkCreateSampler(m_device, &samplerCreateInfo, nullptr, &m_triangleDrawSampler);
-		CHECKVULKANERROR(result);
-	}
-
-	//Allocate Descriptor Set
-	{
-		auto setAllocateInfo = Framework::Vulkan::DescriptorSetAllocateInfo();
-		setAllocateInfo.descriptorPool     = m_triangleDrawDescriptorPool;
-		setAllocateInfo.descriptorSetCount = 1;
-		setAllocateInfo.pSetLayouts        = &m_triangleDrawDescriptorSetLayout;
-		
-		result = m_device.vkAllocateDescriptorSets(m_device, &setAllocateInfo, &m_triangleDrawDescriptorSet);
-		CHECKVULKANERROR(result);
-	}
-	
-	//Update Descriptor Set
-	{
-		VkDescriptorImageInfo descriptorImageInfo = {};
-		descriptorImageInfo.sampler     = m_triangleDrawSampler;
-		descriptorImageInfo.imageView   = reinterpret_cast<VkImageView>(m_triangleTexture->GetHandle());
-		descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		
-		auto writeSet = Framework::Vulkan::WriteDescriptorSet();
-		writeSet.dstSet          = m_triangleDrawDescriptorSet;
-		writeSet.dstBinding      = 0;
-		writeSet.descriptorCount = 1;
-		writeSet.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		writeSet.pImageInfo      = &descriptorImageInfo;
-		
-		m_device.vkUpdateDescriptorSets(m_device, 1, &writeSet, 0, nullptr);
-	}
-}
-
-#endif
-
 //////////////////////////////////////////////////////////////
 //Swap Chain Stuff
 //////////////////////////////////////////////////////////////
@@ -824,45 +585,47 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 //Rendering
 //////////////////////////////////////////////////////////////
 
-void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, VkImage swapChainImage, VkExtent2D renderAreaExtent, 
-	VkRenderPass renderPass, VkFramebuffer framebuffer)
+void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {
-	static float t = 0;
+	RenderQueue renderQueue;
+
+	auto camera = viewport->GetCamera();
+	assert(camera);
+	auto cameraFrustum = camera->GetFrustum();
 	
-	VkResult result = VK_SUCCESS;
-	
-	auto commandBufferBeginInfo = Framework::Vulkan::CommandBufferBeginInfo();
-	commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-	result = m_device.vkBeginCommandBuffer(commandBuffer, &commandBufferBeginInfo);
-	CHECKVULKANERROR(result);
-	
-	//Transition image from present to color attachment
-	{
-		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();
-		imageMemoryBarrier.image               = swapChainImage;
-		imageMemoryBarrier.oldLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
-		imageMemoryBarrier.srcAccessMask       = VK_ACCESS_MEMORY_READ_BIT;
-		imageMemoryBarrier.newLayout           = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-		imageMemoryBarrier.dstAccessMask       = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageMemoryBarrier.subresourceRange    = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-		
-		m_device.vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
-			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
-	}
-	
-	//Execute render pass
-	float color = static_cast<float>(fabs(sin(t)));
-	//Log_Print("Color: %f", color);
-	VkClearColorValue defaultClearColor = { { 0.0f, 0.0f, color, 1.0f } };
-	t += 0.01f;
+	const auto& sceneRoot = viewport->GetSceneRoot();
+	sceneRoot->TraverseNodes(
+		[&] (const SceneNodePtr& node)
+		{
+			if(!node->GetVisible()) return false;
+			
+			if(auto mesh = std::dynamic_pointer_cast<CMesh>(node))
+			{
+				if(mesh->GetPrimitiveCount() != 0)
+				{
+					bool render = true;
+					auto boundingSphere = mesh->GetBoundingSphere();
+					if(boundingSphere.radius != 0)
+					{
+						auto worldBoundingSphere = mesh->GetWorldBoundingSphere();
+						render = cameraFrustum.Intersects(worldBoundingSphere);
+					}
+					if(render)
+					{
+						renderQueue.push_back(mesh.get());
+					}
+				}
+			}
+			
+			return true;
+		}
+	);
 	
 	VkClearValue clearValue;
-	clearValue.color = defaultClearColor;
+	clearValue.color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
 	
 	auto renderPassBeginInfo = Framework::Vulkan::RenderPassBeginInfo();
-	renderPassBeginInfo.renderPass               = renderPass;
+	renderPassBeginInfo.renderPass               = m_renderPass;
 	renderPassBeginInfo.renderArea.extent        = renderAreaExtent;
 	renderPassBeginInfo.clearValueCount          = 1;
 	renderPassBeginInfo.pClearValues             = &clearValue;
@@ -870,57 +633,213 @@ void CVulkanGraphicDevice::BuildClearCommandList(VkCommandBuffer commandBuffer, 
 	
 	m_device.vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	
-#ifdef _TRIANGLEDRAW_TEST
-	m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_triangleDrawPipeline);
-	
-	VkViewport viewport = {};
-	viewport.width    = renderAreaExtent.width;
-	viewport.height   = renderAreaExtent.height;
-	viewport.maxDepth = 1.0f;
-	m_device.vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-	
-	VkRect2D scissor = {};
-	scissor.extent  = renderAreaExtent;
-	m_device.vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-	
+	for(const auto& mesh : renderQueue)
 	{
-		auto vertexBuffer = static_cast<CVulkanVertexBuffer*>(m_triangleVertexBuffer.get())->GetVertexBuffer();
+		DefaultPushConstants pushConstants;
+		pushConstants.viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+		pushConstants.worldMatrix = mesh->GetWorldTransformation();
+		
+		auto pipeline = GetPipelineForMesh(mesh);
+		
+		m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+		
+		{
+			VkViewport viewport = {};
+			viewport.width    = renderAreaExtent.width;
+			viewport.height   = renderAreaExtent.height;
+			viewport.maxDepth = 1.0f;
+			m_device.vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+		
+			VkRect2D scissor = {};
+			scissor.extent  = renderAreaExtent;
+			m_device.vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+		}
+		
+		auto specVertexBuffer = static_cast<CVulkanVertexBuffer*>(mesh->GetVertexBuffer().get());
+		auto vertexBuffer = specVertexBuffer->GetVertexBuffer();
+		auto indexBuffer = specVertexBuffer->GetIndexBuffer();
+		
 		VkDeviceSize offset = 0;
 		m_device.vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertexBuffer, &offset);
+		m_device.vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+		
+		m_device.vkCmdPushConstants(commandBuffer, m_defaultPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(DefaultPushConstants), &pushConstants);
+		
+		auto primitiveCount = mesh->GetPrimitiveCount();
+		assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_LIST);
+		m_device.vkCmdDrawIndexed(commandBuffer, primitiveCount * 3, 1, 0, 0, 0);
 	}
-
-	auto camera = CCamera::Create();
-	camera->SetupOrthoCamera(renderAreaExtent.width, renderAreaExtent.height);
-	
-	PushConstants pushConstants;
-	pushConstants.viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
-	pushConstants.worldMatrix = CMatrix4::MakeTranslation(50, 50, 0);
-	
-	m_device.vkCmdPushConstants(commandBuffer, m_triangleDrawPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &pushConstants);
-	
-	m_device.vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_triangleDrawPipelineLayout, 0, 1, &m_triangleDrawDescriptorSet, 0, nullptr);
-	
-	m_device.vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-#endif
 	
 	m_device.vkCmdEndRenderPass(commandBuffer);
+}
+
+void CVulkanGraphicDevice::CreateDefaultPipelineLayout()
+{
+	VkPushConstantRange pushConstantInfo = {};
+	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+	pushConstantInfo.offset     = 0;
+	pushConstantInfo.size       = sizeof(DefaultPushConstants);
 	
-	//Transition image from attachment to present
+	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
+	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
+	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
+	
+	auto result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &m_defaultPipelineLayout);
+	CHECKVULKANERROR(result);
+}
+
+VkPipeline CVulkanGraphicDevice::GetPipelineForMesh(CMesh* mesh)
+{
+	assert(m_defaultPipelineLayout != VK_NULL_HANDLE);
+	
+	VkPipeline pipeline = VK_NULL_HANDLE;
+	
+	assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_LIST);
+	//assert(mesh->GetPrimitiveType() == PRIMITIVE_TRIANGLE_STRIP);
+	
+	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
+	auto pipelineIterator = m_pipelines.find(vertexBufferDescriptor.vertexItems);
+	if(pipelineIterator != std::end(m_pipelines))
 	{
-		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();
-		imageMemoryBarrier.image               = swapChainImage;
-		imageMemoryBarrier.oldLayout           = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-		imageMemoryBarrier.srcAccessMask       = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-		imageMemoryBarrier.newLayout           = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-		imageMemoryBarrier.dstAccessMask       = VK_ACCESS_MEMORY_READ_BIT;
-		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageMemoryBarrier.subresourceRange    = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+		return pipelineIterator->second;
+	}
+
+	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
+	inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	//inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
+
+	std::vector<VkVertexInputAttributeDescription> attributeDescs;
+	for(const auto& vertexItem : vertexBufferDescriptor.vertexItems)
+	{
+		if(vertexItem.id == VERTEX_ITEM_ID_NONE) continue;
 		
-		m_device.vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
+		VkVertexInputAttributeDescription attributeDesc = {};
+		attributeDesc.binding = 0;
+		attributeDesc.offset = vertexItem.offset;
+		
+		//TODO: Use MapSemanticToLocation here
+		switch(vertexItem.id)
+		{
+		case VERTEX_ITEM_ID_POSITION:
+			attributeDesc.location = 0;
+			break;
+		case VERTEX_ITEM_ID_UV0:
+			attributeDesc.location = 1;
+			break;
+		case VERTEX_ITEM_ID_NORMAL:
+			attributeDesc.location = 2;
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		
+		switch(vertexItem.size)
+		{
+		case 8:
+			attributeDesc.format = VK_FORMAT_R32G32_SFLOAT;
+			break;
+		case 12:
+			attributeDesc.format = VK_FORMAT_R32G32B32_SFLOAT;
+			break;
+		default:
+			assert(false);
+			break;
+		}
+		
+		attributeDescs.push_back(attributeDesc);
 	}
 	
-	result = m_device.vkEndCommandBuffer(commandBuffer);
+	VkVertexInputBindingDescription binding = {};
+	binding.binding   = 0;
+	binding.stride    = vertexBufferDescriptor.GetVertexSize();
+	binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+	
+	auto vertexInputInfo = Framework::Vulkan::PipelineVertexInputStateCreateInfo();
+	vertexInputInfo.vertexBindingDescriptionCount   = 1;
+	vertexInputInfo.pVertexBindingDescriptions      = &binding;
+	vertexInputInfo.vertexAttributeDescriptionCount = attributeDescs.size();
+	vertexInputInfo.pVertexAttributeDescriptions    = attributeDescs.data();
+
+	auto rasterStateInfo = Framework::Vulkan::PipelineRasterizationStateCreateInfo();
+	rasterStateInfo.polygonMode             = VK_POLYGON_MODE_FILL;
+	rasterStateInfo.cullMode                = VK_CULL_MODE_NONE;
+	rasterStateInfo.frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+	rasterStateInfo.depthClampEnable        = false;
+	rasterStateInfo.rasterizerDiscardEnable = false;
+	rasterStateInfo.depthBiasEnable         = false;
+	rasterStateInfo.lineWidth               = 1.0f;
+	
+	// Our attachment will write to all color channels, but no blending is enabled.
+	VkPipelineColorBlendAttachmentState blendAttachment = { 0 };
+	blendAttachment.blendEnable    = false;
+	blendAttachment.colorWriteMask = 0xf;
+	
+	auto colorBlendStateInfo = Framework::Vulkan::PipelineColorBlendStateCreateInfo();
+	colorBlendStateInfo.attachmentCount = 1;
+	colorBlendStateInfo.pAttachments    = &blendAttachment;
+	
+	auto viewportStateInfo = Framework::Vulkan::PipelineViewportStateCreateInfo();
+	viewportStateInfo.viewportCount = 1;
+	viewportStateInfo.scissorCount  = 1;
+	
+	auto depthStencilStateInfo = Framework::Vulkan::PipelineDepthStencilStateCreateInfo();
+	depthStencilStateInfo.depthTestEnable       = false;
+	depthStencilStateInfo.depthWriteEnable      = false;
+	depthStencilStateInfo.depthBoundsTestEnable = false;
+	depthStencilStateInfo.stencilTestEnable     = false;
+	
+	auto multisampleStateInfo = Framework::Vulkan::PipelineMultisampleStateCreateInfo();
+	multisampleStateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	static const VkDynamicState dynamicStates[] = 
+	{
+		VK_DYNAMIC_STATE_VIEWPORT,
+		VK_DYNAMIC_STATE_SCISSOR,
+	};
+	auto dynamicStateInfo = Framework::Vulkan::PipelineDynamicStateCreateInfo();
+	dynamicStateInfo.pDynamicStates    = dynamicStates;
+	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
+	
+	auto vertexShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.vert.spv");
+	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, *vertexShaderStream);
+	
+	auto pixelShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.frag.spv");
+	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, *pixelShaderStream);
+	
+	// Load our SPIR-V shaders.
+	VkPipelineShaderStageCreateInfo shaderStages[2] =
+	{
+		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
+		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
+	};
+	
+	//We have two pipeline stages, vertex and fragment.
+	shaderStages[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
+	shaderStages[0].module = vertexShaderModule;
+	shaderStages[0].pName  = "main";
+	shaderStages[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
+	shaderStages[1].module = pixelShaderModule;
+	shaderStages[1].pName  = "main";
+
+	auto pipelineCreateInfo = Framework::Vulkan::GraphicsPipelineCreateInfo();
+	pipelineCreateInfo.stageCount          = 2;
+	pipelineCreateInfo.pStages             = shaderStages;
+	pipelineCreateInfo.pInputAssemblyState = &inputAssemblyInfo;
+	pipelineCreateInfo.pVertexInputState   = &vertexInputInfo;
+	pipelineCreateInfo.pRasterizationState = &rasterStateInfo;
+	pipelineCreateInfo.pColorBlendState    = &colorBlendStateInfo;
+	pipelineCreateInfo.pViewportState      = &viewportStateInfo;
+	pipelineCreateInfo.pDepthStencilState  = &depthStencilStateInfo;
+	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
+	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
+	pipelineCreateInfo.renderPass          = m_renderPass;
+	pipelineCreateInfo.layout              = m_defaultPipelineLayout;
+	
+	auto result = m_device.vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline);
 	CHECKVULKANERROR(result);
+	
+	m_pipelines.insert(std::make_pair(vertexBufferDescriptor.vertexItems, pipeline));
+	
+	return pipeline;
 }

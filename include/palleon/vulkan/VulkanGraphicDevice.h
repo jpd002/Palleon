@@ -5,8 +5,6 @@
 #include "vulkan/CommandBufferPool.h"
 #include "palleon/graphics/GraphicDevice.h"
 
-//#define _TRIANGLEDRAW_TEST
-
 namespace Palleon
 {
 	class CVulkanGraphicDevice : public CGraphicDevice
@@ -25,6 +23,9 @@ namespace Palleon
 		SharedGraphicContextPtr CreateSharedContext() override;
 		
 	protected:
+		typedef std::unordered_map<VERTEX_ITEMS_KEY, VkPipeline> PipelineMap;
+		typedef std::vector<CMesh*> RenderQueue;
+		
 		           CVulkanGraphicDevice(const CVector2&, float);
 		virtual    ~CVulkanGraphicDevice();
 		
@@ -45,13 +46,10 @@ namespace Palleon
 		std::vector<uint32_t>           GetRenderQueueFamilies(VkPhysicalDevice);
 		std::vector<VkSurfaceFormatKHR> GetDeviceSurfaceFormats(VkPhysicalDevice);
 		
-		void                            BuildClearCommandList(VkCommandBuffer, VkImage, VkExtent2D, VkRenderPass, VkFramebuffer);
+		void                            DrawViewport(VkCommandBuffer, CViewport*, VkFramebuffer, VkExtent2D);
 		
-#ifdef _TRIANGLEDRAW_TEST
-		void                            CreateTriangleDrawPipeline();
-		void                            CreateTriangleVertexBuffer();
-		void                            CreateTriangleTexture();
-#endif
+		void                            CreateDefaultPipelineLayout();
+		VkPipeline                      GetPipelineForMesh(CMesh*);
 		
 		Framework::Vulkan::CInstance     m_vkInstance;
 		VkDebugReportCallbackEXT         m_debugReportCallback = VK_NULL_HANDLE;
@@ -68,18 +66,9 @@ namespace Palleon
 		VkSwapchainKHR                   m_swapChain = VK_NULL_HANDLE;
 		std::vector<VkImage>             m_swapChainImages;
 		std::vector<VkImageView>         m_swapChainImageViews;
-		
 		std::vector<VkFramebuffer>       m_swapChainFramebuffers;
 		
-#ifdef _TRIANGLEDRAW_TEST
-		VkDescriptorSetLayout            m_triangleDrawDescriptorSetLayout = VK_NULL_HANDLE;
-		VkDescriptorPool                 m_triangleDrawDescriptorPool = VK_NULL_HANDLE;
-		VkPipelineLayout                 m_triangleDrawPipelineLayout = VK_NULL_HANDLE;
-		VkDescriptorSet                  m_triangleDrawDescriptorSet = VK_NULL_HANDLE;
-		VkPipeline                       m_triangleDrawPipeline = VK_NULL_HANDLE;
-		VkSampler                        m_triangleDrawSampler = VK_NULL_HANDLE;
-		VertexBufferPtr                  m_triangleVertexBuffer;
-		TexturePtr                       m_triangleTexture;
-#endif
+		VkPipelineLayout                 m_defaultPipelineLayout = VK_NULL_HANDLE;
+		PipelineMap                      m_pipelines;
 	};
 }
