@@ -13,6 +13,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/AudioManager.cpp \
 						../../src/Box2.cpp \
 						../../src/ButtonBase.cpp \
+						../../src/Frustum.cpp \
 						../../src/gles/GlEsEffect.cpp \
 						../../src/gles/GlEsGenericEffect.cpp \
 						../../src/gles/GlEsGraphicDevice.cpp \
