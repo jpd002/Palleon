@@ -29,6 +29,12 @@ CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
 	m_commandBufferPool.Reset();
+	for(const auto& pipelinePair : m_pipelines)
+	{
+		m_device.vkDestroyPipeline(m_device, pipelinePair.second, nullptr);
+	}
+	m_device.vkDestroyPipelineLayout(m_device, m_defaultPipelineLayout, nullptr);
+	m_device.vkDestroyRenderPass(m_device, m_renderPass, nullptr);
 	for(auto swapChainImageView : m_swapChainImageViews)
 	{
 		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
