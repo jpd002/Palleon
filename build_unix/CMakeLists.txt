@@ -9,6 +9,7 @@ include_directories(../include ../../Framework/include)
 add_library(Palleon
 	../src/Box2.cpp
 	../src/ButtonBase.cpp
+	../src/Frustum.cpp
 	../src/graphics/Camera.cpp
 	../src/graphics/CubeMesh.cpp
 	../src/graphics/EffectParameter.cpp
