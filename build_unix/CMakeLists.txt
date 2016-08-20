@@ -53,8 +53,11 @@ add_library(Palleon
 	../src/unix/UnixMain.cpp
 	../src/unix/UnixResourceManager.cpp
 	../src/unix/UnixVulkanGraphicDevice.cpp
+	../src/vulkan/VulkanEffect.cpp
 	../src/vulkan/VulkanGraphicDevice.cpp
 	../src/vulkan/VulkanTexture.cpp
+	../src/vulkan/VulkanUberEffect.cpp
+	../src/vulkan/VulkanUberEffectProvider.cpp
 	../src/vulkan/VulkanUtils.cpp
 	../src/vulkan/VulkanVertexBuffer.cpp
 	../src/Widget.cpp

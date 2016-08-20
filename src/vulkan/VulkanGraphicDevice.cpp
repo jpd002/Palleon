@@ -1,15 +1,9 @@
 #include "palleon/vulkan/VulkanGraphicDevice.h"
 #include "palleon/vulkan/VulkanVertexBuffer.h"
 #include "palleon/vulkan/VulkanTexture.h"
+#include "palleon/vulkan/VulkanUberEffectProvider.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
-#include "vulkan/ShaderModule.h"
-
-struct DefaultPushConstants
-{
-	CMatrix4 viewProjMatrix;
-	CMatrix4 worldMatrix;
-};
 
 using namespace Palleon;
 
@@ -29,11 +23,7 @@ CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
 	m_commandBufferPool.Reset();
-	for(const auto& pipelinePair : m_pipelines)
-	{
-		m_device.vkDestroyPipeline(m_device, pipelinePair.second, nullptr);
-	}
-	m_device.vkDestroyPipelineLayout(m_device, m_defaultPipelineLayout, nullptr);
+	m_defaultEffectProvider.reset();
 	m_device.vkDestroyRenderPass(m_device, m_renderPass, nullptr);
 	for(auto swapChainImageView : m_swapChainImageViews)
 	{
@@ -102,7 +92,7 @@ void CVulkanGraphicDevice::Initialize()
 	m_screenSize = CVector2(m_surfaceExtents.width, m_surfaceExtents.height);
 	m_scaledScreenSize = m_screenSize;
 	
-	CreateDefaultPipelineLayout();
+	m_defaultEffectProvider = std::make_shared<CVulkanUberEffectProvider>(m_device);
 }
 
 void CVulkanGraphicDevice::Draw()
@@ -636,15 +626,17 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	renderPassBeginInfo.pClearValues             = &clearValue;
 	renderPassBeginInfo.framebuffer              = framebuffer;
 	
+	VIEWPORT_PARAMS viewportParams;
+	viewportParams.viewMatrix = camera->GetViewMatrix();
+	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	
 	m_device.vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	
 	for(const auto& mesh : renderQueue)
 	{
-		DefaultPushConstants pushConstants;
-		pushConstants.viewProjMatrix = camera->GetViewMatrix() * camera->GetProjectionMatrix();
-		pushConstants.worldMatrix = mesh->GetWorldTransformation();
-		
-		auto pipeline = GetPipelineForMesh(mesh);
+		auto effectProvider = mesh->GetEffectProvider();
+		auto effect = std::static_pointer_cast<CVulkanEffect>(effectProvider->GetEffectForRenderable(mesh, false));
+		auto pipeline = effect->GetPipelineForMesh(mesh, m_renderPass);
 		
 		m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 		
@@ -668,7 +660,8 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 		m_device.vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vertexBuffer, &offset);
 		m_device.vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 		
-		m_device.vkCmdPushConstants(commandBuffer, m_defaultPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(DefaultPushConstants), &pushConstants);
+		effect->UpdateConstants(viewportParams, mesh->GetMaterial().get(), mesh->GetWorldTransformation());
+		effect->PrepareDraw(commandBuffer);
 		
 		auto primitiveCount = mesh->GetPrimitiveCount();
 		uint32 indexCount = 0;
@@ -686,184 +679,4 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	}
 	
 	m_device.vkCmdEndRenderPass(commandBuffer);
-}
-
-void CVulkanGraphicDevice::CreateDefaultPipelineLayout()
-{
-	VkPushConstantRange pushConstantInfo = {};
-	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-	pushConstantInfo.offset     = 0;
-	pushConstantInfo.size       = sizeof(DefaultPushConstants);
-	
-	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
-	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
-	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
-	
-	auto result = m_device.vkCreatePipelineLayout(m_device, &pipelineLayoutCreateInfo, nullptr, &m_defaultPipelineLayout);
-	CHECKVULKANERROR(result);
-}
-
-VkPipeline CVulkanGraphicDevice::GetPipelineForMesh(CMesh* mesh)
-{
-	assert(m_defaultPipelineLayout != VK_NULL_HANDLE);
-	
-	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
-	
-	VkPipeline pipeline = VK_NULL_HANDLE;
-	
-	VULKAN_PIPELINE_KEY pipelineKey;
-	pipelineKey.primitiveType = mesh->GetPrimitiveType();
-	pipelineKey.vertexItems   = vertexBufferDescriptor.vertexItems;
-	
-	auto pipelineIterator = m_pipelines.find(pipelineKey);
-	if(pipelineIterator != std::end(m_pipelines))
-	{
-		return pipelineIterator->second;
-	}
-	
-	auto inputAssemblyInfo = Framework::Vulkan::PipelineInputAssemblyStateCreateInfo();
-	switch(mesh->GetPrimitiveType())
-	{
-	case PRIMITIVE_TRIANGLE_LIST:
-		inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-		break;
-	case PRIMITIVE_TRIANGLE_STRIP:
-		inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP;
-		break;
-	}
-	
-	std::vector<VkVertexInputAttributeDescription> attributeDescs;
-	for(const auto& vertexItem : vertexBufferDescriptor.vertexItems)
-	{
-		if(vertexItem.id == VERTEX_ITEM_ID_NONE) continue;
-		
-		VkVertexInputAttributeDescription attributeDesc = {};
-		attributeDesc.binding = 0;
-		attributeDesc.offset = vertexItem.offset;
-		
-		//TODO: Use MapSemanticToLocation here
-		switch(vertexItem.id)
-		{
-		case VERTEX_ITEM_ID_POSITION:
-			attributeDesc.location = 0;
-			break;
-		case VERTEX_ITEM_ID_UV0:
-			attributeDesc.location = 1;
-			break;
-		case VERTEX_ITEM_ID_NORMAL:
-			attributeDesc.location = 2;
-			break;
-		default:
-			assert(false);
-			break;
-		}
-		
-		switch(vertexItem.size)
-		{
-		case 8:
-			attributeDesc.format = VK_FORMAT_R32G32_SFLOAT;
-			break;
-		case 12:
-			attributeDesc.format = VK_FORMAT_R32G32B32_SFLOAT;
-			break;
-		default:
-			assert(false);
-			break;
-		}
-		
-		attributeDescs.push_back(attributeDesc);
-	}
-	
-	VkVertexInputBindingDescription binding = {};
-	binding.binding   = 0;
-	binding.stride    = vertexBufferDescriptor.GetVertexSize();
-	binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-	
-	auto vertexInputInfo = Framework::Vulkan::PipelineVertexInputStateCreateInfo();
-	vertexInputInfo.vertexBindingDescriptionCount   = 1;
-	vertexInputInfo.pVertexBindingDescriptions      = &binding;
-	vertexInputInfo.vertexAttributeDescriptionCount = attributeDescs.size();
-	vertexInputInfo.pVertexAttributeDescriptions    = attributeDescs.data();
-
-	auto rasterStateInfo = Framework::Vulkan::PipelineRasterizationStateCreateInfo();
-	rasterStateInfo.polygonMode             = VK_POLYGON_MODE_FILL;
-	rasterStateInfo.cullMode                = VK_CULL_MODE_NONE;
-	rasterStateInfo.frontFace               = VK_FRONT_FACE_COUNTER_CLOCKWISE;
-	rasterStateInfo.depthClampEnable        = false;
-	rasterStateInfo.rasterizerDiscardEnable = false;
-	rasterStateInfo.depthBiasEnable         = false;
-	rasterStateInfo.lineWidth               = 1.0f;
-	
-	// Our attachment will write to all color channels, but no blending is enabled.
-	VkPipelineColorBlendAttachmentState blendAttachment = { 0 };
-	blendAttachment.blendEnable    = false;
-	blendAttachment.colorWriteMask = 0xf;
-	
-	auto colorBlendStateInfo = Framework::Vulkan::PipelineColorBlendStateCreateInfo();
-	colorBlendStateInfo.attachmentCount = 1;
-	colorBlendStateInfo.pAttachments    = &blendAttachment;
-	
-	auto viewportStateInfo = Framework::Vulkan::PipelineViewportStateCreateInfo();
-	viewportStateInfo.viewportCount = 1;
-	viewportStateInfo.scissorCount  = 1;
-	
-	auto depthStencilStateInfo = Framework::Vulkan::PipelineDepthStencilStateCreateInfo();
-	depthStencilStateInfo.depthTestEnable       = false;
-	depthStencilStateInfo.depthWriteEnable      = false;
-	depthStencilStateInfo.depthBoundsTestEnable = false;
-	depthStencilStateInfo.stencilTestEnable     = false;
-	
-	auto multisampleStateInfo = Framework::Vulkan::PipelineMultisampleStateCreateInfo();
-	multisampleStateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-
-	static const VkDynamicState dynamicStates[] = 
-	{
-		VK_DYNAMIC_STATE_VIEWPORT,
-		VK_DYNAMIC_STATE_SCISSOR,
-	};
-	auto dynamicStateInfo = Framework::Vulkan::PipelineDynamicStateCreateInfo();
-	dynamicStateInfo.pDynamicStates    = dynamicStates;
-	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
-	
-	auto vertexShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.vert.spv");
-	Framework::Vulkan::CShaderModule vertexShaderModule(m_device, *vertexShaderStream);
-	
-	auto pixelShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.frag.spv");
-	Framework::Vulkan::CShaderModule pixelShaderModule(m_device, *pixelShaderStream);
-	
-	// Load our SPIR-V shaders.
-	VkPipelineShaderStageCreateInfo shaderStages[2] =
-	{
-		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
-		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
-	};
-	
-	//We have two pipeline stages, vertex and fragment.
-	shaderStages[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = vertexShaderModule;
-	shaderStages[0].pName  = "main";
-	shaderStages[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = pixelShaderModule;
-	shaderStages[1].pName  = "main";
-
-	auto pipelineCreateInfo = Framework::Vulkan::GraphicsPipelineCreateInfo();
-	pipelineCreateInfo.stageCount          = 2;
-	pipelineCreateInfo.pStages             = shaderStages;
-	pipelineCreateInfo.pInputAssemblyState = &inputAssemblyInfo;
-	pipelineCreateInfo.pVertexInputState   = &vertexInputInfo;
-	pipelineCreateInfo.pRasterizationState = &rasterStateInfo;
-	pipelineCreateInfo.pColorBlendState    = &colorBlendStateInfo;
-	pipelineCreateInfo.pViewportState      = &viewportStateInfo;
-	pipelineCreateInfo.pDepthStencilState  = &depthStencilStateInfo;
-	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
-	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
-	pipelineCreateInfo.renderPass          = m_renderPass;
-	pipelineCreateInfo.layout              = m_defaultPipelineLayout;
-	
-	auto result = m_device.vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline);
-	CHECKVULKANERROR(result);
-	
-	m_pipelines.insert(std::make_pair(pipelineKey, pipeline));
-	
-	return pipeline;
 }
