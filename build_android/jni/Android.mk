@@ -65,8 +65,12 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/RumbleAnimation.cpp \
 						../../src/SpriteButton.cpp \
 						../../src/TextureAnimation.cpp \
+						../../src/vulkan/VulkanEffect.cpp \
 						../../src/vulkan/VulkanGraphicDevice.cpp \
 						../../src/vulkan/VulkanTexture.cpp \
+						../../src/vulkan/VulkanUberEffect.cpp \
+						../../src/vulkan/VulkanUberEffectGenerator.cpp \
+						../../src/vulkan/VulkanUberEffectProvider.cpp \
 						../../src/vulkan/VulkanUtils.cpp \
 						../../src/vulkan/VulkanVertexBuffer.cpp \
 						../../src/Widget.cpp
