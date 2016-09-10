@@ -1,7 +1,7 @@
 #pragma once
 
 #include "palleon/graphics/EffectProvider.h"
-#include "palleon/vulkan/VulkanEffect.h"
+#include "palleon/vulkan/VulkanUberEffect.h"
 
 namespace Palleon
 {
@@ -9,12 +9,14 @@ namespace Palleon
 	{
 	public:
 		CVulkanUberEffectProvider(Framework::Vulkan::CDevice&);
-		             
+		
 		EffectPtr    GetEffectForRenderable(CMesh*, bool) override;
 		
 	private:
+		typedef std::unordered_map<uint32, VulkanEffectPtr> EffectMap;
+		
 		Framework::Vulkan::CDevice* m_device = nullptr;
 		
-		EffectPtr    m_tempEffect;
+		EffectMap    m_effects;
 	};
 }

@@ -6,7 +6,7 @@ using namespace Palleon;
 CVulkanEffect::CVulkanEffect(Framework::Vulkan::CDevice& device)
 : m_device(&device)
 {
-	CreateDefaultPipelineLayout();
+	
 }
 
 CVulkanEffect::~CVulkanEffect()
@@ -15,38 +15,17 @@ CVulkanEffect::~CVulkanEffect()
 	{
 		m_device->vkDestroyPipeline(*m_device, pipelinePair.second, nullptr);
 	}
-	m_device->vkDestroyPipelineLayout(*m_device, m_defaultPipelineLayout, nullptr);
-}
-
-void CVulkanEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial*, const CMatrix4& worldMatrix)
-{
-	m_pushConstants.viewProjMatrix = viewportParams.viewMatrix * viewportParams.projMatrix;
-	m_pushConstants.worldMatrix = worldMatrix;
-}
-
-void CVulkanEffect::PrepareDraw(VkCommandBuffer commandBuffer)
-{
-	m_device->vkCmdPushConstants(commandBuffer, m_defaultPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(DefaultPushConstants), &m_pushConstants);
-}
-
-void CVulkanEffect::CreateDefaultPipelineLayout()
-{
-	VkPushConstantRange pushConstantInfo = {};
-	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-	pushConstantInfo.offset     = 0;
-	pushConstantInfo.size       = sizeof(DefaultPushConstants);
-	
-	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
-	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
-	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
-	
-	auto result = m_device->vkCreatePipelineLayout(*m_device, &pipelineLayoutCreateInfo, nullptr, &m_defaultPipelineLayout);
-	CHECKVULKANERROR(result);
+	if(m_pipelineLayout != VK_NULL_HANDLE)
+	{
+		m_device->vkDestroyPipelineLayout(*m_device, m_pipelineLayout, nullptr);
+	}
 }
 
 VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPass)
 {
-	assert(m_defaultPipelineLayout != VK_NULL_HANDLE);
+	assert(!m_vertexShaderModule.IsEmpty());
+	assert(!m_fragmentShaderModule.IsEmpty());
+	assert(m_pipelineLayout != VK_NULL_HANDLE);
 	
 	const auto& vertexBufferDescriptor = mesh->GetVertexBuffer()->GetDescriptor();
 	
@@ -167,25 +146,17 @@ VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPas
 	dynamicStateInfo.pDynamicStates    = dynamicStates;
 	dynamicStateInfo.dynamicStateCount = sizeof(dynamicStates) / sizeof(dynamicStates[0]);
 	
-	auto vertexShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.vert.spv");
-	Framework::Vulkan::CShaderModule vertexShaderModule(*m_device, *vertexShaderStream);
-	
-	auto pixelShaderStream = CResourceManager::GetInstance().MakeResourceStream("triangle.frag.spv");
-	Framework::Vulkan::CShaderModule pixelShaderModule(*m_device, *pixelShaderStream);
-	
-	// Load our SPIR-V shaders.
 	VkPipelineShaderStageCreateInfo shaderStages[2] =
 	{
 		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
 		{ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO },
 	};
 	
-	//We have two pipeline stages, vertex and fragment.
 	shaderStages[0].stage  = VK_SHADER_STAGE_VERTEX_BIT;
-	shaderStages[0].module = vertexShaderModule;
+	shaderStages[0].module = m_vertexShaderModule;
 	shaderStages[0].pName  = "main";
 	shaderStages[1].stage  = VK_SHADER_STAGE_FRAGMENT_BIT;
-	shaderStages[1].module = pixelShaderModule;
+	shaderStages[1].module = m_fragmentShaderModule;
 	shaderStages[1].pName  = "main";
 
 	auto pipelineCreateInfo = Framework::Vulkan::GraphicsPipelineCreateInfo();
@@ -200,7 +171,7 @@ VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPas
 	pipelineCreateInfo.pMultisampleState   = &multisampleStateInfo;
 	pipelineCreateInfo.pDynamicState       = &dynamicStateInfo;
 	pipelineCreateInfo.renderPass          = renderPass;
-	pipelineCreateInfo.layout              = m_defaultPipelineLayout;
+	pipelineCreateInfo.layout              = m_pipelineLayout;
 	
 	auto result = m_device->vkCreateGraphicsPipelines(*m_device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline);
 	CHECKVULKANERROR(result);

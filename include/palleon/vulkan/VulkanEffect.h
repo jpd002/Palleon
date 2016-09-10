@@ -46,36 +46,30 @@ namespace Palleon
 {
 	class CMesh;
 	
+	class CVulkanEffect;
+	typedef std::shared_ptr<CVulkanEffect> VulkanEffectPtr;
+	
 	class CVulkanEffect : public CEffect
 	{
 	public:
 		CVulkanEffect(Framework::Vulkan::CDevice&);
 		~CVulkanEffect();
 		
-		void UpdateConstants(const VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
+		virtual void  PrepareDraw(VkCommandBuffer) = 0;
 		
-		void          PrepareDraw(VkCommandBuffer);
 		VkPipeline    GetPipelineForMesh(CMesh*, VkRenderPass);
 		
 	protected:
-		struct DefaultPushConstants
-		{
-			CMatrix4 viewProjMatrix;
-			CMatrix4 worldMatrix;
-		};
-		
 		typedef std::unordered_map<VULKAN_PIPELINE_KEY, VkPipeline> PipelineMap;
-	
-		void    CreateDefaultPipelineLayout();
 		
 		Framework::Vulkan::CDevice*         m_device = nullptr;
 		
-		VkPipelineLayout                    m_defaultPipelineLayout = VK_NULL_HANDLE;
 		PipelineMap                         m_pipelines;
 		
-		DefaultPushConstants                m_pushConstants;
-		
+		//These need to be filled by classes that inherit this one
+		//This class will be responsible for cleaning up these
 		Framework::Vulkan::CShaderModule    m_vertexShaderModule;
 		Framework::Vulkan::CShaderModule    m_fragmentShaderModule;
+		VkPipelineLayout                    m_pipelineLayout = VK_NULL_HANDLE;
 	};
 }

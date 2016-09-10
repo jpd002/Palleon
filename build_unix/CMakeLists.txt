@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 project(Palleon)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(../include ../../Framework/include)
+include_directories(../include ../../Nuanceur/include ../../Framework/include $ENV{VULKAN_SDK}/include)
 
 add_library(Palleon
 	../src/Box2.cpp
@@ -57,6 +57,7 @@ add_library(Palleon
 	../src/vulkan/VulkanGraphicDevice.cpp
 	../src/vulkan/VulkanTexture.cpp
 	../src/vulkan/VulkanUberEffect.cpp
+	../src/vulkan/VulkanUberEffectGenerator.cpp
 	../src/vulkan/VulkanUberEffectProvider.cpp
 	../src/vulkan/VulkanUtils.cpp
 	../src/vulkan/VulkanVertexBuffer.cpp

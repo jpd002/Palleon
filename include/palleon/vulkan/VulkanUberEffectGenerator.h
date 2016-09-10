@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Stream.h"
+#include "nuanceur/Builder.h"
+
 namespace Palleon
 {
 	class CVulkanUberEffectGenerator
@@ -11,5 +14,12 @@ namespace Palleon
 			unsigned int reserved       : 31;
 		};
 		static_assert(sizeof(EFFECTCAPS) == 4, "Size of EFFECTCAPS must be 4 bytes.");
+		
+		static void GenerateVertexShader(Framework::CStream&, const EFFECTCAPS&);
+		static void GenerateFragmentShader(Framework::CStream&, const EFFECTCAPS&);
+		
+	private:
+		static Nuanceur::CShaderBuilder BuildVertexShader(const EFFECTCAPS&);
+		static Nuanceur::CShaderBuilder BuildFragmentShader(const EFFECTCAPS&);
 	};
 }

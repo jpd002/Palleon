@@ -1,5 +1,4 @@
 #include "palleon/vulkan/VulkanUberEffectProvider.h"
-#include "palleon/vulkan/VulkanUberEffectGenerator.h"
 
 using namespace Palleon;
 
@@ -14,10 +13,14 @@ EffectPtr CVulkanUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool ha
 	CVulkanUberEffectGenerator::EFFECTCAPS effectCaps;
 	memset(&effectCaps, 0, sizeof(effectCaps));
 	
-	if(!m_tempEffect)
+	uint32 effectKey = *reinterpret_cast<uint32*>(&effectCaps);
+	auto effectIterator = m_effects.find(effectKey);
+	if(effectIterator == std::end(m_effects))
 	{
-		m_tempEffect = std::make_shared<CVulkanEffect>(*m_device);
+		auto effect = std::make_shared<CVulkanUberEffect>(*m_device, effectCaps);
+		m_effects.insert(std::make_pair(effectKey, effect));
+		effectIterator = m_effects.find(effectKey);
 	}
 	
-	return m_tempEffect;
+	return effectIterator->second;
 }
