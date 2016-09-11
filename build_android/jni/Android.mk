@@ -1,7 +1,8 @@
 LOCAL_PATH:= $(call my-dir)
 
 include $(LOCAL_PATH)/ExternalDependencies.mk
-FRAMEWORK_PATH		:= $(realpath $(LOCAL_PATH)/../../../Framework/)
+FRAMEWORK_PATH := $(realpath $(LOCAL_PATH)/../../../Framework/)
+NUANCEUR_PATH  := $(realpath $(LOCAL_PATH)/../../../Nuanceur/)
 
 include $(CLEAR_VARS)
 
@@ -74,7 +75,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/vulkan/VulkanUtils.cpp \
 						../../src/vulkan/VulkanVertexBuffer.cpp \
 						../../src/Widget.cpp
-LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_SDK)/Include $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
+LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_SDK)/Include $(FRAMEWORK_PATH)/include $(NUANCEUR_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
 
 include $(BUILD_STATIC_LIBRARY)
