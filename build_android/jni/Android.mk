@@ -74,7 +74,7 @@ LOCAL_SRC_FILES		:=	../../src/android/AndroidActivity.cpp \
 						../../src/vulkan/VulkanUtils.cpp \
 						../../src/vulkan/VulkanVertexBuffer.cpp \
 						../../src/Widget.cpp
-LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_PATH) $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
+LOCAL_C_INCLUDES	:= $(BOOST_PATH) $(VULKAN_SDK)/Include $(FRAMEWORK_PATH)/include $(LOCAL_PATH)/../../include
 LOCAL_CPP_FEATURES	:= exceptions rtti
 
 include $(BUILD_STATIC_LIBRARY)
