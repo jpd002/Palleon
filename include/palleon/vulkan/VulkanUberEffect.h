@@ -16,6 +16,7 @@ namespace Palleon
 	protected:
 		struct DefaultPushConstants
 		{
+			CColor meshColor;
 			CMatrix4 viewProjMatrix;
 			CMatrix4 worldMatrix;
 		};

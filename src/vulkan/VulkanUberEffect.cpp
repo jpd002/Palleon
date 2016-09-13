@@ -12,8 +12,9 @@ CVulkanUberEffect::CVulkanUberEffect(Framework::Vulkan::CDevice& device, const C
 	CreateShaderModules(effectCaps);
 }
 
-void CVulkanUberEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial*, const CMatrix4& worldMatrix)
+void CVulkanUberEffect::UpdateConstants(const VIEWPORT_PARAMS& viewportParams, CMaterial* material, const CMatrix4& worldMatrix)
 {
+	m_pushConstants.meshColor = material->GetColor();
 	m_pushConstants.viewProjMatrix = viewportParams.viewMatrix * viewportParams.projMatrix;
 	m_pushConstants.worldMatrix = worldMatrix;
 }
