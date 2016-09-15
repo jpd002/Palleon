@@ -13,6 +13,5 @@ uint32 Palleon::GetMemoryTypeIndex(const VkPhysicalDeviceMemoryProperties& memor
 			}
 		}
 	}
-	assert(false);
-	return 0;
+	return VULKAN_MEMORY_TYPE_INVALID;
 }

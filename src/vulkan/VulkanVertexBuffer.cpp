@@ -81,6 +81,8 @@ VkDeviceMemory CVulkanVertexBuffer::AllocateAndBindBufferMemory(VkBuffer bufferH
 	auto memoryAllocateInfo = Framework::Vulkan::MemoryAllocateInfo();
 	memoryAllocateInfo.allocationSize = memoryRequirements.size;
 	memoryAllocateInfo.memoryTypeIndex = GetMemoryTypeIndex(memoryProperties, memoryRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	assert(memoryAllocateInfo.memoryTypeIndex != VULKAN_MEMORY_TYPE_INVALID);
+
 	result = m_device->vkAllocateMemory(*m_device, &memoryAllocateInfo, nullptr, &bufferMemoryHandle);
 	CHECKVULKANERROR(result);
 	
