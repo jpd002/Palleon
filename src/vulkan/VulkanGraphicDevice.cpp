@@ -2,6 +2,7 @@
 #include "palleon/vulkan/VulkanVertexBuffer.h"
 #include "palleon/vulkan/VulkanTexture.h"
 #include "palleon/vulkan/VulkanUberEffectProvider.h"
+#include "palleon/vulkan/VulkanUtils.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
 
@@ -29,6 +30,9 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 	{
 		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
 	}
+	m_device.vkDestroyImageView(m_device, m_depthbufferImageView, nullptr);
+	m_device.vkDestroyImage(m_device, m_depthbufferImage, nullptr);
+	m_device.vkFreeMemory(m_device, m_depthbufferMemory, nullptr);
 	m_device.vkDestroySemaphore(m_device, m_renderCompleteSemaphore, nullptr);
 	m_device.vkDestroySemaphore(m_device, m_imageAcquireSemaphore, nullptr);
 	m_device.Reset();
@@ -69,7 +73,10 @@ void CVulkanGraphicDevice::Initialize()
 	
 	m_commandBufferPool = Framework::Vulkan::CCommandBufferPool(m_device, renderQueueFamily);
 	
-	m_renderPass = CreateRenderPass(surfaceFormat.format);
+	VkFormat depthbufferFormat = VK_FORMAT_D16_UNORM;
+	CreateDepthbuffer(m_surfaceExtents, depthbufferFormat);
+	
+	m_renderPass = CreateRenderPass(surfaceFormat.format, depthbufferFormat);
 	
 	CreateSwapChain(surfaceFormat, m_surfaceExtents);
 	PrepareSwapChainImages();
@@ -297,34 +304,53 @@ void CVulkanGraphicDevice::CreateDevice(VkPhysicalDevice physicalDevice)
 	CLog::GetInstance().Print("Created device.");
 }
 
-VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat)
+VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat, VkFormat depthFormat)
 {
 	assert(!m_device.IsEmpty());
 	
 	auto result = VK_SUCCESS;
 	
-	VkAttachmentDescription attachment = {};
-	attachment.format         = colorFormat;
-	attachment.samples        = VK_SAMPLE_COUNT_1_BIT;
-	attachment.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
-	attachment.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
-	attachment.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	attachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	attachment.initialLayout  = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-	attachment.finalLayout    = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	VkAttachmentDescription colorAttachment = {};
+	colorAttachment.format         = colorFormat;
+	colorAttachment.samples        = VK_SAMPLE_COUNT_1_BIT;
+	colorAttachment.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
+	colorAttachment.initialLayout  = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	colorAttachment.finalLayout    = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+	
+	VkAttachmentDescription depthAttachment = {};
+	depthAttachment.format         = depthFormat;
+	depthAttachment.samples        = VK_SAMPLE_COUNT_1_BIT;
+	depthAttachment.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	depthAttachment.storeOp        = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	depthAttachment.stencilLoadOp  = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	depthAttachment.initialLayout  = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	depthAttachment.finalLayout    = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	
+	VkAttachmentDescription attachments[] =
+	{
+		colorAttachment,
+		depthAttachment
+	};
 	
 	VkAttachmentReference colorRef = {};
 	colorRef.attachment = 0;
 	colorRef.layout     = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 	
+	VkAttachmentReference depthRef = {};
+	depthRef.attachment = 1;
+	depthRef.layout     = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	
 	VkSubpassDescription subpass = {};
-	subpass.pipelineBindPoint    = VK_PIPELINE_BIND_POINT_GRAPHICS;
-	subpass.colorAttachmentCount = 1;
-	subpass.pColorAttachments    = &colorRef;
-
+	subpass.pipelineBindPoint       = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subpass.colorAttachmentCount    = 1;
+	subpass.pColorAttachments       = &colorRef;
+	subpass.pDepthStencilAttachment = &depthRef;
+	 
 	auto renderPassCreateInfo = Framework::Vulkan::RenderPassCreateInfo();
-	renderPassCreateInfo.attachmentCount = 1;
-	renderPassCreateInfo.pAttachments    = &attachment;
+	renderPassCreateInfo.attachmentCount = 2;
+	renderPassCreateInfo.pAttachments    = attachments;
 	renderPassCreateInfo.subpassCount    = 1;
 	renderPassCreateInfo.pSubpasses      = &subpass;
 	
@@ -451,6 +477,71 @@ std::vector<VkSurfaceFormatKHR> CVulkanGraphicDevice::GetDeviceSurfaceFormats(Vk
 	return surfaceFormats;
 }
 
+void CVulkanGraphicDevice::CreateDepthbuffer(VkExtent2D size, VkFormat format)
+{
+	VkResult result = VK_SUCCESS;
+	
+	assert(!m_device.IsEmpty());
+	
+	{
+		auto imageCreateInfo = Framework::Vulkan::ImageCreateInfo();
+		imageCreateInfo.imageType     = VK_IMAGE_TYPE_2D;
+		imageCreateInfo.format        = format;
+		imageCreateInfo.extent.width  = size.width;
+		imageCreateInfo.extent.height = m_surfaceExtents.height;
+		imageCreateInfo.extent.depth  = 1;
+		imageCreateInfo.mipLevels     = 1;
+		imageCreateInfo.arrayLayers   = 1;
+		imageCreateInfo.samples       = VK_SAMPLE_COUNT_1_BIT;
+		imageCreateInfo.sharingMode   = VK_SHARING_MODE_EXCLUSIVE;
+		imageCreateInfo.tiling        = VK_IMAGE_TILING_OPTIMAL;
+		imageCreateInfo.usage         = VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+		imageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		
+		result = m_device.vkCreateImage(m_device, &imageCreateInfo, nullptr, &m_depthbufferImage);
+		CHECKVULKANERROR(result);
+	}
+	
+	VkMemoryRequirements memoryRequirements = {};
+	m_device.vkGetImageMemoryRequirements(m_device, m_depthbufferImage, &memoryRequirements);
+	
+	auto memoryTypeIndex = GetMemoryTypeIndex(m_physicalDeviceMemoryProperties,
+		memoryRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT);
+	if(memoryTypeIndex == VULKAN_MEMORY_TYPE_INVALID)
+	{
+		CLog::GetInstance().Print("Lazily allocated memory not available for depth buffer, fallback to device local memory.");
+		memoryTypeIndex = GetMemoryTypeIndex(m_physicalDeviceMemoryProperties,
+			memoryRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+	}
+	assert(memoryTypeIndex != VULKAN_MEMORY_TYPE_INVALID);
+	
+	auto memoryAllocateInfo = Framework::Vulkan::MemoryAllocateInfo();
+	memoryAllocateInfo.allocationSize  = memoryRequirements.size;
+	memoryAllocateInfo.memoryTypeIndex = memoryTypeIndex;
+	
+	result = m_device.vkAllocateMemory(m_device, &memoryAllocateInfo, nullptr, &m_depthbufferMemory);
+	CHECKVULKANERROR(result);
+	
+	result = m_device.vkBindImageMemory(m_device, m_depthbufferImage, m_depthbufferMemory, 0);
+	CHECKVULKANERROR(result);
+	
+	{
+		auto imageViewCreateInfo = Framework::Vulkan::ImageViewCreateInfo();
+		imageViewCreateInfo.image      = m_depthbufferImage;
+		imageViewCreateInfo.viewType   = VK_IMAGE_VIEW_TYPE_2D;
+		imageViewCreateInfo.format     = format;
+		imageViewCreateInfo.components =
+		{ 
+			VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, 
+			VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A 
+		};
+		imageViewCreateInfo.subresourceRange = { VK_IMAGE_ASPECT_DEPTH_BIT, 0, 1, 0, 1 };
+		
+		result = m_device.vkCreateImageView(m_device, &imageViewCreateInfo, nullptr, &m_depthbufferImageView);
+		CHECKVULKANERROR(result);
+	}
+}
+
 //////////////////////////////////////////////////////////////
 //Swap Chain Stuff
 //////////////////////////////////////////////////////////////
@@ -560,10 +651,16 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 	
 	for(const auto& imageView : m_swapChainImageViews)
 	{
+		VkImageView attachments[2] =
+		{
+			imageView,
+			m_depthbufferImageView
+		};
+		
 		auto frameBufferCreateInfo = Framework::Vulkan::FramebufferCreateInfo();
 		frameBufferCreateInfo.renderPass      = renderPass;
-		frameBufferCreateInfo.attachmentCount = 1;
-		frameBufferCreateInfo.pAttachments    = &imageView;
+		frameBufferCreateInfo.attachmentCount = 2;
+		frameBufferCreateInfo.pAttachments    = attachments;
 		frameBufferCreateInfo.width           = size.width;
 		frameBufferCreateInfo.height          = size.height;
 		frameBufferCreateInfo.layers          = 1;
@@ -574,7 +671,6 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 		m_swapChainFramebuffers.push_back(framebuffer);
 	}
 }
-
 
 //////////////////////////////////////////////////////////////
 //Rendering
@@ -616,14 +712,39 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 		}
 	);
 	
-	VkClearValue clearValue;
-	clearValue.color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+	//Transition our depth buffer
+	{
+		auto imageMemoryBarrier = Framework::Vulkan::ImageMemoryBarrier();
+		imageMemoryBarrier.image               = m_depthbufferImage;
+		imageMemoryBarrier.srcAccessMask       = 0;
+		imageMemoryBarrier.dstAccessMask       = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+		imageMemoryBarrier.oldLayout           = VK_IMAGE_LAYOUT_UNDEFINED;
+		imageMemoryBarrier.newLayout           = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.subresourceRange    = { VK_IMAGE_ASPECT_DEPTH_BIT, 0, 1, 0, 1 };
+		
+		m_device.vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT,
+			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
+	}
+	
+	VkClearValue colorClearValue;
+	colorClearValue.color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+	
+	VkClearValue depthClearValue;
+	depthClearValue.depthStencil = { 1.0f, 0 };
+	
+	VkClearValue clearValues[] =
+	{
+		colorClearValue,
+		depthClearValue
+	};
 	
 	auto renderPassBeginInfo = Framework::Vulkan::RenderPassBeginInfo();
 	renderPassBeginInfo.renderPass               = m_renderPass;
 	renderPassBeginInfo.renderArea.extent        = renderAreaExtent;
-	renderPassBeginInfo.clearValueCount          = 1;
-	renderPassBeginInfo.pClearValues             = &clearValue;
+	renderPassBeginInfo.clearValueCount          = 2;
+	renderPassBeginInfo.pClearValues             = clearValues;
 	renderPassBeginInfo.framebuffer              = framebuffer;
 	
 	VIEWPORT_PARAMS viewportParams;

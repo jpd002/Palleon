@@ -35,8 +35,10 @@ namespace Palleon
 		void       CreateDebugReportCallback();
 		void       CreateDevice(VkPhysicalDevice);
 		
-		VkRenderPass    CreateRenderPass(VkFormat);
+		VkRenderPass    CreateRenderPass(VkFormat, VkFormat);
 		
+		void       CreateDepthbuffer(VkExtent2D, VkFormat);
+
 		void       CreateSwapChain(VkSurfaceFormatKHR, VkExtent2D);
 		void       PrepareSwapChainImages();
 		void       CreateSwapChainImageViews(VkFormat);
@@ -64,5 +66,8 @@ namespace Palleon
 		std::vector<VkImage>             m_swapChainImages;
 		std::vector<VkImageView>         m_swapChainImageViews;
 		std::vector<VkFramebuffer>       m_swapChainFramebuffers;
+		VkImage                          m_depthbufferImage = VK_NULL_HANDLE;
+		VkDeviceMemory                   m_depthbufferMemory = VK_NULL_HANDLE;
+		VkImageView                      m_depthbufferImageView = VK_NULL_HANDLE;
 	};
 }
