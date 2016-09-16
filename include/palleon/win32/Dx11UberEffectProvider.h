@@ -12,7 +12,7 @@ namespace Palleon
 								CDx11UberEffectProvider(ID3D11Device*, ID3D11DeviceContext*);
 		virtual					~CDx11UberEffectProvider();
 
-		virtual EffectPtr		GetEffectForRenderable(CMesh*, bool hasShadowMap) override;
+		EffectPtr				GetEffectForRenderable(CMesh*, bool) override;
 
 	private:
 		typedef std::unordered_map<uint32, Dx11EffectPtr> EffectMap;

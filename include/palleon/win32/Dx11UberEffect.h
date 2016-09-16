@@ -13,10 +13,10 @@ namespace Palleon
 										CDx11UberEffect(ID3D11Device*, ID3D11DeviceContext*, const EFFECTCAPS&);
 		virtual							~CDx11UberEffect();
 
-		virtual void					UpdateConstants(const VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
+		void							UpdateConstants(const VIEWPORT_PARAMS&, CMaterial*, const CMatrix4&) override;
 
 	private:
-		virtual D3D11InputLayoutPtr		CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&) override;
+		D3D11InputLayoutPtr				CreateInputLayout(const VERTEX_BUFFER_DESCRIPTOR&) override;
 
 		uint32							m_meshColorOffset = -1;
 		uint32							m_worldMatrixOffset = -1;

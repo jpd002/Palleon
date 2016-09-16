@@ -28,7 +28,6 @@ namespace Palleon
 
 		D3D11VertexShaderPtr	GetVertexShader() const;
 		D3D11PixelShaderPtr		GetPixelShader() const;
-		D3DBlobPtr				GetVertexShaderCode() const;
 		D3D11BufferPtr			GetVertexConstantBuffer() const;
 		D3D11BufferPtr			GetPixelConstantBuffer() const;
 		D3D11InputLayoutPtr		GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
