@@ -5,6 +5,7 @@
 #include "palleon/vulkan/VulkanUtils.h"
 #include "palleon/Log.h"
 #include "vulkan/StructDefs.h"
+#include "countof.h"
 
 using namespace Palleon;
 
@@ -349,7 +350,7 @@ VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat, VkForm
 	subpass.pDepthStencilAttachment = &depthRef;
 	 
 	auto renderPassCreateInfo = Framework::Vulkan::RenderPassCreateInfo();
-	renderPassCreateInfo.attachmentCount = 2;
+	renderPassCreateInfo.attachmentCount = countof(attachments);
 	renderPassCreateInfo.pAttachments    = attachments;
 	renderPassCreateInfo.subpassCount    = 1;
 	renderPassCreateInfo.pSubpasses      = &subpass;
@@ -651,7 +652,7 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 	
 	for(const auto& imageView : m_swapChainImageViews)
 	{
-		VkImageView attachments[2] =
+		VkImageView attachments[] =
 		{
 			imageView,
 			m_depthbufferImageView
@@ -659,7 +660,7 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 		
 		auto frameBufferCreateInfo = Framework::Vulkan::FramebufferCreateInfo();
 		frameBufferCreateInfo.renderPass      = renderPass;
-		frameBufferCreateInfo.attachmentCount = 2;
+		frameBufferCreateInfo.attachmentCount = countof(attachments);
 		frameBufferCreateInfo.pAttachments    = attachments;
 		frameBufferCreateInfo.width           = size.width;
 		frameBufferCreateInfo.height          = size.height;
@@ -743,7 +744,7 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	auto renderPassBeginInfo = Framework::Vulkan::RenderPassBeginInfo();
 	renderPassBeginInfo.renderPass               = m_renderPass;
 	renderPassBeginInfo.renderArea.extent        = renderAreaExtent;
-	renderPassBeginInfo.clearValueCount          = 2;
+	renderPassBeginInfo.clearValueCount          = countof(clearValues);
 	renderPassBeginInfo.pClearValues             = clearValues;
 	renderPassBeginInfo.framebuffer              = framebuffer;
 	
