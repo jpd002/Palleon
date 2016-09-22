@@ -288,7 +288,7 @@ void CVulkanGraphicDevice::CreateDevice(VkPhysicalDevice physicalDevice)
 	deviceQueueCreateInfo.pQueuePriorities = queuePriorities;
 	
 	std::vector<const char*> enabledExtensions;
-	//enabledExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+	enabledExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 	
 	auto deviceCreateInfo = Framework::Vulkan::DeviceCreateInfo();
 	deviceCreateInfo.flags                   = 0;
