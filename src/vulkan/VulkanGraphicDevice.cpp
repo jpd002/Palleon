@@ -237,7 +237,7 @@ void CVulkanGraphicDevice::CreateInstance()
 	//appInfo.apiVersion       = VK_API_VERSION;
 	
 	std::vector<const char*> enabledExtensions;
-	//enabledExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+	enabledExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	enabledExtensions.push_back(VK_KHR_SURFACE_EXTENSION_NAME);
 #if defined(VK_USE_PLATFORM_ANDROID_KHR)
 	enabledExtensions.push_back(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME);
@@ -290,10 +290,12 @@ void CVulkanGraphicDevice::CreateDevice(VkPhysicalDevice physicalDevice)
 	std::vector<const char*> enabledExtensions;
 	enabledExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 	
+	std::vector<const char*> enabledLayers;
+	
 	auto deviceCreateInfo = Framework::Vulkan::DeviceCreateInfo();
 	deviceCreateInfo.flags                   = 0;
-	deviceCreateInfo.enabledLayerCount       = 0;
-	deviceCreateInfo.ppEnabledLayerNames     = nullptr;
+	deviceCreateInfo.enabledLayerCount       = enabledLayers.size();
+	deviceCreateInfo.ppEnabledLayerNames     = enabledLayers.data();
 	deviceCreateInfo.enabledExtensionCount   = enabledExtensions.size();
 	deviceCreateInfo.ppEnabledExtensionNames = enabledExtensions.data();
 	deviceCreateInfo.pEnabledFeatures        = nullptr;
