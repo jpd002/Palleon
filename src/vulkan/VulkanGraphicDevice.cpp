@@ -26,7 +26,8 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
 	m_commandBufferPool.Reset();
 	m_defaultEffectProvider.reset();
-	m_device.vkDestroyRenderPass(m_device, m_renderPass, nullptr);
+	m_device.vkDestroyRenderPass(m_device, m_mainRenderPass, nullptr);
+	m_device.vkDestroyRenderPass(m_device, m_additionalRenderPass, nullptr);
 	for(auto swapChainImageView : m_swapChainImageViews)
 	{
 		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
@@ -77,12 +78,13 @@ void CVulkanGraphicDevice::Initialize()
 	VkFormat depthbufferFormat = VK_FORMAT_D16_UNORM;
 	CreateDepthbuffer(m_surfaceExtents, depthbufferFormat);
 	
-	m_renderPass = CreateRenderPass(surfaceFormat.format, depthbufferFormat);
+	m_mainRenderPass = CreateRenderPass(surfaceFormat.format, depthbufferFormat, false);
+	m_additionalRenderPass = CreateRenderPass(surfaceFormat.format, depthbufferFormat, true);
 	
 	CreateSwapChain(surfaceFormat, m_surfaceExtents);
 	PrepareSwapChainImages();
 	CreateSwapChainImageViews(surfaceFormat.format);
-	CreateSwapChainFramebuffers(m_renderPass, m_surfaceExtents);
+	CreateSwapChainFramebuffers(m_mainRenderPass, m_surfaceExtents);
 	
 	//Create the semaphore that will be used to prevent submit from rendering before getting the image
 	{
@@ -138,14 +140,11 @@ void CVulkanGraphicDevice::Draw()
 			0, 0, nullptr, 0, nullptr, 1, &imageMemoryBarrier);
 	}
 	
-	int currViewport = 0;
+	VkRenderPass currentRenderPass = m_mainRenderPass;
 	for(const auto& viewport : m_viewports)
 	{
-		if(currViewport == 0)
-		{
-			DrawViewport(commandBuffer, viewport, framebuffer, m_surfaceExtents);
-		}
-		currViewport++;
+		DrawViewport(commandBuffer, viewport, currentRenderPass, framebuffer, m_surfaceExtents);
+		currentRenderPass = m_additionalRenderPass;
 	}
 	
 	//Transition image from attachment to present
@@ -307,7 +306,7 @@ void CVulkanGraphicDevice::CreateDevice(VkPhysicalDevice physicalDevice)
 	CLog::GetInstance().Print("Created device.");
 }
 
-VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat, VkFormat depthFormat)
+VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat, VkFormat depthFormat, bool preserveColor)
 {
 	assert(!m_device.IsEmpty());
 	
@@ -316,7 +315,7 @@ VkRenderPass CVulkanGraphicDevice::CreateRenderPass(VkFormat colorFormat, VkForm
 	VkAttachmentDescription colorAttachment = {};
 	colorAttachment.format         = colorFormat;
 	colorAttachment.samples        = VK_SAMPLE_COUNT_1_BIT;
-	colorAttachment.loadOp         = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.loadOp         = preserveColor ? VK_ATTACHMENT_LOAD_OP_LOAD : VK_ATTACHMENT_LOAD_OP_CLEAR;
 	colorAttachment.storeOp        = VK_ATTACHMENT_STORE_OP_STORE;
 	colorAttachment.initialLayout  = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 	colorAttachment.finalLayout    = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -679,7 +678,7 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 //Rendering
 //////////////////////////////////////////////////////////////
 
-void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
+void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {
 	RenderQueue renderQueue;
 
@@ -744,7 +743,7 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	};
 	
 	auto renderPassBeginInfo = Framework::Vulkan::RenderPassBeginInfo();
-	renderPassBeginInfo.renderPass               = m_renderPass;
+	renderPassBeginInfo.renderPass               = renderPass;
 	renderPassBeginInfo.renderArea.extent        = renderAreaExtent;
 	renderPassBeginInfo.clearValueCount          = countof(clearValues);
 	renderPassBeginInfo.pClearValues             = clearValues;
@@ -760,7 +759,7 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	{
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CVulkanEffect>(effectProvider->GetEffectForRenderable(mesh, false));
-		auto pipeline = effect->GetPipelineForMesh(mesh, m_renderPass);
+		auto pipeline = effect->GetPipelineForMesh(mesh, renderPass);
 		
 		m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 		

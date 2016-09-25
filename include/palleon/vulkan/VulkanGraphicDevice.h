@@ -35,7 +35,7 @@ namespace Palleon
 		void       CreateDebugReportCallback();
 		void       CreateDevice(VkPhysicalDevice);
 		
-		VkRenderPass    CreateRenderPass(VkFormat, VkFormat);
+		VkRenderPass    CreateRenderPass(VkFormat, VkFormat, bool);
 		
 		void       CreateDepthbuffer(VkExtent2D, VkFormat);
 
@@ -48,7 +48,7 @@ namespace Palleon
 		std::vector<uint32_t>           GetRenderQueueFamilies(VkPhysicalDevice);
 		std::vector<VkSurfaceFormatKHR> GetDeviceSurfaceFormats(VkPhysicalDevice);
 		
-		void                            DrawViewport(VkCommandBuffer, CViewport*, VkFramebuffer, VkExtent2D);
+		void                            DrawViewport(VkCommandBuffer, CViewport*, VkRenderPass, VkFramebuffer, VkExtent2D);
 		
 		Framework::Vulkan::CInstance     m_vkInstance;
 		VkDebugReportCallbackEXT         m_debugReportCallback = VK_NULL_HANDLE;
@@ -59,7 +59,8 @@ namespace Palleon
 
 		VkPhysicalDeviceMemoryProperties m_physicalDeviceMemoryProperties;
 		VkQueue                          m_queue = VK_NULL_HANDLE;
-		VkRenderPass                     m_renderPass = VK_NULL_HANDLE;
+		VkRenderPass                     m_mainRenderPass = VK_NULL_HANDLE;
+		VkRenderPass                     m_additionalRenderPass = VK_NULL_HANDLE;
 		VkSemaphore                      m_imageAcquireSemaphore = VK_NULL_HANDLE;
 		VkSemaphore                      m_renderCompleteSemaphore = VK_NULL_HANDLE;
 		VkSwapchainKHR                   m_swapChain = VK_NULL_HANDLE;
