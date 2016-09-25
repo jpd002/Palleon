@@ -133,7 +133,7 @@ VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPas
 	depthStencilStateInfo.depthWriteEnable      = true;
 	depthStencilStateInfo.depthBoundsTestEnable = false;
 	depthStencilStateInfo.stencilTestEnable     = false;
-	depthStencilStateInfo.depthCompareOp        = VK_COMPARE_OP_LESS;
+	depthStencilStateInfo.depthCompareOp        = VK_COMPARE_OP_LESS_OR_EQUAL;
 	
 	auto multisampleStateInfo = Framework::Vulkan::PipelineMultisampleStateCreateInfo();
 	multisampleStateInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
