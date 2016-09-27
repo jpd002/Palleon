@@ -56,6 +56,7 @@ namespace Palleon
 		VkExtent2D                       m_surfaceExtents;
 		Framework::Vulkan::CDevice       m_device;
 		Framework::Vulkan::CCommandBufferPool m_commandBufferPool;
+		VkDescriptorPool                 m_descriptorPool = VK_NULL_HANDLE;
 
 		VkPhysicalDeviceMemoryProperties m_physicalDeviceMemoryProperties;
 		VkQueue                          m_queue = VK_NULL_HANDLE;
@@ -70,5 +71,6 @@ namespace Palleon
 		VkImage                          m_depthbufferImage = VK_NULL_HANDLE;
 		VkDeviceMemory                   m_depthbufferMemory = VK_NULL_HANDLE;
 		VkImageView                      m_depthbufferImageView = VK_NULL_HANDLE;
+		VkSampler                        m_genericSampler = VK_NULL_HANDLE;
 	};
 }

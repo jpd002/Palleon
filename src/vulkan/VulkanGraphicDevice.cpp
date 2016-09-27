@@ -26,6 +26,8 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
 	m_commandBufferPool.Reset();
 	m_defaultEffectProvider.reset();
+	m_device.vkDestroyDescriptorPool(m_device, m_descriptorPool, nullptr);
+	m_device.vkDestroySampler(m_device, m_genericSampler, nullptr);
 	m_device.vkDestroyRenderPass(m_device, m_mainRenderPass, nullptr);
 	m_device.vkDestroyRenderPass(m_device, m_additionalRenderPass, nullptr);
 	for(auto swapChainImageView : m_swapChainImageViews)
@@ -75,6 +77,33 @@ void CVulkanGraphicDevice::Initialize()
 	
 	m_commandBufferPool = Framework::Vulkan::CCommandBufferPool(m_device, renderQueueFamily);
 	
+	{
+		VkDescriptorPoolSize descriptorPoolSize = {};
+		descriptorPoolSize.type            = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		descriptorPoolSize.descriptorCount = 0x1000;
+		
+		auto descriptorPoolCreateInfo = Framework::Vulkan::DescriptorPoolCreateInfo();
+		descriptorPoolCreateInfo.poolSizeCount = 1;
+		descriptorPoolCreateInfo.pPoolSizes    = &descriptorPoolSize;
+		descriptorPoolCreateInfo.maxSets       = 0x1000;
+		
+		auto result = m_device.vkCreateDescriptorPool(m_device, &descriptorPoolCreateInfo, nullptr, &m_descriptorPool);
+		CHECKVULKANERROR(result);
+	}
+	
+	{
+		auto samplerCreateInfo = Framework::Vulkan::SamplerCreateInfo();
+		samplerCreateInfo.magFilter    = VK_FILTER_LINEAR;
+		samplerCreateInfo.minFilter    = VK_FILTER_LINEAR;
+		samplerCreateInfo.mipmapMode   = VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		
+		auto result = m_device.vkCreateSampler(m_device, &samplerCreateInfo, nullptr, &m_genericSampler);
+		CHECKVULKANERROR(result);
+	}
+	
 	VkFormat depthbufferFormat = VK_FORMAT_D16_UNORM;
 	CreateDepthbuffer(m_surfaceExtents, depthbufferFormat);
 	
@@ -107,10 +136,13 @@ void CVulkanGraphicDevice::Initialize()
 
 void CVulkanGraphicDevice::Draw()
 {
-	m_commandBufferPool.ResetBuffers();
-	
 	VkResult result = VK_SUCCESS;
 	
+	m_commandBufferPool.ResetBuffers();
+	
+	result = m_device.vkResetDescriptorPool(m_device, m_descriptorPool, 0);
+	CHECKVULKANERROR(result);
+
 	uint32_t imageIndex = 0;
 	result = m_device.vkAcquireNextImageKHR(m_device, m_swapChain, UINT64_MAX, m_imageAcquireSemaphore, VK_NULL_HANDLE, &imageIndex);
 	CHECKVULKANERROR(result);
