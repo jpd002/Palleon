@@ -59,6 +59,9 @@ namespace Palleon
 		
 		VkPipeline    GetPipelineForMesh(CMesh*, VkRenderPass);
 		
+		VkPipelineLayout         GetPipelineLayout() const;
+		VkDescriptorSetLayout    GetDescriptorSetLayout() const;
+		
 	protected:
 		typedef std::unordered_map<VULKAN_PIPELINE_KEY, VkPipeline> PipelineMap;
 		
@@ -71,5 +74,6 @@ namespace Palleon
 		Framework::Vulkan::CShaderModule    m_vertexShaderModule;
 		Framework::Vulkan::CShaderModule    m_fragmentShaderModule;
 		VkPipelineLayout                    m_pipelineLayout = VK_NULL_HANDLE;
+		VkDescriptorSetLayout               m_descriptorSetLayout = VK_NULL_HANDLE;
 	};
 }

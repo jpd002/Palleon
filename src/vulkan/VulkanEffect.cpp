@@ -19,6 +19,10 @@ CVulkanEffect::~CVulkanEffect()
 	{
 		m_device->vkDestroyPipelineLayout(*m_device, m_pipelineLayout, nullptr);
 	}
+	if(m_descriptorSetLayout != VK_NULL_HANDLE)
+	{
+		m_device->vkDestroyDescriptorSetLayout(*m_device, m_descriptorSetLayout, nullptr);
+	}
 }
 
 VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPass)
@@ -180,4 +184,14 @@ VkPipeline CVulkanEffect::GetPipelineForMesh(CMesh* mesh, VkRenderPass renderPas
 	m_pipelines.insert(std::make_pair(pipelineKey, pipeline));
 	
 	return pipeline;
+}
+
+VkPipelineLayout CVulkanEffect::GetPipelineLayout() const
+{
+	return m_pipelineLayout;
+}
+
+VkDescriptorSetLayout CVulkanEffect::GetDescriptorSetLayout() const
+{
+	return m_descriptorSetLayout;
 }
