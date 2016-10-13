@@ -8,7 +8,7 @@ using namespace Palleon;
 CVulkanUberEffect::CVulkanUberEffect(Framework::Vulkan::CDevice& device, const CVulkanUberEffectGenerator::EFFECTCAPS& effectCaps)
 : CVulkanEffect(device)
 {
-	CreatePipelineLayout();
+	CreatePipelineLayout(effectCaps);
 	CreateShaderModules(effectCaps);
 }
 
@@ -24,8 +24,26 @@ void CVulkanUberEffect::PrepareDraw(VkCommandBuffer commandBuffer)
 	m_device->vkCmdPushConstants(commandBuffer, m_pipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(DefaultPushConstants), &m_pushConstants);
 }
 
-void CVulkanUberEffect::CreatePipelineLayout()
+void CVulkanUberEffect::CreatePipelineLayout(const CVulkanUberEffectGenerator::EFFECTCAPS& effectCaps)
 {
+	VkResult result = VK_SUCCESS;
+	
+	if(effectCaps.hasTexture)
+	{
+		VkDescriptorSetLayoutBinding setLayoutBinding = {};
+		setLayoutBinding.binding         = 0;
+		setLayoutBinding.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		setLayoutBinding.descriptorCount = 1;
+		setLayoutBinding.stageFlags      = VK_SHADER_STAGE_FRAGMENT_BIT;
+		
+		auto setLayoutCreateInfo = Framework::Vulkan::DescriptorSetLayoutCreateInfo();
+		setLayoutCreateInfo.bindingCount = 1;
+		setLayoutCreateInfo.pBindings    = &setLayoutBinding;
+		
+		result = m_device->vkCreateDescriptorSetLayout(*m_device, &setLayoutCreateInfo, nullptr, &m_descriptorSetLayout);
+		CHECKVULKANERROR(result);
+	}
+	
 	VkPushConstantRange pushConstantInfo = {};
 	pushConstantInfo.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 	pushConstantInfo.offset     = 0;
@@ -34,8 +52,10 @@ void CVulkanUberEffect::CreatePipelineLayout()
 	auto pipelineLayoutCreateInfo = Framework::Vulkan::PipelineLayoutCreateInfo();
 	pipelineLayoutCreateInfo.pushConstantRangeCount = 1;
 	pipelineLayoutCreateInfo.pPushConstantRanges    = &pushConstantInfo;
+	pipelineLayoutCreateInfo.setLayoutCount         = (m_descriptorSetLayout == VK_NULL_HANDLE) ? 0 : 1;
+	pipelineLayoutCreateInfo.pSetLayouts            = &m_descriptorSetLayout;
 	
-	auto result = m_device->vkCreatePipelineLayout(*m_device, &pipelineLayoutCreateInfo, nullptr, &m_pipelineLayout);
+	result = m_device->vkCreatePipelineLayout(*m_device, &pipelineLayoutCreateInfo, nullptr, &m_pipelineLayout);
 	CHECKVULKANERROR(result);
 }
 

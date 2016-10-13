@@ -21,7 +21,7 @@ namespace Palleon
 			CMatrix4 worldMatrix;
 		};
 		
-		void    CreatePipelineLayout();
+		void    CreatePipelineLayout(const CVulkanUberEffectGenerator::EFFECTCAPS&);
 		void    CreateShaderModules(const CVulkanUberEffectGenerator::EFFECTCAPS&);
 		
 		DefaultPushConstants    m_pushConstants;

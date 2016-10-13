@@ -10,8 +10,21 @@ CVulkanUberEffectProvider::CVulkanUberEffectProvider(Framework::Vulkan::CDevice&
 
 EffectPtr CVulkanUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool hasShadowMap)
 {
+	const auto& descriptor = mesh->GetVertexBuffer()->GetDescriptor();
+	
+	auto material = mesh->GetMaterial();
+	assert(material != nullptr);
+	
 	CVulkanUberEffectGenerator::EFFECTCAPS effectCaps;
 	memset(&effectCaps, 0, sizeof(effectCaps));
+	
+	auto texture = material->GetTexture(0);
+	if(texture)
+	{
+		auto textureCoordSource = material->GetTextureCoordSource(0);
+		assert(descriptor.HasVertexItem(VERTEX_ITEM_ID_UV0));
+		effectCaps.hasTexture = true;
+	}
 	
 	uint32 effectKey = *reinterpret_cast<uint32*>(&effectCaps);
 	auto effectIterator = m_effects.find(effectKey);

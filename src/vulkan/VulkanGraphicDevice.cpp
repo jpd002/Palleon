@@ -712,6 +712,8 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 
 void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {
+	VkResult result = VK_SUCCESS;
+	
 	RenderQueue renderQueue;
 
 	auto camera = viewport->GetCamera();
@@ -792,6 +794,7 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 		auto effectProvider = mesh->GetEffectProvider();
 		auto effect = std::static_pointer_cast<CVulkanEffect>(effectProvider->GetEffectForRenderable(mesh, false));
 		auto pipeline = effect->GetPipelineForMesh(mesh, renderPass);
+		auto material = mesh->GetMaterial();
 		
 		m_device.vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 		
@@ -817,6 +820,44 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 		
 		effect->UpdateConstants(viewportParams, mesh->GetMaterial().get(), mesh->GetWorldTransformation());
 		effect->PrepareDraw(commandBuffer);
+		
+		auto pipelineLayout = effect->GetPipelineLayout();
+		auto descriptorSetLayout = effect->GetDescriptorSetLayout();
+		if(descriptorSetLayout != VK_NULL_HANDLE)
+		{
+			VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
+			
+			{
+				auto setAllocateInfo = Framework::Vulkan::DescriptorSetAllocateInfo();
+				setAllocateInfo.descriptorPool     = m_descriptorPool;
+				setAllocateInfo.descriptorSetCount = 1;
+				setAllocateInfo.pSetLayouts        = &descriptorSetLayout;
+				
+				result = m_device.vkAllocateDescriptorSets(m_device, &setAllocateInfo, &descriptorSet);
+				CHECKVULKANERROR(result);
+			}
+			
+			auto texture = material->GetTexture(0);
+			if(texture)
+			{
+				VkDescriptorImageInfo descriptorImageInfo = {};
+				descriptorImageInfo.sampler     = m_genericSampler;
+				descriptorImageInfo.imageView   = reinterpret_cast<VkImageView>(texture->GetHandle());
+				descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+				
+				auto writeSet = Framework::Vulkan::WriteDescriptorSet();
+				writeSet.dstSet          = descriptorSet;
+				writeSet.dstBinding      = 0;
+				writeSet.descriptorCount = 1;
+				writeSet.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+				writeSet.pImageInfo      = &descriptorImageInfo;
+				
+				m_device.vkUpdateDescriptorSets(m_device, 1, &writeSet, 0, nullptr);
+			}
+			
+			m_device.vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout,
+			    0, 1, &descriptorSet, 0, nullptr);
+		}
 		
 		auto primitiveCount = mesh->GetPrimitiveCount();
 		uint32 indexCount = 0;
