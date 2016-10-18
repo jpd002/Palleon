@@ -522,7 +522,7 @@ void CVulkanGraphicDevice::CreateDepthbuffer(VkExtent2D size, VkFormat format)
 		imageCreateInfo.imageType     = VK_IMAGE_TYPE_2D;
 		imageCreateInfo.format        = format;
 		imageCreateInfo.extent.width  = size.width;
-		imageCreateInfo.extent.height = m_surfaceExtents.height;
+		imageCreateInfo.extent.height = size.height;
 		imageCreateInfo.extent.depth  = 1;
 		imageCreateInfo.mipLevels     = 1;
 		imageCreateInfo.arrayLayers   = 1;
