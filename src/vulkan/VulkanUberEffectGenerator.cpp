@@ -35,7 +35,7 @@ Nuanceur::CShaderBuilder CVulkanUberEffectGenerator::BuildVertexShader(const EFF
 		
 		auto worldPosition = CFloat4Lvalue(b.CreateTemporary());
 		
-		worldPosition = worldMatrix * NewFloat4(inputPosition->xyz(), 1);
+		worldPosition = worldMatrix * NewFloat4(inputPosition->xyz(), NewFloat(b, 1));
 		outputPosition = viewProjMatrix * worldPosition;
 		outputColor = meshColor->xyzw();
 		
