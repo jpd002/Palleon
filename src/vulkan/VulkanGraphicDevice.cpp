@@ -24,6 +24,7 @@ CVulkanGraphicDevice::CVulkanGraphicDevice(const CVector2&, float)
 
 CVulkanGraphicDevice::~CVulkanGraphicDevice()
 {
+	m_shadowMapRenderer.reset();
 	m_commandBufferPool.Reset();
 	m_defaultEffectProvider.reset();
 	m_device.vkDestroyDescriptorPool(m_device, m_descriptorPool, nullptr);
@@ -127,6 +128,8 @@ void CVulkanGraphicDevice::Initialize()
 		auto result = m_device.vkCreateSemaphore(m_device, &semaphoreCreateInfo, nullptr, &m_renderCompleteSemaphore);
 		CHECKVULKANERROR(result);
 	}
+	
+	m_shadowMapRenderer = std::make_unique<CVulkanShadowMapRenderer>(m_device, m_physicalDeviceMemoryProperties);
 	
 	m_screenSize = CVector2(m_surfaceExtents.width, m_surfaceExtents.height);
 	m_scaledScreenSize = m_screenSize;
@@ -709,6 +712,11 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 //////////////////////////////////////////////////////////////
 //Rendering
 //////////////////////////////////////////////////////////////
+
+void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
+{
+	DrawViewportMainMap(commandBuffer, viewport, renderPass, framebuffer, renderAreaExtent);
+}
 
 void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {

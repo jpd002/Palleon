@@ -5,6 +5,7 @@
 #include "vulkan/CommandBufferPool.h"
 #include "palleon/graphics/GraphicDevice.h"
 #include "palleon/graphics/Mesh.h"
+#include "palleon/vulkan/VulkanShadowMapRenderer.h"
 
 namespace Palleon
 {
@@ -25,6 +26,7 @@ namespace Palleon
 		
 	protected:
 		typedef std::vector<CMesh*> RenderQueue;
+		typedef std::unique_ptr<CVulkanShadowMapRenderer> ShadowMapRendererPtr;
 		
 		           CVulkanGraphicDevice(const CVector2&, float);
 		virtual    ~CVulkanGraphicDevice();
@@ -49,6 +51,7 @@ namespace Palleon
 		std::vector<VkSurfaceFormatKHR> GetDeviceSurfaceFormats(VkPhysicalDevice);
 		
 		void                            DrawViewport(VkCommandBuffer, CViewport*, VkRenderPass, VkFramebuffer, VkExtent2D);
+		void                            DrawViewportMainMap(VkCommandBuffer, CViewport*, VkRenderPass, VkFramebuffer, VkExtent2D);
 		
 		Framework::Vulkan::CInstance     m_vkInstance;
 		VkDebugReportCallbackEXT         m_debugReportCallback = VK_NULL_HANDLE;
@@ -71,6 +74,9 @@ namespace Palleon
 		VkImage                          m_depthbufferImage = VK_NULL_HANDLE;
 		VkDeviceMemory                   m_depthbufferMemory = VK_NULL_HANDLE;
 		VkImageView                      m_depthbufferImageView = VK_NULL_HANDLE;
+		
+		ShadowMapRendererPtr             m_shadowMapRenderer;
+		
 		VkSampler                        m_genericSampler = VK_NULL_HANDLE;
 	};
 }
