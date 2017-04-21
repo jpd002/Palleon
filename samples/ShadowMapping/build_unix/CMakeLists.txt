@@ -13,7 +13,7 @@ if(NOT TARGET Framework)
 endif()
 
 if(NOT TARGET Nuanceur)
-	add_subdirectory(${NUANCEUR_PATH}/build_unix ${NUANCEUR_PATH}/build_unix/build)
+	add_subdirectory(${NUANCEUR_PATH}/build_cmake ${NUANCEUR_PATH}/build_cmake/build)
 endif()
 
 if(NOT TARGET Palleon)
