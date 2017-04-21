@@ -31,6 +31,10 @@ CVulkanGraphicDevice::~CVulkanGraphicDevice()
 	m_device.vkDestroySampler(m_device, m_genericSampler, nullptr);
 	m_device.vkDestroyRenderPass(m_device, m_mainRenderPass, nullptr);
 	m_device.vkDestroyRenderPass(m_device, m_additionalRenderPass, nullptr);
+	for(auto swapChainFramebuffer : m_swapChainFramebuffers)
+	{
+		m_device.vkDestroyFramebuffer(m_device, swapChainFramebuffer, nullptr);
+	}
 	for(auto swapChainImageView : m_swapChainImageViews)
 	{
 		m_device.vkDestroyImageView(m_device, swapChainImageView, nullptr);
