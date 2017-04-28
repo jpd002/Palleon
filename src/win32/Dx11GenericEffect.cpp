@@ -1,6 +1,7 @@
 #include "palleon/win32/Dx11GenericEffect.h"
 #include "palleon/win32/Dx11ShaderGenerator.h"
 #include "palleon/win32/Dx11GraphicDevice.h"
+#include "palleon/graphics/OffsetKeeper.h"
 
 using namespace Palleon;
 

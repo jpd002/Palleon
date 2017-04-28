@@ -33,18 +33,6 @@ namespace Palleon
 		D3D11InputLayoutPtr		GetInputLayout(const VERTEX_BUFFER_DESCRIPTOR&);
 
 	protected:
-		struct OffsetKeeper
-		{
-			uint32 Allocate(uint32 size)
-			{
-				uint32 result = currentOffset;
-				currentOffset += size;
-				return result;
-			}
-
-			uint32 currentOffset = 0;
-		};
-
 		typedef std::unordered_map<Palleon::VERTEX_ITEMS_KEY, D3D11InputLayoutPtr> InputLayoutMap;
 
 		void							CompileVertexShader(const std::string&);

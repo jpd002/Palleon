@@ -1,4 +1,5 @@
 #include "palleon/win32/Dx11ShadowMapEffect.h"
+#include "palleon/graphics/OffsetKeeper.h"
 
 using namespace Palleon;
 
