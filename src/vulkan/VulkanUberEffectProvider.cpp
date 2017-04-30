@@ -18,6 +18,8 @@ EffectPtr CVulkanUberEffectProvider::GetEffectForRenderable(CMesh* mesh, bool ha
 	CVulkanUberEffectGenerator::EFFECTCAPS effectCaps;
 	memset(&effectCaps, 0, sizeof(effectCaps));
 	
+	effectCaps.hasShadowMap = hasShadowMap && material->GetShadowReceiving();
+	
 	auto texture = material->GetTexture(0);
 	if(texture)
 	{

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "palleon/vulkan/VulkanEffect.h"
 #include "palleon/vulkan/VulkanUberEffectGenerator.h"
 
@@ -14,16 +15,16 @@ namespace Palleon
 		void PrepareDraw(VkCommandBuffer) override;
 		
 	protected:
-		struct DefaultPushConstants
-		{
-			CColor meshColor;
-			CMatrix4 viewProjMatrix;
-			CMatrix4 worldMatrix;
-		};
+		typedef std::vector<uint8> ConstantBuffer;
 		
 		void    CreatePipelineLayout(const CVulkanUberEffectGenerator::EFFECTCAPS&);
 		void    CreateShaderModules(const CVulkanUberEffectGenerator::EFFECTCAPS&);
 		
-		DefaultPushConstants    m_pushConstants;
+		uint32    m_meshColorOffset = -1;
+		uint32    m_viewProjMatrixOffset = -1;
+		uint32    m_worldMatrixOffset = -1;
+		uint32    m_shadowViewProjMatrixOffset = -1;
+		
+		ConstantBuffer m_vertexConstantBuffer;
 	};
 }

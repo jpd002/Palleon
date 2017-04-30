@@ -55,6 +55,8 @@ add_library(Palleon
 	../src/unix/UnixVulkanGraphicDevice.cpp
 	../src/vulkan/VulkanEffect.cpp
 	../src/vulkan/VulkanGraphicDevice.cpp
+	../src/vulkan/VulkanShadowMapEffect.cpp
+	../src/vulkan/VulkanShadowMapRenderer.cpp
 	../src/vulkan/VulkanTexture.cpp
 	../src/vulkan/VulkanUberEffect.cpp
 	../src/vulkan/VulkanUberEffectGenerator.cpp

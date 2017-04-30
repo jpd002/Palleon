@@ -719,10 +719,11 @@ void CVulkanGraphicDevice::CreateSwapChainFramebuffers(VkRenderPass renderPass, 
 
 void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {
+	m_shadowMapRenderer->DrawViewport(commandBuffer, viewport);
 	DrawViewportMainMap(commandBuffer, viewport, renderPass, framebuffer, renderAreaExtent);
 }
 
-void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
+void CVulkanGraphicDevice::DrawViewportMainMap(VkCommandBuffer commandBuffer, CViewport* viewport, VkRenderPass renderPass, VkFramebuffer framebuffer, VkExtent2D renderAreaExtent)
 {
 	VkResult result = VK_SUCCESS;
 	
@@ -731,6 +732,7 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	auto camera = viewport->GetCamera();
 	assert(camera);
 	auto cameraFrustum = camera->GetFrustum();
+	auto shadowCamera = viewport->GetShadowCamera();
 	
 	const auto& sceneRoot = viewport->GetSceneRoot();
 	sceneRoot->TraverseNodes(
@@ -795,16 +797,21 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 	renderPassBeginInfo.pClearValues             = clearValues;
 	renderPassBeginInfo.framebuffer              = framebuffer;
 	
+	auto shadowViewProjMatrix = shadowCamera ? (shadowCamera->GetViewMatrix() * shadowCamera->GetProjectionMatrix()) : CMatrix4::MakeIdentity();
+	bool hasShadowMap = shadowCamera != nullptr;
+	
 	VIEWPORT_PARAMS viewportParams;
-	viewportParams.viewMatrix = camera->GetViewMatrix();
-	viewportParams.projMatrix = camera->GetProjectionMatrix();
+	viewportParams.viewMatrix           = camera->GetViewMatrix();
+	viewportParams.projMatrix           = camera->GetProjectionMatrix();
+	viewportParams.hasShadowMap         = hasShadowMap;
+	viewportParams.shadowViewProjMatrix = shadowViewProjMatrix;
 	
 	m_device.vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	
 	for(const auto& mesh : renderQueue)
 	{
 		auto effectProvider = mesh->GetEffectProvider();
-		auto effect = std::static_pointer_cast<CVulkanEffect>(effectProvider->GetEffectForRenderable(mesh, false));
+		auto effect = std::static_pointer_cast<CVulkanEffect>(effectProvider->GetEffectForRenderable(mesh, hasShadowMap));
 		auto pipeline = effect->GetPipelineForMesh(mesh, renderPass);
 		auto material = mesh->GetMaterial();
 		
@@ -859,7 +866,24 @@ void CVulkanGraphicDevice::DrawViewport(VkCommandBuffer commandBuffer, CViewport
 				
 				auto writeSet = Framework::Vulkan::WriteDescriptorSet();
 				writeSet.dstSet          = descriptorSet;
-				writeSet.dstBinding      = 0;
+				writeSet.dstBinding      = CVulkanUberEffectGenerator::DESCRIPTOR_BINDING_DIFFUSE;
+				writeSet.descriptorCount = 1;
+				writeSet.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+				writeSet.pImageInfo      = &descriptorImageInfo;
+				
+				m_device.vkUpdateDescriptorSets(m_device, 1, &writeSet, 0, nullptr);
+			}
+			
+			if(hasShadowMap)
+			{
+				VkDescriptorImageInfo descriptorImageInfo = {};
+				descriptorImageInfo.sampler     = m_genericSampler;
+				descriptorImageInfo.imageView   = m_shadowMapRenderer->GetImageView();
+				descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+				
+				auto writeSet = Framework::Vulkan::WriteDescriptorSet();
+				writeSet.dstSet          = descriptorSet;
+				writeSet.dstBinding      = CVulkanUberEffectGenerator::DESCRIPTOR_BINDING_SHADOWMAP;
 				writeSet.descriptorCount = 1;
 				writeSet.descriptorType  = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 				writeSet.pImageInfo      = &descriptorImageInfo;
