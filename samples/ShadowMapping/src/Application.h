@@ -36,6 +36,8 @@ namespace ShadowMapping
 		Palleon::ViewportPtr	m_uiViewport;
 
 		Palleon::ScenePtr		m_uiScene;
+		Palleon::SpritePtr		m_s1;
+		Palleon::SpritePtr		m_s2;
 
 		CBox2					m_forwardButtonBoundingBox;
 		CBox2					m_backwardButtonBoundingBox;

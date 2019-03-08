@@ -95,8 +95,31 @@ void CDx11Effect::CompilePixelShader(const std::string& shaderText)
 	compileFlags |= D3DCOMPILE_DEBUG;
 #endif
 
+#if 1
+	const char* newShaderText =
+		"RasterizerOrderedTexture2D<unorm float4> UColor : register(u1);\r\n"
+//		"RWTexture2D<unorm float4> UColor : register(u1);\r\n"
+		"void PixelProgram(float4 pos : SV_Position)\r\n"
+		"{\r\n"
+		"	uint2 addr = uint2(pos.xy);\r\n"
+		"	float4 currColor = UColor[addr];\r\n"
+//		"	UColor[addr] = float4(1, 0, 0, 0);\r\n"
+//		"	if(currColor.x != 0)\r\n"
+//		"	{\r\n"
+//		"		UColor[addr] = currColor - float4(0.25, 0.0, 0.0, 0);\r\n"
+//		"	}\r\n"
+//		"	else"
+//		"	{\r\n"
+		"		UColor[addr] = currColor + float4(0.25, 0.0, 0.0, 0);\r\n"
+//		"	}\r\n"
+		"}\r\n"
+		;
+	HRESULT result = D3DCompile(newShaderText, strlen(newShaderText) + 1, "ps", nullptr, nullptr, "PixelProgram",
+		"ps_5_0", compileFlags, 0, &pixelShaderCode, &pixelShaderErrors);
+#else
 	HRESULT result = D3DCompile(shaderText.c_str(), shaderText.length() + 1, "ps", nullptr, nullptr, "PixelProgram",
 		"ps_5_0", compileFlags, 0, &pixelShaderCode, &pixelShaderErrors);
+#endif
 	if(FAILED(result))
 	{
 		if(!pixelShaderErrors.IsEmpty())

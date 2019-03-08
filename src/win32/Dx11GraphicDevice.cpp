@@ -76,7 +76,7 @@ void CDx11GraphicDevice::CreateDevice()
 	swapChainDesc.SwapEffect							= DXGI_SWAP_EFFECT_DISCARD;
 	swapChainDesc.Flags									= 0;
 
-	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_12_1;
 
 	UINT deviceCreationFlags = 0;
 #ifdef _DEBUG
@@ -85,6 +85,10 @@ void CDx11GraphicDevice::CreateDevice()
 
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, deviceCreationFlags, &featureLevel, 1, D3D11_SDK_VERSION, 
 		&swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
+	assert(SUCCEEDED(result));
+
+	D3D11_FEATURE_DATA_D3D11_OPTIONS2 featureSupportData = {};
+	result = m_device->CheckFeatureSupport(D3D11_FEATURE_D3D11_OPTIONS2, &featureSupportData, sizeof(featureSupportData));
 	assert(SUCCEEDED(result));
 
 	m_contextManager.SetCurrentDeviceContext(m_deviceContext);
@@ -122,6 +126,87 @@ void CDx11GraphicDevice::CreateOutputBuffer()
 	
 	result = m_device->CreateRenderTargetView(backBuffer, nullptr, &m_outputBufferView);
 	assert(SUCCEEDED(result));
+
+	D3D11_TEXTURE2D_DESC renderTargetDesc = {};
+	renderTargetDesc.Width = static_cast<UINT>(m_scaledScreenSize.x);
+	renderTargetDesc.Height = static_cast<UINT>(m_scaledScreenSize.y);
+	renderTargetDesc.MipLevels = 1;
+	renderTargetDesc.ArraySize = 1;
+	renderTargetDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	renderTargetDesc.SampleDesc.Count = SAMPLE_COUNT;
+	renderTargetDesc.SampleDesc.Quality = 0;
+	renderTargetDesc.Usage = D3D11_USAGE_DEFAULT;
+	renderTargetDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+	renderTargetDesc.CPUAccessFlags = 0;
+	result = m_device->CreateTexture2D(&renderTargetDesc, nullptr, &m_rovOutputBuffer);
+	assert(SUCCEEDED(result));
+
+	D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+	uavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	uavDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+	uavDesc.Texture2D.MipSlice = 0;
+	result = m_device->CreateUnorderedAccessView(m_rovOutputBuffer, &uavDesc, &m_rovOutputBufferUav);
+	assert(SUCCEEDED(result));
+
+	result = m_device->CreateRenderTargetView(m_rovOutputBuffer, nullptr, &m_rovOutputBufferView);
+	assert(SUCCEEDED(result));
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	result = m_device->CreateShaderResourceView(m_rovOutputBuffer, &srvDesc, &m_rovOutputBufferSrv);
+	assert(SUCCEEDED(result));
+
+	{
+		static const char* shaderSource =
+			"float4 vsss(uint vI : SV_VERTEXID):SV_POSITION\r\n"
+			"{\r\n"
+			"	float2 texcoord = float2(vI & 1, vI >> 1);\r\n"
+			"	return float4((texcoord.x - 0.5f) * 2, -(texcoord.y - 0.5f) * 2, 0, 1);\r\n"
+			"}\r\n";
+		Framework::Win32::CComPtr<ID3DBlob> shaderCode;
+		Framework::Win32::CComPtr<ID3DBlob> shaderErrors;
+		result = D3DCompile(shaderSource, strlen(shaderSource) + 1, "vs", nullptr, nullptr, "vsss",
+			"vs_5_0", 0, 0, &shaderCode, &shaderErrors);
+		if (FAILED(result))
+		{
+			if (!shaderErrors.IsEmpty())
+			{
+				OutputDebugStringA(reinterpret_cast<const char*>(shaderErrors->GetBufferPointer()));
+			}
+			DebugBreak();
+		}
+
+		result = m_device->CreateVertexShader(shaderCode->GetBufferPointer(), shaderCode->GetBufferSize(), nullptr, &m_rovDisplayVertexShader);
+		assert(SUCCEEDED(result));
+	}
+
+	{
+		static const char* shaderSource =
+		"Texture2D inputTex;"
+		"float4 psss(float4 pos : SV_POSITION) :SV_TARGET\r\n"
+		"{\r\n"
+		"	uint2 texCoord = uint2(pos.xy);\r\n"
+		"	return inputTex[texCoord];\r\n"
+		"}\r\n";
+		Framework::Win32::CComPtr<ID3DBlob> shaderCode;
+		Framework::Win32::CComPtr<ID3DBlob> shaderErrors;
+		result = D3DCompile(shaderSource, strlen(shaderSource) + 1, "ps", nullptr, nullptr, "psss",
+			"ps_5_0", 0, 0, &shaderCode, &shaderErrors);
+		if (FAILED(result))
+		{
+			if (!shaderErrors.IsEmpty())
+			{
+				OutputDebugStringA(reinterpret_cast<const char*>(shaderErrors->GetBufferPointer()));
+			}
+			DebugBreak();
+		}
+
+		result = m_device->CreatePixelShader(shaderCode->GetBufferPointer(), shaderCode->GetBufferSize(), nullptr, &m_rovDisplayPixelShader);
+		assert(SUCCEEDED(result));
+	}
 
 	CreateDepthBuffer();
 }
@@ -566,6 +651,7 @@ void CDx11GraphicDevice::Draw()
 
 	static const float clearColor[4] = { 0, 0, 0, 0 };
 	m_deviceContext->ClearRenderTargetView(m_outputBufferView, clearColor);
+	m_deviceContext->ClearRenderTargetView(m_rovOutputBufferView, clearColor);
 
 	ID3D11ShaderResourceView* textureViews[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
 	ID3D11SamplerState* samplerStates[MAX_PIXEL_SHADER_RESOURCE_SLOTS] = {};
@@ -577,6 +663,36 @@ void CDx11GraphicDevice::Draw()
 	{
 		DrawViewport(viewport);
 	}
+
+	{
+		D3D11_VIEWPORT viewport = {};
+		viewport.Width = m_scaledScreenSize.x;
+		viewport.Height = m_scaledScreenSize.y;
+		viewport.MinDepth = 0.0f;
+		viewport.MaxDepth = 1.0f;
+		viewport.TopLeftX = 0.0f;
+		viewport.TopLeftY = 0.0f;
+
+		m_deviceContext->RSSetViewports(1, &viewport);
+	}
+
+	RASTERIZER_STATE_INFO rasterizerStateInfo = {};
+	auto rasterizerState = GetRasterizerState(rasterizerStateInfo);
+	m_deviceContext->RSSetState(rasterizerState);
+
+	auto blendState = GetBlendState(ALPHA_BLENDING_NONE);
+	m_deviceContext->OMSetBlendState(blendState, nullptr, ~0);
+
+	DEPTHSTENCIL_STATE_INFO depthStencilStateInfo = {};
+	auto depthStencilState = GetDepthStencilState(depthStencilStateInfo);
+	m_deviceContext->OMSetDepthStencilState(depthStencilState, 0);
+
+	m_deviceContext->OMSetRenderTargets(1, &m_outputBufferView, m_depthBufferView);
+	m_deviceContext->VSSetShader(m_rovDisplayVertexShader, nullptr, 0);
+	m_deviceContext->PSSetShader(m_rovDisplayPixelShader, nullptr, 0);
+	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	m_deviceContext->PSSetShaderResources(0, 1, &m_rovOutputBufferSrv);
+	m_deviceContext->Draw(4, 0);
 
 	if(!m_outputBufferMutex.IsEmpty())
 	{
@@ -791,6 +907,7 @@ void CDx11GraphicDevice::DrawMesh(const VIEWPORT_PARAMS& viewportParams, CMesh* 
 		m_deviceContext->PSSetShader(effect->GetPixelShader(), nullptr, 0);
 		m_deviceContext->PSSetShaderResources(0, MAX_PIXEL_SHADER_RESOURCE_SLOTS, textureViews);
 		m_deviceContext->PSSetSamplers(0, MAX_PIXEL_SHADER_RESOURCE_SLOTS, samplerStates);
+		m_deviceContext->OMSetRenderTargetsAndUnorderedAccessViews(0, nullptr, nullptr, 1, 1, &m_rovOutputBufferUav, nullptr);
 
 		{
 			auto blendState = GetBlendState(material->GetAlphaBlendingMode());

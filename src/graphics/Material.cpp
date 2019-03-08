@@ -6,7 +6,7 @@ using namespace Palleon;
 CMaterial::CMaterial()
 : m_alphaBlendingMode(ALPHA_BLENDING_NONE)
 , m_color(1.0f, 1.0f, 1.0f, 1.0f)
-, m_cullingMode(CULLING_CCW)
+, m_cullingMode(CULLING_NONE)
 , m_shadowCasting(false)
 , m_shadowReceiving(false)
 , m_stencilEnabled(false)

@@ -125,6 +125,13 @@ namespace Palleon
 		DepthStencilStateMap									m_depthStencilStates;
 		SamplerStateMap											m_samplerStates;
 
+		Framework::Win32::CComPtr<ID3D11Texture2D>				m_rovOutputBuffer;
+		Framework::Win32::CComPtr<ID3D11UnorderedAccessView>	m_rovOutputBufferUav;
+		Framework::Win32::CComPtr<ID3D11ShaderResourceView>		m_rovOutputBufferSrv;
+		Framework::Win32::CComPtr<ID3D11RenderTargetView>		m_rovOutputBufferView;
+		Framework::Win32::CComPtr<ID3D11VertexShader>			m_rovDisplayVertexShader;
+		Framework::Win32::CComPtr<ID3D11PixelShader>			m_rovDisplayPixelShader;
+
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_shadowMap;
 		Framework::Win32::CComPtr<ID3D11ShaderResourceView>		m_shadowMapView;
 		Framework::Win32::CComPtr<ID3D11Texture2D>				m_shadowDepthMap;

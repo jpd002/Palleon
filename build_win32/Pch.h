@@ -15,6 +15,7 @@
 #include <zlib.h>
 
 #include <d3d11.h>
+#include <d3d11_3.h>
 #include <D3Dcompiler.h>
 
 #include <Windows.h>

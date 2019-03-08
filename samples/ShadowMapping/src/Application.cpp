@@ -16,13 +16,13 @@ CApplication::CApplication()
 	CreateScene();
 	CreateUi();
 
-	Palleon::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
+	//Palleon::CGraphicDevice::GetInstance().AddViewport(m_mainViewport.get());
 	Palleon::CGraphicDevice::GetInstance().AddViewport(m_uiViewport.get());
 }
 
 CApplication::~CApplication()
 {
-	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
+	//Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_mainViewport.get());
 	Palleon::CGraphicDevice::GetInstance().RemoveViewport(m_uiViewport.get());
 }
 
@@ -134,8 +134,26 @@ void CApplication::CreateUi()
 
 	{
 		auto scene = Palleon::CScene::Create(Palleon::CResourceManager::GetInstance().GetResource<Palleon::CSceneDescriptor>("main_scene.xml"));
-		sceneRoot->AppendChild(scene);
+//		sceneRoot->AppendChild(scene);
 		m_uiScene = scene;
+	}
+
+	m_s1 = Palleon::CSprite::Create();
+	m_s1->SetPosition(CVector3(0, 0, 0));
+	m_s1->SetSize(CVector2(100, 100));
+	sceneRoot->AppendChild(m_s1);
+
+	m_s2 = Palleon::CSprite::Create();
+	m_s2->SetPosition(CVector3(0, 0, 0));
+	m_s2->SetSize(CVector2(100, 100));
+	sceneRoot->AppendChild(m_s2);
+
+	for (uint32 i = 0; i < 100; i++)
+	{
+		auto s3 = Palleon::CSprite::Create();
+		s3->SetPosition(CVector3((i % 10) * 100, (i / 10) * 100, 0));
+		s3->SetSize(CVector2(200, 200));
+		sceneRoot->AppendChild(s3);
 	}
 
 	RefreshUiLayout();
@@ -150,6 +168,8 @@ void CApplication::Update(float dt)
 	m_uiViewport->GetSceneRoot()->Update(dt);
 	m_uiViewport->GetSceneRoot()->UpdateTransformations();
 	m_elapsed += dt;
+
+	m_s2->SetPosition(CVector3(100 * abs(sin(m_elapsed)), 0, 0));
 }
 
 void CApplication::UpdateShadowCamera()

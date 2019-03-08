@@ -8,7 +8,7 @@ static const float s_positions[4 * 3] =
 	0, 0, 0,
 	1, 0, 0,
 	0, 1, 0,
-	1, 1, 0
+	0, 0.5, 0
 };
 
 static const float s_texCoords[4 * 2] =
@@ -23,11 +23,11 @@ CSprite::CSprite()
 : m_size(1, 1)
 , m_status(0)
 {
-	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(4, 4, 
+	VERTEX_BUFFER_DESCRIPTOR bufferDesc = GenerateVertexBufferDescriptor(4, 8, 
 		VERTEX_BUFFER_HAS_POS | VERTEX_BUFFER_HAS_UV0);
 
 	m_primitiveType = PRIMITIVE_TRIANGLE_STRIP;
-	m_primitiveCount = 2;
+	m_primitiveCount = 4;
 	m_vertexBuffer = CGraphicDevice::GetInstance().CreateVertexBuffer(bufferDesc);
 
 	UpdateIndices();
@@ -98,5 +98,9 @@ void CSprite::UpdateIndices()
 	indices[1] = 1;
 	indices[2] = 2;
 	indices[3] = 3;
+	indices[4] = 2;
+	indices[5] = 3;
+	indices[6] = 2;
+	indices[5] = 3;
 	m_vertexBuffer->UnlockIndices();
 }
